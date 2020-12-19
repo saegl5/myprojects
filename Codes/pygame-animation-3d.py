@@ -1,4 +1,4 @@
-# Import Blender Game Engine
+# Import Blender Game Engine (WIP)
 import bge
  
 # Get a reference to the blue object
