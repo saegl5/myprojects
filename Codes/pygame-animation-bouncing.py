@@ -28,8 +28,8 @@ while not done: # meaning while true, loop keeps window open
             done = True # change "done" to exit While loop on next loop, loop will not run while false
     screen.fill(LIGHTGRAY) # clear the screen
     # --- Drawing code
-    pygame.draw.rect(screen, BLACK, [rect_x, rect_y, 60, 50], width=0)
-    # pygame.draw.rect(screen, LIGHTGRAY, [rect_x + 10, rect_y + 10, 40, 30])
+    pygame.draw.rect(screen, BLACK, (rect_x, rect_y, 60, 50), width=0)
+    # pygame.draw.rect(screen, LIGHTGRAY, (rect_x + 10, rect_y + 10, 40, 30))
     rect_x += rect_change_x
     rect_y += rect_change_y
     if rect_y > 450 or rect_y < 0:

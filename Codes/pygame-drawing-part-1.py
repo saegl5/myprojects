@@ -27,20 +27,20 @@ while not done: # meaning while true, loop keeps window open
             done = True # change "done" to exit While loop on next loop, loop will not run while false
     screen.fill(LIGHTGRAY) # clear the screen
     # --- Drawing code
-    pygame.draw.rect(screen, BLACK, [275, 150, 150, 200], width=1)
-    # [distance x from origin to top-left corner, distance y from origin to top-left corner, width, height]
+    pygame.draw.rect(screen, BLACK, (275, 150, 150, 200), width=1)
+    # (distance x from origin to top-left corner, distance y from origin to top-left corner, width, height)
     # "width" is boundary thickness, width=0 fills the rectangle
     # unit is pixels
-    pygame.draw.circle(screen, RED, [275, 150], radius=75, width=1) 
-    # [275, 150] is the circle's centerpoint
+    pygame.draw.circle(screen, RED, (275, 150), radius=75, width=1) 
+    # (275, 150) is the circle's centerpoint
     # "radius" is the distance from the circle's centerpoint to its outer edge
     # radius=0 circle disappears
     # large width also fills circle
-    pygame.draw.ellipse(screen, GREEN, [275, 150, 150, 200], width=0) 
-    # [275, 150] is NOT the ellipse's centerpoint
+    pygame.draw.ellipse(screen, GREEN, (275, 150, 150, 200), width=0) 
+    # (275, 150) is NOT the ellipse's centerpoint
     # ellipse uses rectangle boundaries, but you can use different numbers
     # large width also fills ellipse
-    pygame.draw.arc(screen, BLUE, [275, 150, 150, 200], 45*pi/180, 180*pi/180, width=5) 
+    pygame.draw.arc(screen, BLUE, (275, 150, 150, 200), 45*pi/180, 180*pi/180, width=5) 
     # arc uses rectangle boundaries too, but again you can use different numbers
     # needs a starting angle and ending angle, each in radians
     # this arc is drawn from 45 degrees to 180 degrees counterclockwise

@@ -21,7 +21,9 @@ pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your
 for i in range(50): # snow flake count
     x = random.randrange(0, 700)
     y = random.randrange(0, 500)
-    snow_list.append([x, y]) # create a list of random coordinates
+    coordinates = (x, y) # by default, each coordinate is a tuple
+    L = list(coordinates) # convert each coordinate to a list
+    snow_list.append(L) # create a list of random coordinates
 
 while not done: # meaning while true, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
