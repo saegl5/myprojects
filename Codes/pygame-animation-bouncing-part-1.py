@@ -13,12 +13,9 @@ size = (700, 500) # (width, height) in pixels
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
-rect_x = 50 # initialize starting x position of the rectangle
-rect_y = 50 # initialize starting y position of the rectangle
-rect_change_x = 1
-rect_change_y = 5 
-# lower number moves rectangle slower, higher moves it faster
-# # negative number changes direction
+offset = 0 # initialize offset earlier
+# change = 100 # define increment and do so earlier
+change = 50 # make sure we can see bounce
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
  
@@ -28,15 +25,19 @@ while not done: # meaning while true, loop keeps window open
             done = True # change "done" to exit While loop on next loop, loop will not run while false
     screen.fill(LIGHTGRAY) # clear the screen
     # --- Drawing code
-    pygame.draw.rect(screen, BLACK, (rect_x, rect_y, 60, 50), width=0)
-    # pygame.draw.rect(screen, LIGHTGRAY, (rect_x + 10, rect_y + 10, 40, 30))
-    rect_x += rect_change_x
-    rect_y += rect_change_y
-    if rect_y > 450 or rect_y < 0:
-        rect_change_y = rect_change_y * -1 # bounce off bottom or top edges
-    if rect_x > 640 or rect_x < 0:
-        rect_change_x = rect_change_x * -1 # bounce off left or right edges
+    # offset = 0 # initialize offset
+    # while offset <= 400: # loop until offset = 400 (inclusive)
+    #     pygame.draw.rect(screen, BLACK, (0, 0+offset, 60, 50), width=0) # added one offset to one y-coordinate
+    #     offset += 100 # offset = offset + 100
+    pygame.draw.rect(screen, BLACK, (0, 0+offset, 60, 50), width=0) # untab
+    # offset += 100 # untab
+    offset += change # use the variable, instead of number
+    if 0+offset + 50 == 500: # if rectangle at bottom edge
+        change *= -1 # change = change*-1 (i.e., change direction)
+    if 0+offset == 0: # if rectangle at top edge
+        change *= -1 # change direction back
     # ----------------
     pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through While loop each second)
+    # clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through While loop each second)
+    clock.tick(10) # so can see square moving
 pygame.quit() # formality
