@@ -13,7 +13,8 @@ size = (700, 500) # (width, height) in pixels
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
-offset = 0 # initialize offset earlier
+# offset = 0 # initialize offset earlier
+offset = 100 # start below top edge
 # change = 100 # define increment and do so earlier
 change = 50 # make sure we can see bounce
 
@@ -34,7 +35,8 @@ while not done: # meaning while true, loop keeps window open
     offset += change # use the variable, instead of number
     if 0+offset + 50 == 500: # if rectangle at bottom edge
         change *= -1 # change = change*-1 (i.e., change direction)
-    if 0+offset == 0: # if rectangle at top edge
+    # if 0+offset == 0: # if rectangle at top edge
+    if 0+offset == 100: # if rectangle below top edge
         change *= -1 # change direction back
     # ----------------
     pygame.display.flip() # update the screen
