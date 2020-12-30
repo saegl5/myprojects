@@ -38,7 +38,7 @@ while not done: # meaning while true, loop keeps window open
     pygame.draw.rect(screen, BLACK, (10, 0+offset, 60, 50), width=0) # untab
     # offset += 50 # untab
     offset += change # allow the increment to change
-    if 0+offset + 50 == 500: # if rectangle at bottom edge
+    if 0+offset + 50 == size[1]: # if rectangle at bottom edge
         change *= -1 # change = change*-1, that is change the increment's sign
     # if 0+offset == 0: # if rectangle at top edge
     if 0+offset == 100: # if rectangle below top edge
