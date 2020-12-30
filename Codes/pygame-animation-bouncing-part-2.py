@@ -32,7 +32,7 @@ while not done: # meaning while true, loop keeps window open
     screen.fill(LIGHTGRAY) # clear the screen
     # --- Drawing code
     # offset = 0 # initialize offset
-    # while offset <= 400: # loop until offset = 400 (inclusive)
+    # while offset <= 450: # loop until offset = 450 (inclusive)
     #     pygame.draw.rect(screen, BLACK, (10, 0+offset, 60, 50), width=0) # added one offset to one y-coordinate
     #     offset += 50 # offset = offset + 50
     pygame.draw.rect(screen, BLACK, (10, 0+offset, 60, 50), width=0) # untab
