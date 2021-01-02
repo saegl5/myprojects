@@ -14,8 +14,10 @@ screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 # offset = 0 # initialize offset earlier
-offset = 100 # start below top edge
-change = 50 # initialize increment early
+# offset = 100 # start below top edge
+y_offset = 100 # start below top edge
+# change = 50 # initialize increment early
+y_change = 50 # initialize increment early
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
  
@@ -29,14 +31,20 @@ while not done: # meaning while true, loop keeps window open
     # while offset <= 450: # loop until offset = 450 (inclusive)
     #     pygame.draw.rect(screen, BLACK, (0, 0+offset, 70, 50), width=0) # added one offset to one y-coordinate
     #     offset += 50 # offset = offset + 50
-    pygame.draw.rect(screen, BLACK, (0, 0+offset, 70, 50), width=0) # untab
+    # pygame.draw.rect(screen, BLACK, (0, 0+offset, 70, 50), width=0) # untab
+    pygame.draw.rect(screen, BLACK, (0, 0+y_offset, 70, 50), width=0) # untab
     # offset += 50 # untab
-    offset += change # allow the increment to change
-    if 0+offset + 50 == size[1]: # if rectangle at bottom edge
-        change *= -1 # change = change*-1, that is change the increment's sign
+    # offset += change # allow the increment to change
+    y_offset += y_change # allow the increment to change
+    # if 0+offset + 50 == size[1]: # if rectangle at bottom edge
+    if 0+y_offset + 50 == size[1]: # if rectangle at bottom edge
+        # change *= -1 # change = change*-1, that is change the increment's sign
+        y_change *= -1 # y_change = y_change*-1, that is change the increment's sign
     # if 0+offset == 0: # if rectangle at top edge
-    if 0+offset == 100: # if rectangle below top edge
-        change *= -1 # change the increment's sign back
+    # if 0+offset == 100: # if rectangle below top edge
+    if 0+y_offset == 100: # if rectangle below top edge
+        # change *= -1 # change the increment's sign back
+        y_change *= -1 # change the increment's sign back
     # ----------------
     pygame.display.flip() # update the screen
     # clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through While loop each second)
