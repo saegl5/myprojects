@@ -27,9 +27,9 @@ while not done: # meaning while true, loop keeps window open
     # --- Drawing code
     # offset = 0 # initialize offset
     # while offset <= 450: # loop until offset = 450 (inclusive)
-    #     pygame.draw.rect(screen, BLACK, (10, 0+offset, 60, 50), width=0) # added one offset to one y-coordinate
+    #     pygame.draw.rect(screen, BLACK, (0, 0+offset, 70, 50), width=0) # added one offset to one y-coordinate
     #     offset += 50 # offset = offset + 50
-    pygame.draw.rect(screen, BLACK, (10, 0+offset, 60, 50), width=0) # untab
+    pygame.draw.rect(screen, BLACK, (0, 0+offset, 70, 50), width=0) # untab
     # offset += 50 # untab
     offset += change # allow the increment to change
     if 0+offset + 50 == size[1]: # if rectangle at bottom edge
