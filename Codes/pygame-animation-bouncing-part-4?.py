@@ -17,11 +17,11 @@ clock = pygame.time.Clock() # define "clock"
 # offset = 100 # start below top edge
 y_offset = 100 # start below top edge
     # x_offset = 0 # keep starting position at 10
-# change = 50 # initialize increment early
-y_change = 50
-    # x_change = 70/2
+# increment = 50 # initialize increment early
+y_increment = 50
+    # x_increment = 70/2
 y_0 = 0+y_offset
-v_0 = y_change
+v_0 = y_increment
 t = 0 # initialize
 g = 9.80665
 # rect_x = 50 # initialize starting x position of the rectangle
@@ -46,25 +46,25 @@ while not done: # meaning while true, loop keeps window open
         # pygame.draw.rect(screen, BLACK, (0+x_offset, 0+y_offset, 70, 50), width=0)
     pygame.draw.rect(screen, BLACK, (0, 0+y_offset, 70, 50), width=0)
     # offset += 50 # untab
-    # offset += change # allow the increment to change
-    # y_offset += y_change
+    # offset += increment # allow the increment to change
+    # y_offset += y_increment
         # t += 1
         # y_offset = y_0 + v_0*t + 1/2*g*t*t # 0+y_offset = y_offset
-        # x_offset += x_change
+        # x_offset += x_increment
     # # if 0+offset + 50 == size[1]: # if rectangle at bottom edge
     # if 0+y_offset + 50 == size[1]:
-    #     # change *= -1 # change = change*-1, that is change the increment's sign
-    #     y_change *= -1
+    #     # increment *= -1 # increment = increment*-1, that is change the increment's sign
+    #     y_increment *= -1
     # # if 0+offset == 0: # if rectangle at top edge
     # # if 0+offset == 100: # if rectangle below top edge
     # if 0+y_offset == 100:
-    #     # change *= -1 # change the increment's sign back
-    #     y_change *= -1
+    #     # increment *= -1 # change the increment's sign back
+    #     y_increment *= -1
         # if 0+offset + 50 == size[1]: # if rectangle at bottom edge
     # if 0+y_offset + 50 == size[1] or 0+y_offset == 100:
     print(y_offset, y_0, v_0, t)
     if 0+y_offset + 50 >= size[1] and v_0 > 0:# or 0+y_offset == y_0+g*t*t:# or 0+y_offset == 100:
-        # y_change *= -1
+        # y_increment *= -1
         y_0 = 0+y_offset # reset it
         v_0 *= -1 #-1/2*g*t # something wrong!!! (made my own)
         t = 0 # reset it
@@ -79,32 +79,32 @@ while not done: # meaning while true, loop keeps window open
         y_offset = y_0 + v_0*t + 1/2*g*t*t # 0+y_offset = y_offset
     
     # if 0+x_offset + 70 == size[0]:
-    #     x_change *= -1
+    #     x_increment *= -1
     # if 0+x_offset == 0:
-    #     x_change *= -1
+    #     x_increment *= -1
         # if 0+x_offset + 70 == size[0] or 0+x_offset == 0:
-        #     x_change *= -1
-        # x_offset += x_change
+        #     x_increment *= -1
+        # x_offset += x_increment
 
 
-    # if change >= 0:
-    #     change *= 1.25
-    # if change < 0:
-    #     change /= 1.25
-    # # if change == 0:
-    #     # change = 0
-    # offset += change # allow the increment to change
+    # if increment >= 0:
+    #     increment *= 1.25
+    # if increment < 0:
+    #     increment /= 1.25
+    # # if increment == 0:
+    #     # increment = 0
+    # offset += increment # allow the increment to change
     # # if 0+offset + 50 >= size[1]: # if rectangle at bottom edge
-    # #     change *= -1 # change = change*-1, that is change the increment's sign
+    # #     increment *= -1 # increment = increment*-1, that is change the increment's sign
     # # # if 0+offset == 0: # if rectangle at top edge
     # # if 0+offset <= 100: # if rectangle below top edge
-    # #     change *= -1 # change the increment's sign back
-    # if 0+offset + 50 >= size[1] and change > 0: # if rectangle at bottom edge
-    #     change *= -1 # change = change*-1, that is change the increment's sign
+    # #     increment *= -1 # change the increment's sign back
+    # if 0+offset + 50 >= size[1] and increment > 0: # if rectangle at bottom edge
+    #     increment *= -1 # increment = increment*-1, that is change the increment's sign
     # # if 0+offset == 0: # if rectangle at top edge
-    # if 0+offset <= 100 and change <= 0: # if rectangle below top edge
-    #     change *= -1 # change the increment's sign back
-    # print("offset=",offset,"change=",change)
+    # if 0+offset <= 100 and increment <= 0: # if rectangle below top edge
+    #     increment *= -1 # change the increment's sign back
+    # print("offset=",offset,"increment=",increment)
 
 
     # pygame.draw.rect(screen, BLACK, (rect_x, rect_y, 60, 50), width=0)
