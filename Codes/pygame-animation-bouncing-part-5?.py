@@ -9,13 +9,13 @@ LIGHTGRAY = (211, 211, 211) # example
 # parentheses of numbers (e.g., (211, 211, 211)) is called a tuple
 BLACK = (0, 0, 0) # example
 
-size = (700, 500) # (width, height) in pixels
+# size = (700, 500) # (width, height) in pixels
+size = (700, 400) # changed height, so rectangle can bounce around more
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 # offset = 0 # initialize offset earlier
-# offset = 100 # start below top edge
-y_offset = 100 # start below top edge
+y_offset = 0 # initialize offset earlier
     # x_offset = 0 # keep starting position at 10
 # increment = 50 # initialize increment early
 y_increment = 50
@@ -56,14 +56,13 @@ while not done: # meaning while true, loop keeps window open
     #     # increment *= -1 # increment = increment*-1, that is change the increment's sign
     #     y_increment *= -1
     # # if 0+offset == 0: # if rectangle at top edge
-    # # if 0+offset == 100: # if rectangle below top edge
-    # if 0+y_offset == 100:
+    # if 0+y_offset == 0:
     #     # increment *= -1 # change the increment's sign back
     #     y_increment *= -1
         # if 0+offset + 50 == size[1]: # if rectangle at bottom edge
-    # if 0+y_offset + 50 == size[1] or 0+y_offset == 100:
+    # if 0+y_offset + 50 == size[1] or 0+y_offset == 0:
     print(y_offset, y_0, v_0, t)
-    if 0+y_offset + 50 >= size[1] and v_0 > 0:# or 0+y_offset == y_0+g*t*t:# or 0+y_offset == 100:
+    if 0+y_offset + 50 >= size[1] and v_0 > 0:# or 0+y_offset == y_0+g*t*t:# or 0+y_offset == 0:
         # y_increment *= -1
         y_0 = 0+y_offset # reset it
         v_0 *= -1 #-1/2*g*t # something wrong!!! (made my own)
@@ -97,12 +96,12 @@ while not done: # meaning while true, loop keeps window open
     # # if 0+offset + 50 >= size[1]: # if rectangle at bottom edge
     # #     increment *= -1 # increment = increment*-1, that is change the increment's sign
     # # # if 0+offset == 0: # if rectangle at top edge
-    # # if 0+offset <= 100: # if rectangle below top edge
+    # # if 0+offset <= 0: # if rectangle at top edge
     # #     increment *= -1 # change the increment's sign back
     # if 0+offset + 50 >= size[1] and increment > 0: # if rectangle at bottom edge
     #     increment *= -1 # increment = increment*-1, that is change the increment's sign
     # # if 0+offset == 0: # if rectangle at top edge
-    # if 0+offset <= 100 and increment <= 0: # if rectangle below top edge
+    # if 0+offset <= 0 and increment <= 0: if rectangle at top edge
     #     increment *= -1 # change the increment's sign back
     # print("offset=",offset,"increment=",increment)
 
