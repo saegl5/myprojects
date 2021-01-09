@@ -13,7 +13,7 @@ size = (700, 500) # (width, height) in pixels
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
-offset = 0 # initialize offset earlier
+offset = 0 # initialize offset earlier, keep starting position at top edge
 increment = 50 # initialize increment early
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own

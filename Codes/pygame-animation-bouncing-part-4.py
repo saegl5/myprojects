@@ -10,12 +10,12 @@ LIGHTGRAY = (211, 211, 211) # example
 BLACK = (0, 0, 0) # example
 
 # size = (700, 500) # (width, height) in pixels
-size = (700, 400) # changed height, so rectangle can bounce around more
+size = (700, 400) # changed height, so rectangle can bounce around more (could also have changed width or rectangle width or height)
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 # offset = 0 # initialize offset earlier
-y_offset = 0 # initialize offset earlier
+y_offset = 0 # initialize offset earlier, keep starting position at top edge
 x_offset = 0 # keep starting position at left edge
 # increment = 50 # initialize increment early
 y_increment = 50 # initialize increment early
@@ -49,9 +49,9 @@ while not done: # meaning while true, loop keeps window open
     # if 0+y_offset == 0: # if rectangle at top edge
         # increment *= -1 # change the increment's sign back
         # y_increment *= -1 # change the increment's sign back
-    if 0+x_offset + 70 == size[0] or 0+x_offset == 0: # if rectangle below right or left edge
+    if 0+x_offset + 70 == size[0] or 0+x_offset == 0: # if rectangle at right or left edge
         x_increment *= -1 # x_increment = x_increment*-1, that is change the increment's sign
-    # if 0+x_offset == 0: # if rectangle below left edge
+    # if 0+x_offset == 0: # if rectangle at left edge
     #     x_increment *= -1 # change the increment's sign back
     # ----------------
     pygame.display.flip() # update the screen
