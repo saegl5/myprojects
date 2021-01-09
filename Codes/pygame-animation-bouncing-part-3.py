@@ -33,7 +33,7 @@ while not done: # meaning while true, loop keeps window open
     offset += increment # allow the increment to change
     if 0+offset + 50 == size[1]: # if rectangle at bottom edge
         increment *= -1 # increment = increment*-1, that is change the increment's sign
-    if 0+offset == 0: # if rectangle at top edge
+    elif 0+offset == 0: # else if rectangle at top edge
         increment *= -1 # change the increment's sign back
     # ----------------
     pygame.display.flip() # update the screen

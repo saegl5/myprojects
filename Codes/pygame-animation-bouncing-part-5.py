@@ -30,11 +30,11 @@ while not done:
     x_offset += x_increment # <- STEP 3
     if 0+y_offset + 20 == size[1]: # <- STEP 5a
         y_increment *= -1
-    if 0+y_offset == 0: # <- STEP 5b
+    elif 0+y_offset == 0: # <- STEP 5b
         y_increment *= -1
-    if 0+x_offset + 10 == size[0]: # <- STEP 5a
+    elif 0+x_offset + 10 == size[0]: # <- STEP 5a
         x_increment *= -1
-    if 0+x_offset == 0: # <- STEP 5b
+    elif 0+x_offset == 0: # <- STEP 5b
         x_increment *= -1
     # ----------------
     pygame.display.flip()
