@@ -32,7 +32,7 @@ while not done:
         y_increment *= -1
     elif 0+y_offset == 0: # <- STEP 5b
         y_increment *= -1
-    elif 0+x_offset + 10 == size[0]: # <- STEP 5a
+    if 0+x_offset + 10 == size[0]: # <- STEP 5a
         x_increment *= -1
     elif 0+x_offset == 0: # <- STEP 5b
         x_increment *= -1

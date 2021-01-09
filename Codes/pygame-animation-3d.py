@@ -19,11 +19,11 @@ blue_object.position[1] += blue_object["y_change"]
 if blue_object.position[0] > 6 and blue_object["x_change"] > 0:
     blue_object["x_change"] *= -1
  
-elif blue_object.position[0] < -6 and blue_object["x_change"] < 0:
+if blue_object.position[0] < -6 and blue_object["x_change"] < 0:
     blue_object["x_change"] *= -1
  
-elif blue_object.position[1] > 6 and blue_object["y_change"] > 0:
+if blue_object.position[1] > 6 and blue_object["y_change"] > 0:
     blue_object["y_change"] *= -1
  
-elif blue_object.position[1] < -6 and blue_object["y_change"] < 0:
+if blue_object.position[1] < -6 and blue_object["y_change"] < 0:
     blue_object["y_change"] *= -1
