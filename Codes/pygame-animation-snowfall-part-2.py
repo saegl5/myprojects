@@ -19,15 +19,15 @@ pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your
 
 snowflakes.extend([(10, 10), (500, 10), (100, 100), (380, 100), (5, 250), (300, 250), (500, 250), (10, 400), (200, 400), (500, 400)]) # list of center points
 
-while not done: # meaning while true, loop keeps window open
+while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
-            done = True # change "done" to exit While loop on next loop, loop will not run while false
+            done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
     screen.fill(BLACK) # clear the screen
     # --- Drawing code
     for i in range(0, len(snowflakes)):
         pygame.draw.circle(screen, LIGHTGRAY, snowflakes[i], radius=3, width=0)
     # ----------------
     pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through While loop each second)
+    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
 pygame.quit() # formality

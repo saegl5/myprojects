@@ -21,10 +21,10 @@ clock = pygame.time.Clock() # define "clock"
 
 pygame.display.set_caption("QUESTABOX's Cool Drawing") # title, or choose your own
 
-while not done: # meaning while true, loop keeps window open
+while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
-            done = True # change "done" to exit While loop on next loop, loop will not run while false
+            done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
     screen.fill(LIGHTGRAY) # clear the screen
     # --- Drawing code
     # pygame.draw.rect(screen, BLACK, (275, 150, 150, 200), width=1)
@@ -72,5 +72,5 @@ while not done: # meaning while true, loop keeps window open
     # could also use anti-aliased lines
     # ----------------
     pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through While loop each second)
+    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
 pygame.quit() # formality

@@ -24,10 +24,10 @@ radius2 = 30
 
 pygame.display.set_caption("QUESTABOX's Cool Drawing") # title, or choose your own
 
-while not done: # meaning while true, loop keeps window open
+while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
-            done = True # change "done" to exit While loop on next loop, loop will not run while false
+            done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
     screen.fill(LIGHTGRAY) # clear the screen
     # --- Drawing code
     pygame.draw.rect(screen, BLACK, (20, 20, 40, 60), width=1)
@@ -82,9 +82,9 @@ while not done: # meaning while true, loop keeps window open
     # could also use "and" or "or" for conditional statement
     # "inclusive" means including limit, whereas "exclusive" means not including it
     # in (x, y), "x" and "y" are called coordinates
-    # for decrements loop While offset > or >=
-    # for increments, loop While offset < or <=
-    # could also use a For loop
+    # for decrements loop WHILE offset > or >=
+    # for increments, loop WHILE offset < or <=
+    # could also use a FOR loop
     # could also loop other shapes
     font = pygame.font.SysFont('Courier New', 14, False, False) # (font family, size [pixels], bold, italics), stylizes the text
     text1 = font.render("Rectangle:", True, BLACK) # (string, anti-aliased [i.e., thin and smooth], color), creates an image of the text
@@ -112,5 +112,5 @@ while not done: # meaning while true, loop keeps window open
     # the process of creating and copying the image is what causes the delay in opening the canvas
     # ----------------
     pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through While loop each second)
+    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
 pygame.quit() # formality

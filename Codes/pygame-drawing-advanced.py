@@ -23,10 +23,10 @@ radius = 100 # define "radius" for rotating lines
 
 pygame.display.set_caption("QUESTABOX's Cool Drawing") # title, or choose your own
 
-while not done: # meaning while true, loop keeps window open
+while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
-            done = True # change "done" to exit While loop on next loop, loop will not run while false
+            done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
     screen.fill(LIGHTGRAY) # clear the screen
     # --- Drawing code
     # pygame.draw.rect(screen, BLACK, (275, 150, 150, 200), width=1)
@@ -92,15 +92,15 @@ while not done: # meaning while true, loop keeps window open
     # # could also loop until just one offset reaches limit
     # # do not need to offset both coordinates
     # # in (x, y), "x" and "y" are called coordinates
-    # # for decrements loop While offset > or >=
-    # # for increments, loop While offset < or <=
+    # # for decrements loop WHILE offset > or >=
+    # # for increments, loop WHILE offset < or <=
     # x_offset = 100 # initialize offsets
     # y_offset = 0
     # while y_offset < 80: # loop until y_offset = 80 (exclusive)
     #     pygame.draw.line(screen, PURPLE, (100+x_offset, 100+y_offset), (250, 150+y_offset), width=4) # removed offset from one x-coordinate
     #     x_offset -= 5
     #     y_offset += 10
-    # # could also use a For loop
+    # # could also use a FOR loop
     # # could also loop other shapes
     # # can also offset angles
     angle_offset = 0*pi/180
@@ -114,5 +114,5 @@ while not done: # meaning while true, loop keeps window open
     # the process of creating and copying the image is what causes the delay in opening the canvas
     # ----------------
     pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through While loop each second)
+    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
 pygame.quit() # formality
