@@ -22,11 +22,11 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, or choose your own
 # --- Functions
 def draw_snowman(screen, x_offset, y_offset):
     # Draw a circle for the head
-    pygame.draw.ellipse(screen, LIGHTGRAY, [35 + x_offset, 0 + y_offset, 25, 25])
+    pygame.draw.ellipse(screen, LIGHTGRAY, [35+x_offset, 0+y_offset, 25, 25])
     # Draw the middle snowman circle
-    pygame.draw.ellipse(screen, LIGHTGRAY, [23 + x_offset, 20 + y_offset, 50, 50])
+    pygame.draw.ellipse(screen, LIGHTGRAY, [23+x_offset, 20+y_offset, 50, 50])
     # Draw the bottom snowman circle
-    pygame.draw.ellipse(screen, LIGHTGRAY, [0 + x_offset, 65 + y_offset, 100, 100])
+    pygame.draw.ellipse(screen, LIGHTGRAY, [0+x_offset, 65+y_offset, 100, 100])
 # -------------
 
 while not done: # meaning WHILE True, loop keeps window open
