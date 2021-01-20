@@ -1,4 +1,5 @@
 import pygame # import the Pygame library of functions
+import random # for random numbers
 pygame.init() # initialize the game engine
  
 LIGHTGRAY = (211, 211, 211) # example
@@ -14,19 +15,14 @@ screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 snowflakes = [] # define a list
-snowflakes.append((10, 10)) # list of center points, could also extend them
-snowflakes.append((500, 10))
-snowflakes.append((100, 100))
-snowflakes.append((380, 100))
-snowflakes.append((5, 250))
-snowflakes.append((300, 250))
-snowflakes.append((500, 250))
-snowflakes.append((10, 400))
-snowflakes.append((200, 400))
-snowflakes.append((500, 400))
 i = int() # optional
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
+
+for i in range(0, 50): # for 50 snowflakes (i.e., each index between 0 and, but not including, 50)
+    x = random.randrange(0, size[0]) # random number between 0 and, but not including, size[0]
+    y = random.randrange(0, size[1]) # random number between 0 and, but not including, size[1]
+    snowflakes.append((x, y)) # append center point
 
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window

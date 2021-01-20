@@ -14,7 +14,10 @@ screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 snowflakes = [] # define a list
-snowflakes.append((10, 10)) # list of center points, could also extend them
+
+pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
+
+snowflakes.append((10, 10)) # append center point, could also extend this and rest
 snowflakes.append((500, 10))
 snowflakes.append((100, 100))
 snowflakes.append((380, 100))
@@ -24,8 +27,6 @@ snowflakes.append((500, 250))
 snowflakes.append((10, 400))
 snowflakes.append((200, 400))
 snowflakes.append((500, 400))
-
-pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
 
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
