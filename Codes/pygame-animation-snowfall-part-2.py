@@ -34,7 +34,7 @@ while not done: # meaning WHILE True, loop keeps window open
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
     screen.fill(BLACK) # clear the screen
     # --- Drawing code
-    for center_point in snowflakes: # for each item in the list
+    for center_point in snowflakes: # FOR each item in the list
         pygame.draw.circle(screen, LIGHTGRAY, center_point, radius=3, width=0)
     # ----------------
     pygame.display.flip() # update the screen
