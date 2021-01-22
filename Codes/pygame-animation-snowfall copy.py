@@ -32,7 +32,7 @@ while not done: # meaning WHILE True, loop keeps window open
     screen.fill(BLACK) # clear the screen
     # --- Drawing code
     for i in range(len(snow_list)):
-        pygame.draw.circle(screen, LIGHTGRAY, snow_list[i], radius=5)
+        pygame.draw.circle(screen, LIGHTGRAY, snow_list[i], radius=3, width=0)
         snow_list[i][1] += 1 # snowfall speed, increasing y by 1 pixel for each coordinate
         if snow_list[i][1] > 505: # snow flake has moved off the bottom of the screen
             # Reset it just above the top
