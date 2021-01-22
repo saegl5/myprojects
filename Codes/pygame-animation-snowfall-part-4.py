@@ -15,7 +15,7 @@ screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 snowflakes = [] # define a list
-i = int() # optional
+i = int() # optional, use range() to confine i to 0 or greater
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
 
