@@ -1,4 +1,5 @@
 import pygame # import the Pygame library of functions
+import random # for random numbers
 pygame.init() # initialize the game engine
  
 LIGHTGRAY = (211, 211, 211) # example
@@ -14,19 +15,14 @@ screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 snowflakes = [] # define a list
+i = int() # optional
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
 
-snowflakes.append((10, 10)) # append center point, could also extend this and rest
-snowflakes.append((500, 10))
-snowflakes.append((100, 100))
-snowflakes.append((380, 100))
-snowflakes.append((5, 250))
-snowflakes.append((300, 250))
-snowflakes.append((500, 250))
-snowflakes.append((10, 400))
-snowflakes.append((200, 400))
-snowflakes.append((500, 400))
+for i in range(0, 50): # FOR fifty snowflakes (i.e., each index between 0 and, but not including, 50)
+    x = random.randrange(0, size[0]+1) # random number between 0 and, including, size[0]
+    y = random.randrange(0, size[1]+1) # random number between 0 and, including, size[1]
+    snowflakes.append((x, y)) # append center point
 
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
@@ -34,8 +30,10 @@ while not done: # meaning WHILE True, loop keeps window open
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
     screen.fill(BLACK) # clear the screen
     # --- Drawing code
-    for center_point in snowflakes: # FOR each item in the list
-        pygame.draw.circle(screen, LIGHTGRAY, center_point, radius=3, width=0)
+    # for center_point in snowflakes: # FOR each item in the list
+    for i in range(0, len(snowflakes)): # FOR each index in the list
+        # pygame.draw.circle(screen, LIGHTGRAY, center_point, radius=3, width=0)
+        pygame.draw.circle(screen, LIGHTGRAY, snowflakes[i], radius=3, width=0)
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
