@@ -28,13 +28,17 @@ while not done:
     pygame.draw.rect(screen, BLACK, (0+x_offset, 0+y_offset, 10, 20), width=0) # untab <- "offset" is STEP 1 (could also offset x-coordinate), "offset" became "y_offset"
     y_offset += y_increment # untab, "increment" is STEP 3, "increment" became "y_increment"
     x_offset += x_increment # <- STEP 3
-    if 0+y_offset + 20 == size[1]: # <- STEP 5a
+    # if 0+y_offset + 20 == size[1]: # <- STEP 5a
+    #     y_increment *= -1
+    # elif 0+y_offset == 0: # <- STEP 5b
+    #     y_increment *= -1
+    if 0+y_offset + 20 == size[1] or 0+y_offset == 0: # <- STEP 5a-b
         y_increment *= -1
-    elif 0+y_offset == 0: # <- STEP 5b
-        y_increment *= -1
-    if 0+x_offset + 10 == size[0]: # <- STEP 5a
-        x_increment *= -1
-    elif 0+x_offset == 0: # <- STEP 5b
+    # if 0+x_offset + 10 == size[0]: # <- STEP 5a
+    #     x_increment *= -1
+    # elif 0+x_offset == 0: # <- STEP 5b
+    #     x_increment *= -1
+    if 0+x_offset + 10 == size[0] or 0+x_offset == 0: # <- STEP 5a-b
         x_increment *= -1
     # ----------------
     pygame.display.flip()
