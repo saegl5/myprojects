@@ -19,10 +19,10 @@ i = int() # optional, use range() to confine i to 0 or greater
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
 
-for i in range(0, 50): # FOR fifty snowflakes (i.e., each index between 0 and, but not including, 50)
+for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50)
     x = random.randrange(0, size[0]+1) # random number between 0 and, including, size[0]
     y = random.randrange(0, size[1]+1) # random number between 0 and, including, size[1]
-    snowflakes.append((x, y)) # append center point
+    snowflakes.append((x, y)) # create a list of random points
 
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
