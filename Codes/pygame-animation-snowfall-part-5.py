@@ -24,7 +24,7 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     x = random.randrange(0, size[0]+1) # random number between 0 and, including, size[0]
     y = random.randrange(0, size[1]+1) # random number between 0 and, including, size[1]
     snowflakes.append((x, y)) # create a list of random points
-    snowflakes[i] = list(snowflakes[i]) # convert each point to a list (lists within a list)
+    snowflakes[i] = list(snowflakes[i]) # convert each point to a list (lists within a list), "list" is a class
 
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
