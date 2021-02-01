@@ -2,15 +2,15 @@ import pygame # import the Pygame library of functions
 import random # for random numbers
 pygame.init() # initialize the game engine
  
-WHITE = (255, 255, 255) # example
+BLUE = (0, 0, 255) # example
 # (Red, Green, Blue) = (0-255, 0-255, 0-255)
 # 0-255 is amount of color
 # the amount of color is additive
 # can also choose your own color
 # parentheses of numbers (e.g., (211, 211, 211)) is called a tuple
-BLACK = (0, 0, 0) # example
+WHITE = (255, 255, 255) # example
 
-size = (453, 340) # (width, height) in pixels, match size of background image (could also do opposite)
+size = (704, 512) # (width, height) in pixels, made size of background image match (could also do opposite)
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
@@ -25,16 +25,17 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     x = random.randrange(0, size[0]+1) # random number between 0 and, including, size[0]
     y = random.randrange(0, size[1]+1) # random number between 0 and, including, size[1]
     snowflakes.append((x, y)) # create a list of random points
-    snowflakes[i] = list(snowflakes[i]) # convert each point to a list (lists within a list)
+    snowflakes[i] = list(snowflakes[i]) # convert each point to a list (lists within a list), "list" is a class
 
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
-    screen.fill(BLACK) # clear the screen, formality now
+    screen.fill(BLUE) # clear the screen
     screen.blit(background_image, (0, 0)) # copy the background onto the screen starting at (0, 0)
     # --- Drawing code
     for i in range(0, len(snowflakes)): # FOR each index in the list
+        # pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1)
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=0)
         snowflakes[i][1] += 1 # increase y by 1 pixel for each point
         if snowflakes[i][1] > size[1]+r: # IF snow flake has left the canvas
