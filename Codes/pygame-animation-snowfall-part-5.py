@@ -16,7 +16,7 @@ done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 snowflakes = [] # define a list
 i = int() # optional, use range() to confine i to 0 or greater
-r = 3 # circle radius
+r = 5 # circle radius
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
 
@@ -34,6 +34,7 @@ while not done: # meaning WHILE True, loop keeps window open
     # --- Drawing code
     for i in range(0, len(snowflakes)): # FOR each index in the list
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1)
+        pygame.draw.circle(screen, WHITE, snowflakes[i], radius=1, width=1)
         snowflakes[i][1] += 1 # increase y by 1 pixel for each point
         if snowflakes[i][1] > size[1]+r: # IF snow flake has left the canvas
             # Recreate it

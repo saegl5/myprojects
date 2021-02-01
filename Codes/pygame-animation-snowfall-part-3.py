@@ -35,7 +35,8 @@ while not done: # meaning WHILE True, loop keeps window open
     screen.fill(BLUE) # clear the screen
     # --- Drawing code
     for center_point in snowflakes: # FOR each item in the list
-        pygame.draw.circle(screen, WHITE, center_point, radius=3, width=1)
+        pygame.draw.circle(screen, WHITE, center_point, radius=5, width=1)
+        pygame.draw.circle(screen, WHITE, center_point, radius=1, width=1)
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
