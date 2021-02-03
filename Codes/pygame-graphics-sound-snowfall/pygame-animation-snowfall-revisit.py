@@ -32,7 +32,7 @@ while not done: # meaning WHILE True, loop keeps window open
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
     screen.fill(BLUE) # clear the screen
-    screen.blit(background_image, (0, 0)) # copy the background onto the screen starting at (0, 0)
+    screen.blit(background_image, (0, 0)) # copy the background image onto the screen starting at (0, 0)
     # --- Drawing code
     for i in range(0, len(snowflakes)): # FOR each index in the list
         # pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1)

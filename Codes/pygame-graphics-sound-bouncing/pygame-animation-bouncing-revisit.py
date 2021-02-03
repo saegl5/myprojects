@@ -33,7 +33,7 @@ while not done: # meaning WHILE True, loop keeps window open
     screen.fill(BLUE) # clear the screen
     for i in range(0, 704, 64):
         for j in range(0, 512, 64):
-            screen.blit(background_image, (i, j)) # copy the background onto the screen, fills in vertically from left to right
+            screen.blit(background_image, (i, j)) # copy the background image onto the screen, fills in vertically from left to right
     # --- Drawing code
     # offset = 0 # initialize offset
     # while offset <= 448: # loop until offset = 448 (inclusive)
@@ -43,7 +43,7 @@ while not done: # meaning WHILE True, loop keeps window open
     # pygame.draw.rect(screen, WHITE, (0, 0+y_offset, 64, 64), width=1) # untab
     # pygame.draw.rect(screen, WHITE, (0+x_offset, 0+y_offset, 64, 64), width=1) # untab
     # pygame.draw.ellipse(screen, WHITE, (0+x_offset, 0+y_offset, 64, 64), width=1)
-    screen.blit(foreground_image, (0+x_offset, 0+y_offset)) # copy the image onto the screen starting at (0+x_offset, 0+y_offset)
+    screen.blit(foreground_image, (0+x_offset, 0+y_offset)) # copy the foreground image onto the screen starting at (0+x_offset, 0+y_offset)
     # offset += 64 # untab
     # offset += increment # allow the increment to change
     y_offset += y_increment # allow the increment to change
