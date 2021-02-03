@@ -3,7 +3,7 @@ pygame.init()
  
 BLUE = (0, 0, 255)
  
-size = (700, 500)
+size = (704, 512)
 screen = pygame.display.set_mode(size)
 done = False
 clock = pygame.time.Clock()

@@ -2,10 +2,10 @@ import pygame
 import random
 pygame.init()
 
-LIGHTGRAY = (211, 211, 211)
-BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+WHITE = (255, 255, 255)
 
-size = (700, 500)
+size = (704, 512)
 screen = pygame.display.set_mode(size)
 done = False
 clock = pygame.time.Clock()
@@ -23,9 +23,9 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    screen.fill(BLACK)
+    screen.fill(BLUE)
     for i in range(0, len(snowflakes)):
-        pygame.draw.circle(screen, LIGHTGRAY, snowflakes[i], radius=3, width=0)
+        pygame.draw.circle(screen, WHITE, snowflakes[i], radius=3, width=0)
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()

@@ -9,7 +9,7 @@ YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 BLUEGRAY = (77, 77, 255)
  
-size = (700, 500)
+size = (704, 512)
 screen = pygame.display.set_mode(size)
 done = False
 clock = pygame.time.Clock()
@@ -22,7 +22,7 @@ while not done:
             done = True
     screen.fill(BLUE)
     pygame.draw.rect(screen, GRAY, (200, 300, 100, 100), width=0)
-    pygame.draw.rect(screen, GREEN, (0, 400, 700, 100), width=0)
+    pygame.draw.rect(screen, GREEN, (0, 400, 704, 112), width=0)
     pygame.draw.circle(screen, YELLOW, (100, 100), radius=50, width=0)
     pygame.draw.ellipse(screen, WHITE, (400, 100, 200, 100), width=0)
     pygame.draw.ellipse(screen, WHITE, (450, 50, 200, 100), width=0)
