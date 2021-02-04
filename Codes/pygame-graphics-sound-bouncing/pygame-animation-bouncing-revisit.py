@@ -14,8 +14,8 @@ size = (704, 512) # (width, height) in pixels
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
-background_image = pygame.image.load("background_green.png").convert() # background image from Kenney, see License.txt
-foreground_image = pygame.image.load("ball_blue_large.png").convert() # foreground image from Kenney, see License.txt; the ball is a circle, but the image of it is a rectangle
+background_image = pygame.image.load("background_green.png") # background image from https://kenney.nl/assets/rolling-ball-assets, see License.txt
+foreground_image = pygame.image.load("ball_blue_large.png") # foreground image from https://kenney.nl/assets/rolling-ball-assets, see License.txt; the ball is a circle, but the image of it is a rectangle
 foreground_image.set_colorkey(BLACK) # remove black background from image, and make sure color is defined
 # offset = 0 # initialize offset earlier
 y_offset = 64 # initialize offset earlier, keep starting position at top edge, was 0, then 50
