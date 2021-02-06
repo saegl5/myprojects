@@ -2,7 +2,6 @@ import pygame
 import random
 pygame.init()
  
-BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 
 size = (704, 512)
@@ -26,7 +25,6 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    screen.fill(BLUE)
     screen.blit(background_image, (0, 0))
     for i in range(0, len(snowflakes)):
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=0)
