@@ -2,7 +2,7 @@ import pygame # import the Pygame library of functions
 import random # for random numbers
 pygame.init() # initialize the game engine
  
-BLUE = (0, 0, 255) # example
+# BLUE = (0, 0, 255) # example, redundant
 # (Red, Green, Blue) = (0-255, 0-255, 0-255)
 # 0-255 is amount of color
 # the amount of color is additive
@@ -31,7 +31,7 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
-    screen.fill(BLUE) # clear the screen
+    # screen.fill(BLUE) # clear the screen, redundant
     screen.blit(background_image, (0, 0)) # copy the background image onto the screen starting at (0, 0)
     # --- Drawing code
     for i in range(0, len(snowflakes)): # FOR each index in the list

@@ -1,13 +1,13 @@
 import pygame # import the Pygame library of functions
 pygame.init() # initialize the game engine
 
-BLUE = (0, 0, 255) # example
+# BLUE = (0, 0, 255) # example, redundant
 # (Red, Green, Blue) = (0-255, 0-255, 0-255)
 # 0-255 is amount of color
 # the amount of color is additive
 # can also choose your own color
 # parentheses of numbers (e.g., (211, 211, 211)) is called a tuple
-WHITE = (255, 255, 255) # example
+# WHITE = (255, 255, 255) # example, redundant
 
 size = (704, 512) # (width, height) in pixels
 screen = pygame.display.set_mode(size) # set screen size
@@ -23,12 +23,12 @@ y_increment = 64 # initialize increment early, was 50
 x_increment = 64 # initialize increment early, was 70, then 126
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
- 
+
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
-    screen.fill(BLUE) # clear the screen
+    # screen.fill(BLUE) # clear the screen, redundant
     for i in range(0, size[0], 64): # 64 pixels is step size, based on width of background image
         for j in range(0, size[1], 64): # again, 64 pixels is step size, but this one is based on height of background image
             screen.blit(background_image, (i, j)) # copy the background image onto the screen, fills in vertically from left to right
