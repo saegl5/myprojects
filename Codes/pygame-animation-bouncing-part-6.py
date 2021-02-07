@@ -18,7 +18,7 @@ y_offset = 64 # initialize offset earlier, keep starting position at top edge, w
 x_offset = 100 # keep starting position at left edge, was 0, then 70
 # increment = 64 # initialize increment early
 y_increment = 64 # initialize increment early
-x_increment = 128 # initialize increment early, was 70
+x_decrement = 128 # initialize increment early, was 70, changed to decrement
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
  
@@ -39,7 +39,7 @@ while not done: # meaning WHILE True, loop keeps window open
     # offset += 64 # untab
     # offset += increment # allow the increment to change
     y_offset += y_increment # allow the increment to change
-    x_offset -= x_increment # allow the increment to change, changed to decrement
+    x_offset -= x_decrement # allow the increment to change, changed to decrement
     # if 0+offset + 64 == size[1]: # if rectangle at bottom edge
     # if 0+y_offset + 64 == size[1]: # if rectangle at bottom edge
     # if 0+y_offset + 64 == size[1]: # if rectangle at bottom edge
