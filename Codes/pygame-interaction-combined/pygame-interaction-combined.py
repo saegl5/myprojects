@@ -61,11 +61,11 @@ while not done: # meaning WHILE True, loop keeps window open
     if 0+x_offset < 0:
         x_offset = 0 # prevent center point from passing left edge
     elif 0+x_offset > size[0]:
-        x_offset = size[0]-1 # anomaly at edge
+        x_offset = size[0]-1
     if 0+y_offset < 0:
         y_offset = 0 # prevent center point from passing top edge
     elif 0+y_offset > size[1]:
-        y_offset = size[1]-1 # anomaly at edge
+        y_offset = size[1]-1
     pygame.mouse.set_pos(x_offset, y_offset) # otherwise, mouse/trackpad will be out of sync with keyboard
     # --------------
     screen.fill(BLUE) # clear the screen
