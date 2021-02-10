@@ -1,4 +1,4 @@
-import pygame, math
+import pygame
 pygame.init()
 
 BACKGROUND = (0, 0 ,0)

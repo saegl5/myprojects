@@ -1,6 +1,5 @@
 import pygame # import the Pygame library of functions
-from math import pi # for drawing arcs
-from math import cos, sin # for rotating lines
+from math import pi, cos, sin # for drawing arcs and rotating lines
 pygame.init() # initialize the game engine
  
 BLUE = (0, 0, 255) # example

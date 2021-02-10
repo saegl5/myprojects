@@ -1,6 +1,5 @@
 import pygame # import the Pygame library of functions
-from math import pi # for drawing arcs
-from math import cos, sin # for rotating lines
+from math import pi, cos, sin # for drawing arcs and rotating lines
 pygame.init() # initialize the game engine
  
 BLUE = (0, 0, 255) # example
@@ -68,7 +67,7 @@ while not done: # meaning WHILE True, loop keeps window open
     # append distances/points to make more lines, remove them to make fewer lines
     pygame.draw.aalines(screen, WHITE, False, [(220, 480), (350, 490), (500, 480), (520, 430)])
     # anti-aliased (i.e., thin and smooth)
-    pygame.draw.polygon(screen, WHITE, [(220,260), (300,280), (320,230)], width=1)
+    pygame.draw.polygon(screen, WHITE, [(220, 260), (300, 280), (320, 230)], width=1)
     # example with three sides
     # pygame.draw.lines(screen, PURPLE, True, [(300, 250), (335, 350), (450, 400)], width=1)
     # # the first and last points are connected to make third line/side

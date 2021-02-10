@@ -1,5 +1,4 @@
-import pygame # import the Pygame library of functions
-import random # for random numbers
+import pygame, random # import libraries
 pygame.init() # initialize the game engine
  
 BLUE = (0, 0, 255) # example
