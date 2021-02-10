@@ -29,7 +29,7 @@ while not done:
     pygame.draw.ellipse(screen, WHITE, (450, 50, 200, 100), width=0) # cloud
     pygame.draw.ellipse(screen, WHITE, (500, 100, 200, 100), width=0) # cloud
     pygame.draw.arc(screen, BLUEGRAY, (250, 150, 50, 50), -90*pi/180, 90*pi/180, width=25) # moon
-    pygame.draw.polygon(screen, BLACK, [(400, 400), (380, 512), (460, 512), (440,400)], width=0) # road
+    pygame.draw.polygon(screen, BLACK, [(400, 400), (380, 512), (460, 512), (440, 400)], width=0) # road
     pygame.draw.line(screen, WHITE, (405, 400), (385, 512), width=1) # road shoulder
     pygame.draw.line(screen, WHITE, (455, 512), (435, 400), width=1) # road shoulder
     pygame.draw.aaline(screen, BLACK, (0, 400), (704, 400)) # outline grass
