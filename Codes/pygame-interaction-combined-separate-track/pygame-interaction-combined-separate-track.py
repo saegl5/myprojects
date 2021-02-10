@@ -27,11 +27,11 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, or choose your own
 # --- Functions
 def draw_circle_mouse_trackpad(screen, color, x_offset1, y_offset1):
     # Draw a circle
-    pygame.draw.circle(screen, color, (0+x_offset1, 0+y_offset1), radius=50, width=1)
+    pygame.draw.circle(screen, color, (0+x_offset1, 0+y_offset1), radius=25, width=1)
     pygame.draw.circle(screen, color, (0+x_offset1, 0+y_offset1), radius=1, width=1)
 def draw_circle_keyboard(screen, color, x_offset2, y_offset2):
     # Draw a circle
-    pygame.draw.circle(screen, color, (0+x_offset2, 0+y_offset2), radius=50, width=1)
+    pygame.draw.circle(screen, color, (0+x_offset2, 0+y_offset2), radius=25, width=1)
     pygame.draw.circle(screen, color, (0+x_offset2, 0+y_offset2), radius=1, width=1)
 # -------------
 

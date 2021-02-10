@@ -24,7 +24,7 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, or choose your own
 # --- Functions
 def draw_circle(screen, x_offset, y_offset):
     # Draw a circle
-    pygame.draw.circle(screen, WHITE, (0+x_offset, 0+y_offset), radius=50, width=1)
+    pygame.draw.circle(screen, WHITE, (0+x_offset, 0+y_offset), radius=25, width=1)
     pygame.draw.circle(screen, WHITE, (0+x_offset, 0+y_offset), radius=1, width=1)
 # -------------
 
