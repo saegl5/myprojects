@@ -1,5 +1,5 @@
 import pygame # import the Pygame library of functions
-from math import pi # for drawing arcs
+# from math import pi # for drawing arcs
 pygame.init() # initialize the game engine
  
 BLUE = (0, 0, 255) # example
