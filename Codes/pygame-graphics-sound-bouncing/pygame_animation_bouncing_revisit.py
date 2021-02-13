@@ -28,21 +28,23 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+    # --- Game logic
+    # --------------
     # screen.fill(BLUE) # clear the screen, redundant
+    # --- Drawing code
     for i in range(0, size[0], 64): # 64 pixels is step size, based on width of background image
         for j in range(0, size[1], 64): # again, 64 pixels is step size, but this one is based on height of background image
             screen.blit(background_image, (i, j)) # copy the background image onto the screen, fills in vertically from left to right
-    # --- Drawing code
     # offset = 0 # initialize offset
     # while offset <= 448: # loop until offset = 448 (inclusive)
     #     pygame.draw.rect(screen, WHITE, (0, 0+offset, 64, 64), width=1) # added one offset to one y-coordinate
-    #     offset += 64 # offset = offset + 64
+    #     offset += 64 # offset = offset + 64, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic
     # pygame.draw.rect(screen, WHITE, (0, 0+offset, 64, 64), width=1) # untab
     # pygame.draw.rect(screen, WHITE, (0, 0+y_offset, 64, 64), width=1) # untab
     # pygame.draw.rect(screen, WHITE, (0+x_offset, 0+y_offset, 64, 64), width=1) # untab
     # pygame.draw.ellipse(screen, WHITE, (0+x_offset, 0+y_offset, 64, 64), width=1)
     screen.blit(ball_image, (0+x_offset, 0+y_offset)) # copy the foreground image onto the screen starting at (0+x_offset, 0+y_offset)
-    # offset += 64 # untab
+    # offset += 64 # untab, if relies on mouse, trackpad or keyboard input becomes game logic
     # offset += increment # allow the increment to change
     y_offset += y_increment # allow the increment to change
     x_offset += x_increment # allow the increment to change, had changed to decrement

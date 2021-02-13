@@ -22,15 +22,17 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+    # --- Game logic
+    # --------------
     screen.fill(BLUE) # clear the screen
     # --- Drawing code
     # offset = 0 # initialize offset
     # while offset <= 448: # loop until offset = 448 (inclusive)
     #     pygame.draw.rect(screen, WHITE, (0, 0+offset, 64, 64), width=1) # added one offset to one y-coordinate
-    #     offset += 64 # offset = offset + 64
+    #     offset += 64 # offset = offset + 64, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic
     pygame.draw.rect(screen, WHITE, (0, 0+offset, 64, 64), width=1) # untab
     pygame.draw.ellipse(screen, WHITE, (0, 0+offset, 64, 64), width=1)
-    # offset += 64 # untab
+    # offset += 64 # untab, if relies on mouse, trackpad or keyboard input becomes game logic
     offset += increment # allow the increment to change
     if 0+offset + 64 == size[1]: # if rectangle at bottom edge
         increment = 0 # stop the rectangle from moving

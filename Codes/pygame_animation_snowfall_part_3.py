@@ -32,6 +32,8 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+    # --- Game logic
+    # --------------
     screen.fill(BLUE) # clear the screen
     # --- Drawing code
     for center_point in snowflakes: # FOR each item in the list

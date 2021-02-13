@@ -30,15 +30,17 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+    # --- Game logic
+    # --------------
     # screen.fill(BLUE) # clear the screen, redundant
-    screen.blit(background_image, (0, 0)) # copy the background image onto the screen starting at (0, 0)
     # --- Drawing code
+    screen.blit(background_image, (0, 0)) # copy the background image onto the screen starting at (0, 0)
     for i in range(0, len(snowflakes)): # FOR each index in the list
         # pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1)
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=0)
         # pygame.draw.circle(screen, WHITE, snowflakes[i], radius=1, width=1)
-        snowflakes[i][1] += 1 # increase y by 1 pixel for each point
-        if snowflakes[i][1] > size[1]+r: # IF snow flake has left the canvas
+        snowflakes[i][1] += 1 # increase y by 1 pixel for each point, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic
+        if snowflakes[i][1] > size[1]+r: # IF snow flake has left the canvas, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic too
             # Recreate it
             # snowflakes[i][1] = random.randrange(0, size[1]+1)
             # Do so above the canvas
