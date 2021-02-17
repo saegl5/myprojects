@@ -15,7 +15,7 @@ done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 snowflakes = [] # define a list
 i = int() # optional, use range() to confine i to 0 or greater
-r = 5 # circle radius
+r = 4 # circle radius
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
 

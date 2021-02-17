@@ -10,7 +10,7 @@ clock = pygame.time.Clock()
 background_image = pygame.image.load("snowman.png") # background image from https://pixabay.com/photos/snowman-blue-background-scarf-2995146/, see License.txt
 snowflakes = []
 i = int()
-r = 5
+r = 4
 
 pygame.display.set_caption("QUESTABOX's Cool Animation")
 
