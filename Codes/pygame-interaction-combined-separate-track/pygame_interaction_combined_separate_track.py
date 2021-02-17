@@ -71,19 +71,19 @@ while not done: # meaning WHILE True, loop keeps window open
     y_offset2 += y_increment
     if 0+x_offset1 < 0:
         x_offset1 = 0 # prevent center point from passing left edge
-    elif 0+x_offset1 > size[0]:
+    elif 0+x_offset1 > size[0]-1:
         x_offset1 = size[0]-1
     if 0+y_offset1 < 0:
         y_offset1 = 0 # prevent center point from passing top edge
-    elif 0+y_offset1 > size[1]:
+    elif 0+y_offset1 > size[1]-1:
         y_offset1 = size[1]-1
     if 0+x_offset2 < 0:
         x_offset2 = 0 # prevent center point from passing left edge
-    elif 0+x_offset2 > size[0]:
+    elif 0+x_offset2 > size[0]-1:
         x_offset2 = size[0]-1
     if 0+y_offset2 < 0:
         y_offset2 = 0 # prevent center point from passing top edge
-    elif 0+y_offset2 > size[1]:
+    elif 0+y_offset2 > size[1]-1:
         y_offset2 = size[1]-1
     # pygame.mouse.set_pos(x_offset1, y_offset1) # otherwise, mouse/trackpad will be out of sync with keyboard
     # --------------
