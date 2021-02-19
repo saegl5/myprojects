@@ -14,8 +14,7 @@ size = (704, 512) # (width, height) in pixels
 screen = pygame.display.set_mode(size) # set screen size
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
-# x_offset = 0 # reordered
-# y_offset = 0
+# no offsets
 x_increment = 0
 y_increment = 0
 block_list = pygame.sprite.Group() # no longer block_list = []

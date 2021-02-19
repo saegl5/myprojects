@@ -71,7 +71,7 @@ while not done: # meaning WHILE True, loop keeps window open
     y_offset2 += y_increment
     if 0+x_offset1 < 0:
         x_offset1 = 0 # prevent center point from passing left edge
-    elif 0+x_offset1 > size[0]-1:
+    elif 0+x_offset1 > size[0]-1: # "-1" due to anamoly
         x_offset1 = size[0]-1
     if 0+y_offset1 < 0:
         y_offset1 = 0 # prevent center point from passing top edge
