@@ -15,7 +15,9 @@ done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 # background_image = pygame.image.load("north-pole.jpg") # background image from https://pixy.org/430646/, see License.txt
 snowflakes = [] # define a list
-increment = []
+# increment = []
+x_increment = []
+y_increment = []
 i = int() # optional, use range() to confine i to 0 or greater
 r = 4 # circle radius
 
@@ -26,7 +28,9 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     y = random.randrange(0, size[1]+1) # random number between 0 and, including, size[1]
     snowflakes.append((x, y)) # create a list of random points
     snowflakes[i] = list(snowflakes[i]) # convert each point to a list (lists within a list), "list" is a class
-    increment.append(1) # for initially increasing y by 1 pixel for each point
+    # increment.append(1) # for initially increasing y by 1 pixel for each point
+    x_increment.append(random.randrange(0, 1+1))
+    y_increment.append(random.randrange(0, 1+1))
 
 while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
@@ -43,10 +47,12 @@ while not done: # meaning WHILE True, loop keeps window open
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1) # outline but do not fill to see centerpoint
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=1, width=1) # draws centerpoint
         # snowflakes[i][1] += 1 # increase y by 1 pixel for each point, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic
-        snowflakes[i][1] += increment[i] # increase y for each point, where each point may have a different increment
+        # snowflakes[i][1] += increment[i] # increase y for each point, where each point may have a different increment
+        snowflakes[i][0] += x_increment[i]
+        snowflakes[i][1] += y_increment[i]
         # if snowflakes[i][1] > size[1]+r: # IF snow flake has left the canvas, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic too
         # if snowflakes[i][1] == size[1]-r: # IF snow flake has reached the canvas' bottom
-        if snowflakes[i][1] == size[1]-r or snowflakes[i][1] == r: # IF snow flake has reached the canvas' bottom or top
+        if snowflakes[i][1] == size[1]-r or snowflakes[i][1] == r: # IF snowflake has reached the canvas' bottom or top
             # Recreate it
             # snowflakes[i][1] = random.randrange(0, size[1]+1)
             # Do so above the canvas
@@ -54,7 +60,12 @@ while not done: # meaning WHILE True, loop keeps window open
             # More randomness
             # snowflakes[i][0] = random.randrange(0, size[0]+1)
             # Make snowflakes bounce
-            increment[i] *= -1 # same as increment[i] = increment[i] * -1, reverses direction of movement
+            # increment[i] *= -1 # same as increment[i] = increment[i] * -1, reverses direction of movement
+            x_increment[i] *= -1
+            y_increment[i] *= -1
+        if snowflakes[i][0] == r or snowflakes[i][0] == size[0]-r: # IF snowflake has reached the canvas' left or right edge
+            x_increment[i] *= -1
+            y_increment[i] *= -1
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
