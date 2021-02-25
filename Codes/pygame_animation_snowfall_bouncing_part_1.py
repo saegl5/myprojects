@@ -23,7 +23,7 @@ pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your
 
 for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50)
     x = random.randrange(0, size[0]+1) # random number between 0 and, including, size[0]
-    y = random.randrange(0, size[1]+1) # random number between 0 and, including, size[1]
+    y = random.randrange(-size[1], size[1]+1) # random number between 0 and, including, size[1], changed minimum to -size[1] to fill gap that would otherwise develop in animation
     snowflakes.append((x, y)) # create a list of random points
     snowflakes[i] = list(snowflakes[i]) # convert each point to a list (lists within a list), "list" is a class
     increment.append(1) # for initially increasing y by 1 pixel for each point
@@ -46,7 +46,7 @@ while not done: # meaning WHILE True, loop keeps window open
         snowflakes[i][1] += increment[i] # increase y for each point, where each point may have a different increment
         # if snowflakes[i][1] > size[1]+r: # IF snow flake has left the canvas, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic too
         # if snowflakes[i][1] == size[1]-r: # IF snow flake has reached the canvas' bottom
-        if snowflakes[i][1] == size[1]-r or snowflakes[i][1] == r: # IF snowflake has reached the canvas' bottom or top
+        if snowflakes[i][1] == size[1]-r: # IF snowflake has reached the canvas' bottom
             # Recreate it
             # snowflakes[i][1] = random.randrange(0, size[1]+1)
             # Do so above the canvas
@@ -55,6 +55,8 @@ while not done: # meaning WHILE True, loop keeps window open
             # snowflakes[i][0] = random.randrange(0, size[0]+1)
             # Make snowflakes bounce
             increment[i] *= -1 # same as increment[i] = increment[i] * -1, reverses direction of movement
+        elif increment[i] == -1 and snowflakes[i][1] == r: # IF snowflake has already bounced and has reached the canvas' top
+            increment[i] *= -1 # reverses direction of movement, again
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
