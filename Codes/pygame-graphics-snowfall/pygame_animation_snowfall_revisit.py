@@ -35,7 +35,7 @@ while not done: # meaning WHILE True, loop keeps window open
     # screen.fill(BLUE) # clear the screen, redundant
     # --- Drawing code
     screen.blit(background_image, (0, 0)) # copy the background image onto the screen starting at (0, 0)
-    for i in range(0, len(snowflakes)): # FOR each index in the list
+    for i in range(0, len(snowflakes)): # FOR each index in the list, could also use range(0, 50)
         # pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1)
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=0)
         # pygame.draw.circle(screen, WHITE, snowflakes[i], radius=1, width=1)

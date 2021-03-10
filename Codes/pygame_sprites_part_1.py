@@ -34,7 +34,7 @@ class Block(pygame.sprite.Sprite): # make a Block class of same class as Sprites
         self.image = pygame.Surface((width, height)) # foreground image using Surface class (makes a blank image like an embedded canvas), could also be loaded from the disk
         # self.image.fill(WHITE) # background of foreground image
         # self.image.set_colorkey(WHITE) # makes background color transparent
-        pygame.draw.rect(self.image, color, (0, 0, width, height), width=1) # foreground of foreground image, no longer put screen, this might be redundant for rectangles
+        pygame.draw.rect(self.image, color, (0, 0, width, height), width=0) # foreground of foreground image, no longer put screen, this might be redundant for rectangles
         self.rect = self.image.get_rect() # pair image with rectangle object (like a middle man), so we can give the image a position
 # ---------------------
 

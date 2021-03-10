@@ -33,7 +33,7 @@ while not done: # meaning WHILE True, loop keeps window open
     # --------------
     screen.fill(BLUE) # clear the screen
     # --- Drawing code
-    for i in range(0, len(snowflakes)): # FOR each index in the list
+    for i in range(0, len(snowflakes)): # FOR each index in the list, could also use range(0, 50)
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1)
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=1, width=1)
         snowflakes[i][1] += 1 # increase y by 1 pixel for each point, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic
