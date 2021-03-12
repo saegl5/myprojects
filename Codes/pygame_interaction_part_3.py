@@ -1,12 +1,8 @@
 import pygame # import the Pygame library of functions
 pygame.init() # initialize the game engine
  
-BLUE = pygame.Color("blue") # example, alternative style
-# (Red, Green, Blue) = (0-255, 0-255, 0-255)
-# 0-255 is amount of color
-# the amount of color is additive
+BLUE = pygame.Color("blue") # example
 # can also choose your own color
-# parentheses of numbers (e.g., (211, 211, 211)) is called a tuple
 WHITE = pygame.Color("white")
  
 size = (704, 512) # (width, height) in pixels
@@ -41,22 +37,32 @@ while not done: # meaning WHILE True, loop keeps window open
                 y_increment = -7 # note "y_increment"
             elif event.key == pygame.K_DOWN:
                 y_increment = 7
+            else:
+                None # continue
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 x_increment = 0
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_increment = 0
+            else:
+                None # continue
+        else:
+            None # continue
     # --- Game logic
     x_offset += x_increment
     y_offset += y_increment
     if 0+x_offset < 0:
         x_offset = 0 # prevent center point from passing left edge
-    elif 0+x_offset > size[0]-1:
+    elif 0+x_offset > size[0]-1: # "-1" due to anamoly
         x_offset = size[0]-1
+    else:
+        None # continue
     if 0+y_offset < 0:
         y_offset = 0 # prevent center point from passing top edge
     elif 0+y_offset > size[1]-1:
         y_offset = size[1]-1
+    else:
+        None # continue
     # --------------
     screen.fill(BLUE) # clear the screen
     # --- Drawing code
