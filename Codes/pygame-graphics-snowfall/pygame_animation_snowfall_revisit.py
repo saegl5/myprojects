@@ -2,11 +2,7 @@ import pygame, random # import libraries
 pygame.init() # initialize the game engine
  
 # BLUE = pygame.Color("blue") # example, redundant
-# (Red, Green, Blue) = (0-255, 0-255, 0-255)
-# 0-255 is amount of color
-# the amount of color is additive
 # can also choose your own color
-# parentheses of numbers (e.g., (211, 211, 211)) is called a tuple
 WHITE = pygame.Color("white") # example
 
 size = (704, 512) # (width, height) in pixels, made size of background image match (could also do opposite)

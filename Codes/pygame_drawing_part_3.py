@@ -3,11 +3,7 @@ import pygame # import the Pygame library of functions
 pygame.init() # initialize the game engine
  
 BLUE = pygame.Color("blue") # example
-# (Red, Green, Blue) = (0-255, 0-255, 0-255)
-# 0-255 is amount of color
-# the amount of color is additive
 # can also choose your own color
-# parentheses of numbers (e.g., (211, 211, 211)) is called a tuple
 WHITE = pygame.Color("white") # example (part 1, part 2 and part 3)
 RED = pygame.Color("red") # example (part 1)
 GREEN = pygame.Color("green") # example (part 1)
