@@ -1,7 +1,7 @@
 import pygame # import the Pygame library of functions
 pygame.init() # initialize the game engine
 
-BLUE = pygame.Color("blue") # example, alternative style
+BLUE = pygame.Color("blue") # example
 # can also choose your own color
 WHITE = pygame.Color("white")
  
