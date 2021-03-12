@@ -34,7 +34,7 @@ while not done:
     pygame.draw.circle(screen, RED, c_top_right, radius=r, width=0)
     # Cut Each Circle into Semi-Circles
     # (includes corrections to any remaining errors)
-    pygame.draw.polygon(screen, BACKGROUND, [(p_top[0]-1, p_top[1]), (p_right[0]-1, p_right[1]-1), (p_bottom[0]-1, p_bottom[1]+6*multiple), (p_left[0], p_left[1]-1)], width=0)
+    pygame.draw.polygon(screen, BLACK, [(p_top[0]-1, p_top[1]), (p_right[0]-1, p_right[1]-1), (p_bottom[0]-1, p_bottom[1]+6*multiple), (p_left[0], p_left[1]-1)], width=0)
     # Draw Polygon
     # (includes corrections to any remaining errors)
     pygame.draw.polygon(screen, RED, [(p_top[0]-1, p_top[1]), (p_right[0]-1, p_right[1]-1), (p_bottom[0]-1, p_bottom[1]-1), (p_left[0], p_left[1]-1)], width=0)
