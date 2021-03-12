@@ -20,6 +20,8 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        else:
+            None
     screen.fill(BLUE)
     pygame.draw.rect(screen, GRAY, (200, 300, 100, 100), width=0)
     pygame.draw.rect(screen, GREEN, (0, 400, 704, 112), width=0)

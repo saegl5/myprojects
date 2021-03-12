@@ -22,6 +22,8 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+        else:
+            None # continue
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the screen
@@ -53,8 +55,12 @@ while not done: # meaning WHILE True, loop keeps window open
         # x_increment *= -1 # x_increment = x_increment*-1, that is change the increment's sign
     # elif 0+x_offset == 0: # else if rectangle at left edge
     #     x_increment *= -1 # change the increment's sign back
+    else:
+        None # do not change increment's sign
     if 0+x_offset + 64 >= size[0] or 0+x_offset <= 0: # if rectangle at right or left edge
         x_increment *= -1 # x_increment = x_increment*-1, that is change the increment's sign
+    else:
+        None # do not change increment's sign
     # ----------------
     pygame.display.flip() # update the screen
     # clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)

@@ -21,6 +21,8 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        else:
+            None # continue
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the screen
@@ -41,8 +43,12 @@ while not done:
     #     x_increment *= -1
     # elif 0+x_offset == 0: # <- STEP 5b
     #     x_increment *= -1
+    else:
+        None # continue
     if 0+x_offset + 20 == size[0] or 0+x_offset == 0: # <- STEP 5a-b
         x_increment *= -1
+    else:
+        None # continue
     # ----------------
     pygame.display.flip()
     clock.tick(10)

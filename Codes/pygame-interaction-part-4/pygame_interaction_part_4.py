@@ -40,11 +40,17 @@ while not done: # meaning WHILE True, loop keeps window open
                 y_increment = 7
             elif event.key == pygame.K_RETURN:
                 click_sound.play()
+            else:
+                None # continue
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 x_increment = 0
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_increment = 0
+            else:
+                None # continue
+        else:
+            None # continue
     # --- Game logic
     x_offset += x_increment
     y_offset += y_increment
@@ -52,10 +58,14 @@ while not done: # meaning WHILE True, loop keeps window open
         x_offset = 0 # prevent center point from passing left edge
     elif 0+x_offset > size[0]-1: # "-1" due to anamoly
         x_offset = size[0]-1
+    else:
+        None # continue
     if 0+y_offset < 0:
         y_offset = 0 # prevent center point from passing top edge
     elif 0+y_offset > size[1]-1:
         y_offset = size[1]-1
+    else:
+        None # continue
     # --------------
     screen.fill(BLUE) # clear the screen
     # --- Drawing code

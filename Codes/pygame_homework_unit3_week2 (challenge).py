@@ -26,6 +26,8 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        else:
+            None
     screen.fill(BLUE) # background_image is okay
     for i in range(0, len(snowflakes)):
         # highlight one point, so we can track it
@@ -38,6 +40,8 @@ while not done:
         if snowflakes[i][1] > size[1]+r:
             snowflakes[i][1] = random.randrange(-50, -r)
             snowflakes[i][0] = random.randrange(0, size[0]+1) # challenge
+        else:
+            None
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()

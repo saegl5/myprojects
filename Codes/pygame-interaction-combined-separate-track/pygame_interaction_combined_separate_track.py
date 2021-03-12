@@ -54,11 +54,17 @@ while not done: # meaning WHILE True, loop keeps window open
                 y_increment = 7
             elif event.key == pygame.K_RETURN:
                 click_sound.play()
+            else:
+                None # continue
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 x_increment = 0
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_increment = 0
+            else:
+                None # continue
+        else:
+            None # continue
     # --- Game logic
     pos = pygame.mouse.get_pos() # for mouse/trackpad, returns tuple (x_offset, y_offset)
     x_offset1 = pos[0]
@@ -69,18 +75,26 @@ while not done: # meaning WHILE True, loop keeps window open
         x_offset1 = 0 # prevent center point from passing left edge
     elif 0+x_offset1 > size[0]-1: # "-1" due to anamoly
         x_offset1 = size[0]-1
+    else:
+        None # continue
     if 0+y_offset1 < 0:
         y_offset1 = 0 # prevent center point from passing top edge
     elif 0+y_offset1 > size[1]-1:
         y_offset1 = size[1]-1
+    else:
+        None # continue
     if 0+x_offset2 < 0:
         x_offset2 = 0 # prevent center point from passing left edge
     elif 0+x_offset2 > size[0]-1:
         x_offset2 = size[0]-1
+    else:
+        None # continue
     if 0+y_offset2 < 0:
         y_offset2 = 0 # prevent center point from passing top edge
     elif 0+y_offset2 > size[1]-1:
         y_offset2 = size[1]-1
+    else:
+        None # continue
     # pygame.mouse.set_pos(x_offset1, y_offset1) # otherwise, mouse/trackpad will be out of sync with keyboard
     # --------------
     screen.fill(BLUE) # clear the screen

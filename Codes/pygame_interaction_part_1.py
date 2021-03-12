@@ -25,6 +25,8 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+        else:
+            None # continue
     # --- Game logic
     pos = pygame.mouse.get_pos() # for mouse/trackpad, returns tuple (x_offset, y_offset)
     x_offset = pos[0]

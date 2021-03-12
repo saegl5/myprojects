@@ -26,6 +26,8 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+        else:
+            None # continue
     # --- Game logic
     # --------------
     # screen.fill(BLUE) # clear the screen, redundant
@@ -43,6 +45,8 @@ while not done: # meaning WHILE True, loop keeps window open
             snowflakes[i][1] = random.randrange(-50, -r) # -50 is optional
             # More randomness
             snowflakes[i][0] = random.randrange(0, size[0]+1)
+        else:
+            None # continue
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)

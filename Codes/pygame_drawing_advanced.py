@@ -22,6 +22,8 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+        else:
+            None # continue
     screen.fill(BLUE) # clear the screen
     # --- Drawing code
     # pygame.draw.rect(screen, WHITE, (275, 150, 150, 200), width=1)

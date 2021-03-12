@@ -31,6 +31,8 @@ while not done: # meaning WHILE True, loop keeps window open
         # --- Mouse events
         elif event.type == pygame.MOUSEBUTTONDOWN:
             click_sound.play()
+        else:
+            None # continue
     # --- Game logic
     pos = pygame.mouse.get_pos() # for mouse/trackpad, returns tuple (x_offset, y_offset)
     x_offset = pos[0]

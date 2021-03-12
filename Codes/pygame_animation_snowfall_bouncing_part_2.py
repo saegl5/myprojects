@@ -33,6 +33,8 @@ while not done: # meaning WHILE True, loop keeps window open
     for event in pygame.event.get(): # check for user input when open window
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+        else:
+            None # continue
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the screen, redundant
@@ -61,11 +63,15 @@ while not done: # meaning WHILE True, loop keeps window open
             # increment[i] *= -1 # same as increment[i] = increment[i] * -1, reverses direction of movement
             x_increment[i] *= -1
             y_increment[i] *= -1
+        else:
+            None # do not reverse direction
         # elif increment[i] == -1 and snowflakes[i][1] == r: # IF snowflake has already bounced and has reached the canvas' top
         if snowflakes[i][0] == r or snowflakes[i][0] == size[0]-r: # IF snowflake has reached the canvas' left or right edge
             # increment[i] *= -1 # reverses direction of movement, again
             x_increment[i] *= -1
             y_increment[i] *= -1
+        else:
+            None # do not reverse direction
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)

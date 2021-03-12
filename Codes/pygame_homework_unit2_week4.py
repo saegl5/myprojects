@@ -22,6 +22,8 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        else:
+            None
     screen.fill(BLUE)
     for center_point in snowflakes:
         pygame.draw.circle(screen, WHITE, center_point, radius=3, width=0)

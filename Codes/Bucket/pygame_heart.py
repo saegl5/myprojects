@@ -15,6 +15,8 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        else:
+            None
     screen.fill(BLACK)
     # --- Drawing code
     # Utilizing Pythagorean triple 3:4:5 to mitigate errors
