@@ -1,7 +1,7 @@
 import pygame
 pygame.init()
  
-BLUE = (0, 0, 255)
+BLUE = pygame.Color("blue")
  
 size = (704, 512)
 screen = pygame.display.set_mode(size)

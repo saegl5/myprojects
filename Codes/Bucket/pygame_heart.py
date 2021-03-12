@@ -1,8 +1,8 @@
 import pygame
 pygame.init()
 
-BACKGROUND = (0, 0 ,0)
-RED = (255, 0, 0)
+BLACK = pygame.Color("black")
+RED = pygame.Color("red")
  
 size = (100, 100)
 screen = pygame.display.set_mode(size)
@@ -15,7 +15,7 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    screen.fill(BACKGROUND)
+    screen.fill(BLACK)
     # --- Drawing code
     # Utilizing Pythagorean triple 3:4:5 to mitigate errors
     # Doubling multiples to mitigate errors, as well

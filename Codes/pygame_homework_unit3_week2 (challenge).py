@@ -1,9 +1,9 @@
 import pygame, random
 pygame.init()
  
-BLUE = (0, 0, 255)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+BLUE = pygame.Color("blue")
+WHITE = pygame.Color("white")
+BLACK = pygame.Color("black")
 
 size = (704, 512)
 screen = pygame.display.set_mode(size)

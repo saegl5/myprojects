@@ -2,17 +2,17 @@ import pygame # import the Pygame library of functions
 from math import pi, cos, sin # for drawing arcs and rotating lines
 pygame.init() # initialize the game engine
  
-BLUE = (0, 0, 255) # example
+BLUE = pygame.Color("blue") # example
 # (Red, Green, Blue) = (0-255, 0-255, 0-255)
 # 0-255 is amount of color
 # the amount of color is additive
 # can also choose your own color
 # parentheses of numbers (e.g., (211, 211, 211)) is called a tuple
-WHITE = (255, 255, 255) # example (part 1, part 2 and part 3)
-RED = (255, 0, 0) # example (part 1)
-GREEN = (0, 255, 0) # example (part 1)
-YELLOW = (255, 255, 0) # example (part 1)
-PURPLE = (255, 0, 255) # example (part 2)
+WHITE = pygame.Color("white") # example (part 1, part 2 and part 3)
+RED = pygame.Color("red") # example (part 1)
+GREEN = pygame.Color("green") # example (part 1)
+YELLOW = pygame.Color("yellow") # example (part 1)
+PURPLE = pygame.Color("purple") # example (part 2)
 
 size = (704, 512) # (width, height) in pixels
 screen = pygame.display.set_mode(size) # set screen size

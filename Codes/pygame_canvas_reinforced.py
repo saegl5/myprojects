@@ -1,7 +1,7 @@
 import pygame # import the Pygame library of functions
 pygame.init() # initialize the game engine
  
-BLUE = (0, 0, 255) # example
+BLUE = pygame.Color("blue") # example
 # (Red, Green, Blue) = (0-255, 0-255, 0-255)
 # 0-255 is amount of color
 # the amount of color is additive
