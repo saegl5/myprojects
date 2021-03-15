@@ -32,9 +32,9 @@ while not done:
     for i in range(0, len(snowflakes)):
         # highlight one point, so we can track it
         pygame.draw.circle(screen, BLACK, snowflakes[i], radius=r, width=1)
-        pygame.draw.circle(screen, BLACK, snowflakes[i], radius=1, width=1)
+        pygame.draw.circle(screen, BLACK, snowflakes[i], radius=1, width=1) # optional
         pygame.draw.circle(screen, WHITE, snowflakes[0], radius=r, width=1)
-        pygame.draw.circle(screen, WHITE, snowflakes[0], radius=1, width=1)
+        pygame.draw.circle(screen, WHITE, snowflakes[0], radius=1, width=1) # optional
         # width=0 is okay, too
         snowflakes[i][1] += 1
         if snowflakes[i][1] > size[1]+r:
