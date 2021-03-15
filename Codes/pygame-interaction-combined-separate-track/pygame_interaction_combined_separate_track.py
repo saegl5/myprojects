@@ -82,14 +82,14 @@ while not done: # meaning WHILE True, loop keeps window open
     #     None # continue
     if size[0]/2+x_offset2 < 0:
         x_offset2 = -size[0]/2 # prevent center point from passing left edge, solved for x_offset
-    elif size[0]/2+x_offset2 > size[0]:
-        x_offset2 = size[0]-size[0]/2
+    elif size[0]/2+x_offset2 > size[0]-1: # "-1" due to anamoly
+        x_offset2 = size[0]-size[0]/2-1 # "-1" due to anamoly
     else:
         None # continue
     if size[1]/2+y_offset2 < 0: # note "if"
         y_offset2 = -size[1]/2 # prevent center point from passing top edge, solved for y_offset
-    elif size[1]/2+y_offset2 > size[1]:
-        y_offset2 = size[1]-size[1]/2
+    elif size[1]/2+y_offset2 > size[1]-1:
+        y_offset2 = size[1]-size[1]/2-1
     else:
         None # continue
     # pygame.mouse.set_pos(size[0]/2+x_offset, size[1]/2+y_offset) # otherwise, mouse/trackpad will be out of sync with keyboard
