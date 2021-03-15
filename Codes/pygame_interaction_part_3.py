@@ -1,6 +1,6 @@
 import pygame # import the Pygame library of functions
 pygame.init() # initialize the game engine
- 
+
 BLUE = pygame.Color("blue") # example
 # can also choose your own color
 WHITE = pygame.Color("white")
@@ -17,9 +17,11 @@ y_increment = 0
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, or choose your own
 
 # --- Functions
-def draw_circle(x_offset, y_offset, radius):
+# def draw_circle(COLOR, x, y, radius, width):
+#     pygame.draw.circle(screen, COLOR, (x, y), radius, width)
+def draw_circle(x, y, radius):
     # Draw a circle
-    pygame.draw.circle(screen, WHITE, (0+x_offset, 0+y_offset), radius, width=1)
+    pygame.draw.circle(screen, WHITE, (x, y), radius, width=1)
 # -------------
 
 while not done: # meaning WHILE True, loop keeps window open
@@ -27,47 +29,47 @@ while not done: # meaning WHILE True, loop keeps window open
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
         # --- Keyboard events
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN: # "elif" means else if
             if event.key == pygame.K_LEFT: # note "event.key"
-                x_increment = -7
+                x_increment = -1 # "-1" is optional
             elif event.key == pygame.K_RIGHT:
-                x_increment = 7
+                x_increment = 1
             elif event.key == pygame.K_UP: # recall that y increases going downward
-                y_increment = -7 # note "y_increment"
+                y_increment = -1  # note "y_increment," and recall that y increases going downward
             elif event.key == pygame.K_DOWN:
-                y_increment = 7
+                y_increment = 1
             else:
                 None # continue
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                x_increment = 0
-            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                y_increment = 0
-            else:
-                None # continue
+            x_increment = 0
+            y_increment = 0
         else:
             None # continue
+        # -------------------
     # --- Game logic
     x_offset += x_increment
     y_offset += y_increment
-    if 0+x_offset < 0:
-        x_offset = 0 # prevent center point from passing left edge
-    elif 0+x_offset > size[0]-1: # "-1" due to anamoly
-        x_offset = size[0]-1
+    if size[0]/2+x_offset < 0:
+        x_offset = -size[0]/2 # prevent center point from passing left edge, solved for x_offset
+    elif size[0]/2+x_offset > size[0]:
+        x_offset = size[0]-size[0]/2
     else:
         None # continue
-    if 0+y_offset < 0:
-        y_offset = 0 # prevent center point from passing top edge
-    elif 0+y_offset > size[1]-1:
-        y_offset = size[1]-1
+    if size[1]/2+y_offset < 0: # note "if"
+        y_offset = -size[1]/2 # prevent center point from passing top edge, solved for y_offset
+    elif size[1]/2+y_offset > size[1]:
+        y_offset = size[1]-size[1]/2
     else:
         None # continue
     # --------------
     screen.fill(BLUE) # clear the screen
     # --- Drawing code
-    # draw_circle(screen, 10, 10) # numbers are offsets
-    draw_circle(x_offset, y_offset, 25) # rely on keyboard
-    draw_circle(x_offset, y_offset, 1)
+    # pygame.draw.circle(screen, WHITE, (size[0]/2, size[1]/2), radius=25, width=1)
+    # draw_circle(size[0]/2, size[1]/2, 25) # call function and input parameters
+    draw_circle(size[0]/2+x_offset, size[1]/2+y_offset, 25) # call function, input parameters, and rely on keyboard
+    # pygame.draw.circle(screen, WHITE, (size[0]/2, size[1]/2), radius=1, width=1)
+    # draw_circle(size[0]/2, size[1]/2, 1)
+    draw_circle(size[0]/2+x_offset, size[1]/2+y_offset, 1)
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
