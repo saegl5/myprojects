@@ -42,4 +42,4 @@ while not done: # meaning WHILE True, loop keeps window open
     pygame.display.flip() # update the screen
     # clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
     clock.tick(10) # so can see rectangle moving
-pygame.quit() # formality
+pygame.quit() # if run module through IDLE
