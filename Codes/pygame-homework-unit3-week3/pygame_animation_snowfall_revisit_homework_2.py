@@ -33,7 +33,7 @@ while not done:
     # --- Challenge
     pygame.draw.rect(screen, CYAN, (100, 300, 200, 100), width=0)
     pygame.draw.line(screen, CYAN, (100, 300), (100, 512), width=5)
-    font = pygame.font.SysFont('Arial', 25, True, False) # (font family, size [pixels], bold, italics)
+    font = pygame.font.SysFont('Arial', 25, bold=True, italic=False) # (font family, size [pixels], bold, italics)
     text = font.render("Welcome!", True, BLACK) # (string, anti-aliased [i.e., thin and smooth], color)
     screen.blit(text, (135, 335)) # (image, position)
     # ---

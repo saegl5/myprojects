@@ -53,7 +53,7 @@ while not done:
     while angle_offset <= 360*pi/180:
         pygame.draw.line(screen, YELLOW, (100, 100), (100+100*cos(angle_offset), 100-100*sin(angle_offset)), width=2)
         angle_offset += 20*pi/180
-    font = pygame.font.SysFont('Courier New', 16, True, False)
+    font = pygame.font.SysFont('Courier New', 16, bold=True, italic=False)
     text = font.render("There is hope!", True, BLACK)
     screen.blit(text, (475, 125))
     pygame.display.flip()
