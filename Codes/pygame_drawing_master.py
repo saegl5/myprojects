@@ -83,7 +83,7 @@ while not done: # meaning WHILE True, loop keeps window open
     # for increments, loop WHILE offset < or <=
     # could also use a FOR loop
     # could also loop other shapes
-    font = pygame.font.SysFont('Courier New', 14, False, False) # (font family, size [pixels], bold, italics), stylizes the text
+    font = pygame.font.SysFont('Courier New', 14, bold=False, italic=False) # (font family, size [pixels], bold, italics), stylizes the text
     text1 = font.render("Rectangle:", True, WHITE) # (string, anti-aliased [i.e., thin and smooth], color), creates an image of the text
     text2 = font.render("Circle:", True, WHITE)
     text3 = font.render("Ellipse: (filled)", True, WHITE)
@@ -110,4 +110,4 @@ while not done: # meaning WHILE True, loop keeps window open
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
-pygame.quit() # formality
+pygame.quit() # if run module through IDLE

@@ -105,11 +105,11 @@ while not done: # meaning WHILE True, loop keeps window open
         pygame.draw.line(screen, PURPLE, (100, 100), (250+radius*cos(angle_offset), 150-radius*sin(angle_offset)), width=4)
         angle_offset += 20*pi/180
     # you can use two radii, as well
-    font = pygame.font.SysFont('Courier New', 16, False, False) # (font family, size [pixels], bold, italics), stylizes the text
+    font = pygame.font.SysFont('Courier New', 16, bold=False, italic=False) # (font family, size [pixels], bold, italics), stylizes the text
     text = font.render("Hello world!", True, WHITE) # (string, anti-aliased [i.e., thin and smooth], color), creates an image of the text
     screen.blit(text, (400, 100)) # (image, position), copies the image of text onto the screen
     # the process of creating and copying the image is what causes the delay in opening the canvas
     # ----------------
     pygame.display.flip() # update the screen
     clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
-pygame.quit() # formality
+pygame.quit() # if run module through IDLE
