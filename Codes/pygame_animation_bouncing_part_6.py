@@ -58,7 +58,7 @@ while not done: # meaning WHILE True, loop keeps window open
     else:
         None # do not change increment's sign
     if 0+x_offset + 64 >= size[0] or 0+x_offset <= 0: # if rectangle at right or left edge
-        x_increment *= -1 # x_increment = x_increment*-1, that is change the increment's sign
+        x_decrement *= -1 # x_increment = x_increment*-1, that is change the increment's sign, changed to decrement
     else:
         None # do not change increment's sign
     # ----------------
