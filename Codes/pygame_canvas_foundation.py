@@ -1,12 +1,10 @@
-import pygame # import the Pygame library of functions
-pygame.init() # initialize the game engine
- 
-BLUE = pygame.Color("blue") # example
-# can also choose your own color
- 
-size = (704, 512) # (width, height) in pixels
-screen = pygame.display.set_mode(size) # set screen size
+import pygame # import the Pygame module
+pygame.init() # initialize any submodules that require it
 
-pygame.event.get() # open window briefly 
-screen.fill(BLUE) # clear the screen
-pygame.display.flip() # update the screen
+size = (704, 512) # (width, height) in pixels, example
+pygame.display.set_mode(size) # set up display
+
+pygame.event.get() # open display
+pygame.display.flip() # update the display
+
+pygame.quit() # needed if run module through IDLE
