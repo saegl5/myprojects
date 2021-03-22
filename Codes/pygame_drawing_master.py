@@ -1,31 +1,30 @@
-import pygame # import the Pygame library of functions
+import pygame # import the Pygame module
 from math import pi, cos, sin # for drawing arcs and rotating lines
-pygame.init() # initialize the game engine
+pygame.init() # initialize any submodules that require it
  
 BLUE = pygame.Color("blue") # example
-# can also choose your own color
 WHITE = pygame.Color("white") # example (part 1, part 2 and part 3)
 RED = pygame.Color("red") # example (part 1)
 GREEN = pygame.Color("green") # example (part 1)
 YELLOW = pygame.Color("yellow") # example (part 1)
 PURPLE = pygame.Color("purple") # example (part 2)
 
-size = (704, 512) # (width, height) in pixels
-screen = pygame.display.set_mode(size) # set screen size
+size = (704, 512) # (width, height) in pixels, example
+screen = pygame.display.set_mode(size) # set up display
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 radius1 = 80 # define "radius" for rotating lines
 radius2 = 30
 
-pygame.display.set_caption("QUESTABOX's Cool Drawing") # title, or choose your own
+pygame.display.set_caption("QUESTABOX's Cool Drawing") # title, example
 
 while not done: # meaning WHILE True, loop keeps window open
-    for event in pygame.event.get(): # check for user input when open window
+    for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
         else:
             None # continue
-    screen.fill(BLUE) # clear the screen
+    screen.fill(BLUE) # clear the display
     # --- Drawing code
     pygame.draw.rect(screen, WHITE, (20, 20, 40, 60), width=1)
     # (distance x from origin to top-left corner, distance y from origin to top-left corner, width, height)
@@ -108,6 +107,6 @@ while not done: # meaning WHILE True, loop keeps window open
     screen.blit(text11, (200, 400))
     # the process of creating and copying the image is what causes the delay in opening the canvas
     # ----------------
-    pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
-pygame.quit() # if run module through IDLE
+    pygame.display.flip() # update the display
+    clock.tick(60) # maximum 60 frames per second
+pygame.quit() # needed if run module through IDLE

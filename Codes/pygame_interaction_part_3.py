@@ -1,12 +1,11 @@
-import pygame # import the Pygame library of functions
-pygame.init() # initialize the game engine
+import pygame # import the Pygame module
+pygame.init() # initialize any submodules that require it
 
 BLUE = pygame.Color("blue") # example
-# can also choose your own color
 WHITE = pygame.Color("white")
  
-size = (704, 512) # (width, height) in pixels
-screen = pygame.display.set_mode(size) # set screen size
+size = (704, 512) # (width, height) in pixels, example
+screen = pygame.display.set_mode(size) # set up display
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 x_offset = 0 # reordered
@@ -14,7 +13,7 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 
-pygame.display.set_caption("QUESTABOX's Cool Game") # title, or choose your own
+pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 
 # --- Functions
 # def draw_circle(COLOR, x, y, radius, width):
@@ -25,7 +24,7 @@ def draw_circle(x, y, radius):
 # -------------
 
 while not done: # meaning WHILE True, loop keeps window open
-    for event in pygame.event.get(): # check for user input when open window
+    for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
         # --- Keyboard events
@@ -62,7 +61,7 @@ while not done: # meaning WHILE True, loop keeps window open
     else:
         None # continue
     # --------------
-    screen.fill(BLUE) # clear the screen
+    screen.fill(BLUE) # clear the display
     # --- Drawing code
     # pygame.draw.circle(screen, WHITE, (size[0]/2, size[1]/2), radius=25, width=1)
     # draw_circle(size[0]/2, size[1]/2, 25) # call function and input parameters
@@ -71,6 +70,6 @@ while not done: # meaning WHILE True, loop keeps window open
     # draw_circle(size[0]/2, size[1]/2, 1)
     draw_circle(size[0]/2+x_offset, size[1]/2+y_offset, 1)
     # ----------------
-    pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
-pygame.quit() # if run module through IDLE
+    pygame.display.flip() # update the display
+    clock.tick(60) # maximum 60 frames per second
+pygame.quit() # needed if run module through IDLE

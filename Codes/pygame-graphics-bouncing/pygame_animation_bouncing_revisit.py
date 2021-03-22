@@ -1,12 +1,11 @@
-import pygame # import the Pygame library of functions
-pygame.init() # initialize the game engine
+import pygame # import the Pygame module
+pygame.init() # initialize any submodules that require it
 
 # BLUE = pygame.Color("blue") # example, redundant
-# can also choose your own color
 # WHITE = pygame.Color("white") # example, redundant
 
-size = (704, 512) # (width, height) in pixels
-screen = pygame.display.set_mode(size) # set screen size
+size = (704, 512) # (width, height) in pixels, example
+screen = pygame.display.set_mode(size) # set up display
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 ball_image = pygame.image.load("ball_blue_large.png") # foreground image from https://kenney.nl/assets/rolling-ball-assets, see License.txt; the ball is a circle, but the image of it is a rectangle
@@ -18,17 +17,17 @@ x_offset = 0 # keep starting position at left edge, was 0, then 70, then 90
 y_increment = 8 # initialize increment early, was 50
 x_increment = 10 # initialize increment early, was 70, then 126 as decrement
 
-pygame.display.set_caption("QUESTABOX's Cool Animation") # title, or choose your own
+pygame.display.set_caption("QUESTABOX's Cool Animation") # title, example
 
 while not done: # meaning WHILE True, loop keeps window open
-    for event in pygame.event.get(): # check for user input when open window
+    for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
         else:
             None # continue
     # --- Game logic
     # --------------
-    # screen.fill(BLUE) # clear the screen, redundant
+    # screen.fill(BLUE) # clear the display, redundant
     # --- Drawing code
     for i in range(0, size[0], 64): # 64 pixels is step size, based on width of background image
         for j in range(0, size[1], 64): # again, 64 pixels is step size, but this one is based on height of background image
@@ -68,7 +67,7 @@ while not done: # meaning WHILE True, loop keeps window open
     else:
         None # do not change increment's sign
     # ----------------
-    pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
+    pygame.display.flip() # update the display
+    clock.tick(60) # maximum 60 frames per second
     # clock.tick(10) # so can see rectangle moving, was 10, then 30
-pygame.quit() # if run module through IDLE
+pygame.quit() # needed if run module through IDLE

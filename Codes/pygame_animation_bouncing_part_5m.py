@@ -25,7 +25,7 @@ while not done:
             None # continue
     # --- Game logic
     # --------------
-    screen.fill(BLUE) # clear the screen
+    screen.fill(BLUE) # clear the display
     # --- Drawing code
     # offset = 0 <- STEP 2a
     # while offset <= 180: <- STEP 0

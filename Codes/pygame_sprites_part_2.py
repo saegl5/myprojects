@@ -1,13 +1,12 @@
 import pygame, random # import libraries
-pygame.init() # initialize the game engine
+pygame.init() # initialize any submodules that require it
  
 BLUE = pygame.Color("blue") # example
-# can also choose your own color
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
 
-size = (704, 512) # (width, height) in pixels
-screen = pygame.display.set_mode(size) # set screen size
+size = (704, 512) # (width, height) in pixels, example
+screen = pygame.display.set_mode(size) # set up display
 done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 # no offsets
@@ -17,7 +16,7 @@ block_list = pygame.sprite.Group() # no longer block_list = []
 all_sprites_list = pygame.sprite.Group() # no longer all_sprites_list = []
 score = 0 # initialize score
 
-pygame.display.set_caption("QUESTABOX's Cool Game") # title, or choose your own
+pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 
 # --- Functions/Classes
 # def draw_circle(screen, x_offset, y_offset):
@@ -56,7 +55,7 @@ player.rect.y = 0
 all_sprites_list.add(player)
 
 while not done: # meaning WHILE True, loop keeps window open
-    for event in pygame.event.get(): # check for user input when open window
+    for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
         # --- Keyboard events
@@ -102,12 +101,12 @@ while not done: # meaning WHILE True, loop keeps window open
         block.reset_position()
     block_list.update() # update each block in block_list
     # --------------
-    screen.fill(BLUE) # clear the screen
+    screen.fill(BLUE) # clear the display
     # --- Drawing code
     # draw_circle(screen, 10, 10) # numbers are offsets
     # draw_circle(screen, x_offset, y_offset) # rely on keyboard
     all_sprites_list.draw(screen) # draw all blocks on screen
     # ----------------
-    pygame.display.flip() # update the screen
-    clock.tick(60) # maximum 60 frames per second (i.e., no more than 60 times through WHILE loop each second)
-pygame.quit() # if run module through IDLE
+    pygame.display.flip() # update the display
+    clock.tick(60) # maximum 60 frames per second
+pygame.quit() # needed if run module through IDLE
