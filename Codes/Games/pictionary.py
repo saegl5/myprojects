@@ -15,7 +15,7 @@ pygame.display.set_caption("QUESTABOX's 'Pictionary' Game")
 def draw_circle(x, y, radius):
     pygame.draw.circle(screen, WHITE, (x, y), radius, width=1)
 
-screen.fill(BLUE) # placed outside WHILE loop
+screen.fill(BLUE) # placed outside WHILE loop to display background
 
 while not done:
     for event in pygame.event.get():
