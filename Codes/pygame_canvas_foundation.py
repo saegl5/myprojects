@@ -1,10 +1,12 @@
-import pygame # import the Pygame module
-pygame.init() # initialize any submodules that require it
+import pygame, sys # import the Pygame and sys modules
 
 size = (704, 512) # (width, height) in pixels, example
 pygame.display.set_mode(size) # set up display
 
-pygame.event.get() # open display
-pygame.display.flip() # update the display
-
-pygame.quit() # needed if run module through IDLE
+while True: # keeps display open
+    for event in pygame.event.get(): # check for user input when open display
+        if event.type == pygame.QUIT: # user clicked close button
+            pygame.quit() # needed if run module through IDLE
+            sys.exit() # exit WHILE loop
+        else:
+            None # continue

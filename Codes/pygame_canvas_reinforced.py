@@ -1,4 +1,4 @@
-import pygame, sys # import the Pygame module
+import pygame, sys # import the Pygame and sys modules
 pygame.init() # initialize any submodules that require it
 
 BLUE = pygame.Color("blue") # example
