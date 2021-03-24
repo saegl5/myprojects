@@ -6,7 +6,6 @@ WHITE = pygame.Color("white")
  
 size = (704, 512)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 
 pygame.display.set_caption("QUESTABOX's Cool Game")
@@ -14,7 +13,10 @@ pygame.display.set_caption("QUESTABOX's Cool Game")
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
+        else:
+            None
     screen.fill(BLUE)
     pos = pygame.mouse.get_pos()
     x_offset = pos[0]-size[0]/2-25 # "-25" is optional
@@ -23,4 +25,3 @@ while True:
     pygame.draw.rect(screen, WHITE, (size[0]/2+25+x_offset, size[1]/2+25+y_offset, 1, 1), width=1) # optional
     pygame.display.flip()
     clock.tick(60)
-pygame.quit()

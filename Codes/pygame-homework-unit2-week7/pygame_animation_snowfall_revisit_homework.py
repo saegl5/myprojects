@@ -5,7 +5,6 @@ WHITE = pygame.Color("white")
 
 size = (704, 512)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 background_image = pygame.image.load("snowman.png") # background image from https://pixabay.com/photos/snowman-blue-background-scarf-2995146/, see License.txt
 snowflakes = []
@@ -23,7 +22,8 @@ for i in range(0, 50):
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
         else:
             None
     screen.blit(background_image, (0, 0))
@@ -37,4 +37,3 @@ while True:
             None
     pygame.display.flip()
     clock.tick(60)
-pygame.quit()

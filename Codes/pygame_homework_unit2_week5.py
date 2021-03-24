@@ -6,7 +6,6 @@ WHITE = pygame.Color("white")
 
 size = (704, 512)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 snowflakes = []
 i = int() # optional
@@ -21,7 +20,8 @@ for i in range(0, 200):
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
         else:
             None
     screen.fill(BLUE)
@@ -29,4 +29,3 @@ while True:
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=3, width=0)
     pygame.display.flip()
     clock.tick(60)
-pygame.quit()

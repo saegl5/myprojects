@@ -6,7 +6,6 @@ pygame.init() # initialize any submodules that require it
 
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
-done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 ball_image = pygame.image.load("ball_blue_large.png") # foreground image from https://kenney.nl/assets/rolling-ball-assets, see License.txt; the ball is a circle, but the image of it is a rectangle
 background_image = pygame.image.load("background_green.png") # background image from https://kenney.nl/assets/rolling-ball-assets, see License.txt
@@ -22,7 +21,8 @@ pygame.display.set_caption("QUESTABOX's Cool Animation") # title, example
 while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
-            done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+            pygame.quit() # needed if run module through IDLE
+            sys.exit() # exit WHILE loop
         else:
             None # continue
     # --- Game logic
@@ -70,4 +70,3 @@ while True: # keeps display open
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
     # clock.tick(10) # so can see rectangle moving, was 10, then 30
-pygame.quit() # needed if run module through IDLE

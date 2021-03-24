@@ -6,7 +6,6 @@ WHITE = pygame.Color("white")
  
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
-done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 # offsets are specified by mouse/trackpad position
 # no increments are initialized or specified
@@ -25,7 +24,8 @@ def draw_circle(x, y, radius):
 while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
-            done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+            pygame.quit() # needed if run module through IDLE
+            sys.exit() # exit WHILE loop
         # --- Mouse events
         elif event.type == pygame.MOUSEBUTTONDOWN:
             click_sound.play()
@@ -50,4 +50,3 @@ while True: # keeps display open
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
-pygame.quit() # needed if run module through IDLE

@@ -7,7 +7,6 @@ BLACK = pygame.Color("black")
 
 size = (704, 512)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 background_image = pygame.image.load("winter.jpeg") # background image from https://unsplash.com/photos/kVKz9qnJC-k, see License.txt
 snowflakes = []
@@ -25,7 +24,8 @@ for i in range(0, 50):
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
         else:
             None
     screen.blit(background_image, (0, 0))
@@ -48,4 +48,3 @@ while True:
             None
     pygame.display.flip()
     clock.tick(60)
-pygame.quit()

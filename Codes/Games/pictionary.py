@@ -6,7 +6,6 @@ WHITE = pygame.Color("white")
  
 size = (704, 512)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 draw = False # start as "False," so won't draw unless press mouse/trackpad button and move
 
@@ -20,7 +19,8 @@ screen.fill(BLUE) # placed outside WHILE loop to display background
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             draw = True
         elif event.type == pygame.MOUSEBUTTONUP:
@@ -36,4 +36,3 @@ while True:
         None # do not draw
     pygame.display.flip()
     clock.tick(120) # render more dots
-pygame.quit()

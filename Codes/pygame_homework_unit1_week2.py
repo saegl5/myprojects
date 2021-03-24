@@ -11,7 +11,6 @@ DARKGRAY = pygame.Color("darkgray")
  
 size = (704, 512)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 
 pygame.display.set_caption("QUESTABOX's Cool Drawing")
@@ -19,7 +18,8 @@ pygame.display.set_caption("QUESTABOX's Cool Drawing")
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
         else:
             None
     screen.fill(BLUE)
@@ -32,4 +32,3 @@ while True:
     pygame.draw.arc(screen, DARKGRAY, (250, 150, 50, 50), -90*pi/180, 90*pi/180, width=25)
     pygame.display.flip()
     clock.tick(60)
-pygame.quit()

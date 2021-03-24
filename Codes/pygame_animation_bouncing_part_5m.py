@@ -8,7 +8,6 @@ WHITE = pygame.Color("white")
 
 size = (100, 200)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 y_offset = 0 # <- STEP 2b, changed to "y_offset"
 x_offset = 0 # <- STEP 2 (horizontal movement)
@@ -20,7 +19,8 @@ pygame.display.set_caption("STUDENT's Cool Animation")
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
         else:
             None # continue
     # --- Game logic
@@ -52,4 +52,3 @@ while True:
     # ----------------
     pygame.display.flip()
     clock.tick(10)
-pygame.quit()

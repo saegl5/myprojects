@@ -6,7 +6,6 @@ RED = pygame.Color("red")
  
 size = (100, 100)
 screen = pygame.display.set_mode(size)
-done = False
 clock = pygame.time.Clock()
 position = (50, 50) # define x- and y-coordinates
 multiple = 4 # define multiple (0-5)
@@ -14,7 +13,8 @@ multiple = 4 # define multiple (0-5)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            pygame.quit()
+            sys.exit()
         else:
             None
     screen.fill(BLACK)
@@ -43,4 +43,3 @@ while True:
     # ----------------
     pygame.display.flip()
     clock.tick(60)
-pygame.quit()

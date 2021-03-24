@@ -6,7 +6,6 @@ WHITE = pygame.Color("white")
  
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
-done = False # define "done"
 clock = pygame.time.Clock() # define "clock"
 x_offset = 0 # reordered
 y_offset = 0
@@ -26,7 +25,8 @@ def draw_circle(x, y, radius):
 while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
-            done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False
+            pygame.quit() # needed if run module through IDLE
+            sys.exit() # exit WHILE loop
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN: # "elif" means else if
             if event.key == pygame.K_LEFT: # note "event.key"
@@ -72,4 +72,3 @@ while True: # keeps display open
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
-pygame.quit() # needed if run module through IDLE
