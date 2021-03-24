@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 pygame.init()
 
 BLUE = pygame.Color("blue")
@@ -18,7 +18,7 @@ snowflakes.append((671, 423))
 
 pygame.display.set_caption("QUESTABOX's Cool Animation")
 
-while not done:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True

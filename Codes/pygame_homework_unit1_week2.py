@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 from math import pi
 pygame.init()
  
@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("QUESTABOX's Cool Drawing")
 
-while not done:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True

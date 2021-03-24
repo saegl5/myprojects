@@ -1,6 +1,6 @@
 # give student a drawing of multiple shapes, and have them animate it
 
-import pygame
+import pygame, sys
 pygame.init()
 
 BLUE = pygame.Color("blue")
@@ -17,7 +17,7 @@ x_increment = 20 # <- STEP 4
 
 pygame.display.set_caption("STUDENT's Cool Animation")
  
-while not done:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True

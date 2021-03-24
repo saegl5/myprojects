@@ -1,4 +1,4 @@
-import pygame, random # import libraries
+import pygame, sys, random # import libraries
 pygame.init() # initialize any submodules that require it
  
 BLUE = pygame.Color("blue") # example
@@ -54,7 +54,7 @@ player.rect.x = 0 # initial position of player image
 player.rect.y = 0
 all_sprites_list.add(player)
 
-while not done: # meaning WHILE True, loop keeps window open
+while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False

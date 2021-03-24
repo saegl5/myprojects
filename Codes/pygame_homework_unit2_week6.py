@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, sys, random
 pygame.init()
 
 BLUE = pygame.Color("blue")
@@ -19,7 +19,7 @@ for i in range(0, 200):
     snowflakes.append((x, y))
     snowflakes[i] = list(snowflakes[i])
 
-while not done:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True

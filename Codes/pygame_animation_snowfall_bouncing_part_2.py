@@ -1,4 +1,4 @@
-import pygame, random # import libraries
+import pygame, sys, random # import libraries
 pygame.init() # initialize any submodules that require it
  
 BLUE = pygame.Color("blue") # example, redundant
@@ -28,7 +28,7 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     x_increment.append(random.randrange(0, 1+1))
     y_increment.append(random.randrange(0, 1+1))
 
-while not done: # meaning WHILE True, loop keeps window open
+while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False

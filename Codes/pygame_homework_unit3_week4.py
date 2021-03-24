@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 pygame.init()
 
 BLUE = pygame.Color("blue")
@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("QUESTABOX's Cool Game")
 
-while not done:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True

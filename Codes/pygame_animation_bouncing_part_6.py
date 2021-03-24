@@ -1,4 +1,4 @@
-import pygame # import the Pygame module
+import pygame, sys # import the Pygame and sys modules
 pygame.init() # initialize any submodules that require it
 
 BLUE = pygame.Color("blue") # example
@@ -17,7 +17,7 @@ x_decrement = 128 # initialize increment early, was 70, changed to decrement
 
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, example
  
-while not done: # meaning WHILE True, loop keeps window open
+while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False

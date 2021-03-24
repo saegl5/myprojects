@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 pygame.init()
 
 BLUE = pygame.Color("blue")
@@ -17,7 +17,7 @@ def draw_rect(x, y, W, H):
 
 screen.fill(BLUE) # placed outside WHILE loop to display background
 
-while not done:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True

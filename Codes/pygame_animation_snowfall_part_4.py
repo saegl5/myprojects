@@ -1,4 +1,4 @@
-import pygame, random # import libraries
+import pygame, sys, random # import libraries
 pygame.init() # initialize any submodules that require it
  
 BLUE = pygame.Color("blue") # example
@@ -18,7 +18,7 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     y = random.randrange(0, size[1]+1) # random number between 0 and, including, size[1]
     snowflakes.append((x, y)) # create a list of random points
 
-while not done: # meaning WHILE True, loop keeps window open
+while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False

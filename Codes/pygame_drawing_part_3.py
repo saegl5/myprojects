@@ -1,4 +1,4 @@
-import pygame # import the Pygame module
+import pygame, sys # import the Pygame and sys modules
 # from math import pi # for drawing arcs
 pygame.init() # initialize any submodules that require it
  
@@ -16,7 +16,7 @@ clock = pygame.time.Clock() # define "clock"
 
 pygame.display.set_caption("QUESTABOX's Cool Drawing") # title, example
 
-while not done: # meaning WHILE True, loop keeps window open
+while True: # keeps display open
     for event in pygame.event.get(): # check for user input when open display
         if event.type == pygame.QUIT: # user clicked close button
             done = True # change "done" to exit WHILE loop on next loop, loop will not run WHILE False

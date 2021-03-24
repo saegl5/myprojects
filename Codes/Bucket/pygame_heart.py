@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 pygame.init()
 
 BLACK = pygame.Color("black")
@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 position = (50, 50) # define x- and y-coordinates
 multiple = 4 # define multiple (0-5)
 
-while not done:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
