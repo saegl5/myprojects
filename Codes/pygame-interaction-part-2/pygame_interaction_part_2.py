@@ -31,8 +31,6 @@ while True: # keeps display open
         # --- Mouse events
         elif event.type == pygame.MOUSEBUTTONDOWN:
             click_sound.play()
-        else:
-            None # continue
         # ----------------
     # --- Game logic
     pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y)

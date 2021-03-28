@@ -2,8 +2,6 @@ def factors(x):
   for i in range(1, x+1):
     if x%i == 0:
       print(i)
-    else:
-      None
 
 # "%" is modulo (i.e., remainder of x divided by i)
 

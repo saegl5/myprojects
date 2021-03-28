@@ -17,8 +17,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        else:
-            None
     screen.fill(BLUE)
     pos = pygame.mouse.get_pos()
     x_offset = pos[0]-size[0]/2-25 # "-25" is optional

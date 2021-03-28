@@ -24,8 +24,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        else:
-            None
     screen.fill(BLUE)
     for center_point in snowflakes:
         pygame.draw.circle(screen, WHITE, center_point, radius=3, width=0)

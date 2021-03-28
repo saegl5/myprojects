@@ -17,8 +17,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        else:
-            None
     screen.fill(BLACK)
     # --- Drawing code
     # Utilizing Pythagorean triple 3:4:5 to mitigate errors

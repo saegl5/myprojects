@@ -23,8 +23,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        else:
-            None
     screen.fill(BLUE)
     pygame.draw.rect(screen, GRAY, (200, 300, 100, 100), width=0) # building
     pygame.draw.rect(screen, GREEN, (0, 400, 704, 112), width=0) # grass

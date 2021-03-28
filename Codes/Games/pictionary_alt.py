@@ -27,14 +27,10 @@ while True:
             draw = True
         elif event.type == pygame.MOUSEBUTTONUP:
             draw = False
-        else:
-            None
     pos = pygame.mouse.get_pos()
     x_offset = pos[0]-size[0]/2
     y_offset = pos[1]-size[1]/2
     if draw == True: # IF mouse/trackpad button pressed
         draw_rect(size[0]/2+x_offset, size[1]/2+y_offset, 1, 1)
-    else:
-        None # do not draw
     pygame.display.flip()
     clock.tick(120) # render more dots

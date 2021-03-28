@@ -35,8 +35,6 @@ while True: # keeps display open
         if event.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
-        else:
-            None # continue
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the display, redundant
@@ -65,15 +63,11 @@ while True: # keeps display open
             # increment[i] *= -1 # same as increment[i] = increment[i] * -1, reverses direction of movement
             x_increment[i] *= -1
             y_increment[i] *= -1
-        else:
-            None # do not reverse direction
         # elif increment[i] == -1 and snowflakes[i][1] == r: # IF snowflake has already bounced and has reached the canvas' top
         if snowflakes[i][0] == r or snowflakes[i][0] == size[0]-r: # IF snowflake has reached the canvas' left or right edge
             # increment[i] *= -1 # reverses direction of movement, again
             x_increment[i] *= -1
             y_increment[i] *= -1
-        else:
-            None # do not reverse direction
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

@@ -27,8 +27,6 @@ while True: # keeps display open
         if event.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
-        else:
-            None # continue
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the display
@@ -44,8 +42,6 @@ while True: # keeps display open
             snowflakes[i][1] = random.randrange(-50, -r) # -50 is optional
             # More randomness
             snowflakes[i][0] = random.randrange(0, size[0]+1)
-        else:
-            None # continue
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

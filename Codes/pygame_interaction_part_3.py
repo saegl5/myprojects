@@ -39,13 +39,9 @@ while True: # keeps display open
                 y_increment = -1  # note "y_increment," and recall that y increases going downward
             elif event.key == pygame.K_DOWN:
                 y_increment = 1
-            else:
-                None # continue
         elif event.type == pygame.KEYUP:
             x_increment = 0
             y_increment = 0
-        else:
-            None # continue
         # -------------------
     # --- Game logic
     x_offset += x_increment
@@ -54,14 +50,10 @@ while True: # keeps display open
         x_offset = -size[0]/2 # prevent center point from passing left edge, solved for x_offset
     elif size[0]/2+x_offset > size[0]:
         x_offset = size[0]-size[0]/2
-    else:
-        None # continue
     if size[1]/2+y_offset < 0: # note "if"
         y_offset = -size[1]/2 # prevent center point from passing top edge, solved for y_offset
     elif size[1]/2+y_offset > size[1]:
         y_offset = size[1]-size[1]/2
-    else:
-        None # continue
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code

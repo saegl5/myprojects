@@ -27,8 +27,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        else:
-            None
     screen.blit(background_image, (0, 0))
     for i in range(0, len(snowflakes)):
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=0)
@@ -36,7 +34,5 @@ while True:
         if snowflakes[i][1] > size[1]+r:
             snowflakes[i][1] = random.randrange(-50, -r)
             snowflakes[i][0] = random.randrange(0, size[0]+1)
-        else:
-            None
     pygame.display.flip()
     clock.tick(60)

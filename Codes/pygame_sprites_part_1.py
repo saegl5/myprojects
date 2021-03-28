@@ -62,17 +62,11 @@ while True: # keeps display open
                 y_increment = -7 # note "y_increment"
             elif event.key == pygame.K_DOWN:
                 y_increment = 7
-            else:
-                None # continue
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 x_increment = 0
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_increment = 0
-            else:
-                None # continue
-        else:
-            None # continue
     # --- Game logic
     player.rect.x += x_increment # was x_offset
     player.rect.y += y_increment # was y_offset
@@ -80,14 +74,10 @@ while True: # keeps display open
         player.rect.x = 0 # prevent center point from passing left edge
     elif player.rect.x > size[0]-40: # player block is larger
         player.rect.x = size[0]-40
-    else:
-        None # continue
     if player.rect.y < 0:
         player.rect.y = 0 # prevent center point from passing top edge
     elif player.rect.y > size[1]-40:
         player.rect.y = size[1]-40
-    else:
-        None # continue
     blocks_hit_list = pygame.sprite.spritecollide(player, block_list, True) # list block(s) the player block overlaps, then remove block(s) from block_list and all_sprites_list
     for block in blocks_hit_list: # FOR each block in the list
         score +=1 # increment score, resets each time

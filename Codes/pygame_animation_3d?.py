@@ -27,5 +27,3 @@ if blue_object.position[1] > 6 and blue_object["y_change"] > 0:
  
 if blue_object.position[1] < -6 and blue_object["y_change"] < 0:
     blue_object["y_change"] *= -1
-
-# include else: None, to be consistent

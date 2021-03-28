@@ -27,8 +27,6 @@ while True: # keeps display open
         if event.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
-        else:
-            None # continue
     # --- Game logic
     pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y)
     # x_offset = pos[0]

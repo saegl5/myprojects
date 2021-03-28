@@ -19,8 +19,6 @@ while True: # keeps display open
         if event.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
-        else:
-            None # continue
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the display
@@ -37,8 +35,6 @@ while True: # keeps display open
         increment *= -1 # increment = increment*-1, that is change the increment's sign
     elif 0+offset == 0: # else if rectangle at top edge
         increment *= -1 # change the increment's sign back
-    else:
-        None # do not change increment's sign
     # ----------------
     pygame.display.flip() # update the display
     # clock.tick(60) # maximum 60 frames per second

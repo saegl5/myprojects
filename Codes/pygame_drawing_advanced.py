@@ -23,8 +23,6 @@ while True: # keeps display open
         if event.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
-        else:
-            None # continue
     screen.fill(BLUE) # clear the display
     # --- Drawing code
     # pygame.draw.rect(screen, WHITE, (275, 150, 150, 200), width=1)

@@ -18,8 +18,6 @@ while True: # keeps display open
             sys.exit() # exit WHILE loop
         # --- Keyboard events
         # -------------------
-        else:
-            None # continue
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the display
