@@ -1,6 +1,8 @@
 # give student a drawing of multiple shapes, and have them animate it
 
-import pygame, sys
+import pygame
+import sys
+
 pygame.init()
 
 BLUE = pygame.Color("blue")

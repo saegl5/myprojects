@@ -1,4 +1,6 @@
-import pygame, sys
+import pygame
+import sys
+
 pygame.init()
 
 BLACK = pygame.Color("black")

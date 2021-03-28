@@ -1,4 +1,7 @@
-import pygame, sys, random
+import pygame
+import sys
+import random
+
 pygame.init()
  
 WHITE = pygame.Color("white")

@@ -1,4 +1,5 @@
-import pygame, sys # import the Pygame and sys modules
+import pygame # import the Pygame module
+import sys # import the sys module
 
 size = (704, 512) # (width, height) in pixels, example
 pygame.display.set_mode(size) # set up display

@@ -1,5 +1,7 @@
-import pygame, sys
+import pygame
+import sys
 from math import pi, cos, sin
+
 pygame.init()
  
 BLUE = pygame.Color("blue")

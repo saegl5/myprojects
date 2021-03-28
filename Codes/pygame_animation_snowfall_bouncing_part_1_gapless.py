@@ -1,4 +1,7 @@
-import pygame, sys, random # import libraries
+import pygame # import modules
+import sys
+import random
+
 pygame.init() # initialize any submodules that require it
  
 BLUE = pygame.Color("blue") # example, redundant
