@@ -1,4 +1,4 @@
-import pygame # import the Pygame module
+import pygame # import the pygame module
 import sys # import the sys module
 
 pygame.init() # initialize any submodules that require it
@@ -16,12 +16,6 @@ while True: # keeps display open
         if event.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
-        # --- Keyboard events
-        # -------------------
-    # --- Game logic
-    # --------------
     screen.fill(BLUE) # clear the display
-    # --- Drawing code
-    # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

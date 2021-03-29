@@ -1,4 +1,4 @@
-import pygame # import the Pygame module
+import pygame # import the pygame module
 import sys # import the sys module
 
 size = (704, 512) # (width, height) in pixels, example
