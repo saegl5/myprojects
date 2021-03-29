@@ -1,2 +1,3 @@
 import subprocess
-subprocess.run(("python", "-m", "pygame.examples.aliens"))
+command = ("python", "-m", "pygame.examples.aliens") # tuple consisting of strings
+subprocess.run(command)
