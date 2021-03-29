@@ -1,4 +1,4 @@
-import pygame # import the Pygame module
+import pygame # import the pygame module
 import sys # import the sys module
 # from math import pi # for drawing arcs
 
