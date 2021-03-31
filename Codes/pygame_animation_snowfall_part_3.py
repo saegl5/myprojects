@@ -25,8 +25,8 @@ snowflakes.append((200, 400))
 snowflakes.append((500, 400))
 
 while True: # keeps display open
-    for event in pygame.event.get(): # check for user input when open display
-        if event.type == pygame.QUIT: # user clicked close button
+    for action in pygame.event.get(): # check for user input when open display
+        if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
     # --- Game logic

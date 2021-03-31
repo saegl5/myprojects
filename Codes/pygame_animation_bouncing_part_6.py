@@ -19,8 +19,8 @@ x_decrement = 128 # initialize increment early, was 70, changed to decrement
 pygame.display.set_caption("QUESTABOX's Cool Animation") # title, example
  
 while True: # keeps display open
-    for event in pygame.event.get(): # check for user input when open display
-        if event.type == pygame.QUIT: # user clicked close button
+    for action in pygame.event.get(): # check for user input when open display
+        if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
     # --- Game logic

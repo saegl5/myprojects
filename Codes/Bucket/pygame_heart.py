@@ -13,8 +13,8 @@ position = (50, 50) # define x- and y-coordinates
 multiple = 4 # define multiple (0-5)
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for action in pygame.event.get():
+        if action.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
     screen.fill(BLACK)

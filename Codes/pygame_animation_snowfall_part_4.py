@@ -21,8 +21,8 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     snowflakes.append((x, y)) # create a list of random points
 
 while True: # keeps display open
-    for event in pygame.event.get(): # check for user input when open display
-        if event.type == pygame.QUIT: # user clicked close button
+    for action in pygame.event.get(): # check for user input when open display
+        if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit WHILE loop
     # --- Game logic

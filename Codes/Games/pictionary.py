@@ -19,8 +19,8 @@ def draw_circle(x, y, radius):
 screen.fill(BLUE) # placed outside WHILE loop to display background
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for action in pygame.event.get():
+        if action.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:

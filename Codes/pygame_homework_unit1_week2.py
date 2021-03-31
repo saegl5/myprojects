@@ -18,8 +18,8 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("QUESTABOX's Cool Drawing")
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for action in pygame.event.get():
+        if action.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
     screen.fill(BLUE)

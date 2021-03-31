@@ -25,8 +25,8 @@ for i in range(0, 50):
     snowflakes[i] = list(snowflakes[i])
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for action in pygame.event.get():
+        if action.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
     screen.blit(background_image, (0, 0))
