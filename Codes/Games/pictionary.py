@@ -23,9 +23,9 @@ while True:
         if action.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif action.type == pygame.MOUSEBUTTONDOWN:
             draw = True
-        elif event.type == pygame.MOUSEBUTTONUP:
+        elif action.type == pygame.MOUSEBUTTONUP:
             draw = False
     pos = pygame.mouse.get_pos()
     x_offset = pos[0]-size[0]/2

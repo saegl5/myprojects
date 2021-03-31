@@ -60,7 +60,7 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         # --- Keyboard events
-        elif event.type == pygame.KEYDOWN:
+        elif action.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT: # note "event.key"
                 x_increment = -7
             elif event.key == pygame.K_RIGHT:
@@ -69,7 +69,7 @@ while True: # keeps display open
                 y_increment = -7 # note "y_increment"
             elif event.key == pygame.K_DOWN:
                 y_increment = 7
-        elif event.type == pygame.KEYUP:
+        elif action.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 x_increment = 0
             elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:

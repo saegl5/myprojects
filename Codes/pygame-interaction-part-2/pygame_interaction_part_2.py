@@ -29,7 +29,7 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         # --- Mouse events
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif action.type == pygame.MOUSEBUTTONDOWN:
             click_sound.play()
         # ----------------
     # --- Game logic

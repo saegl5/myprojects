@@ -38,11 +38,11 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         # --- Mouse events
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif action.type == pygame.MOUSEBUTTONDOWN:
             click_sound.play()
         # ----------------
         # --- Keyboard events
-        elif event.type == pygame.KEYDOWN: # "elif" means else if
+        elif action.type == pygame.KEYDOWN: # "elif" means else if
             if event.key == pygame.K_LEFT: # note "event.key"
                 x_increment = -1 # "-1" is optional
             elif event.key == pygame.K_RIGHT:
@@ -53,7 +53,7 @@ while True: # keeps display open
                 y_increment = 1
             elif event.key == pygame.K_RETURN:
                 click_sound.play()
-        elif event.type == pygame.KEYUP:
+        elif action.type == pygame.KEYUP:
             x_increment = 0
             y_increment = 0
         # -------------------
