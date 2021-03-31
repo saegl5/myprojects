@@ -24,7 +24,7 @@ while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
         if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
-            sys.exit() # exit WHILE loop
+            sys.exit() # exit entire process
     # --- Game logic
     # --------------
     screen.fill(BLUE) # clear the display
