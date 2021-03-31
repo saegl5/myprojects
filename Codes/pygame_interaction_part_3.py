@@ -31,13 +31,13 @@ while True: # keeps display open
             sys.exit() # exit entire process
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if event.key == pygame.K_LEFT: # note "event.key"
+            if action.key == pygame.K_LEFT: # note "action.key"
                 x_increment = -1 # "-1" is optional
-            elif event.key == pygame.K_RIGHT:
+            elif action.key == pygame.K_RIGHT:
                 x_increment = 1
-            elif event.key == pygame.K_UP: # recall that y increases going downward
+            elif action.key == pygame.K_UP: # recall that y increases going downward
                 y_increment = -1  # note "y_increment," and recall that y increases going downward
-            elif event.key == pygame.K_DOWN:
+            elif action.key == pygame.K_DOWN:
                 y_increment = 1
         elif action.type == pygame.KEYUP:
             x_increment = 0

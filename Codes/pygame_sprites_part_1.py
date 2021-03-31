@@ -54,18 +54,18 @@ while True: # keeps display open
             sys.exit() # exit entire process
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT: # note "event.key"
+            if action.key == pygame.K_LEFT: # note "action.key"
                 x_increment = -7
-            elif event.key == pygame.K_RIGHT:
+            elif action.key == pygame.K_RIGHT:
                 x_increment = 7
-            elif event.key == pygame.K_UP: # recall that y increases going downward
+            elif action.key == pygame.K_UP: # recall that y increases going downward
                 y_increment = -7 # note "y_increment"
-            elif event.key == pygame.K_DOWN:
+            elif action.key == pygame.K_DOWN:
                 y_increment = 7
         elif action.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            if action.key == pygame.K_LEFT or action.key == pygame.K_RIGHT:
                 x_increment = 0
-            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            elif action.key == pygame.K_UP or action.key == pygame.K_DOWN:
                 y_increment = 0
     # --- Game logic
     player.rect.x += x_increment # was x_offset

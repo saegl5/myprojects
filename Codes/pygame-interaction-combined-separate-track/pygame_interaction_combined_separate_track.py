@@ -43,15 +43,15 @@ while True: # keeps display open
         # ----------------
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if event.key == pygame.K_LEFT: # note "event.key"
+            if action.key == pygame.K_LEFT: # note "action.key"
                 x_increment = -1 # "-1" is optional
-            elif event.key == pygame.K_RIGHT:
+            elif action.key == pygame.K_RIGHT:
                 x_increment = 1
-            elif event.key == pygame.K_UP: # recall that y increases going downward
+            elif action.key == pygame.K_UP: # recall that y increases going downward
                 y_increment = -1  # note "y_increment," and recall that y increases going downward
-            elif event.key == pygame.K_DOWN:
+            elif action.key == pygame.K_DOWN:
                 y_increment = 1
-            elif event.key == pygame.K_RETURN:
+            elif action.key == pygame.K_RETURN:
                 click_sound.play()
         elif action.type == pygame.KEYUP:
             x_increment = 0
@@ -91,7 +91,7 @@ while True: # keeps display open
     # pygame.draw.circle(screen, WHITE, (size[0]/2, size[1]/2), radius=1, width=1)
     # draw_circle(size[0]/2, size[1]/2, 1)
     # draw_circle(size[0]/2+x_offset, size[1]/2+y_offset, 1)
-    if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+    if action.type == pygame.KEYDOWN or action.type == pygame.KEYUP:
         draw_circle_mouse_trackpad(BLACK, size[0]/2+x_offset1, size[1]/2+y_offset1, 25) # rely on mouse/trackpad
         draw_circle_mouse_trackpad(BLACK, size[0]/2+x_offset1, size[1]/2+y_offset1, 1)
         draw_circle_keyboard(WHITE, size[0]/2+x_offset2, size[1]/2+y_offset2, 25) # rely on keyboard
