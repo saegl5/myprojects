@@ -81,9 +81,6 @@ while True: # keeps display open
     # pygame.draw.circle(screen, WHITE, (size[0]/2, size[1]/2), radius=25, width=1)
     # draw_circle(size[0]/2, size[1]/2, 25) # call function and input parameters
     draw_circle(size[0]/2+x_offset, size[1]/2+y_offset, 25) # call function, input parameters, and rely on either mouse/trackpad or keyboard
-    # pygame.draw.circle(screen, WHITE, (size[0]/2, size[1]/2), radius=1, width=1)
-    # draw_circle(size[0]/2, size[1]/2, 1)
-    draw_circle(size[0]/2+x_offset, size[1]/2+y_offset, 1)
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
