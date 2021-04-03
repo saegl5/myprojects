@@ -52,7 +52,7 @@ while True: # keeps display open
         if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
-        # --- Keyboard events
+        # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN:
             if action.key == pygame.K_LEFT: # note "action.key"
                 x_increment = -7
@@ -67,6 +67,7 @@ while True: # keeps display open
                 x_increment = 0
             elif action.key == pygame.K_UP or action.key == pygame.K_DOWN:
                 y_increment = 0
+            # -------------------------
     # --- Game logic
     player.rect.x += x_increment # was x_offset
     player.rect.y += y_increment # was y_offset
