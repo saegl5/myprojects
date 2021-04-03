@@ -10,8 +10,8 @@ BLACK = pygame.Color("black")
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
-x_offset1 = 0 # reordered, for mouse/trackpad
-y_offset1 = 0
+# x_offset1 = 0 # reordered, for mouse/trackpad, redundant
+# y_offset1 = 0 # redundant
 x_offset2 = 0 # reordered, for keyboard
 y_offset2 = 0
 x_increment = 0 # keyboard only
@@ -23,13 +23,13 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 # --- Functions
 # def draw_rect(COLOR, x, y, W, H, width):
 #     pygame.draw.rect(screen, COLOR, (x, y, W, H), width)
-def draw_rect_mouse_trackpad(COLOR, x1, y1, W1, H1): # note "COLOR"
+def draw_rect_mouse_trackpad(COLOR, x, y, W, H): # note "COLOR"
     # Draw a rectangle
-    pygame.draw.rect(screen, COLOR, (x1, y1, W1, H1), width=1)
+    pygame.draw.rect(screen, COLOR, (x, y, W, H), width=1)
 
-def draw_rect_keyboard(COLOR, x2, y2, W2, H2):
+def draw_rect_keyboard(COLOR, x, y, W, H):
     # Draw a rectangle
-    pygame.draw.rect(screen, COLOR, (x2, y2, W2, H2), width=1)
+    pygame.draw.rect(screen, COLOR, (x, y, W, H), width=1)
 # -------------
 
 while True: # keeps display open
