@@ -18,11 +18,11 @@ click_sound = pygame.mixer.Sound("click4.ogg") # "Sound" must be capitalized, ex
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 
 # --- Functions
-# def draw_circle(COLOR, x, y, radius, width):
-#     pygame.draw.circle(screen, COLOR, (x, y), radius, width)
-def draw_circle(x, y, radius):
-    # Draw a circle
-    pygame.draw.circle(screen, WHITE, (x, y), radius, width=1)
+# def draw_rect(COLOR, x, y, W, H, width):
+#     pygame.draw.rect(screen, COLOR, (x, y, W, H), width)
+def draw_rect(x, y, W, H):
+    # Draw a rectangle
+    pygame.draw.rect(screen, WHITE, (x, y, W, H), width=1)
 # -------------
 
 while True: # keeps display open
@@ -37,50 +37,42 @@ while True: # keeps display open
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if action.key == pygame.K_LEFT: # note "action.key"
-                x_increment = -1 # "-1" is optional
+                x_increment = -5 # "-5" is optional
             elif action.key == pygame.K_RIGHT:
-                x_increment = 1
+                x_increment = 5
             elif action.key == pygame.K_UP: # recall that y increases going downward
-                y_increment = -1  # note "y_increment," and recall that y increases going downward
+                y_increment = -5  # note "y_increment," and recall that y increases going downward
             elif action.key == pygame.K_DOWN:
-                y_increment = 1
+                y_increment = 5
             elif action.key == pygame.K_RETURN:
                 click_sound.play()
-            else:
-                None # continue
         elif action.type == pygame.KEYUP:
             x_increment = 0
             y_increment = 0
-        else:
-            None # continue
         # -------------------
     # --- Game logic
     pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y)
     # x_offset = pos[0]
-    x_offset = pos[0]-size[0]/2 # align mouse pointer with circles' center point
+    x_offset = pos[0]-size[0]/2-25/2 # align mouse pointer with rectangle's center point
     # y_offset = pos[1]
-    y_offset = pos[1]-size[1]/2
+    y_offset = pos[1]-size[1]/2-25/2
     x_offset += x_increment
     y_offset += y_increment
-    if size[0]/2+x_offset < 0:
-        x_offset = -size[0]/2 # prevent center point from passing left edge, solved for x_offset
-    elif size[0]/2+x_offset > size[0]-1: # "-1" due to anamoly
-        x_offset = size[0]-size[0]/2-1 # "-1" due to anamoly
-    else:
-        None # continue
-    if size[1]/2+y_offset < 0: # note "if"
-        y_offset = -size[1]/2 # prevent center point from passing top edge, solved for y_offset
-    elif size[1]/2+y_offset > size[1]-1:
-        y_offset = size[1]-size[1]/2-1
-    else:
-        None # continue
-    pygame.mouse.set_pos(size[0]/2+x_offset, size[1]/2+y_offset) # otherwise, mouse/trackpad will be out of sync with keyboard
+    if size[0]/2+x_offset <= 0:
+        x_offset = -size[0]/2 # prevent rectangle from passing left edge, solved for x_offset
+    elif size[0]/2+x_offset+25 >= size[0]:
+        x_offset = size[0]-size[0]/2-25+0.5 # "0.5" due to anomaly
+    if size[1]/2+y_offset <= 0: # note "if"
+        y_offset = -size[1]/2 # prevent rectangle from passing top edge, solved for y_offset
+    elif size[1]/2+y_offset+25 >= size[1]:
+        y_offset = size[1]-size[1]/2-25+0.5
+    pygame.mouse.set_pos(size[0]/2+x_offset+25/2, size[1]/2+y_offset+25/2) # otherwise, mouse/trackpad will be out of sync with keyboard
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
-    # pygame.draw.circle(screen, WHITE, (size[0]/2, size[1]/2), radius=25, width=1)
-    # draw_circle(size[0]/2, size[1]/2, 25) # call function and input parameters
-    draw_circle(size[0]/2+x_offset, size[1]/2+y_offset, 25) # call function, input parameters, and rely on either mouse/trackpad or keyboard
+    # pygame.draw.rect(screen, WHITE, (size[0]/2, size[1]/2, 25, 25), width=1)
+    # draw_rect(size[0]/2, size[1]/2, 25, 25) # call function and input parameters
+    draw_rect(size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on either mouse/trackpad or keyboard
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
