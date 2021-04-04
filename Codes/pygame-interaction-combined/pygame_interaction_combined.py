@@ -34,7 +34,7 @@ while True: # keeps display open
         elif action.type == pygame.MOUSEBUTTONDOWN:
             click_sound.play()
         # ----------------
-        # --- Mouse/keyboard events
+        # --- Keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if action.key == pygame.K_LEFT: # note "action.key"
                 x_increment = -5 # "-5" is optional
@@ -51,7 +51,7 @@ while True: # keeps display open
             y_increment = 0
         # -------------------------
     # --- Game logic
-    pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y)
+    pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y), "pos" needs to be defined here because get_pos() must be kept updated
     # x_offset = pos[0]
     x_offset = pos[0]-size[0]/2-25/2 # align mouse pointer with rectangle's center point
     # y_offset = pos[1]
