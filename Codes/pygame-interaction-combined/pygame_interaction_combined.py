@@ -53,20 +53,20 @@ while True: # keeps display open
     # --- Game logic
     pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y), "pos" needs to be defined here because get_pos() must be kept updated
     # x_offset = pos[0]
-    x_offset = pos[0]-size[0]/2-25/2 # move rectangle to align mouse pointer with rectangle's center point
+    x_offset = pos[0]-size[0]/2 # move rectangle to align mouse pointer with rectangle's center point
     # y_offset = pos[1]
-    y_offset = pos[1]-size[1]/2-25/2
+    y_offset = pos[1]-size[1]/2
     x_offset += x_increment
     y_offset += y_increment
-    if size[0]/2+x_offset <= 0:
+    if size[0]/2+x_offset < 0:
         x_offset = -size[0]/2 # prevent rectangle from passing left edge, solved for x_offset
-    elif size[0]/2+x_offset+25 >= size[0]:
+    elif size[0]/2+x_offset+25 > size[0]:
         x_offset = size[0]-size[0]/2-25+0.5 # "0.5" due to anomaly
-    if size[1]/2+y_offset <= 0: # note "if"
+    if size[1]/2+y_offset < 0: # note "if"
         y_offset = -size[1]/2 # prevent rectangle from passing top edge, solved for y_offset
-    elif size[1]/2+y_offset+25 >= size[1]:
+    elif size[1]/2+y_offset+25 > size[1]:
         y_offset = size[1]-size[1]/2-25+0.5
-    pygame.mouse.set_pos(size[0]/2+x_offset+25/2, size[1]/2+y_offset+25/2) # otherwise, mouse/trackpad will be out of sync with keyboard
+    pygame.mouse.set_pos(size[0]/2+x_offset, size[1]/2+y_offset) # otherwise, mouse/trackpad will be out of sync with keyboard
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code

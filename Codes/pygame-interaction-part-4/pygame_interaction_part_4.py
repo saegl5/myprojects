@@ -49,13 +49,13 @@ while True: # keeps display open
     # --- Game logic
     x_offset += x_increment
     y_offset += y_increment
-    if size[0]/2+x_offset <= 0:
+    if size[0]/2+x_offset < 0:
         x_offset = -size[0]/2 # prevent rectangle from passing left edge, solved for x_offset
-    elif size[0]/2+x_offset+25 >= size[0]:
+    elif size[0]/2+x_offset+25 > size[0]:
         x_offset = size[0]-size[0]/2-25
-    if size[1]/2+y_offset <= 0: # note "if"
+    if size[1]/2+y_offset < 0: # note "if"
         y_offset = -size[1]/2 # prevent rectangle from passing top edge, solved for y_offset
-    elif size[1]/2+y_offset+25 >= size[1]:
+    elif size[1]/2+y_offset+25 > size[1]:
         y_offset = size[1]-size[1]/2-25
     # --------------
     screen.fill(BLUE) # clear the display
