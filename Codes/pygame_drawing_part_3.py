@@ -30,7 +30,7 @@ while True: # keeps display open
     # y_offset = 0 # initialize offset
     # while y_offset < 50: # loop until y_offset = 50 (exclusive)
     #     pygame.draw.line(screen, PURPLE, (100, 100+y_offset), (250, 150+y_offset), width=4) # added an offset
-    #     y_offset += 10 # increment offset by 10 each loop, shorthand for y_offset = y_offset + 10
+    #     y_offset += 10 # increment offset by 10 each loop, shorthand for y_offset = y_offset+10
     # # could have offset x, instead of y
     # # "exclusive" means not including limit
     # # offsets can also be decremented

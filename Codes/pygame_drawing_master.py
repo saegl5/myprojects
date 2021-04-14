@@ -72,7 +72,7 @@ while True: # keeps display open
     angle_offset = 0*pi/180 # initialize offset
     while angle_offset <= 360*pi/180: # loop until angle_offset = 360*pi/180 (inclusive)
         pygame.draw.line(screen, WHITE, (300, 160), (300+radius1*cos(angle_offset), 160-radius2*sin(angle_offset)), width=1) # added one offset to one set of coordinates
-        angle_offset += 20*pi/180 # increment offset by 20*pi/180 each loop, shorthand for angle_offset = angle_offset + 20*pi/180
+        angle_offset += 20*pi/180 # increment offset by 20*pi/180 each loop, shorthand for angle_offset = angle_offset+20*pi/180
     # could have also offset x and/or y
     # initial offsets can also be nonzero (i.e., positive or negative), and so can decrements/increments
     # could also use "and" or "or" for conditional statement

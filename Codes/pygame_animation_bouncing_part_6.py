@@ -30,7 +30,7 @@ while True: # keeps display open
     # offset = 0 # initialize offset
     # while offset <= 448: # loop until offset = 448 (inclusive)
     #     pygame.draw.rect(screen, WHITE, (0, 0+offset, 64, 64), width=1) # added one offset to one y-coordinate
-    #     offset += 64 # offset = offset + 64, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic
+    #     offset += 64 # offset = offset+64, if outside loop and relies on mouse, trackpad or keyboard input becomes game logic
     # pygame.draw.rect(screen, WHITE, (0, 0+offset, 64, 64), width=1) # untab
     # pygame.draw.rect(screen, WHITE, (0, 0+y_offset, 64, 64), width=1) # untab
     pygame.draw.rect(screen, WHITE, (0+x_offset, 0+y_offset, 64, 64), width=1) # untab

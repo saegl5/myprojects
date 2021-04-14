@@ -60,7 +60,7 @@ while True: # keeps display open
             # More randomness
             # snowflakes[i][0] = random.randrange(0, size[0]+1)
             # Make snowflakes bounce
-            # increment[i] *= -1 # same as increment[i] = increment[i] * -1, reverses direction of movement
+            # increment[i] *= -1 # same as increment[i] = increment[i]*-1, reverses direction of movement
             x_increment[i] *= -1
             y_increment[i] *= -1
         # elif increment[i] == -1 and snowflakes[i][1] == r: # IF snowflake has already bounced and has reached the canvas' top
