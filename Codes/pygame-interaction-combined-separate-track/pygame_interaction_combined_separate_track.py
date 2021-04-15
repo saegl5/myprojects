@@ -14,11 +14,10 @@ clock = pygame.time.Clock() # define "clock"
 # y_offset1 = 0 # redundant
 x_offset2 = 0 # reordered, for keyboard
 y_offset2 = 0
-x_increment = 0 # keyboard only
-y_increment = 0
 click_sound = pygame.mixer.Sound("click4.ogg") # "Sound" must be capitalized, example
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
+pygame.key.set_repeat(100) # 100 millisecond delay between repeats, optional
 
 # --- Functions
 # def draw_rect(COLOR, x, y, W, H, width):
@@ -37,34 +36,31 @@ while True: # keeps display open
         if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
-        # --- Mouse events
-        elif action.type == pygame.MOUSEBUTTONDOWN:
-            click_sound.play()
-        # ----------------
-        # --- Keyboard events
-        elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if action.key == pygame.K_LEFT: # note "action.key"
-                x_increment = -5 # "-5" is optional
-            elif action.key == pygame.K_RIGHT:
-                x_increment = 5
-            elif action.key == pygame.K_UP: # recall that y increases going downward
-                y_increment = -5  # note "y_increment," and recall that y increases going downward
-            elif action.key == pygame.K_DOWN:
-                y_increment = 5
-            elif action.key == pygame.K_RETURN:
+        else:
+            # --- Mouse/keyboard events
+            if action.type == pygame.MOUSEBUTTONDOWN:
                 click_sound.play()
-        elif action.type == pygame.KEYUP:
-            x_increment = 0
-            y_increment = 0
-        # -------------------------
+            elif action.type == pygame.KEYDOWN: # "elif" means else if
+                if action.key == pygame.K_RIGHT: # note "action.key"
+                    x_offset2 += 5 # "5" is optional
+                elif action.key == pygame.K_LEFT:
+                    x_offset2 -= 5
+                elif action.key == pygame.K_DOWN:
+                    y_offset2 += 5  # note "y_offset2," and recall that y increases going downward
+                elif action.key == pygame.K_UP:
+                    y_offset2 -= 5
+                elif action.key == pygame.K_RETURN:
+                    click_sound.play()
+            elif action.type == pygame.KEYUP:
+                x_offset2 += 0
+                y_offset2 += 0
+            # -------------------------
     # --- Game logic
     pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y), "pos" needs to be defined here because get_pos() must be kept updated
     # x_offset = pos[0]
     x_offset1 = pos[0]-size[0]/2 # move rectangle to align mouse pointer with rectangle's center point
     # y_offset = pos[1]
     y_offset1 = pos[1]-size[1]/2
-    x_offset2 += x_increment
-    y_offset2 += y_increment
     if size[0]/2+x_offset1 < 0:
         x_offset1 = -size[0]/2 # prevent rectangle from passing left edge, solved for x_offset
     elif size[0]/2+x_offset1+25 > size[0]:
@@ -73,13 +69,13 @@ while True: # keeps display open
         y_offset1 = -size[1]/2 # prevent rectangle from passing top edge, solved for y_offset
     elif size[1]/2+y_offset1+25 > size[1]:
         y_offset1 = size[1]-size[1]/2-25+0.5
-    if size[0]/2+x_offset2 <= 0:
+    if size[0]/2+x_offset2 < 0:
         x_offset2 = -size[0]/2 # prevent rectangle from passing left edge, solved for x_offset
-    elif size[0]/2+x_offset2+25 >= size[0]:
+    elif size[0]/2+x_offset2+25 > size[0]:
         x_offset2 = size[0]-size[0]/2-25+0.5 # "0.5" due to anomaly
-    if size[1]/2+y_offset2 <= 0: # note "if"
+    if size[1]/2+y_offset2 < 0: # note "if"
         y_offset2 = -size[1]/2 # prevent rectangle from passing top edge, solved for y_offset
-    elif size[1]/2+y_offset2+25 >= size[1]:
+    elif size[1]/2+y_offset2+25 > size[1]:
         y_offset2 = size[1]-size[1]/2-25+0.5
     # pygame.mouse.set_pos(size[0]/2+x_offset, size[1]/2+y_offset) # otherwise, mouse/trackpad will be out of sync with keyboard
     # --------------
