@@ -3,14 +3,14 @@ import sys
 from math import pi
 
 pygame.init()
-
+ 
 BLUE = pygame.Color("blue")
 GREEN = pygame.Color("green")
 GRAY = pygame.Color("gray")
 YELLOW = pygame.Color("yellow")
 WHITE = pygame.Color("white")
 DARKGRAY = pygame.Color("darkgray")
-
+ 
 size = (704, 512)
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
