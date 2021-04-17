@@ -13,6 +13,8 @@ screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
 x_offset = 0 # reordered
 y_offset = 0
+x_increment = 0
+y_increment = 0
 #### block_list = pygame.sprite.Group() # no longer block_list = []
 sprites = pygame.sprite.Group() # create a list of sprites, no longer sprites = []
 #### score = 0 # initialize score
@@ -43,8 +45,6 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as S
     #### sprites.add(block)
 
 player = Rectangle(WHITE, 25, 25) # creates a "player" sprite, don't need screen, will instead use it in drawing code, calling class, sans offsets
-player.rect.x = size[0]/2 # position sprite
-player.rect.y = size[1]/2
 sprites.add(player)
 
 while True: # keeps display open
@@ -55,20 +55,22 @@ while True: # keeps display open
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if action.key == pygame.K_RIGHT: # note "action.key"
-                x_offset = 5 # "5" is optional
+                x_increment = 5 # "5" is optional
             elif action.key == pygame.K_LEFT:
-                x_offset = -5
+                x_increment = -5
             elif action.key == pygame.K_DOWN:
-                y_offset = 5 # note "y_offset," and recall that y increases going downward
+                y_increment = 5 # note "y_increment," and recall that y increases going downward
             elif action.key == pygame.K_UP:
-                y_offset = -5
+                y_increment = -5
         elif action.type == pygame.KEYUP:
-            x_offset = 0
-            y_offset = 0
+            x_increment = 0
+            y_increment = 0
         # -------------------------
     # --- Game logic
-    player.rect.x += x_offset # offset "player" sprite
-    player.rect.y += y_offset
+    x_offset += x_increment
+    y_offset += y_increment
+    player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
+    player.rect.y = size[1]/2+y_offset
     #### if player.rect.x < 0:
         #### player.rect.x = 0 # prevent center point from passing left edge
     #### elif player.rect.x > size[0]-40: # player block is larger
