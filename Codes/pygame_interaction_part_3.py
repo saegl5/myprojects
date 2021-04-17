@@ -35,7 +35,7 @@ while True: # keeps display open
             elif action.key == pygame.K_LEFT:
                 x_offset -= 5
             elif action.key == pygame.K_DOWN:
-                y_offset += 5  # note "y_offset," and recall that y increases going downward
+                y_offset += 5 # note "y_offset," and recall that y increases going downward
             elif action.key == pygame.K_UP:
                 y_offset -= 5
         elif action.type == pygame.KEYUP:
