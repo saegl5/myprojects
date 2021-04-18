@@ -26,9 +26,9 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 # def draw_rect(display, x, y, W, H):
 #     # Draw a rectangle
 #     pygame.draw.rect(display, screen, WHITE, (x, y, W, H), width=1)
-class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as Sprites
-    def __init__(self, COLOR, W, H): # called a "constructor," class accepts COLOR, width, and height parameters for building objects, "__init__" is a must
-        super().__init__() # initialize sprites by calling the constructor of the parent (Sprite) class
+class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish it from a function
+    def __init__(self, COLOR, W, H): # define a constructor (like init() but for classes), class accepts COLOR, width, and height parameters, "__" before and after "init" is a must, requires "self" (like a key to access class)
+        super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
         size = (W, H) # define size of image, local variable
         self.image = pygame.Surface(size) # makes a blank image using Surface class
         #### # self.image.fill(WHITE) # background of foreground image
@@ -44,7 +44,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as S
     #### block_list.add(block) # no longer append
     #### sprites.add(block)
 
-player = Rectangle(WHITE, 25, 25) # creates a "player" sprite, don't need screen, will instead use it in drawing code, calling class, sans offsets
+player = Rectangle(WHITE, 25, 25) # creates a "player" sprite, which will be your sprite to play with, don't need screen, will instead use it in drawing code, calling class, sans offsets
 sprites.add(player)
 
 while True: # keeps display open
@@ -69,7 +69,7 @@ while True: # keeps display open
     # --- Game logic
     x_offset += x_increment
     y_offset += y_increment
-    player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
+    player.rect.x = size[0]/2+x_offset # position and offset "player" sprite/image
     player.rect.y = size[1]/2+y_offset
     #### if player.rect.x < 0:
         #### player.rect.x = 0 # prevent center point from passing left edge
