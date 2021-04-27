@@ -19,7 +19,7 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 #     pygame.draw.rect(screen, COLOR, (x, y, W, H), width)
 def draw_rect(x, y, W, H):
     # Draw a rectangle
-    pygame.draw.rect(screen, WHITE, (x, y, W, H), width=1)
+    pygame.draw.rect(screen, WHITE, (x, y, W, H), width=0)
 # -------------
 
 while True: # keeps display open
@@ -44,7 +44,7 @@ while True: # keeps display open
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
-    # pygame.draw.rect(screen, WHITE, (size[0]/2, size[1]/2, 25, 25), width=1)
+    # pygame.draw.rect(screen, WHITE, (size[0]/2, size[1]/2, 25, 25), width=0)
     # draw_rect(size[0]/2, size[1]/2, 25, 25) # call function and input parameters
     draw_rect(size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on mouse/trackpad
     # ----------------
