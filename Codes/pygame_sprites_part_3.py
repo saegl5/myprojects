@@ -80,12 +80,12 @@ while True: # keeps display open
     player.rect.y = size[1]/2+y_offset
     #### if player.rect.x < 0:
         #### player.rect.x = 0 # prevent center point from passing left edge
-    #### elif player.rect.x > size[0] - 40: # player block is larger
-        #### player.rect.x = size[0] - 40
+    #### elif player.rect.x > size[0] - 64: # player block is larger
+        #### player.rect.x = size[0] - 64
     #### if player.rect.y < 0:
         #### player.rect.y = 0 # prevent center point from passing top edge
-    #### elif player.rect.y > size[1] - 40:
-        #### player.rect.y = size[1] - 40
+    #### elif player.rect.y > size[1] - 64:
+        #### player.rect.y = size[1] - 64
     #### blocks_hit_list = pygame.sprite.spritecollide(player, block_list, False) # list block(s) the player block overlaps, then remove block(s) from block_list and sprites
     #### for block in blocks_hit_list: # FOR each block in the list
         #### score +=1 # increment score, resets each time
@@ -95,7 +95,7 @@ while True: # keeps display open
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
-    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on keyboard
+    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on keyboard
     sprites.draw(screen) # draw sprites on screen
     # ----------------
     pygame.display.flip() # update the display

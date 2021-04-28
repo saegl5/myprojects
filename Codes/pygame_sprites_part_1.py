@@ -61,7 +61,7 @@ while True: # keeps display open
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
-    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on keyboard
+    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on keyboard
     sprites.draw(screen) # draw sprites on screen
     # ----------------
     pygame.display.flip() # update the display

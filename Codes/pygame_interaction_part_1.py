@@ -35,18 +35,18 @@ while True: # keeps display open
     y_offset = pos[1]-size[1]/2
     if size[0]/2+x_offset < 0:
         x_offset = -size[0]/2 # prevent rectangle from passing left edge, solved for x_offset
-    elif size[0]/2+x_offset+25 > size[0]:
-        x_offset = size[0]-size[0]/2-25
+    elif size[0]/2+x_offset + 64 > size[0]:
+        x_offset = size[0]/2 - 64 # simplified
     if size[1]/2+y_offset < 0: # note "if"
         y_offset = -size[1]/2 # prevent rectangle from passing top edge, solved for y_offset
-    elif size[1]/2+y_offset+25 > size[1]:
-        y_offset = size[1]-size[1]/2-25
+    elif size[1]/2+y_offset + 64 > size[1]:
+        y_offset = size[1]/2 - 64 # simplified
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
-    # pygame.draw.rect(screen, WHITE, (size[0]/2, size[1]/2, 25, 25), width=0)
-    # draw_rect(screen, size[0]/2, size[1]/2, 25, 25) # call function and input parameters
-    draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on mouse/trackpad
+    # pygame.draw.rect(screen, WHITE, (size[0]/2, size[1]/2, 64, 64), width=0)
+    # draw_rect(screen, size[0]/2, size[1]/2, 64, 64) # call function and input parameters
+    draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on mouse/trackpad
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
