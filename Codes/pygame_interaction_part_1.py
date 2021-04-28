@@ -5,7 +5,7 @@ pygame.init() # initialize any submodules that require it
 
 BLUE = pygame.Color("blue") # example
 WHITE = pygame.Color("white")
- 
+
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
@@ -15,11 +15,11 @@ clock = pygame.time.Clock() # define "clock"
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 
 # --- Functions
-# def draw_rect(COLOR, x, y, W, H, width):
-#     pygame.draw.rect(screen, COLOR, (x, y, W, H), width)
-def draw_rect(x, y, W, H):
+# def draw_rect(display, COLOR, x, y, W, H, width):
+#     pygame.draw.rect(display, COLOR, (x, y, W, H), width)
+def draw_rect(display, x, y, W, H):
     # Draw a rectangle
-    pygame.draw.rect(screen, WHITE, (x, y, W, H), width=0)
+    pygame.draw.rect(display, WHITE, (x, y, W, H), width=0)
 # -------------
 
 while True: # keeps display open
@@ -45,8 +45,8 @@ while True: # keeps display open
     screen.fill(BLUE) # clear the display
     # --- Drawing code
     # pygame.draw.rect(screen, WHITE, (size[0]/2, size[1]/2, 25, 25), width=0)
-    # draw_rect(size[0]/2, size[1]/2, 25, 25) # call function and input parameters
-    draw_rect(size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on mouse/trackpad
+    # draw_rect(screen, size[0]/2, size[1]/2, 25, 25) # call function and input parameters
+    draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on mouse/trackpad
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

@@ -22,15 +22,15 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 # pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional, do later
 
 # --- Functions
-# def draw_rect(COLOR, x, y, W, H, width):
-#     pygame.draw.rect(screen, COLOR, (x, y, W, H), width)
-def draw_rect_mouse_trackpad(COLOR, x, y, W, H): # note "COLOR"
+# def draw_rect(display, COLOR, x, y, W, H, width):
+#     pygame.draw.rect(display, COLOR, (x, y, W, H), width)
+def draw_rect_mouse_trackpad(display, COLOR, x, y, W, H): # note "COLOR"
     # Draw a rectangle
-    pygame.draw.rect(screen, COLOR, (x, y, W, H), width=0)
+    pygame.draw.rect(display, COLOR, (x, y, W, H), width=0)
 
-def draw_rect_keyboard(COLOR, x, y, W, H):
+def draw_rect_keyboard(display, COLOR, x, y, W, H):
     # Draw a rectangle
-    pygame.draw.rect(screen, COLOR, (x, y, W, H), width=0)
+    pygame.draw.rect(display, COLOR, (x, y, W, H), width=0)
 # -------------
 
 while True: # keeps display open
@@ -93,14 +93,14 @@ while True: # keeps display open
     screen.fill(BLUE) # clear the display
     # --- Drawing code
     # pygame.draw.rect(screen, WHITE, (size[0]/2, size[1]/2, 25, 25), width=0)
-    # draw_rect(size[0]/2, size[1]/2, 25, 25) # call function and input parameters
-    # draw_rect(size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on either mouse/trackpad or keyboard
+    # draw_rect(screen, size[0]/2, size[1]/2, 25, 25) # call function and input parameters
+    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 25, 25) # call function, input parameters, and rely on either mouse/trackpad or keyboard
     if action.type == pygame.KEYDOWN or action.type == pygame.KEYUP:
-        draw_rect_mouse_trackpad(BLACK, size[0]/2+x_offset1, size[1]/2+y_offset1, 25, 25) # rely on mouse/trackpad
-        draw_rect_keyboard(WHITE, size[0]/2+x_offset2, size[1]/2+y_offset2, 25, 25) # rely on keyboard
+        draw_rect_mouse_trackpad(screen, BLACK, size[0]/2+x_offset1, size[1]/2+y_offset1, 25, 25) # rely on mouse/trackpad
+        draw_rect_keyboard(screen, WHITE, size[0]/2+x_offset2, size[1]/2+y_offset2, 25, 25) # rely on keyboard
     else: # either mouse/trackpad is moving or mouse/trackpad button is clicked
-        draw_rect_mouse_trackpad(WHITE, size[0]/2+x_offset1, size[1]/2+y_offset1, 25, 25) # rely on mouse/trackpad
-        draw_rect_keyboard(BLACK, size[0]/2+x_offset2, size[1]/2+y_offset2, 25, 25) # rely on keyboard
+        draw_rect_mouse_trackpad(screen, WHITE, size[0]/2+x_offset1, size[1]/2+y_offset1, 25, 25) # rely on mouse/trackpad
+        draw_rect_keyboard(screen, BLACK, size[0]/2+x_offset2, size[1]/2+y_offset2, 25, 25) # rely on keyboard
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
