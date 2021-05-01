@@ -78,9 +78,8 @@ while True: # keeps display open
         #### player.rect.y = 0 # prevent center point from passing top edge
     #### elif player.rect.y > size[1] - 64:
         #### player.rect.y = size[1] - 64
-    pygame.sprite.spritecollide(player, blocks, True) # 
-    
-    #### list block(s) the player block overlaps, then remove block(s) from block_list and sprites
+    pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
+    #### list block(s) the player block overlaps
     #### for block in blocks_hit_list: # FOR each block in the list
         #### score +=1 # increment score, resets each time
         #### print(score) # and print score to console
