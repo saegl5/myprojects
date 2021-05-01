@@ -1,12 +1,12 @@
 import pygame # import the pygame module
 import sys # import the sys module
-#### import random # import the random module
+import random # import the random module
 
 pygame.init() # initialize any submodules that require it
 
 BLUE = pygame.Color("blue") # example
 WHITE = pygame.Color("white")
-#### YELLOW = pygame.Color("yellow")
+YELLOW = pygame.Color("yellow")
 
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
@@ -15,8 +15,7 @@ x_offset = 0 # reordered
 y_offset = 0
 x_increment = 0
 y_increment = 0
-#### block_list = pygame.sprite.Group() # no longer block_list = []
-sprites = pygame.sprite.Group() # create a list for sprites, no longer sprites = [], Group() is class
+blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
 #### score = 0 # initialize score
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
@@ -38,15 +37,14 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         # sprite consists of image and rectangle object
 # ---------------------
 
-#### for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50)
-    #### block = Block(YELLOW, 20, 20) # creates a block
-    #### block.rect.x = random.randrange(0, size[0]-20) # position of block image
-    #### block.rect.y = random.randrange(0, size[1]-20)
-    #### block_list.add(block) # no longer append
-    #### sprites.add(block)
-
 player = Rectangle(WHITE, 64, 64) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
-sprites.add(player)
+
+for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "block" sprites
+    block = Rectangle(YELLOW, 32, 32) # create a "block" sprite
+    block.rect.x = random.randrange(0, size[0]+1-32) # position "block" sprite, allow block to touch edge but not breach it
+    block.rect.y = random.randrange(0, size[1]+1-32)
+    blocks.add(block) # add "block" sprite to list, no longer append
+    #### sprites.add(block)
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
@@ -80,7 +78,9 @@ while True: # keeps display open
         #### player.rect.y = 0 # prevent center point from passing top edge
     #### elif player.rect.y > size[1] - 64:
         #### player.rect.y = size[1] - 64
-    #### blocks_hit_list = pygame.sprite.spritecollide(player, block_list, True) # list block(s) the player block overlaps, then remove block(s) from block_list and sprites
+    pygame.sprite.spritecollide(player, blocks, True) # 
+    
+    #### list block(s) the player block overlaps, then remove block(s) from block_list and sprites
     #### for block in blocks_hit_list: # FOR each block in the list
         #### score +=1 # increment score, resets each time
         #### print(score) # and print score to console
@@ -88,8 +88,9 @@ while True: # keeps display open
     screen.fill(BLUE) # clear the display
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on keyboard
-    # screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
-    sprites.draw(screen) # draw sprites on screen using list
+    screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
+    # screen.blit(block.image, (block.rect.x, block.rect.y))
+    blocks.draw(screen) # draw sprites on screen using list
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
