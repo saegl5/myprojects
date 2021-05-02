@@ -49,7 +49,7 @@ player = Rectangle(WHITE, 64, 64) # creates a "player" sprite, which will be you
 for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "block" sprites
     block = Rectangle(YELLOW, 32, 32) # create a "block" sprite
     block.rect.x = random.randrange(0, size[0]+1-32) # position "block" sprite, allow block to touch edge but not breach it
-    block.rect.y = random.randrange(0, size[1]+1-32)
+    block.rect.y = random.randrange(0, size[1]+1-32) # want lots of blocks, but if we use a larger step_size, many blocks may overlap
     blocks.add(block) # add "block" sprite to list, no longer append
     #### sprites.add(block)
 
