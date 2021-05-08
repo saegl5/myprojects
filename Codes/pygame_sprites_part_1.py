@@ -55,6 +55,14 @@ while True: # keeps display open
     # --- Game logic
     x_offset += x_increment
     y_offset += y_increment
+    if size[0]/2+x_offset < 0:
+        x_offset = -size[0]/2 # prevent "player" sprite from breaching left edge, solved for x_offset
+    elif size[0]/2+x_offset + 64 > size[0]:
+        x_offset = size[0]/2 - 64 # simplified
+    if size[1]/2+y_offset < 0: # note "if"
+        y_offset = -size[1]/2 # prevent "player" sprite from breaching top edge, solved for y_offset
+    elif size[1]/2+y_offset + 64 > size[1]:
+        y_offset = size[1]/2 - 64 # simplified
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]/2+y_offset
     # --------------
