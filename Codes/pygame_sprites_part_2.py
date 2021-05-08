@@ -7,6 +7,7 @@ pygame.init() # initialize any submodules that require it
 BLUE = pygame.Color("blue") # example
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
+RED = pygame.Color("red")
 
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
@@ -52,8 +53,10 @@ while True: # keeps display open
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
             timer -= 1
-            if timer == 0:
+            if timer == -1: # temporary, so can display 0
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
+                pygame.quit()
+                sys.exit()
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if action.key == pygame.K_RIGHT: # note "action.key"
@@ -92,7 +95,7 @@ while True: # keeps display open
     # text_rect = text.get_rect(center = screen.get_rect().center)
     # screen.blit(text, text_rect)
     font = pygame.font.Font(None, 100) # faster than SysFont, (filename/object, size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    text = font.render(str(timer), True, WHITE) # ("string", anti-aliased, color)
+    text = font.render(str(timer), True, RED) # ("string", anti-aliased, color)
     screen.blit(text, (10, 10))
     # ----------------
     pygame.display.flip() # update the display
