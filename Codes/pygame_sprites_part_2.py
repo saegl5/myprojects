@@ -20,6 +20,9 @@ blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer bl
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 
+timer = 10 # start at 10 seconds
+pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds (i.e., 1 second) between each count down
+
 # --- Functions/Classes
 # def draw_rect(display, x, y, W, H):
 #     # Draw a rectangle
@@ -47,6 +50,10 @@ while True: # keeps display open
         if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
+        elif action.type == pygame.USEREVENT:
+            timer -= 1
+            if timer == 0:
+                pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if action.key == pygame.K_RIGHT: # note "action.key"
@@ -82,6 +89,11 @@ while True: # keeps display open
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     # screen.blit(block.image, (block.rect.x, block.rect.y))
     blocks.draw(screen) # draw sprites on screen using list
+    # text_rect = text.get_rect(center = screen.get_rect().center)
+    # screen.blit(text, text_rect)
+    font = pygame.font.Font(None, 100) # faster than SysFont, (filename/object, size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
+    text = font.render(str(timer), True, WHITE) # ("string", anti-aliased, color)
+    screen.blit(text, (10, 10))
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
