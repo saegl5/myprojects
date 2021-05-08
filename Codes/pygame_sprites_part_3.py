@@ -51,7 +51,6 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     block.rect.x = random.randrange(0, size[0]+1-32) # position "block" sprite, allow block to touch edge but not breach it
     block.rect.y = random.randrange(0, size[1]+1-32) # want lots of blocks, but if we use a larger step_size, many blocks may overlap
     blocks.add(block) # add "block" sprite to list, no longer append
-    #### sprites.add(block)
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
@@ -75,16 +74,16 @@ while True: # keeps display open
     # --- Game logic
     x_offset += x_increment
     y_offset += y_increment
+    if size[0]/2+x_offset < 0:
+        x_offset = -size[0]/2 # prevent "player" sprite from breaching left edge, solved for x_offset
+    elif size[0]/2+x_offset + 64 > size[0]:
+        x_offset = size[0]/2 - 64 # simplified
+    if size[1]/2+y_offset < 0: # note "if"
+        y_offset = -size[1]/2 # prevent "player" sprite from breaching top edge, solved for y_offset
+    elif size[1]/2+y_offset + 64 > size[1]:
+        y_offset = size[1]/2 - 64 # simplified
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]/2+y_offset
-    #### if player.rect.x < 0:
-        #### player.rect.x = 0 # prevent center point from passing left edge
-    #### elif player.rect.x > size[0] - 64: # player block is larger
-        #### player.rect.x = size[0] - 64
-    #### if player.rect.y < 0:
-        #### player.rect.y = 0 # prevent center point from passing top edge
-    #### elif player.rect.y > size[1] - 64:
-        #### player.rect.y = size[1] - 64
     pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
     #### list block(s) the player block overlaps
     #### for block in blocks_hit_list: # FOR each block in the list
