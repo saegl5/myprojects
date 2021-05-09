@@ -6,6 +6,7 @@ pygame.init() # initialize any submodules that require it
 
 BLUE = pygame.Color("blue") # example
 WHITE = pygame.Color("white")
+BLACK = pygame.Color("black") # useful if run module on macOS
 YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 
@@ -33,6 +34,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
         size = (W, H) # define size of image, local variable
         self.image = pygame.Surface(size) # creates a blank image using Surface class
+        self.image.fill(BLACK) # useful if run module on macOS
         pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # draw shape on image, draw over entire image with (0, 0, W, H), where (0, 0) is located at image's top-left corner
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
