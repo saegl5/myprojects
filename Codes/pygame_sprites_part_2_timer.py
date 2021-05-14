@@ -22,8 +22,8 @@ blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer bl
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 
-timer = 10 # start at 10 seconds
-pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds (i.e., 1 second) between each count down
+timer = 10 # set timer for 10 seconds
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count down every 1000 milliseconds (i.e., 1 second)
 
 # --- Functions/Classes
 # def draw_rect(display, x, y, W, H):
@@ -53,7 +53,7 @@ while True: # keeps display open
         if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
-        elif action.type == pygame.USEREVENT:
+        elif action.type == pygame.USEREVENT: # count down
             timer -= 1
             if timer == -1: # temporary, so can display 0
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
@@ -96,9 +96,9 @@ while True: # keeps display open
     blocks.draw(screen) # draw sprites on screen using list
     # text_rect = text.get_rect(center = screen.get_rect().center)
     # screen.blit(text, text_rect)
-    font = pygame.font.Font(None, 100) # faster than SysFont, (filename/object, size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    text = font.render(str(timer), True, RED) # ("string", anti-aliased, color)
-    screen.blit(text, (10, 10))
+    font = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
+    text = font.render(str(timer), True, RED) # ("string", anti-aliased, COLOR)
+    screen.blit(text, (10, 10)) # copy image of text onto screen at (10, 10)
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
