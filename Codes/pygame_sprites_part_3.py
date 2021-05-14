@@ -31,8 +31,8 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
         size = (W, H) # define size of image, local variable
         self.image = pygame.Surface(size) # creates a blank image using Surface class
-        #### # self.image.set_colorkey(WHITE) # makes background color transparent
         self.image.fill(BLACK) # useful if run module on macOS
+        self.image.set_colorkey(BLACK) # makes background color transparent, useful if run module on Windows
         pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # draw shape on image, draw over entire image with (0, 0, W, H), where (0, 0) is located at image's top-left corner
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
