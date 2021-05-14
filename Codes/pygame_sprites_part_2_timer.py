@@ -55,10 +55,8 @@ while True: # keeps display open
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT: # count down
             timer -= 1
-            if timer == -1: # temporary, so can display 0
+            if timer == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
-                pygame.quit()
-                sys.exit()
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if action.key == pygame.K_RIGHT: # note "action.key"
