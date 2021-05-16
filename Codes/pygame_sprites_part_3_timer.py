@@ -18,13 +18,12 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
+timer = 10 # set timer for 10 seconds
 #### score = 0 # initialize score
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-
-timer = 10 # set timer for 10 seconds
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count down every 1000 milliseconds (i.e., 1 second)
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 
 # --- Functions/Classes
 # def draw_rect(display, x, y, W, H):
@@ -36,7 +35,6 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         size = (W, H) # define size of image, local variable
         self.image = pygame.Surface(size) # creates a blank image using Surface class
         self.image.fill(BLACK) # useful if run module on macOS
-        self.image.set_colorkey(BLACK) # makes background color transparent, useful if run module on Windows
         pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # draw shape on image, draw over entire image with (0, 0, W, H), where (0, 0) is located at image's top-left corner
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
@@ -62,10 +60,10 @@ while True: # keeps display open
         if action.type == pygame.QUIT: # user clicked close button
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
-        elif action.type == pygame.USEREVENT: # count down
-            timer -= 1
+        elif action.type == pygame.USEREVENT:
+            timer -= 1 # decrement timer
             if timer == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
+                pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if action.key == pygame.K_RIGHT: # note "action.key"
@@ -110,7 +108,7 @@ while True: # keeps display open
     # text_rect = text.get_rect(center = screen.get_rect().center)
     # screen.blit(text, text_rect)
     font = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    text = font.render(str(timer), True, RED) # ("string", anti-aliased, COLOR)
+    text = font.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
     screen.blit(text, (10, 10)) # copy image of text onto screen at (10, 10)
     # ----------------
     pygame.display.flip() # update the display
