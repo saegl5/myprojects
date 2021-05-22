@@ -9,6 +9,7 @@ WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
 YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
+GREEN = pygame.Color("green")
 
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
@@ -18,8 +19,9 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
+collisions = pygame.sprite.Group()
 timer = 10 # set timer for 10 seconds
-#### score = 0 # initialize score
+score = 0 # initialize score
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -93,11 +95,12 @@ while True: # keeps display open
         y_offset = size[1]/2 - 64 # simplified
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]/2+y_offset
-    pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
-    #### list block(s) the player block overlaps
+    # pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
+    removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
+    collisions.add(removed)
+    if timer != 0:
+        score = len(collisions)
     #### for block in blocks_hit_list: # FOR each block in the list
-        #### score +=1 # increment score, resets each time
-        #### print(score) # and print score to console
         #### block.reset_position()
     # --------------
     screen.fill(BLUE) # clear the display
@@ -109,8 +112,10 @@ while True: # keeps display open
     # text_rect = text.get_rect(center = screen.get_rect().center)
     # screen.blit(text, text_rect)
     font = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    text = font.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
-    screen.blit(text, (10, 10)) # copy image of text onto screen at (10, 10)
+    text_timer = font.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
+    text_score = font.render(str(score), True, GREEN)
+    screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(text_score, (size[0]-85, 10)) # near top-right corner
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

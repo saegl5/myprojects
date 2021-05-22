@@ -8,6 +8,7 @@ BLUE = pygame.Color("blue") # example
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
 YELLOW = pygame.Color("yellow")
+GREEN = pygame.Color("green")
 
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
@@ -17,7 +18,8 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
-#### score = 0 # initialize score
+collisions = pygame.sprite.Group()
+score = 0 # initialize score
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -84,11 +86,11 @@ while True: # keeps display open
         y_offset = size[1]/2 - 64 # simplified
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]/2+y_offset
-    pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
-    #### list block(s) the player block overlaps
+    # pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
+    removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
+    collisions.add(removed)
+    score = len(collisions)
     #### for block in blocks_hit_list: # FOR each block in the list
-        #### score +=1 # increment score, resets each time
-        #### print(score) # and print score to console
         #### block.reset_position()
     blocks.update() # move "block" sprites downward, requires timer to move slowly
     # --------------
@@ -98,6 +100,9 @@ while True: # keeps display open
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     # screen.blit(block.image, (block.rect.x, block.rect.y))
     blocks.draw(screen) # draw sprites on screen using list
+    font = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
+    text_score = font.render(str(score), True, GREEN) # ("time remaining", anti-aliased, COLOR)
+    screen.blit(text_score, (size[0]-85, 10)) # copy image of text onto screen near top-right corner
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
