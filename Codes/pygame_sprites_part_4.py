@@ -17,6 +17,7 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
+#### score = 0 # initialize score
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -36,6 +37,11 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         # sprite consists of image and rectangle object
     def update(self):
         self.rect.y += 32 # increase sprites' rect.y by 32 pixels
+        #### if self.rect.y > size[1]: # IF block has left the canvas, then reset block above canvas (assumes player block has not collided with it)
+            #### self.reset_position()
+    #### def reset_position(self):
+        ##### self.rect.y = random.randrange(-50, -20) # -50 is optional
+        ##### self.rect.x = random.randrange(0, size[0]-20)
 # ---------------------
 
 player = Rectangle(WHITE, 64, 64) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
@@ -79,6 +85,11 @@ while True: # keeps display open
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]/2+y_offset
     pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
+    #### list block(s) the player block overlaps
+    #### for block in blocks_hit_list: # FOR each block in the list
+        #### score +=1 # increment score, resets each time
+        #### print(score) # and print score to console
+        #### block.reset_position()
     blocks.update() # move "block" sprites downward, requires timer to move slowly
     # --------------
     screen.fill(BLUE) # clear the display
