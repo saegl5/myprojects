@@ -18,6 +18,7 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
+counter = 0 # alternative to timer, uses frame rate, but frame rate may fluctuate
 collisions = pygame.sprite.Group()
 score = 0 # initialize score
 
@@ -92,7 +93,8 @@ while True: # keeps display open
     score = len(collisions)
     #### for block in blocks_hit_list: # FOR each block in the list
         #### block.reset_position()
-    blocks.update() # move "block" sprites downward, requires timer to move slowly
+    if counter % (60*5) == 0: # about every 5 seconds
+        blocks.update() # move "block" sprites downward, requires timer to move slowly
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
@@ -105,4 +107,5 @@ while True: # keeps display open
     screen.blit(text_score, (size[0]-85, 10)) # copy image of text onto screen near top-right corner
     # ----------------
     pygame.display.flip() # update the display
+    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     clock.tick(60) # maximum 60 frames per second

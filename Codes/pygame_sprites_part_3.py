@@ -17,6 +17,7 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
+counter = 0 # alternative to timer, uses frame rate, but frame rate may fluctuate
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -79,7 +80,8 @@ while True: # keeps display open
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]/2+y_offset
     pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
-    blocks.update() # move "block" sprites downward, requires timer to move slowly
+    if counter % (60*5) == 0: # about every 5 seconds
+        blocks.update() # move "block" sprites downward, requires timer to move slowly
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
@@ -89,4 +91,5 @@ while True: # keeps display open
     blocks.draw(screen) # draw sprites on screen using list
     # ----------------
     pygame.display.flip() # update the display
+    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     clock.tick(60) # maximum 60 frames per second
