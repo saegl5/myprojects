@@ -41,7 +41,6 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
     def update(self):
-        global timer
         if timer % 5 == 0: # every 5 seconds
             self.rect.y += 32 # increase sprites' rect.y by 32 pixels
         #### if self.rect.y > size[1]: # IF block has left the canvas, then reset block above canvas (assumes player block has not collided with it)
