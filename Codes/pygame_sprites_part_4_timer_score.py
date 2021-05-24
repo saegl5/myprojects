@@ -41,6 +41,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
     def update(self):
+        global timer
         if timer % 5 == 0: # every 5 seconds
             self.rect.y += 32 # increase sprites' rect.y by 32 pixels
         #### if self.rect.y > size[1]: # IF block has left the canvas, then reset block above canvas (assumes player block has not collided with it)
@@ -111,8 +112,8 @@ while True: # keeps display open
     blocks.draw(screen) # draw sprites on screen using list
     # text_rect = text.get_rect(center = screen.get_rect().center)
     # screen.blit(text, text_rect)
-    font = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    text_timer = font.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
+    style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
+    text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
     text_score = font.render(str(score), True, GREEN)
     screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(text_score, (size[0]-85, 10)) # near top-right corner
