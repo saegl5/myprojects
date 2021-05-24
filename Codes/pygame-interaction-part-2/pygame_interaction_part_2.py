@@ -9,7 +9,7 @@ WHITE = pygame.Color("white")
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
-# offsets are specified by mouse/trackpad position
+# offsets are specified by mouse/trackpad cursor position
 # no increments are initialized or specified
 click_sound = pygame.mixer.Sound("click4.ogg") # "Sound" must be capitalized, example
 
@@ -34,7 +34,7 @@ while True: # keeps display open
             # no issue with unintentional repeated mouse/trackpad clicks
         # ----------------
     # --- Game logic
-    pos = pygame.mouse.get_pos() # position of mouse/trackpad, returns tuple (x, y), "pos" needs to be defined here because get_pos() must be kept updated
+    pos = pygame.mouse.get_pos() # position of mouse/trackpad cursor, returns tuple (x, y), "pos" needs to be defined here because get_pos() must be kept updated
     # x_offset = pos[0]
     x_offset = pos[0]-size[0]/2 # move rectangle to align mouse pointer with rectangle's center point
     # y_offset = pos[1]
