@@ -95,6 +95,7 @@ while True: # keeps display open
         #### block.reset_position()
     if counter % (60*5) == 0: # about every 5 seconds
         blocks.update() # move "block" sprites downward, requires timer to move slowly
+    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
@@ -107,5 +108,4 @@ while True: # keeps display open
     screen.blit(text_score, (size[0]-85, 10)) # copy image of text onto screen near top-right corner
     # ----------------
     pygame.display.flip() # update the display
-    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     clock.tick(60) # maximum 60 frames per second
