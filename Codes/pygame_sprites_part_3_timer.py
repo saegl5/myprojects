@@ -38,8 +38,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
     def update(self):
-        if timer % 5 == 0: # every 5 seconds
-            self.rect.y += 32 # increase sprites' rect.y by 32 pixels
+        self.rect.y += 32 # increase sprites' rect.y by 32 pixels
 # ---------------------
 
 player = Rectangle(WHITE, 64, 64) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
@@ -57,7 +56,8 @@ while True: # keeps display open
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
             timer -= 1 # decrement timer
-            blocks.update() # move "block" sprites downward
+            if timer % 5 == 0: # every 5 seconds
+                blocks.update() # move "block" sprites downward
             if timer == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "block" sprites stop moving too
         # --- Mouse/keyboard events
