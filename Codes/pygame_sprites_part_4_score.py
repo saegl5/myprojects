@@ -26,9 +26,6 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 
 # --- Functions/Classes
-# def draw_rect(display, x, y, W, H):
-#     # Draw a rectangle
-#     pygame.draw.rect(display, WHITE, (x, y, W, H), width=0)
 class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish class from a function
     def __init__(self, COLOR, W, H): # define a constructor, class accepts COLOR, width, and height parameters, must type "__" before and after "init," requires "self"
         super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
@@ -40,11 +37,6 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         # sprite consists of image and rectangle object
     def update(self):
         self.rect.y += 32 # increase sprites' rect.y by 32 pixels
-        #### if self.rect.y > size[1]: # IF block has left the canvas, then reset block above canvas (assumes player block has not collided with it)
-            #### self.reset_position()
-    #### def reset_position(self):
-        ##### self.rect.y = random.randrange(-50, -20) # -50 is optional
-        ##### self.rect.x = random.randrange(0, size[0]-20)
 # ---------------------
 
 player = Rectangle(WHITE, 64, 64) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
@@ -91,17 +83,13 @@ while True: # keeps display open
     removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
     collisions.add(removed)
     score = len(collisions)
-    #### for block in blocks_hit_list: # FOR each block in the list
-        #### block.reset_position()
     if counter % (60*5) == 0: # about every 5 seconds
         blocks.update() # move "block" sprites downward, requires timer to move slowly
     counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
-    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on keyboard
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
-    # screen.blit(block.image, (block.rect.x, block.rect.y))
     blocks.draw(screen) # draw sprites on screen using list
     font = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
     text_score = font.render(str(score), True, GREEN) # ("time remaining", anti-aliased, COLOR)

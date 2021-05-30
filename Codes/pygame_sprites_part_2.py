@@ -22,9 +22,6 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 
 # --- Functions/Classes
-# def draw_rect(display, x, y, W, H):
-#     # Draw a rectangle
-#     pygame.draw.rect(display, WHITE, (x, y, W, H), width=0)
 class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish class from a function
     def __init__(self, COLOR, W, H): # define a constructor, class accepts COLOR, width, and height parameters, must type "__" before and after "init," requires "self"
         super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
@@ -80,7 +77,6 @@ while True: # keeps display open
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
-    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on keyboard
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     # screen.blit(block.image, (block.rect.x, block.rect.y))
     blocks.draw(screen) # draw sprites on screen using list
