@@ -73,9 +73,9 @@ while True: # keeps display open
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
                 elif action.key == pygame.K_SPACE: # fire bullet
-                    bullet = Rectangle(CYAN, 5, 20) # create "bullet" sprite
-                    bullet.rect.x = player.rect.x + 64/2 - 5/2 # align it with "player" sprite's horizontal center
-                    bullet.rect.y = player.rect.y - 20/2 # align its bottom with "player" sprite's top, half because update() is called before "bullet" sprites are drawn
+                    bullet = Rectangle(CYAN, 5, 20) # create "bullet" sprite 
+                    bullet.rect.centerx = player.rect.centerx # align it with "player" sprite's horizontal center 
+                    bullet.rect.bottom = player.rect.top + 10 # align its bottom with "player" sprite's top, "+ 10" because update() is called before "bullet" sprites are drawn
                     if first == True:
                         bullets.add(bullet)
                         first = False
