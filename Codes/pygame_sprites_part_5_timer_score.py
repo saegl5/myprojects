@@ -48,7 +48,7 @@ player = Rectangle(WHITE, 64, 64) # creates a "player" sprite, which will be you
 for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "block" sprites
     block = Rectangle(YELLOW, 32, 32) # create a "block" sprite
     block.rect.x = random.randrange(0, size[0]+1-32) # position "block" sprite, allow block to touch edge but not breach it
-    block.rect.y = random.randrange(0, size[1]+1-32) # want lots of blocks, but if we use a larger step_size, many blocks may overlap
+    block.rect.y = random.randrange(0, size[1]+1-32-100) # want lots of blocks, but if we use a larger step_size, many blocks may overlap, "-100" leaves space at bottom of canvas
     blocks.add(block) # add "block" sprite to list, no longer append
 
 # we will create "bullet" sprites later
@@ -67,22 +67,22 @@ while True: # keeps display open
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "block" sprites stop moving too
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if action.key == pygame.K_RIGHT: # note "action.key"
-                x_increment = 5 # "5" is optional
-            elif action.key == pygame.K_LEFT:
-                x_increment = -5
-            elif action.key == pygame.K_SPACE: # fire bullet
-                bullet = Rectangle(CYAN, 5, 20) # create "bullet" sprite
-                bullet.rect.x = player.rect.x + 64/2 - 5/2 # align it with "player" sprite's horizontal center
-                bullet.rect.y = player.rect.y - 20 # align its bottom with "player" sprite's top
-                if first == True:
-                    bullets.add(bullet)
-                first = False
-
+            if timer != 0:
+                if action.key == pygame.K_RIGHT: # note "action.key"
+                    x_increment = 5 # "5" is optional
+                elif action.key == pygame.K_LEFT:
+                    x_increment = -5
+                elif action.key == pygame.K_SPACE: # fire bullet
+                    bullet = Rectangle(CYAN, 5, 20) # create "bullet" sprite
+                    bullet.rect.x = player.rect.x + 64/2 - 5/2 # align it with "player" sprite's horizontal center
+                    bullet.rect.y = player.rect.y - 20/2 # align its bottom with "player" sprite's top, half because update() is called before "bullet" sprites are drawn
+                    if first == True:
+                        bullets.add(bullet)
+                        first = False
         elif action.type == pygame.KEYUP:
             if action.key == pygame.K_LEFT or action.key == pygame.K_RIGHT:
                 x_increment = 0
-            if action.key == pygame.K_SPACE:
+            elif action.key == pygame.K_SPACE:
                 first = True
         # -------------------------
     # --- Game logic
@@ -95,7 +95,6 @@ while True: # keeps display open
     player.rect.y = size[1]-64
     # removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
     for bullet in bullets: # "bullet" sprite was not created before WHILE loop
-        bullet.update(-5)
         removed = pygame.sprite.spritecollide(bullet, blocks, True) # remove a "block" sprite, if "bullet" sprite collides with it
         collisions.add(removed)
         if removed:
@@ -104,6 +103,7 @@ while True: # keeps display open
             bullets.remove(bullet) # otherwise, remove "bullet" sprite if it exits screen
     if timer != 0:
         score = len(collisions)
+        bullets.update(-10)
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
