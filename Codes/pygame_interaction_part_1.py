@@ -30,7 +30,7 @@ while True: # keeps display open
     # --- Game logic
     pos = pygame.mouse.get_pos() # position of mouse/trackpad cursor, returns tuple (x, y), "pos" needs to be defined here because get_pos() must be kept updated
     # x_offset = pos[0]
-    x_offset = pos[0]-size[0]/2 # move rectangle to align mouse pointer with rectangle's center point
+    x_offset = pos[0]-size[0]/2 # move rectangle to align mouse pointer with rectangle's upper-left corner
     # y_offset = pos[1]
     y_offset = pos[1]-size[1]/2
     if size[0]/2+x_offset < 0:
