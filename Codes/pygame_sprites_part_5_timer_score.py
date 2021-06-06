@@ -94,7 +94,7 @@ while True: # keeps display open
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]-64
     # removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
-    for bullet in bullets: # "bullet" sprite was not created before WHILE loop
+    for bullet in bullets: # "bullet" sprite was not created before WHILE loop, for any bullet in bullets
         removed = pygame.sprite.spritecollide(bullet, blocks, True) # remove a "block" sprite, if "bullet" sprite collides with it
         collisions.add(removed)
         if removed:
