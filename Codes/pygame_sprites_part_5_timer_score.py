@@ -80,7 +80,7 @@ while True: # keeps display open
                         bullets.add(bullet)
                         first = False
         elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_LEFT or action.key == pygame.K_RIGHT:
+            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
                 x_increment = 0
             elif action.key == pygame.K_SPACE:
                 first = True
