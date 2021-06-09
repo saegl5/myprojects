@@ -51,7 +51,6 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     def update(self):
         self.rect.y += 32 # increase sprites' rect.y by 32 pixels
     def swap_image(self, angle):
-        global counter
         if counter % 2 == 0:
             self.image = pygame.transform.rotate(pac_man, angle)
         else:
