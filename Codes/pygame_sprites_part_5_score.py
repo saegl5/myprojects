@@ -21,7 +21,7 @@ x_increment = 0
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
 counter = 0 # alternative to timer, uses frame rate, but frame rate may fluctuate
 collisions = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
+lasers = pygame.sprite.Group()
 score = 0 # initialize score
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
@@ -54,7 +54,7 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     block.rect.y = random.randrange(0, size[1]+1-32-100) # want lots of blocks, but if we use a larger step_size, many blocks may overlap, "-100" leaves space at bottom of canvas
     blocks.add(block) # add "block" sprite to list, no longer append
 
-# we will create "bullet" sprites later
+# we will create "laser" sprites later
 first = True # but only first one
 
 while True: # keeps display open
@@ -68,12 +68,12 @@ while True: # keeps display open
                 x_increment = 5 # "5" is optional
             elif action.key == pygame.K_LEFT:
                 x_increment = -5
-            elif action.key == pygame.K_SPACE: # fire bullet
-                bullet = Rectangle(CYAN, 5, 20) # create "bullet" sprite 
-                bullet.rect.centerx = player.rect.centerx # align it with "player" sprite's horizontal center 
-                bullet.rect.bottom = player.rect.top + 10 # align its bottom with "player" sprite's top, "+ 10" because update() is called before "bullet" sprites are drawn
+            elif action.key == pygame.K_SPACE: # fire laser
+                laser = Rectangle(CYAN, 5, 20) # create "laser" sprite 
+                laser.rect.centerx = player.rect.centerx # align it with "player" sprite's horizontal center 
+                laser.rect.bottom = player.rect.top + 10 # align its bottom with "player" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn
                 if first == True:
-                    bullets.add(bullet)
+                    lasers.add(laser)
                     first = False
         elif action.type == pygame.KEYUP:
             if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
@@ -90,26 +90,26 @@ while True: # keeps display open
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]-64
     # removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
-    for bullet in bullets: # "bullet" sprite was not created before WHILE loop, for any bullet in bullets
-        removed = pygame.sprite.spritecollide(bullet, blocks, True) # remove a "block" sprite, if "bullet" sprite collides with it
+    for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
+        removed = pygame.sprite.spritecollide(laser, blocks, True) # remove a "block" sprite, if "laser" sprite collides with it
         collisions.add(removed)
         if removed:
-            bullets.remove(bullet) # remove "bullet" sprite, too
-        if bullet.rect.y < -20:
-            bullets.remove(bullet) # otherwise, remove "bullet" sprite if it exits screen
+            lasers.remove(laser) # remove "laser" sprite, too
+        if laser.rect.y < -20:
+            lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     score = len(collisions)
     #### for block in blocks_hit_list: # FOR each block in the list
         #### block.reset_position()
     if counter % (60*5) == 0: # about every 5 seconds
         blocks.update(32) # move "block" sprites downward, requires timer to move slowly
-    bullets.update(-10)
+    lasers.update(-10)
     counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     blocks.draw(screen) # draw sprites on screen using list
-    bullets.draw(screen)
+    lasers.draw(screen)
     style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
     text_score = style.render(str(score), True, GREEN) # ("time remaining", anti-aliased, COLOR)
     screen.blit(text_score, (size[0]-85, 10)) # copy image of text onto screen near top-right corner
