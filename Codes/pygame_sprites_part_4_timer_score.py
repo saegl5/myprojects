@@ -62,14 +62,18 @@ while True: # keeps display open
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "block" sprites stop moving too
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if action.key == pygame.K_RIGHT: # note "action.key"
-                x_increment = 5 # "5" is optional
-            elif action.key == pygame.K_LEFT:
-                x_increment = -5
-            elif action.key == pygame.K_DOWN:
-                y_increment = 5 # note "y_increment," and recall that y increases going downward
-            elif action.key == pygame.K_UP:
-                y_increment = -5
+            if timer != 0:
+                if action.key == pygame.K_RIGHT: # note "action.key"
+                    x_increment = 5 # "5" is optional
+                elif action.key == pygame.K_LEFT:
+                    x_increment = -5
+                elif action.key == pygame.K_DOWN:
+                    y_increment = 5 # note "y_increment," and recall that y increases going downward
+                elif action.key == pygame.K_UP:
+                    y_increment = -5
+            else:
+                x_increment = 0
+                y_increment = 0
         elif action.type == pygame.KEYUP:
             x_increment = 0
             y_increment = 0
@@ -101,7 +105,7 @@ while True: # keeps display open
     text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
     text_score = style.render(str(score), True, GREEN)
     screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(text_score, (size[0]-85, 10)) # near top-right corner
+    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

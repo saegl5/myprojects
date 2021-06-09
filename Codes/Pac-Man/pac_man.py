@@ -129,10 +129,10 @@ while True: # keeps display open
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     blocks.draw(screen) # draw sprites on screen using list
     style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    #text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
+    text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
     text_score = style.render(str(score), True, GREEN)
-    #screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(text_score, (size[0]-85, 10)) # near top-right corner
+    screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

@@ -112,7 +112,7 @@ while True: # keeps display open
     lasers.draw(screen)
     style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
     text_score = style.render(str(score), True, GREEN) # ("time remaining", anti-aliased, COLOR)
-    screen.blit(text_score, (size[0]-85, 10)) # copy image of text onto screen near top-right corner
+    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # copy image of text onto screen near top-right corner
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
