@@ -23,6 +23,7 @@ collisions = pygame.sprite.Group()
 timer = 10 # set timer for 10 seconds
 score = 0 # initialize score
 counter = 0 # for swapping images
+ticks = int() # for saving energy
 angle = 0
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
@@ -97,6 +98,7 @@ while True: # keeps display open
                 x_increment = 0
                 y_increment = 0
         elif action.type == pygame.KEYUP:
+            ticks = pygame.time.get_ticks()
             x_increment = 0
             y_increment = 0
             counter = 0
@@ -136,3 +138,5 @@ while True: # keeps display open
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
+    if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for more than 10 seconds
+        clock.tick(1) # in which case minimize the frame rate

@@ -25,6 +25,7 @@ lasers = pygame.sprite.Group()
 timer = 10 # set timer for 10 seconds
 score = 0 # initialize score
 counter = 0 # for swapping images
+ticks = int() # for saving energy
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -101,6 +102,7 @@ while True: # keeps display open
             else:
                 x_increment = 0
         elif action.type == pygame.KEYUP:
+            ticks = pygame.time.get_ticks()
             if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
                 x_increment = 0
             elif action.key == pygame.K_SPACE:
@@ -139,3 +141,5 @@ while True: # keeps display open
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
+    if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for more than 10 seconds
+        clock.tick(1) # in which case minimize the frame rate
