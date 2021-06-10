@@ -100,10 +100,10 @@ while True: # keeps display open
     score = len(collisions)
     #### for block in blocks_hit_list: # FOR each block in the list
         #### block.reset_position()
+    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     if counter % (60*5) == 0: # about every 5 seconds
         blocks.update(32) # move "block" sprites downward, requires timer to move slowly
     lasers.update(-10)
-    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code

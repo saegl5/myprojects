@@ -83,9 +83,9 @@ while True: # keeps display open
     removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
     collisions.add(removed)
     score = len(collisions)
+    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     if counter % (60*5) == 0: # about every 5 seconds
         blocks.update() # move "block" sprites downward, requires timer to move slowly
-    counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
     # --------------
     screen.fill(BLUE) # clear the display
     # --- Drawing code
