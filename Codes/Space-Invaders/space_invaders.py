@@ -19,13 +19,14 @@ x_offset = 0 # reordered
 # y_offset = 0
 x_increment = 0
 # y_increment = 0
-blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
+invaders = pygame.sprite.Group() # create a list for "invader" sprites, no longer invaders = [], Group() is class
 collisions = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 timer = 10 # set timer for 10 seconds
 score = 0 # initialize score
 counter = 0 # for swapping images
 ticks = int() # for saving energy
+game_over_sound = pygame.mixer.Sound("Sounds/game_over.ogg")
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -61,11 +62,11 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
 
 player = Rectangle(64, 64, ship) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 
-for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "block" sprites
-    block = Rectangle(32, 32, alien) # create a "block" sprite
-    block.rect.x = random.randrange(0, size[0]+1, 32) # position "block" sprite, allow block to touch edge but not breach it
-    block.rect.y = random.randrange(0, size[1]+1-96, 32) # want lots of blocks, but if we use a larger step_size, many blocks may overlap, "-96" leaves space at bottom of canvas and want "block" sprites equally spaced
-    blocks.add(block) # add "block" sprite to list, no longer append
+for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
+    invader = Rectangle(32, 32, alien) # create a "invader" sprite
+    invader.rect.x = random.randrange(0, size[0]+1, 32) # position "invader" sprite, allow it to touch edge but not breach it
+    invader.rect.y = random.randrange(0, size[1]+1-96, 32) # want lots of invaders, but if we use a larger step_size, many invaders may overlap, "-96" leaves space at bottom of canvas and want "invader" sprites equally spaced
+    invaders.add(invader) # add "invader" sprite to list, no longer append
 
 # we will create "laser" sprites later
 first = True # but only first one
@@ -78,12 +79,13 @@ while True: # keeps display open
         elif action.type == pygame.USEREVENT:
             timer -= 1 # decrement timer
             if timer % 5 == 0: # every 5 seconds
-                blocks.update(32) # move "block" sprites downward
-            for block in blocks:
-                block.swap_image()
+                invaders.update(32) # move "invader" sprites downward
+            for invader in invaders:
+                invader.swap_image()
             counter += 1
             if timer == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "block" sprites stop moving too
+                pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "invader" sprites stop moving too
+                game_over_sound.play()
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0:
@@ -116,28 +118,42 @@ while True: # keeps display open
         x_offset = size[0]/2 - 64 # simplified
     player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
     player.rect.y = size[1]-64
-    # removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
+    # removed = pygame.sprite.spritecollide(player, invaders, True) # remove a "invader" sprite, if "player" sprite collides with it
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
-        removed = pygame.sprite.spritecollide(laser, blocks, True) # remove a "block" sprite, if "laser" sprite collides with it
+        removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
         collisions.add(removed)
         if removed:
             lasers.remove(laser) # remove "laser" sprite, too
-        if laser.rect.y < -20:
+        elif laser.rect.y < -20:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     if timer != 0:
         score = len(collisions)
         lasers.update(-10)
     # --------------
     screen.fill(BLUE) # clear the display
-    # --- Drawing code
-    screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
-    blocks.draw(screen) # draw sprites on screen using list
-    lasers.draw(screen)
     style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
     text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
     text_score = style.render(str(score), True, GREEN)
+    game_over = style.render(None, True, pygame.Color("black"))
+    if timer == 0:
+        player.image.fill(pygame.Color("white"))
+        for invader in invaders:
+            invader.image.fill(pygame.Color("light gray"))
+        for laser in lasers:
+            laser.image.fill(pygame.Color("light gray"))
+        screen.fill(pygame.Color("gray"))
+        text_timer = style.render(str(timer), True, pygame.Color("dark gray"))
+        text_score = style.render(str(score), True, pygame.Color("dark gray"))
+        game_over = style.render("Game Over", True, pygame.Color("black"))
+    # --- Drawing code
+    screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
+    invaders.draw(screen) # draw sprites on screen using list
+    lasers.draw(screen)
     screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
+    screen.blit(game_over, game_over.get_rect(center = screen.get_rect().center))
+    # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
+    # outside in: pair game_over with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second

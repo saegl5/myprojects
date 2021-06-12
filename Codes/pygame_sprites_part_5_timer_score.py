@@ -101,7 +101,7 @@ while True: # keeps display open
         collisions.add(removed)
         if removed:
             lasers.remove(laser) # remove "laser" sprite, too
-        if laser.rect.y < -20:
+        elif laser.rect.y < -20:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     if timer != 0:
         score = len(collisions)
