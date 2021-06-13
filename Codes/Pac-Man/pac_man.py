@@ -10,6 +10,9 @@ BLACK = pygame.Color("black") # useful if run module on macOS
 YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
+LIGHTGRAY = pygame.Color("light gray")
+GRAY = pygame.Color("gray")
+DARKGRAY = pygame.Color("dark gray")
 
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
@@ -132,20 +135,20 @@ while True: # keeps display open
     style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
     text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
     text_score = style.render(str(score), True, GREEN)
-    game_over = style.render(None, True, pygame.Color("black"))
+    game_over = style.render(None, True, BLACK)
     if timer == 0:
         player.image.fill(pygame.Color("white"))
         for pellet in pellets:
-            pellet.image.fill(pygame.Color("light gray"))
-        screen.fill(pygame.Color("gray"))
-        text_timer = style.render(str(timer), True, pygame.Color("dark gray"))
-        text_score = style.render(str(score), True, pygame.Color("dark gray"))
-        game_over = style.render("Game Over", True, pygame.Color("black"))
+            pellet.image.fill(LIGHTGRAY)
+        screen.fill(GRAY)
+        text_timer = style.render(str(timer), True, DARKGRAY)
+        text_score = style.render(str(score), True, DARKGRAY)
+        game_over = style.render("Game Over", True, BLACK)
     # --- Drawing code
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     pellets.draw(screen) # draw sprites on screen using list
     screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
+    screen.blit(text_score, (size[0]-10-text_score.get_width(), 10)) # near top-right corner
     screen.blit(game_over, game_over.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
     # outside in: pair game_over with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
