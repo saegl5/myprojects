@@ -104,7 +104,7 @@ while True: # keeps display open
                     if first == True:
                         lasers.add(laser)
                         first = False
-            else:
+            else: # without "else," do nothing
                 x_increment = 0
         elif action.type == pygame.KEYUP:
             ticks = pygame.time.get_ticks()
@@ -153,7 +153,7 @@ while True: # keeps display open
     invaders.draw(screen) # draw sprites on screen using list
     lasers.draw(screen)
     screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(text_score, (size[0]-10-text_score.get_width(), 10)) # near top-right corner
+    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
     screen.blit(game_over, game_over.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
     # outside in: pair game_over with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center

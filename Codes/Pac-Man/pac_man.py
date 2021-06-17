@@ -99,7 +99,7 @@ while True: # keeps display open
                     angle = 90
                 player.swap_image(angle)
                 counter += 1
-            else:
+            else: # without "else," do nothing
                 x_increment = 0
                 y_increment = 0
         elif action.type == pygame.KEYUP:
@@ -148,7 +148,7 @@ while True: # keeps display open
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     pellets.draw(screen) # draw sprites on screen using list
     screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(text_score, (size[0]-10-text_score.get_width(), 10)) # near top-right corner
+    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
     screen.blit(game_over, game_over.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
     # outside in: pair game_over with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
