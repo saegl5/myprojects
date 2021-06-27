@@ -25,6 +25,7 @@ pellets = pygame.sprite.Group() # create a list for "pellet" sprites, no longer 
 collisions = pygame.sprite.Group()
 timer = 10 # set timer for 10 seconds
 score = 0 # initialize score
+style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
 counter = 0 # for swapping images
 ticks = int() # for saving energy
 angle = 0
@@ -44,7 +45,7 @@ dot.set_colorkey(BLACK)
 
 # --- Functions/Classes
 class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish class from a function
-    def __init__(self, COLOR, W, H, image): # define a constructor, class accepts COLOR, width, and height parameters, must type "__" before and after "init," requires "self"
+    def __init__(self, W, H, image): # define a constructor, class accepts COLOR, width, and height parameters, must type "__" before and after "init," requires "self"
         super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
         size = (W, H) # define size of image, local variable
         self.image = pygame.Surface(size) # creates a blank image using Surface class
@@ -62,10 +63,10 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
             self.image.blit(pac_man_chomp, (0, 0))
 # ---------------------
 
-player = Rectangle(WHITE, 64, 64, pac_man) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+player = Rectangle(64, 64, pac_man) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 
 for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "pellet" sprites
-    pellet = Rectangle(YELLOW, 32, 32, dot) # create a "pellet" sprite
+    pellet = Rectangle(32, 32, dot) # create a "pellet" sprite
     pellet.rect.x = random.randrange(0, size[0]+1, 32) # position "pellet" sprite, allow it to touch edge but not breach it
     pellet.rect.y = random.randrange(0, size[1]+1, 32) # want lots of pellets, but if we use a larger step_size, many pellets may overlap
     pellets.add(pellet) # add "pellet" sprite to list, no longer append
@@ -132,28 +133,28 @@ while True: # keeps display open
         score = len(collisions)
     # --------------
     screen.fill(BLUE) # clear the display
-    style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
-    text_score = style.render(str(score), True, GREEN)
-    game_over = style.render(None, True, BLACK)
+    timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
+    score_text = style.render(str(score), True, GREEN)
+    game_over_text = style.render(None, True, BLACK)
     if timer == 0:
         player.image.fill(pygame.Color("white"))
         for pellet in pellets:
-            pellet.image.fill(LIGHTGRAY)
+            pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, 32, 32), width=0)
         screen.fill(GRAY)
-        text_timer = style.render(str(timer), True, DARKGRAY)
-        text_score = style.render(str(score), True, DARKGRAY)
-        game_over = style.render("Game Over", True, BLACK)
+        timer_text = style.render(str(timer), True, DARKGRAY)
+        score_text = style.render(str(score), True, DARKGRAY)
+        game_over_text = style.render("Game Over", True, BLACK)
     # --- Drawing code
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     pellets.draw(screen) # draw sprites on screen using list
-    screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
-    screen.blit(game_over, game_over.get_rect(center = screen.get_rect().center))
+    screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
+    screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
-    # outside in: pair game_over with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
+    # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
     if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for more than 10 seconds
         clock.tick(1) # in which case minimize the frame rate
+        
