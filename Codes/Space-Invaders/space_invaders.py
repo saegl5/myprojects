@@ -27,6 +27,7 @@ collisions = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 timer = 10 # set timer for 10 seconds
 score = 0 # initialize score
+style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
 counter = 0 # for swapping images
 ticks = int() # for saving energy
 game_over_sound = pygame.mixer.Sound("Sounds/game_over.ogg")
@@ -110,7 +111,7 @@ while True: # keeps display open
             ticks = pygame.time.get_ticks()
             if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
                 x_increment = 0
-            if action.key == pygame.K_SPACE:
+            elif action.key == pygame.K_SPACE:
                 first = True
         # -------------------------
     # --- Game logic
@@ -134,29 +135,28 @@ while True: # keeps display open
         lasers.update(-10)
     # --------------
     screen.fill(BLUE) # clear the display
-    style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
-    text_timer = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
-    text_score = style.render(str(score), True, GREEN)
-    game_over = style.render(None, True, pygame.Color("black"))
+    timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
+    score_text = style.render(str(score), True, GREEN)
+    game_over_text = style.render(None, True, pygame.Color("black"))
     if timer == 0:
         player.image.fill(pygame.Color("white"))
         for invader in invaders:
-            invader.image.fill(LIGHTGRAY)
+            pygame.draw.rect(invader.image, LIGHTGRAY, (0, 0, 32, 32), width=0)
         for laser in lasers:
-            laser.image.fill(LIGHTGRAY)
+            pygame.draw.rect(laser.image, LIGHTGRAY, (0, 0, 32, 32), width=0)
         screen.fill(GRAY)
-        text_timer = style.render(str(timer), True, DARKGRAY)
-        text_score = style.render(str(score), True, DARKGRAY)
-        game_over = style.render("Game Over", True, pygame.Color("black"))
+        timer_text = style.render(str(timer), True, DARKGRAY)
+        score_text = style.render(str(score), True, DARKGRAY)
+        game_over_text = style.render("Game Over", True, pygame.Color("black"))
     # --- Drawing code
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
     invaders.draw(screen) # draw sprites on screen using list
     lasers.draw(screen)
-    screen.blit(text_timer, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(text_score, (size[0]-text_score.get_width()-10, 10)) # near top-right corner
-    screen.blit(game_over, game_over.get_rect(center = screen.get_rect().center))
+    screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
+    screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
-    # outside in: pair game_over with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
+    # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     # ----------------
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
