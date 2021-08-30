@@ -11,7 +11,7 @@ screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
 # offsets are specified by mouse/trackpad cursor position
 # no increments are initialized or specified
-click_sound = pygame.mixer.Sound("click4.ogg") # "Sound" must be capitalized, example
+click_sound = pygame.mixer.Sound('click4.ogg') # "Sound" must be capitalized, example
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 

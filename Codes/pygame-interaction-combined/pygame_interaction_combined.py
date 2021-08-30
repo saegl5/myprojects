@@ -13,7 +13,7 @@ x_offset = 0 # reordered
 y_offset = 0
 x_increment = 0
 y_increment = 0
-click_sound = pygame.mixer.Sound("click4.ogg") # "Sound" must be capitalized, example
+click_sound = pygame.mixer.Sound('click4.ogg') # "Sound" must be capitalized, example
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 # pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional, do later
