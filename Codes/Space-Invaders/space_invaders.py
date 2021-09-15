@@ -144,8 +144,9 @@ while True: # keeps display open
         elif laser.rect.y < -20:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     for block in blocks:
-        touched = pygame.sprite.spritecollide(block, players, True)
-        players.remove(touched)
+        # touched = pygame.sprite.spritecollide(block, players, True)
+        # players.remove(touched)
+        pygame.sprite.spritecollide(block, players, True)
     if timer != 0:
         score = len(collisions)
         lasers.update(-10)
