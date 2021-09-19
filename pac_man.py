@@ -2,7 +2,7 @@ import pygame
 import sys
 import random
 
-pygame.init() # comment
+pygame.init()
 
 BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
