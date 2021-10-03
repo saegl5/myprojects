@@ -40,6 +40,7 @@ pellet_image = pygame.transform.scale(pellet_image, (W_pellet, H_pellet))
 pacman_image_alt = pygame.image.load('pac_chomp.png').convert()
 count = 0
 ticks = int()
+angle = 0
 
 pygame.display.set_caption("Cool Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
