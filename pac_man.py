@@ -42,7 +42,7 @@ count = 0
 ticks = int()
 angle = 0
 
-pygame.display.set_caption("Cool Game")
+pygame.display.set_caption("QUESTABOX's Cool Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
 pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 
