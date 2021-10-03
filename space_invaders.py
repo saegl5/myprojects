@@ -41,7 +41,7 @@ W_invader = 32
 H_invader = 32
 vehicle_image = pygame.transform.scale(vehicle_image, (W_vehicle, H_vehicle))
 
-pygame.display.set_caption("Cool Game")
+pygame.display.set_caption("QUESTABOX's Cool Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
 pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 
