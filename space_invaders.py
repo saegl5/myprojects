@@ -34,12 +34,14 @@ style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font
 vehicle_image = pygame.image.load('ship.png').convert()
 #vehicle_image = pygame.transform.scale(vehicle_image, (64, 64))
 invader_image = pygame.image.load('alien.png').convert()
+invader_image_alt = pygame.image.load('alien_lunging.png').convert()
 ticks = int() # some integer, clock sound
 W_vehicle = 64
 H_vehicle = 64
 W_invader = 32
 H_invader = 32
 vehicle_image = pygame.transform.scale(vehicle_image, (W_vehicle, H_vehicle))
+count = 0
 
 pygame.display.set_caption("QUESTABOX's Cool Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
@@ -63,12 +65,18 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         # global timer
         # if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
         self.rect.y += px # increase sprites' rect.y by 32 pixels
+    def lunge(self):
+        if count % 2 == 0: # could also have used timer
+            self.image.blit(invader_image_alt, (0, 0)) # change picture
+        else:
+            self.image.blit(invader_image, (0, 0)) # revert
 # ---------------------
 
 vehicle = Rectangle(vehicle_image, W_vehicle, H_vehicle)
 vehicles.add(vehicle)
 
-for i in range(0, 50): # create and add fifty invaders
+# for i in range(0, 50): # create and add fifty invaders
+while 50-len(invaders) > 0:
     invader = Rectangle(invader_image, W_invader, H_invader)
     invader.rect.x = random.randrange(0, size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
     invader.rect.y = random.randrange(0, size[1]+1-H_invader-100, H_invader) # "-100" space at canvas bottom
@@ -95,10 +103,13 @@ while True:
             elif len(vehicles) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 game_over_sound.play()
-            else:
+            else: # after one second
                 timer -= 1
                 if timer % 5 == 0:
                     invaders.update(32)
+                for invader in invaders:
+                    invader.lunge() # all invaders lunge
+                count += 1
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(vehicles) != 0: # "and" or "or" depends

@@ -77,7 +77,8 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 pacman = Rectangle(pacman_image, W_pacman, H_pacman)
 
-for i in range(0, 50): # create and add fifty pellets
+# for i in range(0, 50): # create and add fifty pellets
+while 50-len(pellets) > 0:
     # pellet = Rectangle(YELLOW, W_pellet, H_pellet)
     pellet = Rectangle(pellet_image, W_pellet, H_pellet)
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
