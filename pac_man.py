@@ -116,15 +116,23 @@ while True:
                 if action.key == pygame.K_RIGHT:
                     x_increment = 5 # speed
                     angle = 0
+                    pacman.turn(angle)
+                    count += 1
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
                     angle = 180
+                    pacman.turn(angle)
+                    count += 1
                 elif action.key == pygame.K_DOWN:
                     y_increment = 5
                     angle = 270
+                    pacman.turn(angle)
+                    count += 1
                 elif action.key == pygame.K_UP:
                     y_increment = -5
                     angle = 90
+                    pacman.turn(angle)
+                    count += 1
                 pacman.turn(angle)
                 count += 1
             else:
