@@ -23,6 +23,7 @@ x_increment = 0
 y_increment = 0
 pellets = pygame.sprite.Group() # not pellets = [] <-- multiple sprites
 collisions = pygame.sprite.Group()
+walls = pygame.sprite.Group()
 timer = 30 # 30 seconds
 score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -73,6 +74,11 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
             self.image = pygame.transform.rotate(pacman_image, angle)
         self.image.set_colorkey(BLACK)
 # ---------------------
+
+wall = Rectangle(pygame.Surface((200, 10)), 200, 10)
+wall.rect.x = 100
+wall.rect.y = 100
+walls.add(wall)
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 pacman = Rectangle(pacman_image, W_pacman, H_pacman)
@@ -142,8 +148,23 @@ while True:
         y_offset = -size[1]/2
     elif size[1]/2+y_offset + H_pacman > size[1]: # bottom edge
         y_offset = size[1]/2 - H_pacman
+
     pacman.rect.x = size[0]/2+x_offset
+    hit = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
+    for wall in hit:
+        if x_increment > 0:
+            pacman.rect.right = wall.rect.left
+        else: # x_increment = 0 not hitting a wall
+            pacman.rect.left = wall.rect.right
+    
     pacman.rect.y = size[1]/2+y_offset
+    hit = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
+    for wall in hit:
+        if y_increment > 0:
+            pacman.rect.bottom = wall.rect.top
+        else: # y_increment = 0 not hitting a wall
+            pacman.rect.top = wall.rect.bottom
+
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
     # pellet.rect.y = random.randrange(0, size[1]+1-H_pellet) # problem is that recalculates each loop
     removed = pygame.sprite.spritecollide(pacman, pellets, True) # "True" to remove a "pellet" sprite, if "pacman" sprites collides with it
@@ -172,6 +193,7 @@ while True:
     # screen.blit(text, (x, y)) unit 1
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y))
     pellets.draw(screen) # draw sprite on screen <-- multiple sprites
+    walls.draw(screen)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10))
