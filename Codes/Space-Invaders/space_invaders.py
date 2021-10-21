@@ -26,6 +26,7 @@ W = 64 # "player" sprite width reference
 H = 64 # "player" sprite height reference
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
 collisions = pygame.sprite.Group()
+walls = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
 players = pygame.sprite.Group()
@@ -70,6 +71,13 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         else:
             self.image.blit(block_image, (0, 0))
 # ---------------------
+
+# outer walls (only left and right):
+wall = Rectangle(0-1, 0, 1, size[1]) # need at least some thickness, moved walls outside display
+walls.add(wall)
+wall = Rectangle(size[0]-1+1, 0, 1, size[1])
+walls.add(wall)
+# no inner walls
 
 player = Rectangle(int(), int(), W, H) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 player.image.blit(player_image, (0, 0))
@@ -145,10 +153,19 @@ while True: # keeps display open
     # --- Game logic
     # x_offset += x_increment
     player.rect.x += x_increment # offset directly
-    if size[0]/2+x_offset < 0:
-        x_offset = -size[0]/2 # prevent "player" sprite from breaching left edge, solved for x_offset
-    elif size[0]/2+x_offset + W > size[0]:
-        x_offset = size[0]/2 - W # simplified
+
+    hit = pygame.sprite.spritecollide(player, walls, False) # DON'T remove a "wall" sprite, if "player" sprite hits it, returns a list
+    # instead...
+    for wall in hit: # wall that player hit
+        if x_increment > 0: # moving rightward
+            player.rect.right = wall.rect.left
+        else: # moving leftward, x_increment = 0 not hitting wall
+            player.rect.left = wall.rect.right # reverse
+
+    # if size[0]/2+x_offset < 0:
+    #     x_offset = -size[0]/2 # prevent "player" sprite from breaching left edge, solved for x_offset
+    # elif size[0]/2+x_offset + W > size[0]:
+    #     x_offset = size[0]/2 - W # simplified
     # player.rect.x = size[0]/2+x_offset # position and offset "player" sprite <- do earlier
     # player.rect.y = size[1]-H <- do earlier
     # removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
@@ -187,7 +204,8 @@ while True: # keeps display open
         you_win_text = style.render("WINNER!", True, GREEN)
     # --- Drawing code
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
-    blocks.draw(screen) # draw sprites on screen using list
+    walls.draw(screen) # draw sprites on screen using list
+    blocks.draw(screen)
     lasers.draw(screen)
     lasers_alt.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
