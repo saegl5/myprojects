@@ -76,9 +76,11 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     def turn(self, angle): # calling with sprite, not group
         if count == 1: # in case there is a quick KEYDOWN and KEYUP event
             self.image.blit(player_image_alt, (0, 0))
-        if count % 5 == 0:
-            self.image.blit(player_image_alt, (0, 0))
+        if count == 5: # else appears to chomp too long
+            self.image = pygame.transform.rotate(player_image, angle)         
         if count % 10 == 0:
+            self.image.blit(player_image_alt, (0, 0))
+        if count % 20 == 0:
             self.image = pygame.transform.rotate(player_image, angle)         
         self.image.set_colorkey(BLACK)
     # def flip(self, sign):
@@ -90,16 +92,15 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     #         green_ghost.image.blit(ghost_image_2, (0, 0))
 
 # ---------------------
-# outer walls:
-wall = Rectangle(0, 0, size[0], 10)
+# outer walls (all four):
+wall = Rectangle(0, 0-1, size[0], 1) # need at least some thickness, moved walls outside display
 walls.add(wall)
-wall = Rectangle(0, 10, 10, size[1]-10)
+wall = Rectangle(0-1, 1, 1, size[1]-1)
 walls.add(wall)
-wall = Rectangle(0, size[1]-10, size[0], 10)
+wall = Rectangle(0, size[1]-1+1, size[0], 1)
 walls.add(wall)
-wall = Rectangle(size[0]-10, 10, 10, size[1]-10)
+wall = Rectangle(size[0]-1+1, 1, 1, size[1]-1)
 walls.add(wall)
-
 # inner walls:
 wall = Rectangle(100, 100, size[0]-100-100, 10)
 walls.add(wall)
@@ -107,6 +108,8 @@ wall = Rectangle(100, size[1]-100-10, size[0]-100-100, 10)
 walls.add(wall)
 wall = Rectangle(size[0]/2-10/2, 100+10, 10, size[1]-100-10-100-10)
 walls.add(wall)
+for wall in walls:
+    wall.image.fill(LIGHTGRAY)
 
 player = Rectangle(size[0]/2+x_offset, size[1]/2+y_offset, W, H) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 player.image.blit(player_image, (0, 0))
@@ -157,29 +160,30 @@ while True: # keeps display open
                 # green_ghost.rect.y += y_increment_ghost # move "block" sprites downward
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if action.key == pygame.K_RIGHT: # note "action.key"
-                x_increment = 5 # "5" is optional
-                angle = 0
-                player.turn(angle) # place in IF statement, if using keyboard combination to take screenshots
-                count += 1
-            elif action.key == pygame.K_UP:
-                y_increment = -5
-                angle = 90
-                player.turn(angle)
-                count += 1
-            elif action.key == pygame.K_LEFT:
-                x_increment = -5
-                angle = 180
-                player.turn(angle)
-                count += 1
-            elif action.key == pygame.K_DOWN:
-                y_increment = 5 # note "y_increment," and recall that y increases going downward
-                angle = 270
-                player.turn(angle)
-                count += 1
-            else: # without "else," do nothing
-                x_increment = 0
-                y_increment = 0
+            if timer != 0 and len(blocks) != 0:
+                if action.key == pygame.K_RIGHT: # note "action.key"
+                    x_increment = 5 # "5" is optional
+                    angle = 0
+                    player.turn(angle) # place in IF statement, if using keyboard combination to take screenshots
+                    count += 1
+                elif action.key == pygame.K_UP:
+                    y_increment = -5
+                    angle = 90
+                    player.turn(angle)
+                    count += 1
+                elif action.key == pygame.K_LEFT:
+                    x_increment = -5
+                    angle = 180
+                    player.turn(angle)
+                    count += 1
+                elif action.key == pygame.K_DOWN:
+                    y_increment = 5 # note "y_increment," and recall that y increases going downward
+                    angle = 270
+                    player.turn(angle)
+                    count += 1
+                else: # without "else," do nothing
+                    x_increment = 0
+                    y_increment = 0
         elif action.type == pygame.KEYUP:
             ticks = pygame.time.get_ticks()
             x_increment = 0
@@ -243,6 +247,8 @@ while True: # keeps display open
         player.image.fill(WHITE)
         for block in blocks:
             pygame.draw.rect(block.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
+        for wall in walls:
+            wall.image.fill(DARKGRAY)
         screen.fill(GRAY)
         timer_text = style.render(str(timer), True, DARKGRAY)
         score_text = style.render(str(score), True, DARKGRAY)
@@ -251,8 +257,8 @@ while True: # keeps display open
         you_win_text = style.render("WINNER!", True, GREEN)
     # --- Drawing code
     screen.blit(player.image, (player.rect.x, player.rect.y)) # draw sprite on screen
-    blocks.draw(screen) # draw sprites on screen using list
-    walls.draw(screen)
+    walls.draw(screen) # draw sprites on screen using list
+    blocks.draw(screen)
     screen.blit(red_ghost.image, (red_ghost.rect.x, red_ghost.rect.y))
     screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
