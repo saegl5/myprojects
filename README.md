@@ -4,6 +4,6 @@
 ## Snowfall Animation
 ![screenshot of snowfall animation](screenshots/snowfall.png)
 ## "Pac-Man" Game
-![screenshot of pac man game](screenshots/pac_man.png)
+![screenshot of pacman game](screenshots/pac_man.png)
 ## "Space Invaders" Game
 ![screenshot of space invaders game](screenshots/space_invaders.png)

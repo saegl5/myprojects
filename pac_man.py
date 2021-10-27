@@ -68,20 +68,29 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
     def turn(self, angle):
         if count == 1:
             self.image.blit(pacman_image_alt, (0, 0))
-        if count % 5 == 0:
-            self.image.blit(pacman_image_alt, (0, 0))
+        if count == 5:
+            self.image = pygame.transform.rotate(pacman_image, angle)
         if count % 10 == 0:
+            self.image.blit(pacman_image_alt, (0, 0))
+        if count % 20 == 0:
             self.image = pygame.transform.rotate(pacman_image, angle)
         self.image.set_colorkey(BLACK)
 # ---------------------
 
-wall = Rectangle(pygame.Surface((200, 10)), 200, 10)
+wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
 
+wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
+wall.rect.x = 100
+wall.rect.y = size[1]-100-10
+walls.add(wall)
+
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 pacman = Rectangle(pacman_image, W_pacman, H_pacman)
+pacman.rect.x = size[0]/2+x_offset
+pacman.rect.y = size[1]/2+y_offset
 
 # for i in range(0, 50): # create and add fifty pellets
 while 50-len(pellets) > 0:
@@ -146,8 +155,8 @@ while True:
             ticks = pygame.time.get_ticks()
         # -------------------
     # --- Game logic
-    x_offset += x_increment
-    y_offset += y_increment
+    #x_offset += x_increment
+    #y_offset += y_increment
     if size[0]/2+x_offset < 0: # left edge
         x_offset = -size[0]/2
     elif size[0]/2+x_offset + W_pacman > size[0]: # right edge
@@ -157,7 +166,8 @@ while True:
     elif size[1]/2+y_offset + H_pacman > size[1]: # bottom edge
         y_offset = size[1]/2 - H_pacman
 
-    pacman.rect.x = size[0]/2+x_offset
+    # pacman.rect.x = size[0]/2+x_offset
+    pacman.rect.x += x_increment
     hit = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
     for wall in hit:
         if x_increment > 0:
@@ -165,7 +175,8 @@ while True:
         else: # x_increment = 0 not hitting a wall
             pacman.rect.left = wall.rect.right
     
-    pacman.rect.y = size[1]/2+y_offset
+    # pacman.rect.y = size[1]/2+y_offset
+    pacman.rect.y += y_increment
     hit = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
     for wall in hit:
         if y_increment > 0:
