@@ -1,6 +1,6 @@
 # My Projects
 ## Bouncing Animation
-![screenshot of bouncing animation](/screenshots/bouncing.png)
+![screenshot of bouncing animation](screenshots/bouncing.png)
 ## Snowfall Animation
 ![screenshot of snowfall animation](screenshots/snowfall.png)
 ## "Pac-Man" Game
