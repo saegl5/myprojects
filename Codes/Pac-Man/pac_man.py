@@ -26,7 +26,7 @@ y_increment_ghost = 1
 W = 64 # "player" sprite width reference
 H = 64 # "player" sprite height reference
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
-collisions = pygame.sprite.Group()
+# collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 timer = 30 # set timer for 30 seconds
 score = 0 # initialize score
@@ -104,7 +104,7 @@ walls.add(wall)
 # inner walls:
 wall = Rectangle(100, 100, size[0]-100-100, 10)
 walls.add(wall)
-wall = Rectangle(100, size[1]-100-10, size[0]-100-100, 10)
+wall = Rectangle(100, size[1]-10-100, size[0]-100-100, 10)
 walls.add(wall)
 wall = Rectangle(size[0]/2-10/2, 100+10, 10, size[1]-100-10-100-10)
 walls.add(wall)
@@ -234,9 +234,11 @@ while True: # keeps display open
     # green_ghost.rect.y = size[1]/2+y_offset
     # pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
     removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
-    collisions.add(removed)
-    if timer != 0:
-        score = len(collisions)
+    # collisions.add(removed)
+    if removed: # or "for block in removed:"
+        score += 1
+    # if timer != 0:
+        # score = len(collisions)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)

@@ -25,7 +25,7 @@ x_increment = 0
 W = 64 # "player" sprite width reference
 H = 64 # "player" sprite height reference
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
-collisions = pygame.sprite.Group()
+# collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
@@ -171,9 +171,10 @@ while True: # keeps display open
     # removed = pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
         removed = pygame.sprite.spritecollide(laser, blocks, True) # remove a "block" sprite, if "laser" sprite collides with it
-        collisions.add(removed)
-        if removed:
+        # collisions.add(removed)
+        if removed: # or "for block in removed:"
             lasers.remove(laser) # remove "laser" sprite, too
+            score += 1
         elif laser.rect.y < -20:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     for block in blocks:
@@ -181,7 +182,7 @@ while True: # keeps display open
         # players.remove(touched)
         pygame.sprite.spritecollide(block, players, True)
     if timer != 0:
-        score = len(collisions)
+        # score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
     # --------------
