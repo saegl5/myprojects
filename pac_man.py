@@ -51,14 +51,14 @@ pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 # def draw_rect(display, x, y, W, H):
     # pygame.draw.rect(display, WHITE, (x, y, W, H), width=1)
 class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
-    def __init__(self, sprite_image, W, H): # constructor, "self" is like a key for "pacman" sprite to access class
+    def __init__(self, W, H): # constructor, "self" is like a key for "pacman" sprite to access class
         super().__init__() # initialize your sprites, similar to init()
         size = (W, H) # local variable
         self.image = pygame.Surface(size) # blank image
         self.image.fill(BLACK)
         # self.image.set_colorkey(BLACK) # removes background
         # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # drawing on image, not screen
-        self.image.blit(sprite_image, (0, 0))
+        # self.image.blit(sprite_image, (0, 0))
         self.rect = self.image.get_rect() # pair image with rectangle object, the rectangle object is your sprite
         # nutshell: drawing shape on an image, and you pair that image with a rectangle object, which is your sprite
     def update(self):
@@ -77,25 +77,37 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         self.image.set_colorkey(BLACK)
 # ---------------------
 
-wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
+# wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
+wall = Rectangle(size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
 
-wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
+# wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
+wall = Rectangle(size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = size[1]-100-10
 walls.add(wall)
 
+# wall = Rectangle(pygame.Surface((200, 10)), 10, size[1]-100-100-10-10)
+wall = Rectangle(10, size[1]-100-100-10-10)
+wall.rect.x = size[0]/2-10/2
+wall.rect.y = 100+10
+walls.add(wall)
+
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
-pacman = Rectangle(pacman_image, W_pacman, H_pacman)
+# pacman = Rectangle(pacman_image, W_pacman, H_pacman)
+pacman = Rectangle(W_pacman, H_pacman)
+pacman.image.blit(pacman_image, (0, 0)) # was self.image.blit(sprite_image, (0, 0))
 pacman.rect.x = size[0]/2+x_offset
 pacman.rect.y = size[1]/2+y_offset
 
 # for i in range(0, 50): # create and add fifty pellets
 while 50-len(pellets) > 0:
     # pellet = Rectangle(YELLOW, W_pellet, H_pellet)
-    pellet = Rectangle(pellet_image, W_pellet, H_pellet)
+    # pellet = Rectangle(pellet_image, W_pellet, H_pellet)
+    pellet = Rectangle(W_pellet, H_pellet)
+    pellet.image.blit(pellet_image, (0, 0)) # was self.image.blit(sprite_image, (0, 0))
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
     pellet.rect.x = random.randrange(0, size[0]-W_pellet, W_pellet) # includes max, but prone to off-by-one error
     pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet)
