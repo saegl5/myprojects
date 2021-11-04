@@ -20,9 +20,11 @@ clock = pygame.time.Clock() # define "clock"
 x_offset = 0 # reordered
 y_offset = 0
 x_increment = 0
-x_increment_ghost = 1
+x_increment_red_ghost = 1 # offsetting directly, moving at launch, direction optional
+x_increment_green_ghost = 0
 y_increment = 0
-y_increment_ghost = 1
+y_increment_red_ghost = 0 # offsetting directly
+y_increment_green_ghost = 1
 W = 64 # "player" sprite width reference
 H = 64 # "player" sprite height reference
 blocks = pygame.sprite.Group() # create a list for "block" sprites, no longer blocks = [], Group() is class
@@ -43,15 +45,11 @@ player_image_alt = pygame.image.load('Images/pac_chomp.png').convert() # my imag
 block_image = pygame.image.load('Images/dot.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles (changed black to (1, 1, 1), too)
 block_image = pygame.transform.scale(block_image, (int(W/2), int(H/2))) # int() addresses "TypeError: integer argument expected, got float"
 # block_image.set_colorkey(BLACK)
-ghost_image_1 = pygame.image.load('Images/ghost1.png').convert() # corrected profile
-ghost_image_1 = pygame.transform.scale(ghost_image_1, (int(W/2), int(H/2)))
-# ghost_image_1_alt = pygame.image.load('Images/ghost1b.png').convert()
-# ghost_image_1_alt = pygame.transform.scale(ghost_image_1_alt, (int(W/2), int(H/2)))
+red_ghost_image = pygame.image.load('Images/red_ghost.png').convert() # corrected profile
+# red_ghost_image = pygame.transform.scale(red_ghost_image, (int(W/2), int(H/2)))
 
-ghost_image_2 = pygame.image.load('Images/ghost3.png').convert()
-ghost_image_2 = pygame.transform.scale(ghost_image_2, (int(W/2), int(H/2)))
-# ghost_image_2_alt = pygame.image.load('Images/ghost3b.png').convert()
-# ghost_image_2_alt = pygame.transform.scale(ghost_image_2_alt, (int(W/2), int(H/2)))
+green_ghost_image = pygame.image.load('Images/green_ghost.png').convert() # corrected profile
+# green_ghost_image = pygame.transform.scale(green_ghost_image, (int(W/2), int(H/2)))
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -92,21 +90,21 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     #         green_ghost.image.blit(ghost_image_2, (0, 0))
 
 # ---------------------
-# outer walls (all four):
-wall = Rectangle(0, 0-1, size[0], 1) # need at least some thickness, moved walls outside display
-walls.add(wall)
-wall = Rectangle(0-1, 1, 1, size[1]-1)
-walls.add(wall)
-wall = Rectangle(0, size[1]-1+1, size[0], 1)
-walls.add(wall)
-wall = Rectangle(size[0]-1+1, 1, 1, size[1]-1)
-walls.add(wall)
 # inner walls:
 wall = Rectangle(100, 100, size[0]-100-100, 10)
 walls.add(wall)
 wall = Rectangle(100, size[1]-10-100, size[0]-100-100, 10)
 walls.add(wall)
-wall = Rectangle(size[0]/2-10/2, 100+10, 10, size[1]-100-10-100-10)
+wall = Rectangle(size[0]/2-10/2, 100+10, 10, size[1]-100-100-10-10)
+walls.add(wall)
+# outer walls (left, right, top, bottom):
+wall = Rectangle(0-1, 0, 1, size[1]) # need at least some thickness, moved walls outside display
+walls.add(wall)
+wall = Rectangle(size[0]-1+1, 0, 1, size[1])
+walls.add(wall)
+wall = Rectangle(1, 0-1, size[0]-2, 1)
+walls.add(wall)
+wall = Rectangle(1, size[1]-1+1, size[0]-2, 1)
 walls.add(wall)
 for wall in walls:
     wall.image.fill(LIGHTGRAY)
@@ -120,18 +118,34 @@ while 50-len(blocks) > 0: # create and add fifty "block" sprites
     y = random.randrange(0, size[1]+1-H/2, H/2) #  want "block" sprites equally spaced, also mitigates overlap
     block = Rectangle(x, y, W/2, H/2) # create a "block" sprite
     block.image.blit(block_image, (0, 0))
-    pygame.sprite.spritecollide(block, blocks, True) # remove any "block" sprite in same position, essentially preventing "block" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
+    pygame.sprite.spritecollide(block, blocks, True) # remove any "block" sprite in list in same position, essentially preventing "block" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
+    for wall in walls:
+        pygame.sprite.spritecollide(wall, blocks, True) # remove any "block" sprite in list in same position
     blocks.add(block) # add "block" sprite to list, no longer append
-    
-x = random.randrange(0, size[0]+1-W/2, W/2)
-y = random.randrange(0, size[1]+1-H/2, H/2)
-red_ghost = Rectangle(x, y, W/2, H/2) # what if start other way?
-red_ghost.image.blit(ghost_image_1, (0, 0))
 
-x = random.randrange(0, size[0]+1-W/2, W/2)
-y = random.randrange(0, size[1]+1-H/2, H/2)
-green_ghost = Rectangle(x, y, W/2, H/2) # what if start other way?
-green_ghost.image.blit(ghost_image_2, (0, 0))
+while True:
+    x = random.randrange(0, size[0]+1-W, W)
+    y = random.randrange(0, size[1]+1-H, H)
+    red_ghost = Rectangle(x, y, W, H)
+    red_ghost.image.blit(red_ghost_image, (0, 0))
+    stuck = pygame.sprite.spritecollide(red_ghost, walls, False)
+    if stuck:
+        red_ghost.kill()
+        continue # create new sprite
+    else:
+        break # exit loop, not quitting game
+
+while True:
+    x = random.randrange(0, size[0]+1-W, W)
+    y = random.randrange(0, size[1]+1-H, H)
+    green_ghost = Rectangle(x, y, W, H)
+    green_ghost.image.blit(green_ghost_image, (0, 0))
+    stuck = pygame.sprite.spritecollide(green_ghost, walls, False)
+    if stuck:
+        green_ghost.kill()
+        continue
+    else:
+        break
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
@@ -148,12 +162,23 @@ while True: # keeps display open
             else: # after one second
                 timer -= 1 # decrement timer
                 if timer % 5 == 0:
-                    x_increment_ghost *= -1
-                    red_ghost.image = pygame.transform.flip(red_ghost.image, True, False)
-                    red_ghost.image.set_colorkey(BLACK)                    
-                    y_increment_ghost *= -1
-                    green_ghost.image = pygame.transform.flip(green_ghost.image, True, False)
-                    green_ghost.image.set_colorkey(BLACK)
+                    x_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
+                    if x_increment_red_ghost == 0:
+                        y_increment_red_ghost = random.choice([-1, 1]) # always moving
+                    # red_ghost.image = pygame.transform.flip(red_ghost.image, True, False)
+                    # red_ghost.image.set_colorkey(BLACK)                    
+                    y_increment_green_ghost = random.randint(-1, 1)
+                    if y_increment_green_ghost == 0:
+                        x_increment_green_ghost = random.choice([-1, 1])
+                    # green_ghost.image = pygame.transform.flip(green_ghost.image, True, False)
+                    # green_ghost.image.set_colorkey(BLACK)
+                if timer % 10 == 0:
+                    y_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
+                    if y_increment_red_ghost == 0:
+                        x_increment_red_ghost = random.choice([-1, 1]) # always moving
+                    x_increment_green_ghost = random.randint(-1, 1)
+                    if x_increment_green_ghost == 0:
+                        y_increment_green_ghost = random.choice([-1, 1])
 
                 # if timer % 5 == 0: # every 5 seconds
                 # red_ghost.rect.x += x_increment_ghost # move "block" sprites downward
@@ -196,8 +221,7 @@ while True: # keeps display open
         # -------------------------
     # --- Game logic
     # x_offset += x_increment
-    player.rect.x += x_increment # offset directly
-
+    player.rect.x += x_increment # bypass offset for new positions
     hit = pygame.sprite.spritecollide(player, walls, False) # DON'T remove a "wall" sprite, if "player" sprite hits it, returns a list
     # instead...
     for wall in hit: # wall that player hit
@@ -207,8 +231,7 @@ while True: # keeps display open
             player.rect.left = wall.rect.right # reverse
 
     # y_offset += y_increment
-    player.rect.y += y_increment # offset directly, must put here or else goes around wall
-
+    player.rect.y += y_increment # bypass offset for new positions, must put here or else goes around wall
     hit = pygame.sprite.spritecollide(player, walls, False)
     for wall in hit:
         if y_increment > 0:
@@ -228,8 +251,26 @@ while True: # keeps display open
     # player.rect.x = size[0]/2+x_offset # position and offset "player" sprite <- do earlier
     # player.rect.y = size[1]/2+y_offset <- do earlier
     # if timer % 10 == 0:
-    red_ghost.rect.x += x_increment_ghost # move "block" sprites downward
-    green_ghost.rect.y += y_increment_ghost # move "block" sprites downward
+    red_ghost.rect.x += x_increment_red_ghost # move "block" sprites rightward
+    hit = pygame.sprite.spritecollide(red_ghost, walls, False)
+    if hit:
+        x_increment_red_ghost *= -1
+
+    red_ghost.rect.y += y_increment_red_ghost # move "block" sprites downward
+    hit = pygame.sprite.spritecollide(red_ghost, walls, False)
+    if hit:
+        y_increment_red_ghost *= -1
+
+    green_ghost.rect.x += x_increment_green_ghost
+    hit = pygame.sprite.spritecollide(green_ghost, walls, False)
+    if hit:
+        x_increment_green_ghost *= -1
+
+    green_ghost.rect.y += y_increment_green_ghost
+    hit = pygame.sprite.spritecollide(green_ghost, walls, False)
+    if hit:
+        y_increment_green_ghost *= -1
+
     # red_ghost.rect.x = size[0]/2+x_offset
     # green_ghost.rect.y = size[1]/2+y_offset
     # pygame.sprite.spritecollide(player, blocks, True) # remove a "block" sprite, if "player" sprite collides with it
