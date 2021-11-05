@@ -1,10 +1,9 @@
 # My Projects
 ## Bouncing Animation
-![screenshot of bouncing animation](screenshots/bouncing.png)
+<img src="screenshots/bouncing.png" alt="screenshot of bouncing animation" width="700">
 ## Snowfall Animation
-![screenshot of snowfall animation](screenshots/snowfall.png)
+<img src="screenshots/snowfall.png" alt="screenshot of snowfall animation" width="700">
 ## "Pac-Man" Game
-![screenshot of pacman game](screenshots/pac_man.png)
 <img src="screenshots/pac_man.png" alt="screenshot of pacman game" width="700">
 ## "Space Invaders" Game
-![screenshot of space invaders game](screenshots/space_invaders.png)
+<img src="screenshots/space_invaders.png" alt="screenshot of space invaders game" width="700">
