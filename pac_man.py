@@ -56,7 +56,7 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         size = (W, H) # local variable
         self.image = pygame.Surface(size) # blank image
         self.image.fill(BLACK)
-        # self.image.set_colorkey(BLACK) # removes background
+        self.image.set_colorkey(BLACK) # removes background, need for python 3.10.0
         # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # drawing on image, not screen
         # self.image.blit(sprite_image, (0, 0))
         self.rect = self.image.get_rect() # pair image with rectangle object, the rectangle object is your sprite
@@ -94,6 +94,10 @@ wall = Rectangle(10, size[1]-100-100-10-10)
 wall.rect.x = size[0]/2-10/2
 wall.rect.y = 100+10
 walls.add(wall)
+
+# need for python 3.10.0
+for wall in walls:
+    wall.image.fill(pygame.Color(1, 1, 1))
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 # pacman = Rectangle(pacman_image, W_pacman, H_pacman)
