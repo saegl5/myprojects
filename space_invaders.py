@@ -36,7 +36,7 @@ vehicle_image = pygame.image.load('ship.png').convert()
 invader_image = pygame.image.load('alien.png').convert()
 invader_image_alt = pygame.image.load('alien_lunging.png').convert()
 ticks = int() # some integer, clock sound
-W_vehicle = 64
+W_vehicle = 64 # these variables are for images
 H_vehicle = 64
 W_invader = 32
 H_invader = 32
@@ -194,8 +194,8 @@ while True:
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
     # screen.blit(vehicle.image, vehicle.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
-    screen.blit(vehicle.image, (vehicle.rect.x, vehicle.rect.y))
     invaders.draw(screen) # draw sprite on screen <-- multiple sprites
+    screen.blit(vehicle.image, (vehicle.rect.x, vehicle.rect.y))
     lasers.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10))
