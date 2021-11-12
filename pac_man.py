@@ -21,6 +21,7 @@ x_offset = 0
 y_offset = 0
 x_increment = 0
 y_increment = 0
+x_increment_ghost = 1 # ghost moving rightward at launch
 pellets = pygame.sprite.Group() # not pellets = [] <-- multiple sprites
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
@@ -31,12 +32,15 @@ game_over_sound = pygame.mixer.Sound('game_over.ogg')
 you_win_sound = pygame.mixer.Sound('you_win.ogg')
 pacman_image = pygame.image.load('pac.png').convert()
 pellet_image = pygame.image.load('dot.png').convert() # need to scale down
+ghost_image = pygame.image.load('red_ghost.png').convert()
 # pellet_image = pygame.transform.scale(pellet_image, (W_pellet, H_pellet))
 #pellet_image.set_colorkey(BLACK)
-W_pacman = 64
+W_pacman = 64 # these variables are for images
 H_pacman = 64
 W_pellet = 32
 H_pellet = 32
+W_ghost = 64
+H_ghost = 64
 pellet_image = pygame.transform.scale(pellet_image, (W_pellet, H_pellet))
 pacman_image_alt = pygame.image.load('pac_chomp.png').convert()
 count = 0
@@ -106,6 +110,11 @@ pacman.image.blit(pacman_image, (0, 0)) # was self.image.blit(sprite_image, (0, 
 pacman.rect.x = size[0]/2+x_offset
 pacman.rect.y = size[1]/2+y_offset
 
+ghost = Rectangle(W_ghost, H_ghost)
+ghost.image.blit(ghost_image, (0, 0))
+ghost.rect.x = 200
+ghost.rect.y = 300
+
 # for i in range(0, 50): # create and add fifty pellets
 while 50-len(pellets) > 0:
     # pellet = Rectangle(YELLOW, W_pellet, H_pellet)
@@ -116,6 +125,8 @@ while 50-len(pellets) > 0:
     pellet.rect.x = random.randrange(0, size[0]-W_pellet, W_pellet) # includes max, but prone to off-by-one error
     pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet)
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in same position
+    for wall in walls:
+        pygame.sprite.spritecollide(wall, pellets, True)
     pellets.add(pellet) # not pellets.append(pellet) <-- multiple sprites
 
 while True:
@@ -206,6 +217,9 @@ while True:
     collisions.add(removed) # when "pellet" sprite is removed from pellets list, add it to collisions list
     if timer != 0: # not equal to/is not
         score = len(collisions)
+
+    ghost.rect.x += x_increment_ghost # could also decrement
+
     # --------------
     screen.fill(BLUE)
     timer_text = style.render(str(timer), True, RED) # True for anti-aliased, "string" --> str(timer)
@@ -226,9 +240,10 @@ while True:
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
     # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
-    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y))
-    pellets.draw(screen) # draw sprite on screen <-- multiple sprites
     walls.draw(screen)
+    pellets.draw(screen) # draw sprite on screen <-- multiple sprites
+    screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
+    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y))
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10))
