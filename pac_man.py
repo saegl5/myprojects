@@ -197,8 +197,6 @@ while True:
                     angle = 90
                     pacman.turn(angle)
                     count += 1
-                pacman.turn(angle)
-                count += 1
             else:
                 x_increment = 0
                 y_increment = 0
