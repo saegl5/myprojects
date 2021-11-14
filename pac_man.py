@@ -81,22 +81,50 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         self.image.set_colorkey(BLACK)
 # ---------------------
 
-# wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
+# inner walls
+
+# top
 wall = Rectangle(size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
 
-# wall = Rectangle(pygame.Surface((200, 10)), size[0]-100-100, 10)
+# bottom
 wall = Rectangle(size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = size[1]-100-10
 walls.add(wall)
 
-# wall = Rectangle(pygame.Surface((200, 10)), 10, size[1]-100-100-10-10)
+# middle
 wall = Rectangle(10, size[1]-100-100-10-10)
 wall.rect.x = size[0]/2-10/2
 wall.rect.y = 100+10
+walls.add(wall)
+
+# outer walls
+
+# left
+wall = Rectangle(1, size[1]) # 1px is minimum width, size[1] height of entire display
+wall.rect.x = 0-1 # just subtract by 1 to move wall leftward
+wall.rect.y = 0
+walls.add(wall)
+
+# right
+wall = Rectangle(1, size[1])
+wall.rect.x = size[0]-1+1
+wall.rect.y = 0
+walls.add(wall)
+
+# top
+wall = Rectangle(size[0]-2, 1)
+wall.rect.x = 1
+wall.rect.y = 0-1
+walls.add(wall)
+
+# bottom
+wall = Rectangle(size[0]-2, 1)
+wall.rect.x = 1
+wall.rect.y = size[1]-1+1
 walls.add(wall)
 
 # needed for newer versions of python
@@ -184,14 +212,14 @@ while True:
     # --- Game logic
     #x_offset += x_increment
     #y_offset += y_increment
-    if size[0]/2+x_offset < 0: # left edge
-        x_offset = -size[0]/2
-    elif size[0]/2+x_offset + W_pacman > size[0]: # right edge
-        x_offset = size[0]/2 - W_pacman
-    if size[1]/2+y_offset < 0: # top edge
-        y_offset = -size[1]/2
-    elif size[1]/2+y_offset + H_pacman > size[1]: # bottom edge
-        y_offset = size[1]/2 - H_pacman
+    # if size[0]/2+x_offset < 0: # left edge
+    #     x_offset = -size[0]/2
+    # elif size[0]/2+x_offset + W_pacman > size[0]: # right edge
+    #     x_offset = size[0]/2 - W_pacman
+    # if size[1]/2+y_offset < 0: # top edge
+    #     y_offset = -size[1]/2
+    # elif size[1]/2+y_offset + H_pacman > size[1]: # bottom edge
+    #     y_offset = size[1]/2 - H_pacman
 
     # pacman.rect.x = size[0]/2+x_offset
     pacman.rect.x += x_increment
@@ -219,6 +247,9 @@ while True:
         score = len(collisions)
 
     ghost.rect.x += x_increment_ghost # could also decrement
+    hit = pygame.sprite.spritecollide(ghost, walls, False)
+    if hit:
+        x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
 
     # --------------
     screen.fill(BLUE)
