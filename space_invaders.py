@@ -24,6 +24,7 @@ x_increment = 0
 invaders = pygame.sprite.Group() # not invaders = [] <-- multiple sprites
 collisions = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
+lasers_alt = pygame.sprite.Group()
 vehicles = pygame.sprite.Group()
 timer = 30 # 10 seconds
 score = 0
@@ -110,6 +111,12 @@ while True:
                 for invader in invaders:
                     invader.lunge() # all invaders lunge
                 count += 1
+                if timer % 7 == 0: # 7 is optional
+                    laser = Rectangle(pygame.Surface((6, 10)), 6, 10) # 6 and 10 also optional
+                    laser.image.fill(RED)
+                    laser.rect.centerx = invaders.sprites()[0].rect.centerx # 0 is index, range 0-49
+                    laser.rect.top = invaders.sprites()[0].rect.bottom
+                    lasers_alt.add(laser)
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(vehicles) != 0: # "and" or "or" depends
@@ -169,6 +176,7 @@ while True:
     if timer != 0: # not equal to/is not
         score = len(collisions)
         lasers.update(-10)
+        lasers_alt.update(2) # 2 is optional
     for invader in invaders:
         pygame.sprite.spritecollide(invader, vehicles, True)
     # --------------
@@ -195,6 +203,7 @@ while True:
     # screen.blit(vehicle.image, vehicle.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
     invaders.draw(screen) # draw sprite on screen <-- multiple sprites
+    lasers_alt.draw(screen)
     screen.blit(vehicle.image, (vehicle.rect.x, vehicle.rect.y))
     lasers.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
