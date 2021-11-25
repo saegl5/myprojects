@@ -64,7 +64,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         self.image.fill(BLACK) # useful if run module on macOS
         # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # draw shape on image, draw over entire image with (0, 0, W, H), where (0, 0) is located at image's top-left corner
         # self.image.blit(sprite_image, (0, 0))
-        # self.image.set_colorkey(BLACK) # windows only
+        self.image.set_colorkey(BLACK) # windows only and newer python
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
         self.rect.x = x
@@ -97,6 +97,7 @@ wall = Rectangle(100, size[1]-10-100, size[0]-100-100, 10)
 walls.add(wall)
 wall = Rectangle(size[0]/2-10/2, 100+10, 10, size[1]-100-100-10-10)
 walls.add(wall)
+
 # outer walls (left, right, top, bottom):
 wall = Rectangle(0-1, 0, 1, size[1]) # need at least some thickness, moved walls outside display
 walls.add(wall)
