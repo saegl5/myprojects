@@ -30,6 +30,7 @@ H = 64 # "pacman" sprite height reference
 pellets = pygame.sprite.Group() # create a list for "pellet" sprites, no longer pellets = [], Group() is class
 # collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+pacmen = pygame.sprite.Group()
 timer = 30 # set timer for 30 seconds
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
@@ -112,6 +113,7 @@ for wall in walls:
 
 pacman = Rectangle(size[0]/2+x_offset, size[1]/2+y_offset, W, H) # creates a "pacman" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 pacman.image.blit(pacman_image, (0, 0))
+pacmen.add(pacman)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "pellet" sprites
 while 50-len(pellets) > 0: # create and add fifty "pellet" sprites
@@ -160,6 +162,9 @@ while True: # keeps display open
             elif len(pellets) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
+            elif len(pacmen) == 0:
+                pygame.time.set_timer(pygame.USEREVENT, 0)
+                game_over_sound.play()
             else: # after one second
                 timer -= 1 # decrement timer
                 if timer % 5 == 0:
@@ -186,7 +191,7 @@ while True: # keeps display open
                 # green_ghost.rect.y += y_increment_ghost # move "ghost" sprites downward
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if timer != 0 and len(pellets) != 0:
+            if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
                 if action.key == pygame.K_RIGHT: # note "action.key"
                     x_increment = 5 # "5" is optional
                     angle = 0
@@ -284,13 +289,15 @@ while True: # keeps display open
         score += 1
     # if timer != 0:
         # score = len(collisions)
+    pygame.sprite.spritecollide(green_ghost, pacmen, True)
+    pygame.sprite.spritecollide(red_ghost, pacmen, True)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
     score_text = style.render(str(score), True, GREEN)
     game_over_text = style.render(None, True, BLACK)
     you_win_text = style.render(None, True, GREEN)
-    if timer == 0:
+    if timer == 0 or len(pacmen) == 0:
         pacman.image.fill(WHITE)
         for pellet in pellets:
             pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
