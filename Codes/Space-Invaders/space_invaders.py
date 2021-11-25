@@ -51,14 +51,14 @@ pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i
 
 # --- Functions/Classes
 class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish class from a function
-    def __init__(self, x, y, W, H): # define a constructor, class accepts picture, width, height, x-coordinate, and y-coordinate parameters, must type "__" before and after "init," requires "self"
+    def __init__(self, x, y, W, H): # define a constructor, class accepts width, height, x-coordinate, and y-coordinate parameters, must type "__" before and after "init," requires "self"
         super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
         size = (W, H) # define size of image, local variable
         self.image = pygame.Surface(size) # creates a blank image using Surface class
         self.image.fill(BLACK) # useful if run module on macOS
         # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # draw shape on image, draw over entire image with (0, 0, W, H), where (0, 0) is located at image's top-left corner
         # self.image.blit(sprite_image, (0, 0))
-        # self.image.set_colorkey(BLACK) # windows only
+        self.image.set_colorkey(BLACK) # windows only and newer python
         self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
         # sprite consists of image and rectangle object
         self.rect.x = x
@@ -74,15 +74,17 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
 
 # outer walls (only left and right):
 wall = Rectangle(0-1, 0, 1, size[1]) # need at least some thickness, moved walls outside display
+# wall.image.fill(pygame.Color(1, 1, 1)) # windows
 walls.add(wall)
 wall = Rectangle(size[0]-1+1, 0, 1, size[1])
+# wall.image.fill(pygame.Color(1, 1, 1)) # windows
 walls.add(wall)
 # no inner walls
 
-player = Rectangle(int(), int(), W, H) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+x = size[0]/2+x_offset # position and offset "player" sprite
+y = size[1]-H
+player = Rectangle(x, y, W, H) # creates a "player" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 player.image.blit(player_image, (0, 0))
-player.rect.x = size[0]/2+x_offset # position and offset "player" sprite
-player.rect.y = size[1]-H
 players.add(player)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "block" sprites
@@ -119,12 +121,12 @@ while True: # keeps display open
                 for block in blocks:
                     block.lunge()
                 count += 1
-                if (timer % 7 == 0) or (timer % 8 == 0): # some number not multiple of 5
+                if timer % 7 == 0: # some number not multiple of 5
                     laser = Rectangle(int(), int(), 6, 10) # create "laser" sprite
                     laser.image.fill(RED)
-                    index = random.randrange(0, len(blocks))
-                    laser.rect.centerx = blocks.sprites()[index].rect.centerx # align it with "player" sprite's horizontal center
-                    laser.rect.bottom = blocks.sprites()[index].rect.bottom # align its bottom with "player" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn
+                    index = 0 # example, more randomized with random.randrange(0, len(blocks))
+                    laser.rect.centerx = blocks.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
+                    laser.rect.top = blocks.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
                     lasers_alt.add(laser)
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
@@ -137,7 +139,7 @@ while True: # keeps display open
                     laser = Rectangle(int(), int(), 4, 20) # create "laser" sprite
                     laser.image.fill(CYAN)
                     laser.rect.centerx = player.rect.centerx # align it with "player" sprite's horizontal center
-                    laser.rect.bottom = player.rect.top + 10 # align its bottom with "player" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn
+                    laser.rect.bottom = player.rect.top + 10 # align its bottom with "player" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn vehicle after lasers)
                     if first == True:
                         lasers.add(laser)
                         first = False
