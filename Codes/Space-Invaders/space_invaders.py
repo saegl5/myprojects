@@ -183,6 +183,8 @@ while True: # keeps display open
         # touched = pygame.sprite.spritecollide(invader, vehicles, True)
         # vehicles.remove(touched)
         pygame.sprite.spritecollide(invader, vehicles, True)
+    for laser in lasers_alt:
+        pygame.sprite.spritecollide(laser, vehicles, True)
     if timer != 0:
         # score = len(collisions)
         lasers.update(-10)
