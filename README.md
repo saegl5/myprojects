@@ -6,6 +6,9 @@
 ## Snowfall Animation
 <img src="screenshots/snowfall.png" alt="screenshot of snowfall animation" width="700">
 
+## "Pictionary" Game
+<img src="screenshots/pictionary.png" alt="screenshot of pictionary game" width="700">
+
 ## "Pac-Man" Game
 <img src="screenshots/pac_man.png" alt="screenshot of pacman game" width="700">
 
