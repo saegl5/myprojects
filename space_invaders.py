@@ -44,7 +44,7 @@ H_invader = 32
 vehicle_image = pygame.transform.scale(vehicle_image, (W_vehicle, H_vehicle))
 count = 0
 
-pygame.display.set_caption("QUESTABOX's Cool Game")
+pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
 pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 
@@ -71,6 +71,9 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
             self.image.blit(invader_image_alt, (0, 0)) # change picture
         else:
             self.image.blit(invader_image, (0, 0)) # revert
+    def retry(self):
+        self.rect.x = size[0]/2
+        self.rect.y = size[1]-H_vehicle
 # ---------------------
 
 vehicle = Rectangle(vehicle_image, W_vehicle, H_vehicle)
@@ -175,10 +178,16 @@ while True:
             lasers.remove(laser)
     if timer != 0: # not equal to/is not
         score = len(collisions)
-        lasers.update(-10)
-        lasers_alt.update(2) # 2 is optional
+        lasers.update(-1)
+        lasers_alt.update(1) # 2 is optional
     for invader in invaders:
         pygame.sprite.spritecollide(invader, vehicles, True)
+    for laser in lasers_alt:
+        removed = pygame.sprite.spritecollide(laser, vehicles, True)
+        if removed:
+            vehicles.add(removed) # will reposition the vehicle
+            # for vehicle in vehicles:
+            vehicle.retry()
     # --------------
     screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size

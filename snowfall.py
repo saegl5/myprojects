@@ -15,7 +15,7 @@ snowflakes = [] # define a list
 i = int() # optional, use range() to confine i to 0 or greater
 r = 4 # circle radius
 
-pygame.display.set_caption("QUESTABOX's Cool Animation") # title, example
+pygame.display.set_caption("QUESTABOX's Snowfall Animation") # title, example
 
 for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50)
     x = random.randrange(0, size[0]+1) # random number between 0 and, including, size[0]

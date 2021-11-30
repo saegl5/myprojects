@@ -47,7 +47,7 @@ count = 0
 ticks = int()
 angle = 0
 
-pygame.display.set_caption("QUESTABOX's Cool Game")
+pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
 pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 
@@ -150,12 +150,24 @@ while 50-len(pellets) > 0:
     pellet = Rectangle(W_pellet, H_pellet)
     pellet.image.blit(pellet_image, (0, 0)) # was self.image.blit(sprite_image, (0, 0))
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
-    pellet.rect.x = random.randrange(0, size[0]-W_pellet, W_pellet) # includes max, but prone to off-by-one error
+    pellet.rect.x = random.randrange(0, size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error
     pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet)
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in same position
     for wall in walls:
         pygame.sprite.spritecollide(wall, pellets, True)
     pellets.add(pellet) # not pellets.append(pellet) <-- multiple sprites
+
+for i in range(0, 50): # fifty "pellet" sprites
+    # pellet = Rectangle(YELLOW, 32, 32)
+    pellet = Rectangle(W_pellet, H_pellet)
+    pellet.image.blit(pellet_image, (0, 0))
+    pellet.rect.x = random.randrange(0, size[0]+1-W_pellet, W_pellet) # removed offset to keep pellet static, size[0] is width of screen = 704
+    # +1 includes size[0] in range
+    pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet) # size[1] is height of screen = 512, +1 includes size[1] in range
+    # -32 to make sure sprite is drawn inside canvas
+    pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in same position, essentially preventing "pellet" sprites from taking same position
+    pellets.add(pellet)
+
 
 while True:
     for action in pygame.event.get():
