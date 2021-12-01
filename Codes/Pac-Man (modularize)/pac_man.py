@@ -122,9 +122,9 @@ while 50-len(pellets) > 0: # create and add fifty "pellet" sprites
     pellet = Rectangle(x, y, W/2, H/2) # create a "pellet" sprite
     pellet.image.blit(pellet_image, (0, 0))
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in list in same position, essentially preventing "pellet" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
+    pellets.add(pellet) # add "pellet" sprite to list, no longer append
     for wall in walls:
         pygame.sprite.spritecollide(wall, pellets, True) # remove any "pellet" sprite in list in same position
-    pellets.add(pellet) # add "pellet" sprite to list, no longer append
 
 while True:
     x = random.randrange(0, size[0]+1-W, W)
