@@ -157,18 +157,6 @@ while 50-len(pellets) > 0:
         pygame.sprite.spritecollide(wall, pellets, True)
     pellets.add(pellet) # not pellets.append(pellet) <-- multiple sprites
 
-for i in range(0, 50): # fifty "pellet" sprites
-    # pellet = Rectangle(YELLOW, 32, 32)
-    pellet = Rectangle(W_pellet, H_pellet)
-    pellet.image.blit(pellet_image, (0, 0))
-    pellet.rect.x = random.randrange(0, size[0]+1-W_pellet, W_pellet) # removed offset to keep pellet static, size[0] is width of screen = 704
-    # +1 includes size[0] in range
-    pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet) # size[1] is height of screen = 512, +1 includes size[1] in range
-    # -32 to make sure sprite is drawn inside canvas
-    pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in same position, essentially preventing "pellet" sprites from taking same position
-    pellets.add(pellet)
-
-
 while True:
     for action in pygame.event.get():
         if action.type == pygame.QUIT:
