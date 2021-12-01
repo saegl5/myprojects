@@ -153,9 +153,9 @@ while 50-len(pellets) > 0:
     pellet.rect.x = random.randrange(0, size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error
     pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet)
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in same position
+    pellets.add(pellet) # not pellets.append(pellet) <-- multiple sprites
     for wall in walls:
         pygame.sprite.spritecollide(wall, pellets, True)
-    pellets.add(pellet) # not pellets.append(pellet) <-- multiple sprites
 
 while True:
     for action in pygame.event.get():
