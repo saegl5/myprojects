@@ -17,7 +17,7 @@ ticks = int() # for saving energy
 
 pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
 
-cursor = pygame.image.load('chalk.png')
+cursor = pygame.image.load('chalk.png').convert()
 cursor.set_colorkey(BLUE)
 pygame.mouse.set_visible(False)  # hide the system cursor, will replace it with image of chalk later
 
