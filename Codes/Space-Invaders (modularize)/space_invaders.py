@@ -34,6 +34,7 @@ timer = 30 # set timer for 30 seconds
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
 count = 0 # for lunging picture
+retries = 2
 ticks = int() # for saving energy
 game_over_sound = pygame.mixer.Sound('Sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 you_win_sound = pygame.mixer.Sound('Sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
@@ -70,6 +71,9 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
             self.image.blit(invader_image_alt, (0, 0))
         else:
             self.image.blit(invader_image, (0, 0))
+    def retry(self):
+        self.rect.x = size[0]/2 # center along bottom of display, bypassed offset
+        self.rect.y = size[1]-H
 # ---------------------
 
 # outer walls (only left and right):
@@ -116,7 +120,7 @@ while True: # keeps display open
                 game_over_sound.play()
             else: # after one second
                 timer -= 1 # decrement timer
-                if timer % 5 == 0: # every 5 seconds
+                if timer % 5 == 0: # every 5 seconds, divides into timer evenly
                     invaders.update(32) # move "invader" sprites downward
                 for invader in invaders:
                     invader.lunge()
@@ -184,7 +188,11 @@ while True: # keeps display open
         # vehicles.remove(touched)
         pygame.sprite.spritecollide(invader, vehicles, True)
     for laser in lasers_alt:
-        pygame.sprite.spritecollide(laser, vehicles, True)
+        removed = pygame.sprite.spritecollide(laser, vehicles, True)
+        if removed and retries > 0:
+            vehicles.add(removed) # repositioning the vehicle
+            vehicle.retry()
+            retries -= 1
     if timer != 0:
         # score = len(collisions)
         lasers.update(-10)
