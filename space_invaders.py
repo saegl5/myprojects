@@ -72,7 +72,7 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         else:
             self.image.blit(invader_image, (0, 0)) # revert
     def retry(self):
-        self.rect.x = size[0]/2
+        self.rect.x = size[0]/2-W_vehicle
         self.rect.y = size[1]-H_vehicle
 # ---------------------
 
@@ -178,11 +178,11 @@ while True:
             lasers.remove(laser)
     if timer != 0: # not equal to/is not
         score = len(collisions)
-        lasers.update(-1)
-        lasers_alt.update(1) # 2 is optional
+        lasers.update(-10)
+        lasers_alt.update(2) # 2 is optional
     for invader in invaders:
         pygame.sprite.spritecollide(invader, vehicles, True)
-    for laser in lasers_alt:
+    for laser in lasers:
         removed = pygame.sprite.spritecollide(laser, vehicles, True)
         if removed:
             vehicles.add(removed) # will reposition the vehicle
