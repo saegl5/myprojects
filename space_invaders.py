@@ -43,6 +43,7 @@ W_invader = 32
 H_invader = 32
 vehicle_image = pygame.transform.scale(vehicle_image, (W_vehicle, H_vehicle))
 count = 0
+retries = 2
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
@@ -72,11 +73,13 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         else:
             self.image.blit(invader_image, (0, 0)) # revert
     def retry(self):
-        self.rect.x = size[0]/2-W_vehicle
+        self.rect.x = size[0]/2-W_vehicle/2
         self.rect.y = size[1]-H_vehicle
 # ---------------------
 
 vehicle = Rectangle(vehicle_image, W_vehicle, H_vehicle)
+vehicle.rect.x = size[0]/2+x_offset
+vehicle.rect.y = size[1] - H_vehicle
 vehicles.add(vehicle)
 
 # for i in range(0, 50): # create and add fifty invaders
@@ -153,7 +156,7 @@ while True:
             ticks = pygame.time.get_ticks()
         # -------------------
     # --- Game logic
-    x_offset += x_increment
+    # x_offset += x_increment
     # y_offset += y_increment
     if size[0]/2+x_offset < 0: # left edge
         x_offset = -size[0]/2
@@ -163,8 +166,9 @@ while True:
         # y_offset = -size[1]/2
     # elif size[1]/2+y_offset + 64 > size[1]: # bottom edge
         # y_offset = size[1]/2 - 64
-    vehicle.rect.x = size[0]/2+x_offset
-    vehicle.rect.y = size[1] - H_vehicle # was size[1]/2+y_offset
+    # vehicle.rect.x = size[0]/2+x_offset
+    vehicle.rect.x += x_increment
+    # vehicle.rect.y = size[1] - H_vehicle # was size[1]/2+y_offset
     # invader.rect.x = random.randrange(0, size[0]+1-32) # allow invader to touch edge but not breach it
     # invader.rect.y = random.randrange(0, size[1]+1-32) # problem is that recalculates each loop
 
@@ -182,12 +186,13 @@ while True:
         lasers_alt.update(2) # 2 is optional
     for invader in invaders:
         pygame.sprite.spritecollide(invader, vehicles, True)
-    for laser in lasers:
+    for laser in lasers_alt:
         removed = pygame.sprite.spritecollide(laser, vehicles, True)
-        if removed:
+        if removed and retries > 0:
             vehicles.add(removed) # will reposition the vehicle
             # for vehicle in vehicles:
             vehicle.retry()
+            retries -= 1
     # --------------
     screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
