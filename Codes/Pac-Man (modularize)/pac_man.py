@@ -31,7 +31,7 @@ pellets = pygame.sprite.Group() # create a list for "pellet" sprites, no longer 
 # collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
-timer = 30 # set timer for 30 seconds
+timer = 30 # set timer for 30 seconds (multiple of modulo for random walks)
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
 count = 0 # for chomp picture
@@ -98,6 +98,8 @@ wall = Rectangle(100, size[1]-10-100, size[0]-100-100, 10)
 walls.add(wall)
 wall = Rectangle(size[0]/2-10/2, 100+10, 10, size[1]-100-100-10-10)
 walls.add(wall)
+for wall in walls:
+    wall.image.fill(LIGHTGRAY)
 
 # outer walls (left, right, top, bottom):
 wall = Rectangle(0-1, 0, 1, size[1]) # need at least some thickness, moved walls outside display
@@ -108,8 +110,6 @@ wall = Rectangle(1, 0-1, size[0]-2, 1)
 walls.add(wall)
 wall = Rectangle(1, size[1]-1+1, size[0]-2, 1)
 walls.add(wall)
-for wall in walls:
-    wall.image.fill(LIGHTGRAY)
 
 pacman = Rectangle(size[0]/2+x_offset, size[1]/2+y_offset, W, H) # creates a "pacman" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 pacman.image.blit(pacman_image, (0, 0))
@@ -230,23 +230,7 @@ while True: # keeps display open
         # -------------------------
     # --- Game logic
     # x_offset += x_increment
-    pacman.rect.x += x_increment # bypass offset for new positions
-    hit = pygame.sprite.spritecollide(pacman, walls, False) # DON'T remove a "wall" sprite, if "pacman" sprite hits it, returns a list
-    # instead...
-    for wall in hit: # wall that pacman hit
-        if x_increment > 0: # moving rightward
-            pacman.rect.right = wall.rect.left
-        else: # moving leftward, x_increment = 0 not hitting wall
-            pacman.rect.left = wall.rect.right # reverse
-
     # y_offset += y_increment
-    pacman.rect.y += y_increment # bypass offset for new positions, must put here or else goes around wall
-    hit = pygame.sprite.spritecollide(pacman, walls, False)
-    for wall in hit:
-        if y_increment > 0:
-            pacman.rect.bottom = wall.rect.top
-        else:
-            pacman.rect.top = wall.rect.bottom
 
     # if size[0]/2+x_offset < 0:
     #     x_offset = -size[0]/2 # prevent "pacman" and "ghost" sprites from breaching left edge, solved for x_offset
@@ -258,7 +242,24 @@ while True: # keeps display open
     #     y_offset = size[1]/2 - H # simplified
 
     # pacman.rect.x = size[0]/2+x_offset # position and offset "pacman" sprite <- do earlier
+    pacman.rect.x += x_increment # bypass offset for new positions
+    hit = pygame.sprite.spritecollide(pacman, walls, False) # DON'T remove a "wall" sprite, if "pacman" sprite hits it, returns a list
+    # instead...
+    for wall in hit: # wall that pacman hit
+        if x_increment > 0: # moving rightward
+            pacman.rect.right = wall.rect.left
+        else: # moving leftward, x_increment = 0 not hitting wall
+            pacman.rect.left = wall.rect.right # reverse
+    
     # pacman.rect.y = size[1]/2+y_offset <- do earlier
+    pacman.rect.y += y_increment # bypass offset for new positions, must put here or else goes around wall
+    hit = pygame.sprite.spritecollide(pacman, walls, False)
+    for wall in hit:
+        if y_increment > 0:
+            pacman.rect.bottom = wall.rect.top
+        else:
+            pacman.rect.top = wall.rect.bottom
+
     # if timer % 10 == 0:
     red_ghost.rect.x += x_increment_red_ghost # move "ghost" sprites rightward
     hit = pygame.sprite.spritecollide(red_ghost, walls, False)
@@ -325,4 +326,8 @@ while True: # keeps display open
     pygame.display.flip() # update the display
     clock.tick(60) # maximum 60 frames per second
     if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for more than 10 seconds
+        # pygame.time.set_timer(pygame.USEREVENT, 0)
         clock.tick(1) # in which case minimize the frame rate
+    # if pygame.time.set_timer(pygame.USEREVENT, 0) == True:
+        # print("true") # and pygame.time.get_ticks() - ticks <= 10000:
+        # pygame.time.set_timer(pygame.USEREVENT, 1000)
