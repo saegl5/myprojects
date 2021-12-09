@@ -30,7 +30,7 @@ walls = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
 vehicles = pygame.sprite.Group()
-timer = 30 # set timer for 30 seconds
+timer = 30 # set timer for 30 seconds (multiple of modulo for invaders.update())
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
 count = 0 # for lunging picture
@@ -72,7 +72,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         else:
             self.image.blit(invader_image, (0, 0))
     def retry(self):
-        self.rect.x = size[0]/2 # center along bottom of display, bypassed offset
+        self.rect.x = size[0]/2-W/2 # center along bottom of display, bypassed offset
         self.rect.y = size[1]-H
 # ---------------------
 
@@ -158,8 +158,14 @@ while True: # keeps display open
         # -------------------------
     # --- Game logic
     # x_offset += x_increment
-    vehicle.rect.x += x_increment # offset directly
 
+    # if size[0]/2+x_offset < 0:
+    #     x_offset = -size[0]/2 # prevent "vehicle" sprite from breaching left edge, solved for x_offset
+    # elif size[0]/2+x_offset + W > size[0]:
+    #     x_offset = size[0]/2 - W # simplified
+
+    # vehicle.rect.x = size[0]/2+x_offset # position and offset "vehicle" sprite <- do earlier
+    vehicle.rect.x += x_increment # offset directly
     hit = pygame.sprite.spritecollide(vehicle, walls, False) # DON'T remove a "wall" sprite, if "vehicle" sprite hits it, returns a list
     # instead...
     for wall in hit: # wall that vehicle hit
@@ -168,12 +174,8 @@ while True: # keeps display open
         else: # moving leftward, x_increment = 0 not hitting wall
             vehicle.rect.left = wall.rect.right # reverse
 
-    # if size[0]/2+x_offset < 0:
-    #     x_offset = -size[0]/2 # prevent "vehicle" sprite from breaching left edge, solved for x_offset
-    # elif size[0]/2+x_offset + W > size[0]:
-    #     x_offset = size[0]/2 - W # simplified
-    # vehicle.rect.x = size[0]/2+x_offset # position and offset "vehicle" sprite <- do earlier
     # vehicle.rect.y = size[1]-H <- do earlier
+
     # removed = pygame.sprite.spritecollide(vehicle, invaders, True) # remove a "invader" sprite, if "vehicle" sprite collides with it
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
         removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
@@ -193,10 +195,12 @@ while True: # keeps display open
             vehicles.add(removed) # repositioning the vehicle
             vehicle.retry()
             retries -= 1
-    if timer != 0:
+    if timer != 0 and len(vehicles) != 0:
         # score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
+    if len(vehicles) == 0:
+        lasers_alt.update(0)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
