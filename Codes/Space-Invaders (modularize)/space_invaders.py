@@ -109,15 +109,12 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
-            if timer == 0:
+            if timer == 0 or len(vehicles) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "invader" sprites stop moving too
                 game_over_sound.play()
             elif len(invaders) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
-            elif len(vehicles) == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0)
-                game_over_sound.play()
             else: # after one second
                 timer -= 1 # decrement timer
                 if timer % 5 == 0: # every 5 seconds, divides into timer evenly
