@@ -48,9 +48,9 @@ pellet_image = pygame.transform.scale(pellet_image, (int(W/2), int(H/2))) # int(
 # pellet_image.set_colorkey(BLACK)
 red_ghost_image = pygame.image.load('Images/red_ghost.png').convert() # corrected profile
 # red_ghost_image = pygame.transform.scale(red_ghost_image, (int(W/2), int(H/2)))
-
 green_ghost_image = pygame.image.load('Images/green_ghost.png').convert() # corrected profile
 # green_ghost_image = pygame.transform.scale(green_ghost_image, (int(W/2), int(H/2)))
+retries = 2
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -82,6 +82,9 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         if count % 20 == 0:
             self.image = pygame.transform.rotate(pacman_image, angle)         
         self.image.set_colorkey(BLACK)
+    def retry(self):
+        self.rect.x = size[0]/2
+        self.rect.y = size[1]/2
     # def flip(self, sign):
     #     if sign < 0:
     #         red_ghost.image.blit(ghost_image_1_alt, (0, 0))
@@ -156,15 +159,12 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
-            if timer == 0:
+            if timer == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer
                 game_over_sound.play()
             elif len(pellets) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
-            elif len(pacmen) == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0)
-                game_over_sound.play()
             else: # after one second
                 timer -= 1 # decrement timer
                 if timer % 5 == 0:
@@ -290,8 +290,16 @@ while True: # keeps display open
         score += 1
     # if timer != 0:
         # score = len(collisions)
-    pygame.sprite.spritecollide(green_ghost, pacmen, True)
-    pygame.sprite.spritecollide(red_ghost, pacmen, True)
+    removed = pygame.sprite.spritecollide(green_ghost, pacmen, True)
+    if removed and retries > 0:
+        pacmen.add(removed)
+        pacman.retry()
+        retries -= 1
+    removed = pygame.sprite.spritecollide(red_ghost, pacmen, True)
+    if removed and retries > 0:
+        pacmen.add(removed)
+        pacman.retry()
+        retries -= 1
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
