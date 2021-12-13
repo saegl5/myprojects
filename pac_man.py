@@ -25,6 +25,7 @@ x_increment_ghost = 1 # ghost moving rightward at launch
 pellets = pygame.sprite.Group() # not pellets = [] <-- multiple sprites
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+pacmen = pygame.sprite.Group()
 timer = 30 # 30 seconds
 score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -46,6 +47,7 @@ pacman_image_alt = pygame.image.load('pac_chomp.png').convert()
 count = 0
 ticks = int()
 angle = 0
+retries = 2
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
@@ -79,6 +81,9 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         if count % 20 == 0:
             self.image = pygame.transform.rotate(pacman_image, angle)
         self.image.set_colorkey(BLACK)
+    def retry(self):
+        self.rect.x = size[0]/2 # restore pac-man, bypassed offset
+        self.rect.y = size[1]/2
 # ---------------------
 
 # inner walls
@@ -137,6 +142,7 @@ pacman = Rectangle(W_pacman, H_pacman)
 pacman.image.blit(pacman_image, (0, 0)) # was self.image.blit(sprite_image, (0, 0))
 pacman.rect.x = size[0]/2+x_offset
 pacman.rect.y = size[1]/2+y_offset
+pacmen.add(pacman)
 
 ghost = Rectangle(W_ghost, H_ghost)
 ghost.image.blit(ghost_image, (0, 0))
@@ -166,7 +172,7 @@ while True:
             # timer -= 1 # same as timer = timer - 1, count down by 1 each second
             # if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
                 # pellets.update()
-            if timer == 0:
+            if timer == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
             elif len(pellets) == 0:
@@ -176,7 +182,7 @@ while True:
                 timer -= 1
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
-            if timer != 0 and len(pellets) != 0:
+            if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
                 if action.key == pygame.K_RIGHT:
                     x_increment = 5 # speed
                     angle = 0
@@ -248,14 +254,18 @@ while True:
     hit = pygame.sprite.spritecollide(ghost, walls, False)
     if hit:
         x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
-
+    removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+    if removed and retries > 0:
+        pacmen.add(removed) # will reposition pac-man
+        pacman.retry()
+        retries -= 1
     # --------------
     screen.fill(BLUE)
     timer_text = style.render(str(timer), True, RED) # True for anti-aliased, "string" --> str(timer)
     score_text = style.render(str(score), True, GREEN)
     game_over_text = style.render(None, True, BLACK)
     you_win_text = style.render(None, True, BLACK)
-    if timer == 0:
+    if timer == 0 or len(pacmen) == 0:
         for pellet in pellets:
             pellet.image.fill(LIGHTGRAY)
         pacman.image.fill(WHITE)
