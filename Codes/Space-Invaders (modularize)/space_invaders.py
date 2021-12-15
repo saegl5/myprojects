@@ -209,7 +209,9 @@ while True: # keeps display open
         for invader in invaders:
             pygame.draw.rect(invader.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
         for laser in lasers:
-            pygame.draw.rect(laser.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
+            laser.image.fill(LIGHTGRAY)
+        for laser in lasers_alt:
+            laser.image.fill(LIGHTGRAY)
         screen.fill(GRAY)
         timer_text = style.render(str(timer), True, DARKGRAY)
         score_text = style.render(str(score), True, DARKGRAY)
@@ -217,11 +219,11 @@ while True: # keeps display open
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", True, GREEN)
     # --- Drawing code
-    screen.blit(vehicle.image, (vehicle.rect.x, vehicle.rect.y)) # draw sprite on screen
     walls.draw(screen) # draw sprites on screen using list
     invaders.draw(screen)
-    lasers.draw(screen)
     lasers_alt.draw(screen)
+    screen.blit(vehicle.image, (vehicle.rect.x, vehicle.rect.y)) # draw sprite on screen
+    lasers.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
