@@ -300,6 +300,11 @@ while True: # keeps display open
         pacmen.add(removed)
         pacman.retry()
         retries -= 1
+    if len(pacmen) == 0:
+        x_increment_green_ghost = 0
+        y_increment_green_ghost = 0
+        x_increment_red_ghost = 0
+        y_increment_red_ghost = 0
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
@@ -312,6 +317,8 @@ while True: # keeps display open
             pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
         for wall in walls:
             wall.image.fill(DARKGRAY)
+        pygame.draw.rect(green_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
+        pygame.draw.rect(red_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         screen.fill(GRAY)
         timer_text = style.render(str(timer), True, DARKGRAY)
         score_text = style.render(str(score), True, DARKGRAY)
@@ -319,11 +326,11 @@ while True: # keeps display open
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", True, GREEN)
     # --- Drawing code
-    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen
     walls.draw(screen) # draw sprites on screen using list
     pellets.draw(screen)
     screen.blit(red_ghost.image, (red_ghost.rect.x, red_ghost.rect.y))
     screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
+    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
