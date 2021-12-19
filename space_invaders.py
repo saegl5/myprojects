@@ -134,7 +134,7 @@ while True:
                     invader.lunge() # all invaders lunge
                 count += 1
                 if timer % 7 == 0: # 7 is optional
-                    laser = Rectangle(6, 10) # 6 and 10 also optional
+                    laser = Rectangle(10, 20) # 6 and 10 also optional
                     laser.image.fill(RED)
                     laser.rect.centerx = invaders.sprites()[0].rect.centerx # 0 is index, range 0-49
                     laser.rect.top = invaders.sprites()[0].rect.bottom
@@ -204,7 +204,7 @@ while True:
             lasers.remove(laser)
         elif laser.rect.y < -20: # "laser" sprites leaves canvas
             lasers.remove(laser)
-    if timer != 0: # not equal to/is not
+    if timer != 0 and len(vehicles) != 0: # not equal to/is not
         score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2) # 2 is optional
