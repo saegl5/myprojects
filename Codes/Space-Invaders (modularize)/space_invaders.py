@@ -123,7 +123,7 @@ while True: # keeps display open
                     invader.lunge()
                 count += 1
                 if timer % 7 == 0: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 6, 10) # create "laser" sprite
+                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
                     laser.image.fill(RED)
                     index = 0 # example, more randomized with random.randrange(0, len(invaders))
                     laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
@@ -137,7 +137,7 @@ while True: # keeps display open
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
                 elif action.key == pygame.K_SPACE: # fire laser
-                    laser = Rectangle(int(), int(), 4, 20) # create "laser" sprite
+                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
                     laser.image.fill(CYAN)
                     laser.rect.centerx = vehicle.rect.centerx # align it with "vehicle" sprite's horizontal center
                     laser.rect.bottom = vehicle.rect.top + 10 # align its bottom with "vehicle" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn vehicle after lasers)
