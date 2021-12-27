@@ -22,14 +22,14 @@ x_offset = 0 # reordered
 # y_offset = 0
 x_increment = 0
 # y_increment = 0
-W = 64 # "vehicle" sprite width reference
-H = 64 # "vehicle" sprite height reference
+W = 64 # "spaceship" sprite width reference
+H = 64 # "spaceship" sprite height reference
 invaders = pygame.sprite.Group() # create a list for "invader" sprites, no longer invaders = [], Group() is class
 # collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
-vehicles = pygame.sprite.Group()
+spaceships = pygame.sprite.Group()
 timer = 30 # set timer for 30 seconds (multiple of modulo for invaders.update())
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
@@ -38,9 +38,9 @@ retries = 2
 ticks = int() # for saving energy
 game_over_sound = pygame.mixer.Sound('Sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 you_win_sound = pygame.mixer.Sound('Sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
-vehicle_image = pygame.image.load('Images/ship.png').convert() # Edited from source: https://opengameart.org/content/pixel-space-invaders (changed black to (1, 1, 1), too)
-vehicle_image = pygame.transform.scale(vehicle_image, (W, H))
-# vehicle_image.set_colorkey(BLACK)
+spaceship_image = pygame.image.load('Images/ship.png').convert() # Edited from source: https://opengameart.org/content/pixel-space-invaders (changed black to (1, 1, 1), too)
+spaceship_image = pygame.transform.scale(spaceship_image, (W, H))
+# spaceship_image.set_colorkey(BLACK)
 invader_image = pygame.image.load('Images/alien.png').convert() # Edited from source: https://opengameart.org/content/alien-sprite-sheet (changed black to (1, 1, 1), too)
 # invader_image.set_colorkey(BLACK)
 invader_image_alt = pygame.image.load('Images/alien_lunging.png').convert() # my image from alien.png
@@ -85,11 +85,11 @@ wall = Rectangle(size[0]-1+1, 0, 1, size[1])
 walls.add(wall)
 # no inner walls
 
-x = size[0]/2+x_offset # position and offset "vehicle" sprite
+x = size[0]/2+x_offset # position and offset "spaceship" sprite
 y = size[1]-H
-vehicle = Rectangle(x, y, W, H) # creates a "vehicle" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
-vehicle.image.blit(vehicle_image, (0, 0))
-vehicles.add(vehicle)
+spaceship = Rectangle(x, y, W, H) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+spaceship.image.blit(spaceship_image, (0, 0))
+spaceships.add(spaceship)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
 while 50-len(invaders) > 0: # create and add fifty "invader" sprites
@@ -109,7 +109,7 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
-            if timer == 0 or len(vehicles) == 0:
+            if timer == 0 or len(spaceships) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "invader" sprites stop moving too
                 game_over_sound.play()
             elif len(invaders) == 0:
@@ -131,7 +131,7 @@ while True: # keeps display open
                     lasers_alt.add(laser)
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if timer != 0 and len(invaders) != 0 and len(vehicles) != 0:
+            if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
                 if action.key == pygame.K_RIGHT: # note "action.key"
                     x_increment = 5 # "5" is optional
                 elif action.key == pygame.K_LEFT:
@@ -139,8 +139,8 @@ while True: # keeps display open
                 elif action.key == pygame.K_SPACE: # fire laser
                     laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
                     laser.image.fill(CYAN)
-                    laser.rect.centerx = vehicle.rect.centerx # align it with "vehicle" sprite's horizontal center
-                    laser.rect.bottom = vehicle.rect.top + 10 # align its bottom with "vehicle" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn vehicle after lasers)
+                    laser.rect.centerx = spaceship.rect.centerx # align it with "spaceship" sprite's horizontal center
+                    laser.rect.bottom = spaceship.rect.top + 10 # align its bottom with "spaceship" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn spaceship after lasers)
                     if first == True:
                         lasers.add(laser)
                         first = False
@@ -157,23 +157,23 @@ while True: # keeps display open
     # x_offset += x_increment
 
     # if size[0]/2+x_offset < 0:
-    #     x_offset = -size[0]/2 # prevent "vehicle" sprite from breaching left edge, solved for x_offset
+    #     x_offset = -size[0]/2 # prevent "spaceship" sprite from breaching left edge, solved for x_offset
     # elif size[0]/2+x_offset + W > size[0]:
     #     x_offset = size[0]/2 - W # simplified
 
-    # vehicle.rect.x = size[0]/2+x_offset # position and offset "vehicle" sprite <- do earlier
-    vehicle.rect.x += x_increment # offset directly
-    hit = pygame.sprite.spritecollide(vehicle, walls, False) # DON'T remove a "wall" sprite, if "vehicle" sprite hits it, returns a list
+    # spaceship.rect.x = size[0]/2+x_offset # position and offset "spaceship" sprite <- do earlier
+    spaceship.rect.x += x_increment # offset directly
+    hit = pygame.sprite.spritecollide(spaceship, walls, False) # DON'T remove a "wall" sprite, if "spaceship" sprite hits it, returns a list
     # instead...
-    for wall in hit: # wall that vehicle hit
+    for wall in hit: # wall that spaceship hit
         if x_increment > 0: # moving rightward
-            vehicle.rect.right = wall.rect.left
+            spaceship.rect.right = wall.rect.left
         else: # moving leftward, x_increment = 0 not hitting wall
-            vehicle.rect.left = wall.rect.right # reverse
+            spaceship.rect.left = wall.rect.right # reverse
 
-    # vehicle.rect.y = size[1]-H <- do earlier
+    # spaceship.rect.y = size[1]-H <- do earlier
 
-    # removed = pygame.sprite.spritecollide(vehicle, invaders, True) # remove a "invader" sprite, if "vehicle" sprite collides with it
+    # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # remove a "invader" sprite, if "spaceship" sprite collides with it
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
         removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
         # collisions.add(removed)
@@ -183,20 +183,20 @@ while True: # keeps display open
         elif laser.rect.y < -20:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     for invader in invaders:
-        # touched = pygame.sprite.spritecollide(invader, vehicles, True)
-        # vehicles.remove(touched)
-        pygame.sprite.spritecollide(invader, vehicles, True)
+        # touched = pygame.sprite.spritecollide(invader, spaceships, True)
+        # spaceships.remove(touched)
+        pygame.sprite.spritecollide(invader, spaceships, True)
     for laser in lasers_alt:
-        removed = pygame.sprite.spritecollide(laser, vehicles, True)
+        removed = pygame.sprite.spritecollide(laser, spaceships, True)
         if removed and retries > 0:
-            vehicles.add(removed) # repositioning the vehicle
-            vehicle.retry()
+            spaceships.add(removed) # repositioning the spaceship
+            spaceship.retry()
             retries -= 1
-    if timer != 0 and len(vehicles) != 0:
+    if timer != 0 and len(spaceships) != 0:
         # score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
-    if len(vehicles) == 0:
+    if len(spaceships) == 0:
         lasers_alt.update(0)
     # --------------
     screen.fill(BLUE) # clear the display
@@ -204,8 +204,8 @@ while True: # keeps display open
     score_text = style.render(str(score), True, GREEN)
     game_over_text = style.render(None, True, pygame.Color("black"))
     you_win_text = style.render(None, True, GREEN)
-    if timer == 0 or len(vehicles) == 0:
-        vehicle.image.fill(WHITE)
+    if timer == 0 or len(spaceships) == 0:
+        spaceship.image.fill(WHITE)
         for invader in invaders:
             pygame.draw.rect(invader.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
         for laser in lasers:
@@ -222,7 +222,7 @@ while True: # keeps display open
     walls.draw(screen) # draw sprites on screen using list
     invaders.draw(screen)
     lasers_alt.draw(screen)
-    screen.blit(vehicle.image, (vehicle.rect.x, vehicle.rect.y)) # draw sprite on screen
+    screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen
     lasers.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
