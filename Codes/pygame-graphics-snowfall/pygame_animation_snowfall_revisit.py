@@ -7,10 +7,10 @@ pygame.init() # initialize any submodules that require it
 # BLUE = pygame.Color("blue") # example, redundant
 WHITE = pygame.Color("white") # example
 
-size = (704, 512) # (width, height) in pixels, example, made size of background image match (could also do opposite)
+size = (704, 512) # (width, height) in pixels, example, made size of background picture match (could also do opposite)
 screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
-background_image = pygame.image.load('north_pole.jpg') # background image from https://pixy.org/430646/, see License.txt
+background_picture = pygame.image.load('north_pole.jpg') # background picture from https://pixy.org/430646/, see License.txt
 snowflakes = [] # define a list
 i = int() # optional, use range() to confine i to 0 or greater
 r = 4 # circle radius
@@ -32,7 +32,7 @@ while True: # keeps display open
     # --------------
     # screen.fill(BLUE) # clear the display, redundant
     # --- Drawing code
-    screen.blit(background_image, (0, 0)) # copy the background image onto the screen starting at (0, 0)
+    screen.blit(background_picture, (0, 0)) # copy the background picture onto the screen starting at (0, 0)
     for i in range(0, len(snowflakes)): # FOR each index in the list, could also use range(0, 50)
         # pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=1)
         pygame.draw.circle(screen, WHITE, snowflakes[i], radius=r, width=0)

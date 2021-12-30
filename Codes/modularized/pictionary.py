@@ -16,9 +16,9 @@ draw = False # start as "False," so won't draw unless press mouse/trackpad butto
 previous_x = None
 previous_y = None
 drawn = pygame.sprite.Group()
-cursor = pygame.image.load('images/chalk.png').convert()
-cursor.set_colorkey(canvas.BLUE)
-pygame.mouse.set_visible(False)  # hide the system cursor, will replace it with image of chalk later
+cursor_picture = pygame.image.load('images/chalk.png').convert()
+cursor_picture.set_colorkey(canvas.BLUE)
+pygame.mouse.set_visible(False)  # hide the system cursor, will replace it with picture of chalk later
 
 while True:
     for action in pygame.event.get():
@@ -49,7 +49,7 @@ while True:
     canvas.clean()
 
     drawn.draw(canvas.screen)
-    canvas.screen.blit(cursor, (pos[0]-11, pos[1])) # copy image of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
+    canvas.screen.blit(cursor_picture, (pos[0]-11, pos[1])) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
     
     canvas.show()
     efficiency.activate()
