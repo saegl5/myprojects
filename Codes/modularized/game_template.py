@@ -6,7 +6,7 @@ import pygame
 import src.frame as frame
 import src.canvas as canvas
 import src.efficiency as efficiency
-# Other imports
+# Other modules to import
 
 pygame.display.set_caption("Title")
 
