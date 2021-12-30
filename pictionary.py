@@ -17,9 +17,9 @@ ticks = int() # for saving energy
 
 pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
 
-cursor = pygame.image.load('chalk.png').convert()
-cursor.set_colorkey(BLUE)
-pygame.mouse.set_visible(False)  # hide the system cursor, will replace it with image of chalk later
+cursor_picture = pygame.image.load('chalk.png').convert()
+cursor_picture.set_colorkey(BLUE)
+pygame.mouse.set_visible(False)  # hide the system cursor, will replace it with picture of chalk later
 
 class Draw(pygame.sprite.Sprite):
     def __init__(self):
@@ -73,7 +73,7 @@ while True:
         previous_x = None
         previous_y = None
     drawn.draw(screen)
-    screen.blit(cursor, (pos[0]-11, pos[1])) # copy image of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
+    screen.blit(cursor_picture, (pos[0]-11, pos[1])) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
     pygame.display.flip()
     clock.tick(60)
     if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for 10 seconds

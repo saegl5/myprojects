@@ -31,19 +31,19 @@ score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
 game_over_sound = pygame.mixer.Sound('game_over.ogg')
 you_win_sound = pygame.mixer.Sound('you_win.ogg')
-pacman_image = pygame.image.load('pac.png').convert()
-pellet_image = pygame.image.load('dot.png').convert() # need to scale down
-ghost_image = pygame.image.load('red_ghost.png').convert()
-# pellet_image = pygame.transform.scale(pellet_image, (W_pellet, H_pellet))
-#pellet_image.set_colorkey(BLACK)
+pacman_picture = pygame.image.load('pac.png').convert()
+pellet_picture = pygame.image.load('dot.png').convert() # need to scale down
+ghost_picture = pygame.image.load('red_ghost.png').convert()
+# pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
+#pellet_picture.set_colorkey(BLACK)
 W_pacman = 64 # these variables are for images
 H_pacman = 64
 W_pellet = 32
 H_pellet = 32
 W_ghost = 64
 H_ghost = 64
-pellet_image = pygame.transform.scale(pellet_image, (W_pellet, H_pellet))
-pacman_image_alt = pygame.image.load('pac_chomp.png').convert()
+pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
+pacman_picture_alt = pygame.image.load('pac_chomp.png').convert()
 count = 0
 ticks = int()
 angle = 0
@@ -64,7 +64,7 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         self.image.fill(BLACK)
         self.image.set_colorkey(BLACK) # removes background, needed for newer versions of python
         # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # drawing on image, not screen
-        # self.image.blit(sprite_image, (0, 0))
+        # self.image.blit(sprite_picture, (0, 0))
         self.rect = self.image.get_rect() # pair image with rectangle object, the rectangle object is your sprite
         # nutshell: drawing shape on an image, and you pair that image with a rectangle object, which is your sprite
     def update(self):
@@ -73,13 +73,13 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         self.rect.y += 32 # increase sprites' rect.y by 32 pixels
     def turn(self, angle):
         if count == 1:
-            self.image.blit(pacman_image_alt, (0, 0))
+            self.image.blit(pacman_picture_alt, (0, 0))
         if count == 5:
-            self.image = pygame.transform.rotate(pacman_image, angle)
+            self.image = pygame.transform.rotate(pacman_picture, angle)
         if count % 10 == 0:
-            self.image.blit(pacman_image_alt, (0, 0))
+            self.image.blit(pacman_picture_alt, (0, 0))
         if count % 20 == 0:
-            self.image = pygame.transform.rotate(pacman_image, angle)
+            self.image = pygame.transform.rotate(pacman_picture, angle)
         self.image.set_colorkey(BLACK)
     def retry(self):
         self.rect.x = size[0]/2 # restore pac-man, bypassed offset
@@ -137,24 +137,24 @@ for wall in walls:
     wall.image.fill(pygame.Color(1, 1, 1))
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
-# pacman = Rectangle(pacman_image, W_pacman, H_pacman)
+# pacman = Rectangle(pacman_picture, W_pacman, H_pacman)
 pacman = Rectangle(W_pacman, H_pacman)
-pacman.image.blit(pacman_image, (0, 0)) # was self.image.blit(sprite_image, (0, 0))
+pacman.image.blit(pacman_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
 pacman.rect.x = size[0]/2+x_offset
 pacman.rect.y = size[1]/2+y_offset
 pacmen.add(pacman)
 
 ghost = Rectangle(W_ghost, H_ghost)
-ghost.image.blit(ghost_image, (0, 0))
+ghost.image.blit(ghost_picture, (0, 0))
 ghost.rect.x = 200
 ghost.rect.y = 300
 
 # for i in range(0, 50): # create and add fifty pellets
 while 50-len(pellets) > 0:
     # pellet = Rectangle(YELLOW, W_pellet, H_pellet)
-    # pellet = Rectangle(pellet_image, W_pellet, H_pellet)
+    # pellet = Rectangle(pellet_picture, W_pellet, H_pellet)
     pellet = Rectangle(W_pellet, H_pellet)
-    pellet.image.blit(pellet_image, (0, 0)) # was self.image.blit(sprite_image, (0, 0))
+    pellet.image.blit(pellet_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
     pellet.rect.x = random.randrange(0, size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error
     pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet)

@@ -33,16 +33,16 @@ first = True
 game_over_sound = pygame.mixer.Sound('game_over.ogg')
 you_win_sound = pygame.mixer.Sound('you_win.ogg')
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
-spaceship_image = pygame.image.load('ship.png').convert()
-#spaceship_image = pygame.transform.scale(spaceship_image, (64, 64))
-invader_image = pygame.image.load('alien.png').convert()
-invader_image_alt = pygame.image.load('alien_lunging.png').convert()
+spaceship_picture = pygame.image.load('ship.png').convert()
+#spaceship_picture = pygame.transform.scale(spaceship_picture, (64, 64))
+invader_picture = pygame.image.load('alien.png').convert()
+invader_picture_alt = pygame.image.load('alien_lunging.png').convert()
 ticks = int() # some integer, clock sound
 W_spaceship = 64 # these variables are for images
 H_spaceship = 64
 W_invader = 32
 H_invader = 32
-spaceship_image = pygame.transform.scale(spaceship_image, (W_spaceship, H_spaceship))
+spaceship_picture = pygame.transform.scale(spaceship_picture, (W_spaceship, H_spaceship))
 count = 0
 retries = 2
 
@@ -61,7 +61,7 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         self.image.fill(BLACK)
         self.image.set_colorkey(BLACK) # removes background, needed for newer versions of python
         # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # drawing on image, not screen
-        # self.image.blit(sprite_image, (0, 0))
+        # self.image.blit(sprite_picture, (0, 0))
         self.rect = self.image.get_rect() # pair image with rectangle object, the rectangle object is your sprite
         # nutshell: drawing shape on an image, and you pair that image with a rectangle object, which is your sprite
     def update(self, px): # cannot give function/method just any name
@@ -70,9 +70,9 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         self.rect.y += px # increase sprites' rect.y by 32 pixels
     def lunge(self):
         if count % 2 == 0: # could also have used timer
-            self.image.blit(invader_image_alt, (0, 0)) # change picture
+            self.image.blit(invader_picture_alt, (0, 0)) # change picture
         else:
-            self.image.blit(invader_image, (0, 0)) # revert
+            self.image.blit(invader_picture, (0, 0)) # revert
     def retry(self):
         self.rect.x = size[0]/2-W_spaceship/2
         self.rect.y = size[1]-H_spaceship
@@ -92,7 +92,7 @@ for wall in walls:
     wall.image.fill(pygame.Color(1, 1, 1))
 
 spaceship = Rectangle(W_spaceship, H_spaceship)
-spaceship.image.blit(spaceship_image, (0, 0))
+spaceship.image.blit(spaceship_picture, (0, 0))
 spaceship.rect.x = size[0]/2+x_offset
 spaceship.rect.y = size[1] - H_spaceship
 spaceships.add(spaceship)
@@ -100,7 +100,7 @@ spaceships.add(spaceship)
 # for i in range(0, 50): # create and add fifty invaders
 while 50-len(invaders) > 0:
     invader = Rectangle(W_invader, H_invader)
-    invader.image.blit(invader_image, (0, 0))
+    invader.image.blit(invader_picture, (0, 0))
     invader.rect.x = random.randrange(0, size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
     invader.rect.y = random.randrange(0, size[1]+1-H_invader-100, H_invader) # "-100" space at canvas bottom
     pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position
