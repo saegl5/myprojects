@@ -243,9 +243,9 @@ while True: # keeps display open
 
     # pacman.rect.x = size[0]/2+x_offset # position and offset "pacman" sprite <- do earlier
     pacman.rect.x += x_increment # bypass offset for new positions
-    hit = pygame.sprite.spritecollide(pacman, walls, False) # DON'T remove a "wall" sprite, if "pacman" sprite hits it, returns a list
+    wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # DON'T remove a "wall" sprite, if "pacman" sprite hits it, returns a list
     # instead...
-    for wall in hit: # wall that pacman hit
+    for wall in wall_pacman_hit_x: # wall that pacman hit
         if x_increment > 0: # moving rightward
             pacman.rect.right = wall.rect.left
         else: # moving leftward, x_increment = 0 not hitting wall
@@ -253,8 +253,8 @@ while True: # keeps display open
     
     # pacman.rect.y = size[1]/2+y_offset <- do earlier
     pacman.rect.y += y_increment # bypass offset for new positions, must put here or else goes around wall
-    hit = pygame.sprite.spritecollide(pacman, walls, False)
-    for wall in hit:
+    wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False)
+    for wall in wall_pacman_hit_y:
         if y_increment > 0:
             pacman.rect.bottom = wall.rect.top
         else:
@@ -262,42 +262,42 @@ while True: # keeps display open
 
     # if timer % 10 == 0:
     red_ghost.rect.x += x_increment_red_ghost # move "ghost" sprites rightward
-    hit = pygame.sprite.spritecollide(red_ghost, walls, False)
-    if hit:
+    wall_red_ghost_hit_x = pygame.sprite.spritecollide(red_ghost, walls, False)
+    if len(wall_red_ghost_hit_x) != 0:
         x_increment_red_ghost *= -1
 
     red_ghost.rect.y += y_increment_red_ghost # move "ghost" sprites downward
-    hit = pygame.sprite.spritecollide(red_ghost, walls, False)
-    if hit:
+    wall_red_ghost_hit_y = pygame.sprite.spritecollide(red_ghost, walls, False)
+    if len(wall_red_ghost_hit_y) != 0:
         y_increment_red_ghost *= -1
 
     green_ghost.rect.x += x_increment_green_ghost
-    hit = pygame.sprite.spritecollide(green_ghost, walls, False)
-    if hit:
+    wall_green_ghost_hit_x = pygame.sprite.spritecollide(green_ghost, walls, False)
+    if len(wall_green_ghost_hit_x) != 0:
         x_increment_green_ghost *= -1
 
     green_ghost.rect.y += y_increment_green_ghost
-    hit = pygame.sprite.spritecollide(green_ghost, walls, False)
-    if hit:
+    wall_green_ghost_hit_y = pygame.sprite.spritecollide(green_ghost, walls, False)
+    if len(wall_green_ghost_hit_y) != 0:
         y_increment_green_ghost *= -1
 
     # red_ghost.rect.x = size[0]/2+x_offset
     # green_ghost.rect.y = size[1]/2+y_offset
     # pygame.sprite.spritecollide(pacman, ghosts, True) # remove a "ghost" sprite, if "pacman" sprite collides with it
-    removed = pygame.sprite.spritecollide(pacman, pellets, True) # remove a "pellet" sprite, if "pacman" sprite collides with it
+    pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # remove a "pellet" sprite, if "pacman" sprite collides with it
     # collisions.add(removed)
-    if removed: # or "for pellet in removed:"
+    if len(pellet_removed) != 0: # or "for pellet in removed:"
         score += 1
     # if timer != 0:
         # score = len(collisions)
-    removed = pygame.sprite.spritecollide(green_ghost, pacmen, True)
-    if removed and retries > 0:
-        pacmen.add(removed)
+    pacman_removed_a = pygame.sprite.spritecollide(green_ghost, pacmen, True)
+    if len(pacman_removed_a) != 0 and retries > 0:
+        pacmen.add(pacman_removed_a)
         pacman.retry()
         retries -= 1
-    removed = pygame.sprite.spritecollide(red_ghost, pacmen, True)
-    if removed and retries > 0:
-        pacmen.add(removed)
+    pacman_removed_b = pygame.sprite.spritecollide(red_ghost, pacmen, True)
+    if len(pacman_removed_b) != 0 and retries > 0:
+        pacmen.add(pacman_removed_b)
         pacman.retry()
         retries -= 1
     if len(pacmen) == 0:

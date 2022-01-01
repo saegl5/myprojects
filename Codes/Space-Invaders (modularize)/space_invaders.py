@@ -175,9 +175,9 @@ while True: # keeps display open
 
     # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # remove a "invader" sprite, if "spaceship" sprite collides with it
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
-        removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
+        invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
         # collisions.add(removed)
-        if removed: # or "for invader in removed:"
+        if len(invader_removed) != 0: # or "for invader in removed:"
             lasers.remove(laser) # remove "laser" sprite, too
             score += 1
         elif laser.rect.y < -20:
@@ -185,13 +185,16 @@ while True: # keeps display open
     for invader in invaders:
         # touched = pygame.sprite.spritecollide(invader, spaceships, True)
         # spaceships.remove(touched)
-        pygame.sprite.spritecollide(invader, spaceships, True)
+        pygame.sprite.spritecollide(invader, spaceships, True) # similar to pac-man ghosts
     for laser in lasers_alt:
-        removed = pygame.sprite.spritecollide(laser, spaceships, True)
-        if removed and retries > 0:
-            spaceships.add(removed) # repositioning the spaceship
+        spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        if len(spaceship_removed) != 0 and retries > 0:
+            spaceships.add(spaceship_removed) # repositioning the spaceship
             spaceship.retry()
+            lasers_alt.remove(laser)
             retries -= 1
+        elif laser.rect.y > 512:
+            lasers_alt.remove(laser)
     if timer != 0 and len(spaceships) != 0:
         # score = len(collisions)
         lasers.update(-10)
