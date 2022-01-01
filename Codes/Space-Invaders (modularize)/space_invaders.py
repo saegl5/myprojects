@@ -180,7 +180,7 @@ while True: # keeps display open
         if len(invader_removed) != 0: # or "for invader in removed:"
             lasers.remove(laser) # remove "laser" sprite, too
             score += 1
-        elif laser.rect.y < -20:
+        elif laser.rect.bottom < 0:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     for invader in invaders:
         # touched = pygame.sprite.spritecollide(invader, spaceships, True)
@@ -193,7 +193,7 @@ while True: # keeps display open
             spaceship.retry()
             lasers_alt.remove(laser)
             retries -= 1
-        elif laser.rect.y > 512:
+        elif laser.rect.top > size[1]:
             lasers_alt.remove(laser)
     if timer != 0 and len(spaceships) != 0:
         # score = len(collisions)
