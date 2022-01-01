@@ -300,7 +300,7 @@ while True: # keeps display open
         pacmen.add(pacman_removed_b)
         pacman.retry()
         retries -= 1
-    if len(pacmen) == 0:
+    if timer == 0 or len(pacmen) == 0 or len(pellets) == 0:
         x_increment_green_ghost = 0
         y_increment_green_ghost = 0
         x_increment_red_ghost = 0
@@ -312,7 +312,8 @@ while True: # keeps display open
     game_over_text = style.render(None, True, BLACK)
     you_win_text = style.render(None, True, GREEN)
     if timer == 0 or len(pacmen) == 0:
-        pacman.image.fill(WHITE)
+        # pacman.image.fill(WHITE)
+        pygame.draw.rect(pacman.image, WHITE, (0, 0, W, H), width=0)
         for pellet in pellets:
             pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
         for wall in walls:
