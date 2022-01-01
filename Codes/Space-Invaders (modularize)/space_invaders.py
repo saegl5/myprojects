@@ -195,11 +195,12 @@ while True: # keeps display open
             retries -= 1
         elif laser.rect.top > size[1]:
             lasers_alt.remove(laser)
-    if timer != 0 and len(spaceships) != 0:
+    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
         # score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
-    if len(spaceships) == 0:
+    # if len(spaceships) == 0 or len(invaders) == 0:
+    else:
         lasers_alt.update(0)
     # --------------
     screen.fill(BLUE) # clear the display
@@ -208,7 +209,8 @@ while True: # keeps display open
     game_over_text = style.render(None, True, pygame.Color("black"))
     you_win_text = style.render(None, True, GREEN)
     if timer == 0 or len(spaceships) == 0:
-        spaceship.image.fill(WHITE)
+        # spaceship.image.fill(WHITE)
+        pygame.draw.rect(spaceship.image, WHITE, (0, 0, W, H), width=0)
         for invader in invaders:
             pygame.draw.rect(invader.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
         for laser in lasers:
