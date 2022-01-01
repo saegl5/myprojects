@@ -198,9 +198,9 @@ while True:
 
     # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # "True" to remove a "invader" sprite, if "spaceship" sprites collides with it
     for laser in lasers:
-        removed = pygame.sprite.spritecollide(laser, invaders, True)
-        collisions.add(removed) # when "invader" sprite is removed from invaders list, add it to collisions list
-        if removed: # why not put removed == True? 
+        invader_removed = pygame.sprite.spritecollide(laser, invaders, True)
+        collisions.add(invader_removed) # when "invader" sprite is removed from invaders list, add it to collisions list
+        if invader_removed: # why not put removed == True? 
             lasers.remove(laser)
         elif laser.rect.y < -20: # "laser" sprites leaves canvas
             lasers.remove(laser)
@@ -211,9 +211,9 @@ while True:
     for invader in invaders:
         pygame.sprite.spritecollide(invader, spaceships, True)
     for laser in lasers_alt:
-        removed = pygame.sprite.spritecollide(laser, spaceships, True)
-        if removed and retries > 0:
-            spaceships.add(removed) # will reposition the spaceship
+        spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        if spaceship_removed and retries > 0:
+            spaceships.add(spaceship_removed) # will reposition the spaceship
             # for spaceship in spaceships:
             spaceship.retry()
             retries -= 1

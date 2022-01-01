@@ -227,8 +227,8 @@ while True:
 
     # pacman.rect.x = size[0]/2+x_offset
     pacman.rect.x += x_increment
-    hit = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
-    for wall in hit:
+    wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
+    for wall in wall_pacman_hit_x:
         if x_increment > 0:
             pacman.rect.right = wall.rect.left
         else: # x_increment = 0 not hitting a wall
@@ -236,8 +236,8 @@ while True:
     
     # pacman.rect.y = size[1]/2+y_offset
     pacman.rect.y += y_increment
-    hit = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
-    for wall in hit:
+    wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
+    for wall in wall_pacman_hit_y:
         if y_increment > 0:
             pacman.rect.bottom = wall.rect.top
         else: # y_increment = 0 not hitting a wall
@@ -245,18 +245,18 @@ while True:
 
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
     # pellet.rect.y = random.randrange(0, size[1]+1-H_pellet) # problem is that recalculates each loop
-    removed = pygame.sprite.spritecollide(pacman, pellets, True) # "True" to remove a "pellet" sprite, if "pacman" sprites collides with it
-    collisions.add(removed) # when "pellet" sprite is removed from pellets list, add it to collisions list
+    pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # "True" to remove a "pellet" sprite, if "pacman" sprites collides with it
+    collisions.add(pellet_removed) # when "pellet" sprite is removed from pellets list, add it to collisions list
     if timer != 0: # not equal to/is not
         score = len(collisions)
 
     ghost.rect.x += x_increment_ghost # could also decrement
-    hit = pygame.sprite.spritecollide(ghost, walls, False)
-    if hit:
+    wall_ghost_hit = pygame.sprite.spritecollide(ghost, walls, False)
+    if wall_ghost_hit:
         x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
-    removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-    if removed and retries > 0:
-        pacmen.add(removed) # will reposition pac-man
+    pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+    if pacman_removed and retries > 0:
+        pacmen.add(pacman_removed) # will reposition pac-man
         pacman.retry()
         retries -= 1
     # --------------
