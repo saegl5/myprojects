@@ -210,6 +210,7 @@ while True:
         lasers_alt.update(2) # 2 is optional
     # if len(spaceships) == 0:
     else:
+        lasers.update(0)
         lasers_alt.update(0)
     for invader in invaders:
         pygame.sprite.spritecollide(invader, spaceships, True)
