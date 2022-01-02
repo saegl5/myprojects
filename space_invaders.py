@@ -204,10 +204,13 @@ while True:
             lasers.remove(laser)
         elif laser.rect.y < -20: # "laser" sprites leaves canvas
             lasers.remove(laser)
-    if timer != 0 and len(spaceships) != 0: # not equal to/is not
+    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0: # not equal to/is not
         score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2) # 2 is optional
+    # if len(spaceships) == 0:
+    else:
+        lasers_alt.update(0)
     for invader in invaders:
         pygame.sprite.spritecollide(invader, spaceships, True)
     for laser in lasers_alt:
@@ -217,8 +220,6 @@ while True:
             # for spaceship in spaceships:
             spaceship.retry()
             retries -= 1
-    if len(spaceships) == 0:
-        lasers_alt.update(0)
     # --------------
     screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
