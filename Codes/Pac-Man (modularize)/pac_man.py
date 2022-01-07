@@ -50,6 +50,7 @@ red_ghost_picture = pygame.image.load('Images/red_ghost.png').convert() # correc
 # red_ghost_picture = pygame.transform.scale(red_ghost_picture, (int(W/2), int(H/2)))
 green_ghost_picture = pygame.image.load('Images/green_ghost.png').convert() # corrected profile
 # green_ghost_picture = pygame.transform.scale(green_ghost_picture, (int(W/2), int(H/2)))
+pacman_picture_retries = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 retries = 2
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
@@ -305,6 +306,17 @@ while True: # keeps display open
         y_increment_green_ghost = 0
         x_increment_red_ghost = 0
         y_increment_red_ghost = 0
+    if retries == 2:
+        pacman_retries_box_1 = pacman_picture_retries
+        pacman_retries_box_2 = pacman_picture_retries
+    elif retries == 1:
+        pacman_retries_box_1 = pacman_picture_retries
+        pacman_retries_box_2 = pygame.Surface((W/2, H/2))
+    else:
+        pacman_retries_box_1 = pygame.Surface((W/2, H/2))
+        pacman_retries_box_2 = pygame.Surface((W/2, H/2))
+    pacman_retries_box_1.set_colorkey(BLACK) # not passed through class definition
+    pacman_retries_box_2.set_colorkey(BLACK)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
@@ -320,6 +332,7 @@ while True: # keeps display open
             wall.image.fill(DARKGRAY)
         pygame.draw.rect(green_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         pygame.draw.rect(red_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
+        pygame.draw.rect(red_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         screen.fill(GRAY)
         timer_text = style.render(str(timer), True, DARKGRAY)
         score_text = style.render(str(score), True, DARKGRAY)
@@ -333,6 +346,8 @@ while True: # keeps display open
     screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(pacman_retries_box_1, (100, 10))
+    screen.blit(pacman_retries_box_2, (100+int(W/2), 10))
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
