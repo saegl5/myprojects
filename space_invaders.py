@@ -88,8 +88,8 @@ wall.rect.x = size[0]-1+1
 wall.rect.y = 0
 walls.add(wall)
 
-for wall in walls:
-    wall.image.fill(pygame.Color(1, 1, 1))
+# for wall in walls:
+#     wall.image.fill(pygame.Color(1, 1, 1))
 
 spaceship = Rectangle(W_spaceship, H_spaceship)
 spaceship.image.blit(spaceship_picture, (0, 0))
