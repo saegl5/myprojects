@@ -52,6 +52,7 @@ green_ghost_picture = pygame.image.load('Images/green_ghost.png').convert() # co
 # green_ghost_picture = pygame.transform.scale(green_ghost_picture, (int(W/2), int(H/2)))
 pacman_picture_retries = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 retries = 2
+retries_boxes = []
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -129,6 +130,9 @@ while 50-len(pellets) > 0: # create and add fifty "pellet" sprites
     pellets.add(pellet) # add "pellet" sprite to list, no longer append
     for wall in walls:
         pygame.sprite.spritecollide(wall, pellets, True) # remove any "pellet" sprite in list in same position
+
+for i in range(0, retries):
+    retries_boxes.append(pacman_picture_retries)
 
 while True:
     x = random.randrange(0, size[0]+1-W, W)
@@ -296,27 +300,18 @@ while True: # keeps display open
         pacmen.add(pacman_removed_a)
         pacman.retry()
         retries -= 1
+        retries_boxes.pop()
     pacman_removed_b = pygame.sprite.spritecollide(red_ghost, pacmen, True)
     if len(pacman_removed_b) != 0 and retries > 0:
         pacmen.add(pacman_removed_b)
         pacman.retry()
         retries -= 1
+        retries_boxes.pop()
     if timer == 0 or len(pacmen) == 0 or len(pellets) == 0:
         x_increment_green_ghost = 0
         y_increment_green_ghost = 0
         x_increment_red_ghost = 0
         y_increment_red_ghost = 0
-    if retries == 2:
-        pacman_retries_box_1 = pacman_picture_retries
-        pacman_retries_box_2 = pacman_picture_retries
-    elif retries == 1:
-        pacman_retries_box_1 = pacman_picture_retries
-        pacman_retries_box_2 = pygame.Surface((W/2, H/2))
-    else:
-        pacman_retries_box_1 = pygame.Surface((W/2, H/2))
-        pacman_retries_box_2 = pygame.Surface((W/2, H/2))
-    pacman_retries_box_1.set_colorkey(BLACK) # not passed through class definition
-    pacman_retries_box_2.set_colorkey(BLACK)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
@@ -332,7 +327,6 @@ while True: # keeps display open
             wall.image.fill(DARKGRAY)
         pygame.draw.rect(green_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         pygame.draw.rect(red_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
-        pygame.draw.rect(red_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         screen.fill(GRAY)
         timer_text = style.render(str(timer), True, DARKGRAY)
         score_text = style.render(str(score), True, DARKGRAY)
@@ -346,8 +340,9 @@ while True: # keeps display open
     screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
-    screen.blit(pacman_retries_box_1, (100, 10))
-    screen.blit(pacman_retries_box_2, (100+int(W/2), 10))
+    for i in range(0, retries):
+        screen.blit(retries_boxes[i], (100+i*int(W/2), 10))
+        retries_boxes[i].set_colorkey(BLACK) # not passed through class definition
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
