@@ -48,6 +48,7 @@ count = 0
 ticks = int()
 angle = 0
 retries = 2
+pacman_picture_retries = pygame.transform.scale(pacman_picture, (W_pacman/2, H_pacman/2))
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
@@ -106,6 +107,10 @@ wall.rect.x = size[0]/2-10/2
 wall.rect.y = 100+10
 walls.add(wall)
 
+# needed for newer versions of python
+for wall in walls:
+    wall.image.fill(pygame.Color(1, 1, 1))
+
 # outer walls
 
 # left
@@ -131,10 +136,6 @@ wall = Rectangle(size[0]-2, 1)
 wall.rect.x = 1
 wall.rect.y = size[1]-1+1
 walls.add(wall)
-
-# needed for newer versions of python
-for wall in walls:
-    wall.image.fill(pygame.Color(1, 1, 1))
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 # pacman = Rectangle(pacman_picture, W_pacman, H_pacman)
@@ -259,6 +260,17 @@ while True:
         pacmen.add(pacman_removed) # will reposition pac-man
         pacman.retry()
         retries -= 1
+    if retries == 2: # default
+        pacman_retries_box_1 = pacman_picture_retries
+        pacman_retries_box_2 = pacman_picture_retries
+    elif retries == 1:
+        pacman_retries_box_1 = pacman_picture_retries
+        pacman_retries_box_2 = pygame.Surface((0, 0)) # blank box
+    else:
+        pacman_retries_box_1 = pygame.Surface((0, 0))
+        pacman_retries_box_2 = pygame.Surface((0, 0))
+    pacman_retries_box_1.set_colorkey(BLACK)
+    pacman_retries_box_2.set_colorkey(BLACK)
     # --------------
     screen.fill(BLUE)
     timer_text = style.render(str(timer), True, RED) # True for anti-aliased, "string" --> str(timer)
@@ -285,6 +297,8 @@ while True:
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y))
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(pacman_retries_box_1, (100, 10)) # to right of timer
+    screen.blit(pacman_retries_box_2, (100+W_pacman/2, 10)) # side-by-side
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10))
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     screen.blit(you_win_text, you_win_text.get_rect(center = screen.get_rect().center))
