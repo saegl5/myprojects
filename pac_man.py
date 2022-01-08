@@ -107,7 +107,6 @@ wall.rect.x = size[0]/2-10/2
 wall.rect.y = 100+10
 walls.add(wall)
 
-# needed for newer versions of python
 for wall in walls:
     wall.image.fill(pygame.Color(1, 1, 1))
 
