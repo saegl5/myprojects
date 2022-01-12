@@ -341,7 +341,7 @@ while True: # keeps display open
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
-        screen.blit(retries_boxes[i], (100+i*int(W/2), 10))
+        screen.blit(retries_boxes[i], (100+i*W/2, 10))
         retries_boxes[i].set_colorkey(BLACK) # not passed through class definition
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
