@@ -31,6 +31,8 @@ pellets = pygame.sprite.Group() # create a list for "pellet" sprites, no longer 
 # collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
+red_ghosts = pygame.sprite.Group()
+green_ghosts = pygame.sprite.Group()
 timer = 30 # set timer for 30 seconds (multiple of modulo for random walks)
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
@@ -135,26 +137,26 @@ for i in range(0, retries):
     retries_boxes.append(pacman_picture_retries)
 
 while True:
-    x = random.randrange(0, size[0]+1-W, W)
-    y = random.randrange(0, size[1]+1-H, H)
+    x = random.randrange(0, size[0]+1-W)
+    y = random.randrange(0, size[1]+1-H)
     red_ghost = Rectangle(x, y, W, H)
     red_ghost.image.blit(red_ghost_picture, (0, 0))
+    red_ghosts.add(red_ghost)
     stuck = pygame.sprite.spritecollide(red_ghost, walls, False)
     if stuck:
-        red_ghost.kill()
-        continue # create new sprite
+        red_ghosts.remove(red_ghost)
     else:
         break # exit loop, not quitting game
 
 while True:
-    x = random.randrange(0, size[0]+1-W, W)
-    y = random.randrange(0, size[1]+1-H, H)
+    x = random.randrange(0, size[0]+1-W)
+    y = random.randrange(0, size[1]+1-H)
     green_ghost = Rectangle(x, y, W, H)
     green_ghost.image.blit(green_ghost_picture, (0, 0))
+    green_ghosts.add(green_ghost)
     stuck = pygame.sprite.spritecollide(green_ghost, walls, False)
     if stuck:
-        green_ghost.kill()
-        continue
+        green_ghosts.remove(green_ghost)
     else:
         break
 
@@ -338,8 +340,10 @@ while True: # keeps display open
     # --- Drawing code
     walls.draw(screen) # draw sprites on screen using list
     pellets.draw(screen)
-    screen.blit(red_ghost.image, (red_ghost.rect.x, red_ghost.rect.y))
-    screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
+    # screen.blit(red_ghost.image, (red_ghost.rect.x, red_ghost.rect.y))
+    # screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
+    red_ghosts.draw(screen)
+    green_ghosts.draw(screen)
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
