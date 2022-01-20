@@ -307,7 +307,9 @@ while True: # keeps display open
         pacman.retry()
         retries -= 1
         retries_boxes.pop()
-    if timer == 0 or len(pacmen) == 0 or len(pellets) == 0:
+    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+        pass
+    else:
         x_increment_green_ghost = 0
         y_increment_green_ghost = 0
         x_increment_red_ghost = 0
