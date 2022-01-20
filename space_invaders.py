@@ -43,6 +43,7 @@ H_spaceship = 64
 W_invader = 32
 H_invader = 32
 spaceship_picture = pygame.transform.scale(spaceship_picture, (W_spaceship, H_spaceship))
+spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W_spaceship/2, H_spaceship/2))
 count = 0
 retries = 2
 
@@ -174,10 +175,10 @@ while True:
     # --- Game logic
     # x_offset += x_increment
     # y_offset += y_increment
-    if size[0]/2+x_offset < 0: # left edge
-        x_offset = -size[0]/2
-    elif size[0]/2+x_offset + W_spaceship > size[0]: # right edge
-        x_offset = size[0]/2 - W_spaceship
+    # if size[0]/2+x_offset < 0: # left edge
+    #     x_offset = -size[0]/2
+    # elif size[0]/2+x_offset + W_spaceship > size[0]: # right edge
+    #     x_offset = size[0]/2 - W_spaceship
     # if size[1]/2+y_offset < 0: # top edge
         # y_offset = -size[1]/2
     # elif size[1]/2+y_offset + 64 > size[1]: # bottom edge
@@ -221,6 +222,17 @@ while True:
             # for spaceship in spaceships:
             spaceship.retry()
             retries -= 1
+    if retries == 2:
+        spaceship_retries_box_1 = spaceship_picture_retries
+        spaceship_retries_box_2 = spaceship_picture_retries
+    elif retries == 1:
+        spaceship_retries_box_1 = spaceship_picture_retries
+        spaceship_retries_box_2 = pygame.Surface((0, 0))
+    else:
+        spaceship_retries_box_1 = pygame.Surface((0, 0))
+        spaceship_retries_box_2 = pygame.Surface((0, 0))
+    spaceship_retries_box_1.set_colorkey(BLACK)
+    spaceship_retries_box_2.set_colorkey(BLACK)
     # --------------
     screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -252,6 +264,8 @@ while True:
     screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y))
     lasers.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(spaceship_retries_box_1, (100, 10))
+    screen.blit(spaceship_retries_box_2, (100+W_spaceship/2, 10))
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 10))
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     screen.blit(you_win_text, you_win_text.get_rect(center = screen.get_rect().center))
