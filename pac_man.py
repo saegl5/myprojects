@@ -26,6 +26,7 @@ pellets = pygame.sprite.Group() # not pellets = [] <-- multiple sprites
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
+ghosts = pygame.sprite.Group()
 timer = 30 # 30 seconds
 score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -144,10 +145,17 @@ pacman.rect.x = size[0]/2+x_offset
 pacman.rect.y = size[1]/2+y_offset
 pacmen.add(pacman)
 
-ghost = Rectangle(W_ghost, H_ghost)
-ghost.image.blit(ghost_picture, (0, 0))
-ghost.rect.x = 200
-ghost.rect.y = 300
+while True:
+    ghost = Rectangle(W_ghost, H_ghost)
+    ghost.image.blit(ghost_picture, (0, 0))
+    ghost.rect.x = random.randrange(0, size[0]+1-W_ghost) # don't need step_size
+    ghost.rect.y = random.randrange(0, size[1]+1-H_ghost) # don't need step_size
+    ghosts.add(ghost)
+    stuck = pygame.sprite.spritecollide(ghost, walls, False)
+    if stuck:
+        ghosts.remove(ghost)
+    else:
+        break # exit loop, if no overlap
 
 # for i in range(0, 50): # create and add fifty pellets
 while 50-len(pellets) > 0:
@@ -292,7 +300,8 @@ while True:
     # screen.blit(text, (x, y)) unit 1
     walls.draw(screen)
     pellets.draw(screen) # draw sprite on screen <-- multiple sprites
-    screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
+    # screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
+    ghosts.draw(screen) # previous code override what we want
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y))
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
