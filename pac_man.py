@@ -302,7 +302,7 @@ while True:
     pellets.draw(screen) # draw sprite on screen <-- multiple sprites
     # screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
     ghosts.draw(screen) # previous code override what we want
-    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y))
+    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(pacman_retries_box_1, (100, 10)) # to right of timer

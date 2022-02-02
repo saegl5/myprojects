@@ -261,7 +261,7 @@ while True:
     walls.draw(screen)
     invaders.draw(screen) # draw sprite on screen <-- multiple sprites
     lasers_alt.draw(screen)
-    screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y))
+    screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
     lasers.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     screen.blit(spaceship_retries_box_1, (100, 10))
