@@ -268,25 +268,25 @@ while True: # keeps display open
             pacman.rect.top = wall.rect.bottom
 
     # if timer % 10 == 0:
-    red_ghost.rect.x += x_increment_red_ghost # move "ghost" sprites rightward
     wall_red_ghost_hit_x = pygame.sprite.spritecollide(red_ghost, walls, False)
     if len(wall_red_ghost_hit_x) != 0:
         x_increment_red_ghost *= -1
+    red_ghost.rect.x += x_increment_red_ghost # move "ghost" sprites rightward
 
-    red_ghost.rect.y += y_increment_red_ghost # move "ghost" sprites downward
     wall_red_ghost_hit_y = pygame.sprite.spritecollide(red_ghost, walls, False)
     if len(wall_red_ghost_hit_y) != 0:
         y_increment_red_ghost *= -1
+    red_ghost.rect.y += y_increment_red_ghost # move "ghost" sprites downward
 
-    green_ghost.rect.x += x_increment_green_ghost
     wall_green_ghost_hit_x = pygame.sprite.spritecollide(green_ghost, walls, False)
     if len(wall_green_ghost_hit_x) != 0:
         x_increment_green_ghost *= -1
+    green_ghost.rect.x += x_increment_green_ghost
 
-    green_ghost.rect.y += y_increment_green_ghost
     wall_green_ghost_hit_y = pygame.sprite.spritecollide(green_ghost, walls, False)
     if len(wall_green_ghost_hit_y) != 0:
         y_increment_green_ghost *= -1
+    green_ghost.rect.y += y_increment_green_ghost
 
     # red_ghost.rect.x = size[0]/2+x_offset
     # green_ghost.rect.y = size[1]/2+y_offset
