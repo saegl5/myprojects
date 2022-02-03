@@ -258,10 +258,11 @@ while True:
     if timer != 0: # not equal to/is not
         score = len(collisions)
 
-    ghost.rect.x += x_increment_ghost # could also decrement
+    # ghost.rect.x += x_increment_ghost # could also decrement
     wall_ghost_hit = pygame.sprite.spritecollide(ghost, walls, False)
     if wall_ghost_hit:
         x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
+    ghost.rect.x += x_increment_ghost # could also decrement
     pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
     if pacman_removed and retries > 0:
         pacmen.add(pacman_removed) # will reposition pac-man
