@@ -119,6 +119,7 @@ wall = Rectangle(1, size[1]-1+1, size[0]-2, 1)
 walls.add(wall)
 
 pacman = Rectangle(size[0]/2+x_offset, size[1]/2+y_offset, W, H) # creates a "pacman" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+# if one wants to position pac-man randomly, then one could use a WHILE loop as done for ghosts
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
 
@@ -174,24 +175,28 @@ while True: # keeps display open
                 you_win_sound.play()
             else: # after one second
                 timer -= 1 # decrement timer
-                if timer % 5 == 0:
-                    x_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
-                    if x_increment_red_ghost == 0:
-                        y_increment_red_ghost = random.choice([-1, 1]) # always moving
-                    # red_ghost.image = pygame.transform.flip(red_ghost.image, True, False)
-                    # red_ghost.image.set_colorkey(BLACK)                    
-                    y_increment_green_ghost = random.randint(-1, 1)
+                if timer % 10 == 0:
+                    y_increment_green_ghost = random.randint(-1, 1) # let Python choose direction and speed
                     if y_increment_green_ghost == 0:
                         x_increment_green_ghost = random.choice([-1, 1])
+                    else:
+                        x_increment_green_ghost = 0
                     # green_ghost.image = pygame.transform.flip(green_ghost.image, True, False)
                     # green_ghost.image.set_colorkey(BLACK)
-                if timer % 10 == 0:
-                    y_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
-                    if y_increment_red_ghost == 0:
-                        x_increment_red_ghost = random.choice([-1, 1]) # always moving
-                    x_increment_green_ghost = random.randint(-1, 1)
-                    if x_increment_green_ghost == 0:
-                        y_increment_green_ghost = random.choice([-1, 1])
+                elif timer % 5 == 0:
+                    x_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
+                    if x_increment_red_ghost == 0:
+                        y_increment_red_ghost = random.choice([-1, 1])
+                    else:
+                        y_increment_red_ghost = 0
+                    # red_ghost.image = pygame.transform.flip(red_ghost.image, True, False)
+                    # red_ghost.image.set_colorkey(BLACK)                    
+                    # y_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
+                    # if y_increment_red_ghost == 0:
+                    #     x_increment_red_ghost = random.choice([-1, 1]) # always moving
+                    # x_increment_green_ghost = random.randint(-1, 1)
+                    # if x_increment_green_ghost == 0:
+                    #     y_increment_green_ghost = random.choice([-1, 1])
 
                 # if timer % 5 == 0: # every 5 seconds
                 # red_ghost.rect.x += x_increment_ghost # move "ghost" sprites downward
@@ -297,6 +302,13 @@ while True: # keeps display open
         score += 1
     # if timer != 0:
         # score = len(collisions)
+    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+        pass
+    else:
+        x_increment_green_ghost = 0
+        y_increment_green_ghost = 0
+        x_increment_red_ghost = 0
+        y_increment_red_ghost = 0
     pacman_removed_a = pygame.sprite.spritecollide(green_ghost, pacmen, True)
     if len(pacman_removed_a) != 0 and retries > 0:
         pacmen.add(pacman_removed_a)
@@ -309,13 +321,6 @@ while True: # keeps display open
         pacman.retry()
         retries -= 1
         retries_boxes.pop()
-    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
-        pass
-    else:
-        x_increment_green_ghost = 0
-        y_increment_green_ghost = 0
-        x_increment_red_ghost = 0
-        y_increment_red_ghost = 0
     # --------------
     screen.fill(BLUE) # clear the display
     timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
@@ -342,9 +347,9 @@ while True: # keeps display open
     pellets.draw(screen)
     # screen.blit(red_ghost.image, (red_ghost.rect.x, red_ghost.rect.y))
     # screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
-    red_ghosts.draw(screen)
-    green_ghosts.draw(screen)
-    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen
+    red_ghosts.draw(screen) # previous code override what we want
+    green_ghosts.draw(screen) # previous code override what we want
+    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen, so you can see block
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
         screen.blit(retries_boxes[i], (100+i*W/2, 10))
