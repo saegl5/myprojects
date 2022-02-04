@@ -143,6 +143,7 @@ pacman = Rectangle(W_pacman, H_pacman)
 pacman.image.blit(pacman_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
 pacman.rect.x = size[0]/2+x_offset
 pacman.rect.y = size[1]/2+y_offset
+# if you want to position pac-man randomly, too, then you could use a WHILE loop as done for ghosts
 pacmen.add(pacman)
 
 while True:
@@ -263,6 +264,7 @@ while True:
     if wall_ghost_hit:
         x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
     ghost.rect.x += x_increment_ghost # could also decrement
+    
     pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
     if pacman_removed and retries > 0:
         pacmen.add(pacman_removed) # will reposition pac-man
