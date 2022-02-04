@@ -90,6 +90,8 @@ walls.add(wall)
 x = size[0]/2+x_offset # position and offset "spaceship" sprite
 y = size[1]-H
 spaceship = Rectangle(x, y, W, H) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+# ALIGN WITH PAC-MAN!!!
+# if one wants to position spaceship randomly, then one could use a WHILE loop as done for pac-man ghosts
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 
@@ -234,7 +236,7 @@ while True: # keeps display open
     walls.draw(screen) # draw sprites on screen using list
     invaders.draw(screen)
     lasers_alt.draw(screen)
-    screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen
+    screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen, so you can see block
     lasers.draw(screen)
     screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
