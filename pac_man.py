@@ -22,6 +22,7 @@ y_offset = 0
 x_increment = 0
 y_increment = 0
 x_increment_ghost = 1 # ghost moving rightward at launch
+y_increment_ghost = 0
 pellets = pygame.sprite.Group() # not pellets = [] <-- multiple sprites
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
@@ -189,6 +190,11 @@ while True:
                 you_win_sound.play()
             else:
                 timer -= 1
+                if timer % 5 == 0:
+                    # x_increment_ghost = random.choice([-1, 1])
+                    x_increment_ghost = random.randint(-1, 1) # -1, 0, 1
+                    if x_increment_ghost == 0:
+                        y_increment_ghost = random.choice([-1, 1])
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
@@ -264,6 +270,8 @@ while True:
     if wall_ghost_hit:
         x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
     ghost.rect.x += x_increment_ghost # could also decrement
+
+    ghost.rect.y += y_increment_ghost
     
     pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
     if pacman_removed and retries > 0:
