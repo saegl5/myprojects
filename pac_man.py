@@ -262,8 +262,10 @@ while True:
     # pellet.rect.y = random.randrange(0, size[1]+1-H_pellet) # problem is that recalculates each loop
     pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # "True" to remove a "pellet" sprite, if "pacman" sprites collides with it
     collisions.add(pellet_removed) # when "pellet" sprite is removed from pellets list, add it to collisions list
-    if timer != 0: # not equal to/is not
+    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
         score = len(collisions)
+    else: # stops ghosts from moving when game over or win game
+        x_increment_ghost = 0
 
     # ghost.rect.x += x_increment_ghost # could also decrement
     wall_ghost_hit = pygame.sprite.spritecollide(ghost, walls, False)
@@ -299,6 +301,7 @@ while True:
         for pellet in pellets:
             pellet.image.fill(LIGHTGRAY)
         pacman.image.fill(WHITE)
+        ghost.image.fill(LIGHTGRAY)
         screen.fill(GRAY)
         timer_text = style.render(str(timer), True, DARKGRAY) # True for anti-aliased, "string" --> str(timer)
         score_text = style.render(str(score), True, DARKGRAY)
