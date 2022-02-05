@@ -210,7 +210,7 @@ while True:
         lasers.update(-10)
         lasers_alt.update(2) # 2 is optional
     # if len(spaceships) == 0:
-    else:
+    else: # stops lasers from moving when game over or win game
         lasers.update(0)
         lasers_alt.update(0)
     for invader in invaders:
