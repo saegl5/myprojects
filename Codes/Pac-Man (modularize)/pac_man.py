@@ -304,7 +304,7 @@ while True: # keeps display open
         # score = len(collisions)
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
         pass
-    else:
+    else: # stops ghosts from moving when game over or win game
         x_increment_green_ghost = 0
         y_increment_green_ghost = 0
         x_increment_red_ghost = 0
