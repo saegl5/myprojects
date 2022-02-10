@@ -192,7 +192,11 @@ while True: # keeps display open
     for invader in invaders:
         # touched = pygame.sprite.spritecollide(invader, spaceships, True)
         # spaceships.remove(touched)
-        pygame.sprite.spritecollide(invader, spaceships, True) # similar to pac-man ghosts
+        spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True) # similar to pac-man ghosts
+        if spaceship_removed and retries > 0:
+            spaceships.add(spaceship_removed) # will reposition the spaceship
+            spaceship.retry()
+            retries -= 1
     for laser in lasers_alt:
         spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
         if len(spaceship_removed) != 0 and retries > 0:
@@ -208,7 +212,7 @@ while True: # keeps display open
         lasers.update(-10)
         lasers_alt.update(2)
     # if len(spaceships) == 0 or len(invaders) == 0:
-    else:
+    else: # stops lasers from moving when game over or win game
         lasers.update(0)
         lasers_alt.update(0)
     # --------------
