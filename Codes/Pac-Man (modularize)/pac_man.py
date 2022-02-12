@@ -176,7 +176,7 @@ while True: # keeps display open
             else: # after one second
                 timer -= 1 # decrement timer
                 if timer % 10 == 0:
-                    y_increment_green_ghost = random.randint(-1, 1) # let Python choose direction and speed
+                    y_increment_green_ghost = random.choice([-1, 0, 1]) # let Python choose direction and speed
                     if y_increment_green_ghost == 0:
                         x_increment_green_ghost = random.choice([-1, 1])
                     else:
@@ -184,7 +184,7 @@ while True: # keeps display open
                     # green_ghost.image = pygame.transform.flip(green_ghost.image, True, False)
                     # green_ghost.image.set_colorkey(BLACK)
                 elif timer % 5 == 0:
-                    x_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
+                    x_increment_red_ghost = random.choice([-1, 0, 1]) # let Python choose direction and speed
                     if x_increment_red_ghost == 0:
                         y_increment_red_ghost = random.choice([-1, 1])
                     else:
