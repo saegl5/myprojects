@@ -254,7 +254,7 @@ while True: # keeps display open
     #     y_offset = size[1]/2 - H # simplified
 
     # pacman.rect.x = size[0]/2+x_offset # position and offset "pacman" sprite <- do earlier
-    # permits faster moving pac-man
+    # permits faster moving pac-man, could use technique for red ghost too
     for i in range(0, abs(x_increment)+1): # increment x-coordinate *abs(x_increment)* many times
         if x_increment == 0:
             pass # don't increment x-coordinate
@@ -271,7 +271,7 @@ while True: # keeps display open
             break # no sense in completing above loop, if hit wall
     
     # pacman.rect.y = size[1]/2+y_offset <- do earlier
-    # again, permits faster moving pac-man
+    # again, permits faster moving pac-man, could use technique for green ghost too
     for j in range(0, abs(y_increment)+1): # increment y-coordinate *abs(y_increment)* many times
         if y_increment == 0:
             pass # don't increment y-coordinate
