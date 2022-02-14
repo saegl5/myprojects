@@ -254,23 +254,38 @@ while True: # keeps display open
     #     y_offset = size[1]/2 - H # simplified
 
     # pacman.rect.x = size[0]/2+x_offset # position and offset "pacman" sprite <- do earlier
-    pacman.rect.x += x_increment # bypass offset for new positions
-    wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # DON'T remove a "wall" sprite, if "pacman" sprite hits it, returns a list
-    # instead...
-    for wall in wall_pacman_hit_x: # wall that pacman hit
-        if x_increment > 0: # moving rightward
-            pacman.rect.right = wall.rect.left
-        else: # moving leftward, x_increment = 0 not hitting wall
-            pacman.rect.left = wall.rect.right # reverse
+    # permits faster moving pac-man
+    for i in range(0, abs(x_increment)+1): # increment x-coordinate *abs(x_increment)* many times
+        if x_increment == 0:
+            pass # don't increment x-coordinate
+        else:
+            pacman.rect.x += x_increment/abs(x_increment) # bypass offset for new positions, always += -1 or += 1 depending on direction of movement
+        wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # DON'T remove a "wall" sprite, if "pacman" sprite hits it, returns a list
+        # instead...
+        if wall_pacman_hit_x: # align, then break out of above loop
+            for wall in wall_pacman_hit_x: # wall that pacman hit
+                if x_increment > 0: # moving rightward
+                    pacman.rect.right = wall.rect.left
+                else: # moving leftward, x_increment = 0 not hitting wall
+                    pacman.rect.left = wall.rect.right # reverse
+            break # no sense in completing above loop, if hit wall
     
     # pacman.rect.y = size[1]/2+y_offset <- do earlier
-    pacman.rect.y += y_increment # bypass offset for new positions, must put here or else goes around wall
-    wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False)
-    for wall in wall_pacman_hit_y:
-        if y_increment > 0:
-            pacman.rect.bottom = wall.rect.top
+    # again, permits faster moving pac-man
+    for j in range(0, abs(y_increment)+1): # increment y-coordinate *abs(y_increment)* many times
+        if y_increment == 0:
+            pass # don't increment y-coordinate
         else:
-            pacman.rect.top = wall.rect.bottom
+            pacman.rect.y += y_increment/abs(y_increment) # must put here or else goes around wall, again bypass offset for new positions, always += -1 or += 1 depending on direction of movement
+        wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False) # again, DON'T remove a "wall" sprite, if "pacman" sprite hits it, returns a list
+        # instead...
+        if wall_pacman_hit_y: # align, then break out of above loop
+            for wall in wall_pacman_hit_y: # wall that pacman hit
+                if y_increment > 0: # moving rightward
+                    pacman.rect.bottom = wall.rect.top
+                else: # moving leftward, y_increment = 0 not hitting wall
+                    pacman.rect.top = wall.rect.bottom  # reverse
+            break # no sense in completing above loop, if hit wall
 
     # if timer % 10 == 0:
     wall_red_ghost_hit_x = pygame.sprite.spritecollide(red_ghost, walls, False)

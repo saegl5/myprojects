@@ -169,14 +169,20 @@ while True: # keeps display open
     #     x_offset = size[0]/2 - W # simplified
 
     # spaceship.rect.x = size[0]/2+x_offset # position and offset "spaceship" sprite <- do earlier
-    spaceship.rect.x += x_increment # offset directly
-    hit = pygame.sprite.spritecollide(spaceship, walls, False) # DON'T remove a "wall" sprite, if "spaceship" sprite hits it, returns a list
-    # instead...
-    for wall in hit: # wall that spaceship hit
-        if x_increment > 0: # moving rightward
-            spaceship.rect.right = wall.rect.left
-        else: # moving leftward, x_increment = 0 not hitting wall
-            spaceship.rect.left = wall.rect.right # reverse
+    for i in range(0, abs(x_increment)+1): # increment x-coordinate *abs(x_increment)* many times
+        if x_increment == 0:
+            pass # don't increment x-coordinate
+        else:
+            spaceship.rect.x += x_increment/abs(x_increment) # bypass offset for new positions, always += -1 or += 1 depending on direction of movement
+        hit = pygame.sprite.spritecollide(spaceship, walls, False) # DON'T remove a "wall" sprite, if "spaceship" sprite hits it, returns a list
+        # instead...
+        if hit: # align, then break out of above loop
+            for wall in hit: # wall that spaceship hit
+                if x_increment > 0: # moving rightward
+                    spaceship.rect.right = wall.rect.left
+                else: # moving leftward, x_increment = 0 not hitting wall
+                    spaceship.rect.left = wall.rect.right # reverse
+            break # no sense in completing above loop, if hit wall
 
     # spaceship.rect.y = size[1]-H <- do earlier
 
