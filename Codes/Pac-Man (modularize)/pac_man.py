@@ -338,10 +338,10 @@ while True: # keeps display open
         retries_boxes.pop()
     # --------------
     screen.fill(BLUE) # clear the display
-    timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
-    score_text = style.render(str(score), True, GREEN)
-    game_over_text = style.render(None, True, BLACK)
-    you_win_text = style.render(None, True, GREEN)
+    timer_text = style.render(str(timer), False, RED) # ("time remaining", anti-aliased, COLOR)
+    score_text = style.render(str(score), False, GREEN)
+    game_over_text = style.render(None, False, BLACK)
+    you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(pacmen) == 0:
         # pacman.image.fill(WHITE)
         pygame.draw.rect(pacman.image, WHITE, (0, 0, W, H), width=0)
@@ -352,11 +352,11 @@ while True: # keeps display open
         pygame.draw.rect(green_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         pygame.draw.rect(red_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         screen.fill(GRAY)
-        timer_text = style.render(str(timer), True, DARKGRAY)
-        score_text = style.render(str(score), True, DARKGRAY)
-        game_over_text = style.render("Game Over", True, BLACK)
+        timer_text = style.render(str(timer), False, DARKGRAY)
+        score_text = style.render(str(score), False, DARKGRAY)
+        game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
-        you_win_text = style.render("WINNER!", True, GREEN)
+        you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
     walls.draw(screen) # draw sprites on screen using list
     pellets.draw(screen)

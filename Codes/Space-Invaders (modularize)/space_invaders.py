@@ -223,10 +223,10 @@ while True: # keeps display open
         lasers_alt.update(0)
     # --------------
     screen.fill(BLUE) # clear the display
-    timer_text = style.render(str(timer), True, RED) # ("time remaining", anti-aliased, COLOR)
-    score_text = style.render(str(score), True, GREEN)
-    game_over_text = style.render(None, True, pygame.Color("black"))
-    you_win_text = style.render(None, True, GREEN)
+    timer_text = style.render(str(timer), False, RED) # ("time remaining", anti-aliased, COLOR)
+    score_text = style.render(str(score), False, GREEN)
+    game_over_text = style.render(None, False, pygame.Color("black"))
+    you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(spaceships) == 0:
         # spaceship.image.fill(WHITE)
         pygame.draw.rect(spaceship.image, WHITE, (0, 0, W, H), width=0)
@@ -237,11 +237,11 @@ while True: # keeps display open
         for laser in lasers_alt:
             laser.image.fill(LIGHTGRAY)
         screen.fill(GRAY)
-        timer_text = style.render(str(timer), True, DARKGRAY)
-        score_text = style.render(str(score), True, DARKGRAY)
-        game_over_text = style.render("Game Over", True, pygame.Color("black"))
+        timer_text = style.render(str(timer), False, DARKGRAY)
+        score_text = style.render(str(score), False, DARKGRAY)
+        game_over_text = style.render("Game Over", False, pygame.Color("black"))
     if len(invaders) == 0:
-        you_win_text = style.render("WINNER!", True, GREEN)
+        you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
     walls.draw(screen) # draw sprites on screen using list
     invaders.draw(screen)
