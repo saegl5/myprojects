@@ -299,21 +299,21 @@ while True:
     pacman_retries_box_2.set_colorkey(BLACK)
     # --------------
     screen.fill(BLUE)
-    timer_text = style.render(str(timer), True, RED) # True for anti-aliased, "string" --> str(timer)
-    score_text = style.render(str(score), True, GREEN)
-    game_over_text = style.render(None, True, BLACK)
-    you_win_text = style.render(None, True, BLACK)
+    timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
+    score_text = style.render(str(score), False, GREEN)
+    game_over_text = style.render(None, False, BLACK)
+    you_win_text = style.render(None, False, BLACK)
     if timer == 0 or len(pacmen) == 0:
         for pellet in pellets:
             pellet.image.fill(LIGHTGRAY)
         pacman.image.fill(WHITE)
         ghost.image.fill(LIGHTGRAY)
         screen.fill(GRAY)
-        timer_text = style.render(str(timer), True, DARKGRAY) # True for anti-aliased, "string" --> str(timer)
-        score_text = style.render(str(score), True, DARKGRAY)
-        game_over_text = style.render("Game Over", True, BLACK)
+        timer_text = style.render(str(timer), False, DARKGRAY) # True for anti-aliased, "string" --> str(timer)
+        score_text = style.render(str(score), False, DARKGRAY)
+        game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
-        you_win_text = style.render("WINNER!", True, BLACK)
+        you_win_text = style.render("WINNER!", False, BLACK)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
     # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen

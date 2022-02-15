@@ -236,10 +236,10 @@ while True:
     # --------------
     screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
-    timer_text = style.render(str(timer), True, RED) # True for anti-aliased, "string" --> str(timer)
-    score_text = style.render(str(score), True, GREEN)
-    game_over_text = style.render(None, True, BLACK)
-    you_win_text = style.render(None, True, GREEN)
+    timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
+    score_text = style.render(str(score), False, GREEN)
+    game_over_text = style.render(None, False, BLACK)
+    you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(spaceships) == 0:
         for invader in invaders:
             invader.image.fill(LIGHTGRAY) # similar to self.image.fill(COLOR)
@@ -249,11 +249,11 @@ while True:
             laser.image.fill(LIGHTGRAY)
         spaceship.image.fill(WHITE)
         screen.fill(GRAY)
-        timer_text = style.render(str(timer), True, DARKGRAY)
-        score_text = style.render(str(score), True, DARKGRAY)
-        game_over_text = style.render("Game Over", True, BLACK)
+        timer_text = style.render(str(timer), False, DARKGRAY)
+        score_text = style.render(str(score), False, DARKGRAY)
+        game_over_text = style.render("Game Over", False, BLACK)
     if len(invaders) == 0:
-        you_win_text = style.render("WINNER!", True, GREEN)
+        you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
     # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
