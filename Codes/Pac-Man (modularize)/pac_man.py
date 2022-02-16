@@ -17,7 +17,7 @@ DARKGRAY = pygame.Color("dark gray")
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
-x_offset = 0 # reordered
+x_offset = 50 # reordered
 y_offset = 0
 x_increment = 0
 x_increment_red_ghost = 1 # offsetting directly, moving at launch, direction optional
@@ -87,8 +87,8 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
             self.image = pygame.transform.rotate(pacman_picture, angle)         
         self.image.set_colorkey(BLACK)
     def retry(self):
-        self.rect.x = size[0]/2
-        self.rect.y = size[1]/2
+        self.rect.x = size[0]/2+x_offset
+        self.rect.y = size[1]/2+y_offset
     # def flip(self, sign):
     #     if sign < 0:
     #         red_ghost.image.blit(ghost_picture_1_alt, (0, 0))

@@ -18,11 +18,12 @@ DARKGRAY = pygame.Color("dark gray")
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
-x_offset = 0 # reordered
+# x_offset = 0 # reordered
 # y_offset = 0
 x_increment = 0
 # y_increment = 0
 W = 64 # "spaceship" sprite width reference
+x_offset = -W/2
 H = 64 # "spaceship" sprite height reference
 invaders = pygame.sprite.Group() # create a list for "invader" sprites, no longer invaders = [], Group() is class
 # collisions = pygame.sprite.Group()
@@ -74,7 +75,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         else:
             self.image.blit(invader_picture, (0, 0))
     def retry(self):
-        self.rect.x = size[0]/2-W/2 # center along bottom of display, bypassed offset
+        self.rect.x = size[0]/2+x_offset # center along bottom of display, bypassed offset
         self.rect.y = size[1]-H
 # ---------------------
 
