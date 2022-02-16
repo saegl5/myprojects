@@ -271,6 +271,7 @@ while True: # keeps display open
             break # no sense in completing above loop, if hit wall
     
     # pacman.rect.y = size[1]/2+y_offset <- do earlier
+    # takes care of if pacman appears on wall
     # again, permits faster moving pac-man, could use technique for green ghost too
     for j in range(0, abs(y_increment)+1): # increment y-coordinate *abs(y_increment)* many times
         if y_increment == 0:
