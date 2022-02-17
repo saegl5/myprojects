@@ -40,6 +40,10 @@ retries_boxes = []
 ticks = int() # for saving energy
 game_over_sound = pygame.mixer.Sound('Sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 you_win_sound = pygame.mixer.Sound('Sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
+spaceship_laser_sound = pygame.mixer.Sound('Sounds/laserLarge.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+invader_laser_sound = pygame.mixer.Sound('Sounds/laserSmall.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+spaceship_explosion_sound = pygame.mixer.Sound('Sounds/explosionCrunch.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+invader_explosion_sound = pygame.mixer.Sound('Sounds/lowFrequency_explosion.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
 spaceship_picture = pygame.image.load('Images/ship.png').convert() # Edited from source: https://opengameart.org/content/pixel-space-invaders (changed black to (1, 1, 1), too)
 spaceship_picture = pygame.transform.scale(spaceship_picture, (W, H))
 spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W/2, H/2))
@@ -137,6 +141,7 @@ while True: # keeps display open
                     laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
                     laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
                     lasers_alt.add(laser)
+                    invader_laser_sound.play()
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
@@ -151,6 +156,7 @@ while True: # keeps display open
                     laser.rect.bottom = spaceship.rect.top + 10 # align its bottom with "spaceship" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn spaceship after lasers)
                     if first == True:
                         lasers.add(laser)
+                        spaceship_laser_sound.play()
                         first = False
             else: # without "else," do nothing
                 x_increment = 0
@@ -194,18 +200,23 @@ while True: # keeps display open
         if len(invader_removed) != 0: # or "for invader in removed:"
             lasers.remove(laser) # remove "laser" sprite, too
             score += 1
+            invader_explosion_sound.play()
         elif laser.rect.bottom < 0:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     for invader in invaders:
         # touched = pygame.sprite.spritecollide(invader, spaceships, True)
         # spaceships.remove(touched)
         spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True) # similar to pac-man ghosts
+        if len(spaceship_removed) != 0:
+            spaceship_explosion_sound.play()
         if spaceship_removed and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             spaceship.retry()
             retries -= 1
     for laser in lasers_alt:
         spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        if len(spaceship_removed) != 0:
+            spaceship_explosion_sound.play()
         if len(spaceship_removed) != 0 and retries > 0:
             spaceships.add(spaceship_removed) # repositioning the spaceship
             spaceship.retry()
