@@ -32,6 +32,10 @@ score = 0
 first = True
 game_over_sound = pygame.mixer.Sound('game_over.ogg')
 you_win_sound = pygame.mixer.Sound('you_win.ogg')
+spaceship_laser_sound = pygame.mixer.Sound('laserLarge.ogg')
+spaceship_explosion_sound = pygame.mixer.Sound('explosionCrunch.ogg')
+invader_laser_sound = pygame.mixer.Sound('laserSmall.ogg')
+invader_explosion_sound = pygame.mixer.Sound('lowFrequency_explosion.ogg')
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
 spaceship_picture = pygame.image.load('ship.png').convert()
 #spaceship_picture = pygame.transform.scale(spaceship_picture, (64, 64))
@@ -140,6 +144,7 @@ while True:
                     laser.rect.centerx = invaders.sprites()[0].rect.centerx # 0 is index, range 0-49
                     laser.rect.top = invaders.sprites()[0].rect.bottom
                     lasers_alt.add(laser)
+                    invader_laser_sound.play()
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0: # "and" or "or" depends
@@ -161,6 +166,7 @@ while True:
                     laser.image.fill(YELLOW)
                     if first == True:
                         lasers.add(laser)
+                        spaceship_laser_sound.play()
                         first = False
             else:
                 x_increment = 0 # make sure "spaceship" sprite stop moving
@@ -203,6 +209,7 @@ while True:
         collisions.add(invader_removed) # when "invader" sprite is removed from invaders list, add it to collisions list
         if invader_removed: # why not put removed == True? 
             lasers.remove(laser)
+            invader_explosion_sound.play()
         elif laser.rect.y < -20: # "laser" sprites leaves canvas
             lasers.remove(laser)
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0: # not equal to/is not
@@ -214,9 +221,18 @@ while True:
         lasers.update(0)
         lasers_alt.update(0)
     for invader in invaders:
-        pygame.sprite.spritecollide(invader, spaceships, True)
+        spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True)
+        if spaceship_removed:
+            spaceship_explosion_sound.play()
+        if spaceship_removed and retries > 0:
+            spaceships.add(spaceship_removed) # will reposition the spaceship
+            # for spaceship in spaceships:
+            spaceship.retry()
+            retries -= 1
     for laser in lasers_alt:
         spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        if spaceship_removed:
+            spaceship_explosion_sound.play()
         if spaceship_removed and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             # for spaceship in spaceships:
