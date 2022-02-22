@@ -36,6 +36,8 @@ green_ghosts = pygame.sprite.Group()
 timer = 30 # set timer for 30 seconds (multiple of modulo for random walks)
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
+style_header = pygame.font.Font(None, 30)
+style_header.set_italic(True)
 count = 0 # for chomp picture
 ticks = int() # for saving energy
 # angle = 0 # redundant
@@ -339,7 +341,9 @@ while True: # keeps display open
         retries_boxes.pop()
     # --------------
     screen.fill(BLUE) # clear the display
+    timer_header = style_header.render("Time Left", False, RED)
     timer_text = style.render(str(timer), False, RED) # ("time remaining", anti-aliased, COLOR)
+    score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
@@ -353,7 +357,9 @@ while True: # keeps display open
         pygame.draw.rect(green_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         pygame.draw.rect(red_ghost.image, LIGHTGRAY, (0, 0, W, H), width = 0)
         screen.fill(GRAY)
+        timer_header = style_header.render("Time Left", False, DARKGRAY)
         timer_text = style.render(str(timer), False, DARKGRAY)
+        score_header = style_header.render("Score", False, DARKGRAY)
         score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
@@ -366,11 +372,13 @@ while True: # keeps display open
     red_ghosts.draw(screen) # previous code override what we want
     green_ghosts.draw(screen) # previous code override what we want
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen, so you can see block
-    screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(timer_header, (10, 10))
+    screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
         screen.blit(retries_boxes[i], (100+i*W/2, 10))
         retries_boxes[i].set_colorkey(BLACK) # not passed through class definition
-    screen.blit(score_text, (size[0]-score_text.get_width()-10, 10)) # near top-right corner
+    screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
+    screen.blit(score_text, (size[0]-score_text.get_width()-10, 30)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
     # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
