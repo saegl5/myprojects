@@ -38,7 +38,7 @@ style_header = pygame.font.Font(None, 30)
 style_header.set_italic(True)
 count = 0 # for lunging picture
 retries = 2
-retries_boxes = []
+retry_boxes = []
 ticks = int() # for saving energy
 game_over_sound = pygame.mixer.Sound('Sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 you_win_sound = pygame.mixer.Sound('Sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
@@ -48,7 +48,7 @@ spaceship_explosion_sound = pygame.mixer.Sound('Sounds/explosionCrunch.ogg') # S
 invader_explosion_sound = pygame.mixer.Sound('Sounds/lowFrequency_explosion.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
 spaceship_picture = pygame.image.load('Images/ship.png').convert() # Edited from source: https://opengameart.org/content/pixel-space-invaders (changed black to (1, 1, 1), too)
 spaceship_picture = pygame.transform.scale(spaceship_picture, (W, H))
-spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W/2, H/2))
+spaceship_picture_retry = pygame.transform.scale(spaceship_picture, (W/2, H/2))
 # spaceship_picture.set_colorkey(BLACK)
 invader_picture = pygame.image.load('Images/alien.png').convert() # Edited from source: https://opengameart.org/content/alien-sprite-sheet (changed black to (1, 1, 1), too)
 # invader_picture.set_colorkey(BLACK)
@@ -103,7 +103,7 @@ spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 
 for i in range(0, retries):
-    retries_boxes.append(spaceship_picture_retries)
+    retry_boxes.append(spaceship_picture_retry)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
 while 50-len(invaders) > 0: # create and add fifty "invader" sprites
@@ -224,7 +224,7 @@ while True: # keeps display open
             spaceship.retry()
             lasers_alt.remove(laser)
             retries -= 1
-            retries_boxes.pop()
+            retry_boxes.pop()
         elif laser.rect.top > size[1]:
             lasers_alt.remove(laser)
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
@@ -269,8 +269,8 @@ while True: # keeps display open
     screen.blit(timer_header, (10, 10))
     screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
-        screen.blit(retries_boxes[i], (100+i*W/2, 10))
-        retries_boxes[i].set_colorkey(BLACK)
+        screen.blit(retry_boxes[i], (100+i*W/2, 10))
+        retry_boxes[i].set_colorkey(BLACK)
     screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 30)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))

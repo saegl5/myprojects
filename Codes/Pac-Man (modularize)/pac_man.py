@@ -54,9 +54,9 @@ red_ghost_picture = pygame.image.load('Images/red_ghost.png').convert() # correc
 # red_ghost_picture = pygame.transform.scale(red_ghost_picture, (int(W/2), int(H/2)))
 green_ghost_picture = pygame.image.load('Images/green_ghost.png').convert() # corrected profile
 # green_ghost_picture = pygame.transform.scale(green_ghost_picture, (int(W/2), int(H/2)))
-pacman_picture_retries = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
+pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 retries = 2
-retries_boxes = []
+retry_boxes = []
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -137,7 +137,7 @@ while 50-len(pellets) > 0: # create and add fifty "pellet" sprites
         pygame.sprite.spritecollide(wall, pellets, True) # remove any "pellet" sprite in list in same position
 
 for i in range(0, retries):
-    retries_boxes.append(pacman_picture_retries)
+    retry_boxes.append(pacman_picture_retry)
 
 while True:
     x = random.randrange(0, size[0]+1-W)
@@ -332,13 +332,13 @@ while True: # keeps display open
         pacmen.add(pacman_removed_a)
         pacman.retry()
         retries -= 1
-        retries_boxes.pop()
+        retry_boxes.pop()
     pacman_removed_b = pygame.sprite.spritecollide(red_ghost, pacmen, True)
     if len(pacman_removed_b) != 0 and retries > 0:
         pacmen.add(pacman_removed_b)
         pacman.retry()
         retries -= 1
-        retries_boxes.pop()
+        retry_boxes.pop()
     # --------------
     screen.fill(BLUE) # clear the display
     timer_header = style_header.render("Time Left", False, RED)
@@ -375,8 +375,8 @@ while True: # keeps display open
     screen.blit(timer_header, (10, 10))
     screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
-        screen.blit(retries_boxes[i], (100+i*W/2, 10))
-        retries_boxes[i].set_colorkey(BLACK) # not passed through class definition
+        screen.blit(retry_boxes[i], (100+i*W/2, 10))
+        retry_boxes[i].set_colorkey(BLACK) # not passed through class definition
     screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 30)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
