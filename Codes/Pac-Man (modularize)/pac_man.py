@@ -43,6 +43,8 @@ ticks = int() # for saving energy
 # angle = 0 # redundant
 game_over_sound = pygame.mixer.Sound('Sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 you_win_sound = pygame.mixer.Sound('Sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
+pacman_walk_sound = pygame.mixer.Sound('Sounds/footstep.ogg') # Source: https://www.kenney.nl/assets/rpg-audio
+ghost_hit_sound = pygame.mixer.Sound('Sounds/hit.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
 pacman_picture = pygame.image.load('Images/pac.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles
 # pacman_picture.set_colorkey(BLACK)
 pacman_picture_alt = pygame.image.load('Images/pac_chomp.png').convert() # my picture from pac.png
@@ -211,21 +213,29 @@ while True: # keeps display open
                     angle = 0
                     pacman.turn(angle) # place in IF statement, if using keyboard combination to take screenshots
                     count += 1
+                    if count % 15 == 0:
+                        pacman_walk_sound.play()
                 elif action.key == pygame.K_UP:
                     y_increment = -5
                     angle = 90
                     pacman.turn(angle)
                     count += 1
+                    if count % 15 == 0:
+                        pacman_walk_sound.play()
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
                     angle = 180
                     pacman.turn(angle)
                     count += 1
+                    if count % 15 == 0:
+                        pacman_walk_sound.play()
                 elif action.key == pygame.K_DOWN:
                     y_increment = 5 # note "y_increment," and recall that y increases going downward
                     angle = 270
                     pacman.turn(angle)
                     count += 1
+                    if count % 15 == 0:
+                        pacman_walk_sound.play()
                 else: # without "else," do nothing
                     x_increment = 0
                     y_increment = 0
@@ -328,12 +338,16 @@ while True: # keeps display open
         x_increment_red_ghost = 0
         y_increment_red_ghost = 0
     pacman_removed_a = pygame.sprite.spritecollide(green_ghost, pacmen, True)
+    if len(pacman_removed_a) != 0:
+        ghost_hit_sound.play()
     if len(pacman_removed_a) != 0 and retries > 0:
         pacmen.add(pacman_removed_a)
         pacman.retry()
         retries -= 1
         retry_boxes.pop()
     pacman_removed_b = pygame.sprite.spritecollide(red_ghost, pacmen, True)
+    if len(pacman_removed_b) != 0:
+        ghost_hit_sound.play()
     if len(pacman_removed_b) != 0 and retries > 0:
         pacmen.add(pacman_removed_b)
         pacman.retry()
