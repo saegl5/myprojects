@@ -33,6 +33,8 @@ score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
 game_over_sound = pygame.mixer.Sound('game_over.ogg')
 you_win_sound = pygame.mixer.Sound('you_win.ogg')
+pacman_walk_sound = pygame.mixer.Sound('footstep.ogg')
+ghost_hit_sound = pygame.mixer.Sound('hit.ogg')
 pacman_picture = pygame.image.load('pac.png').convert()
 pellet_picture = pygame.image.load('dot.png').convert() # need to scale down
 ghost_picture = pygame.image.load('red_ghost.png').convert()
@@ -205,21 +207,29 @@ while True:
                     angle = 0
                     pacman.turn(angle)
                     count += 1
+                    if count % 15 == 0: # delay
+                        pacman_walk_sound.play()
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
                     angle = 180
                     pacman.turn(angle)
                     count += 1
+                    if count % 15 == 0: # delay
+                        pacman_walk_sound.play()
                 elif action.key == pygame.K_DOWN:
                     y_increment = 5
                     angle = 270
                     pacman.turn(angle)
                     count += 1
+                    if count % 15 == 0: # delay
+                        pacman_walk_sound.play()
                 elif action.key == pygame.K_UP:
                     y_increment = -5
                     angle = 90
                     pacman.turn(angle)
                     count += 1
+                    if count % 15 == 0: # delay
+                        pacman_walk_sound.play()
             else:
                 x_increment = 0
                 y_increment = 0
@@ -282,6 +292,8 @@ while True:
     ghost.rect.y += y_increment_ghost
     
     pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+    if pacman_removed:
+        ghost_hit_sound.play()
     if pacman_removed and retries > 0:
         pacmen.add(pacman_removed) # will reposition pac-man
         pacman.retry()
