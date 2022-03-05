@@ -31,6 +31,10 @@ ghosts = pygame.sprite.Group()
 timer = 30 # 30 seconds
 score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
+style_header = pygame.font.Font(None, 30)
+# style_header.set_bold(True)
+style_header.set_italic(True)
+# style_header.set_underline(True)
 game_over_sound = pygame.mixer.Sound('game_over.ogg')
 you_win_sound = pygame.mixer.Sound('you_win.ogg')
 pacman_walk_sound = pygame.mixer.Sound('footstep.ogg')
@@ -311,7 +315,9 @@ while True:
     pacman_retries_box_2.set_colorkey(BLACK)
     # --------------
     screen.fill(BLUE)
+    timer_header = style_header.render("Time Left", False, RED)
     timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
+    score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, BLACK)
@@ -336,10 +342,12 @@ while True:
     ghosts.draw(screen) # previous code override what we want
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
-    screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(timer_header, (10, 10))
+    screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     screen.blit(pacman_retries_box_1, (100, 10)) # to right of timer
     screen.blit(pacman_retries_box_2, (100+W_pacman/2, 10)) # side-by-side
-    screen.blit(score_text, (size[0]-score_text.get_width()-10, 10))
+    screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
+    screen.blit(score_text, (size[0]-score_text.get_width()-10, 30))
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     screen.blit(you_win_text, you_win_text.get_rect(center = screen.get_rect().center))
     # ----------------

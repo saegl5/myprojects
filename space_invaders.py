@@ -37,6 +37,8 @@ spaceship_explosion_sound = pygame.mixer.Sound('explosionCrunch.ogg')
 invader_laser_sound = pygame.mixer.Sound('laserSmall.ogg')
 invader_explosion_sound = pygame.mixer.Sound('lowFrequency_explosion.ogg')
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
+style_header = pygame.font.Font(None, 30)
+style_header.set_italic(True)
 spaceship_picture = pygame.image.load('ship.png').convert()
 #spaceship_picture = pygame.transform.scale(spaceship_picture, (64, 64))
 invader_picture = pygame.image.load('alien.png').convert()
@@ -252,7 +254,9 @@ while True:
     # --------------
     screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
+    timer_header = style_header.render("Time Left", False, RED)
     timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
+    score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
@@ -279,10 +283,12 @@ while True:
     lasers_alt.draw(screen)
     screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
     lasers.draw(screen)
-    screen.blit(timer_text, (10, 10)) # copy image of text onto screen at (10, 10)
+    screen.blit(timer_header, (10, 10))
+    screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     screen.blit(spaceship_retries_box_1, (100, 10))
     screen.blit(spaceship_retries_box_2, (100+W_spaceship/2, 10))
-    screen.blit(score_text, (size[0]-score_text.get_width()-10, 10))
+    screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
+    screen.blit(score_text, (size[0]-score_text.get_width()-10, 30))
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
     screen.blit(you_win_text, you_win_text.get_rect(center = screen.get_rect().center))
     # ----------------
