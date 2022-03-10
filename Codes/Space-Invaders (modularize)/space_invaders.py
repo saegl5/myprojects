@@ -123,10 +123,10 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
-            if timer == 0 or len(spaceships) == 0:
+            if timer == 0 or spaceships == []:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "invader" sprites stop moving too
                 game_over_sound.play()
-            elif len(invaders) == 0:
+            elif invaders == []:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
             else: # after one second
@@ -146,7 +146,7 @@ while True: # keeps display open
                     invader_laser_sound.play()
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
+            if timer != 0 and invaders != [] and spaceships != []:
                 if action.key == pygame.K_RIGHT: # note "action.key"
                     x_increment = 5 # "5" is optional
                 elif action.key == pygame.K_LEFT:
@@ -183,10 +183,10 @@ while True: # keeps display open
             pass # don't increment x-coordinate
         else:
             spaceship.rect.x += x_increment/abs(x_increment) # bypass offset for new positions, always += -1 or += 1 depending on direction of movement
-        hit = pygame.sprite.spritecollide(spaceship, walls, False) # DON'T remove a "wall" sprite, if "spaceship" sprite hits it, returns a list
+        wall_spaceship_hit = pygame.sprite.spritecollide(spaceship, walls, False) # DON'T remove a "wall" sprite, if "spaceship" sprite hits it, returns a list
         # instead...
-        if hit: # align, then break out of above loop
-            for wall in hit: # wall that spaceship hit
+        if wall_spaceship_hit != []: # align, then break out of above loop
+            for wall in wall_spaceship_hit: # wall that spaceship hit
                 if x_increment > 0: # moving rightward
                     spaceship.rect.right = wall.rect.left
                 else: # moving leftward, x_increment = 0 not hitting wall
@@ -199,7 +199,7 @@ while True: # keeps display open
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
         invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
         # collisions.add(removed)
-        if len(invader_removed) != 0: # or "for invader in removed:"
+        if invader_removed != []: # or "for invader in removed:"
             lasers.remove(laser) # remove "laser" sprite, too
             score += 1
             invader_explosion_sound.play()
@@ -209,7 +209,7 @@ while True: # keeps display open
         # touched = pygame.sprite.spritecollide(invader, spaceships, True)
         # spaceships.remove(touched)
         spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True) # similar to pac-man ghosts
-        if len(spaceship_removed) != 0:
+        if spaceship_removed != []:
             spaceship_explosion_sound.play()
         if spaceship_removed and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
@@ -217,9 +217,9 @@ while True: # keeps display open
             retries -= 1
     for laser in lasers_alt:
         spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
-        if len(spaceship_removed) != 0:
+        if spaceship_removed != []:
             spaceship_explosion_sound.play()
-        if len(spaceship_removed) != 0 and retries > 0:
+        if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # repositioning the spaceship
             spaceship.retry()
             lasers_alt.remove(laser)
@@ -227,7 +227,7 @@ while True: # keeps display open
             retry_boxes.pop()
         elif laser.rect.top > size[1]:
             lasers_alt.remove(laser)
-    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
+    if timer != 0 and spaceships != [] and invaders != []:
         # score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
@@ -243,22 +243,22 @@ while True: # keeps display open
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, pygame.Color("black"))
     you_win_text = style.render(None, False, GREEN)
-    if timer == 0 or len(spaceships) == 0:
+    if timer == 0 or spaceships == []:
         # spaceship.image.fill(WHITE)
         pygame.draw.rect(spaceship.image, WHITE, (0, 0, W, H), width=0)
         for invader in invaders:
-            pygame.draw.rect(invader.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
+            pygame.draw.rect(invader.image, DARKGRAY, (0, 0, W/2, H/2), width=0)
         for laser in lasers:
             laser.image.fill(LIGHTGRAY)
         for laser in lasers_alt:
-            laser.image.fill(LIGHTGRAY)
+            laser.image.fill(DARKGRAY)
         screen.fill(GRAY)
         timer_header = style_header.render("Time Left", False, DARKGRAY)
         timer_text = style.render(str(timer), False, DARKGRAY)
         score_header = style_header.render("Score", False, DARKGRAY)
         score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, pygame.Color("black"))
-    if len(invaders) == 0:
+    if invaders == []:
         you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
     walls.draw(screen) # draw sprites on screen using list
