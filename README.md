@@ -14,3 +14,6 @@
 
 ## "Space Invaders" Game
 <img src="screenshots/space_invaders.png" alt="screenshot of space invaders game" width="700">
+
+# Known Issues
+* "ghost" sprites may still get stuck in extremely unusual circumstances
