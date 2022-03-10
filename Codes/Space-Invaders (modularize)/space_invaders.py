@@ -83,6 +83,15 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     def retry(self):
         self.rect.x = size[0]/2+x_offset # center along bottom of display, bypassed offset
         self.rect.y = size[1]-H
+
+def return_fire(index):
+    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+    laser.image.fill(RED)
+    # index = 0 # example, more randomized with random.randrange(0, len(invaders))
+    laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
+    laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
+    lasers_alt.add(laser)
+    invader_laser_sound.play()
 # ---------------------
 
 # outer walls (only left and right):
@@ -137,32 +146,11 @@ while True: # keeps display open
                     invader.lunge()
                 count += 1
                 if timer % 4 == 0: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
-                    laser.image.fill(RED)
-                    index = 0 # example, more randomized with random.randrange(0, len(invaders))
-                    laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
-                    laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
-                    lasers_alt.add(laser)
-                    invader_laser_sound.play()
-                
+                    return_fire(0)                
                 if timer % 7 == 0: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
-                    laser.image.fill(RED)
-                    index = 1 # example, more randomized with random.randrange(0, len(invaders))
-                    laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
-                    laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
-                    lasers_alt.add(laser)
-                    invader_laser_sound.play()
-
+                    return_fire(1)
                 if timer % 11 == 0: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
-                    laser.image.fill(RED)
-                    index = 2 # example, more randomized with random.randrange(0, len(invaders))
-                    laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
-                    laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
-                    lasers_alt.add(laser)
-                    invader_laser_sound.play()
-
+                    return_fire(2)
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
