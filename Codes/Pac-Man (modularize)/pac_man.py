@@ -321,6 +321,8 @@ while True: # keeps display open
         y_increment_green_ghost *= -1
     green_ghost.rect.y += y_increment_green_ghost
 
+    # theoretically, ghosts could still get stuck, but it would be extremely unusual
+
     # red_ghost.rect.x = size[0]/2+x_offset
     # green_ghost.rect.y = size[1]/2+y_offset
     # pygame.sprite.spritecollide(pacman, ghosts, True) # remove a "ghost" sprite, if "pacman" sprite collides with it
