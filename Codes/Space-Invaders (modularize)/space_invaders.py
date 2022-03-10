@@ -136,7 +136,7 @@ while True: # keeps display open
                 for invader in invaders:
                     invader.lunge()
                 count += 1
-                if timer % 7 == 0: # some number not multiple of 5
+                if timer % 4 == 0: # some number not multiple of 5
                     laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
                     laser.image.fill(RED)
                     index = 0 # example, more randomized with random.randrange(0, len(invaders))
@@ -144,6 +144,25 @@ while True: # keeps display open
                     laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
                     lasers_alt.add(laser)
                     invader_laser_sound.play()
+                
+                if timer % 7 == 0: # some number not multiple of 5
+                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser.image.fill(RED)
+                    index = 1 # example, more randomized with random.randrange(0, len(invaders))
+                    laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
+                    laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
+                    lasers_alt.add(laser)
+                    invader_laser_sound.play()
+
+                if timer % 11 == 0: # some number not multiple of 5
+                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser.image.fill(RED)
+                    index = 2 # example, more randomized with random.randrange(0, len(invaders))
+                    laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
+                    laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
+                    lasers_alt.add(laser)
+                    invader_laser_sound.play()
+
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0 and invaders != [] and spaceships != []:
