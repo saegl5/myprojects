@@ -171,10 +171,10 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
-            if timer == 0 or pacmen == []:
+            if timer == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer
                 game_over_sound.play()
-            elif pellets == []:
+            elif len(pellets) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
             else: # after one second
@@ -207,7 +207,7 @@ while True: # keeps display open
                 # green_ghost.rect.y += y_increment_ghost # move "ghost" sprites downward
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if timer != 0 and pellets != [] and pacmen != []:
+            if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
                 if action.key == pygame.K_RIGHT: # note "action.key"
                     x_increment = 5 # "5" is optional
                     angle = 0
@@ -330,7 +330,7 @@ while True: # keeps display open
         score += 1
     # if timer != 0:
         # score = len(collisions)
-    if timer != 0 and pacmen != [] and pellets != []:
+    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
         pass
     else: # stops ghosts from moving when game over or win game
         x_increment_green_ghost = 0
@@ -361,7 +361,7 @@ while True: # keeps display open
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
-    if timer == 0 or pacmen == []:
+    if timer == 0 or len(pacmen) == 0:
         # pacman.image.fill(WHITE)
         pygame.draw.rect(pacman.image, WHITE, (0, 0, W, H), width=0)
         for pellet in pellets:
@@ -376,7 +376,7 @@ while True: # keeps display open
         score_header = style_header.render("Score", False, DARKGRAY)
         score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
-    if pellets == []:
+    if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
     walls.draw(screen) # draw sprites on screen using list

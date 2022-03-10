@@ -123,10 +123,10 @@ while True: # keeps display open
             pygame.quit() # needed if run module through IDLE
             sys.exit() # exit entire process
         elif action.type == pygame.USEREVENT:
-            if timer == 0 or spaceships == []:
+            if timer == 0 or len(spaceships) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "invader" sprites stop moving too
                 game_over_sound.play()
-            elif invaders == []:
+            elif len(invaders) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
             else: # after one second
@@ -165,7 +165,7 @@ while True: # keeps display open
 
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
-            if timer != 0 and invaders != [] and spaceships != []:
+            if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
                 if action.key == pygame.K_RIGHT: # note "action.key"
                     x_increment = 5 # "5" is optional
                 elif action.key == pygame.K_LEFT:
@@ -246,7 +246,7 @@ while True: # keeps display open
             retry_boxes.pop()
         elif laser.rect.top > size[1]:
             lasers_alt.remove(laser)
-    if timer != 0 and spaceships != [] and invaders != []:
+    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
         # score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
@@ -262,7 +262,7 @@ while True: # keeps display open
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, pygame.Color("black"))
     you_win_text = style.render(None, False, GREEN)
-    if timer == 0 or spaceships == []:
+    if timer == 0 or len(spaceships) == 0:
         # spaceship.image.fill(WHITE)
         pygame.draw.rect(spaceship.image, WHITE, (0, 0, W, H), width=0)
         for invader in invaders:
@@ -277,7 +277,7 @@ while True: # keeps display open
         score_header = style_header.render("Score", False, DARKGRAY)
         score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, pygame.Color("black"))
-    if invaders == []:
+    if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
     walls.draw(screen) # draw sprites on screen using list
