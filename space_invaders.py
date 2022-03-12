@@ -209,7 +209,7 @@ while True:
     for laser in lasers:
         invader_removed = pygame.sprite.spritecollide(laser, invaders, True)
         collisions.add(invader_removed) # when "invader" sprite is removed from invaders list, add it to collisions list
-        if invader_removed: # why not put removed == True? 
+        if invader_removed != []: # why not put removed == True? 
             lasers.remove(laser)
             invader_explosion_sound.play()
         elif laser.rect.y < -20: # "laser" sprites leaves canvas
@@ -224,18 +224,18 @@ while True:
         lasers_alt.update(0)
     for invader in invaders:
         spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True)
-        if spaceship_removed:
+        if spaceship_removed != []:
             spaceship_explosion_sound.play()
-        if spaceship_removed and retries > 0:
+        if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             # for spaceship in spaceships:
             spaceship.retry()
             retries -= 1
     for laser in lasers_alt:
         spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
-        if spaceship_removed:
+        if spaceship_removed != []:
             spaceship_explosion_sound.play()
-        if spaceship_removed and retries > 0:
+        if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             # for spaceship in spaceships:
             spaceship.retry()

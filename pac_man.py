@@ -160,7 +160,7 @@ while True:
     ghost.rect.y = random.randrange(0, size[1]+1-H_ghost) # don't need step_size
     ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
-    if stuck:
+    if stuck != []: # `stuck` is actually list
         ghosts.remove(ghost)
     else:
         break # exit loop, if no overlap
@@ -286,19 +286,19 @@ while True:
 
     # ghost.rect.x += x_increment_ghost # could also decrement
     wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
-    if wall_ghost_hit_x:
+    if wall_ghost_hit_x != []:
         x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
     ghost.rect.x += x_increment_ghost # could also decrement
 
     wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
-    if wall_ghost_hit_y:
+    if wall_ghost_hit_y != []:
         y_increment_ghost *= -1
     ghost.rect.y += y_increment_ghost
     
     pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-    if pacman_removed:
+    if pacman_removed != []:
         ghost_hit_sound.play()
-    if pacman_removed and retries > 0:
+    if pacman_removed != [] and retries > 0:
         pacmen.add(pacman_removed) # will reposition pac-man
         pacman.retry()
         retries -= 1
