@@ -84,6 +84,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         self.rect.x = size[0]/2+x_offset # center along bottom of display, bypassed offset
         self.rect.y = size[1]-H
 
+# Function, not Class method
 def return_fire(index):
     laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
     laser.image.fill(RED)
@@ -115,7 +116,7 @@ for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
-while 50-len(invaders) > 0: # create and add fifty "invader" sprites
+while 3-len(invaders) > 0: # create and add fifty "invader" sprites
     x = random.randrange(0, size[0]+1-W/2, W/2) # position "invader" sprite, allow it to touch edge but not breach it
     y = random.randrange(0, size[1]+1-H/2-96, H/2) # "-96" leaves space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
     invader = Rectangle(x, y, W/2, H/2) # create a "invader" sprite
@@ -145,11 +146,11 @@ while True: # keeps display open
                 for invader in invaders:
                     invader.lunge()
                 count += 1
-                if timer % 4 == 0: # some number not multiple of 5
+                if timer % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
                     return_fire(0)                
-                if timer % 7 == 0: # some number not multiple of 5
+                if timer % 7 == 0 and len(invaders) > 1: # some number not multiple of 5
                     return_fire(1)
-                if timer % 11 == 0: # some number not multiple of 5
+                if timer % 11 == 0 and len(invaders) > 2: # some number not multiple of 5
                     return_fire(2)
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
