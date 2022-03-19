@@ -21,13 +21,14 @@ x_offset = 0
 y_offset = 0
 x_increment = 0
 y_increment = 0
-x_increment_ghost = 1 # ghost moving rightward at launch
-y_increment_ghost = 0
+x_increment_red_ghost = 1 # ghost moving rightward at launch
+y_increment_red_ghost = 0
 pellets = pygame.sprite.Group() # not pellets = [] <-- multiple sprites
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
-ghosts = pygame.sprite.Group()
+red_ghosts = pygame.sprite.Group()
+green_ghosts = pygame.sprite.Group()
 timer = 30 # 30 seconds
 score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -41,7 +42,8 @@ pacman_walk_sound = pygame.mixer.Sound('footstep.ogg')
 ghost_hit_sound = pygame.mixer.Sound('hit.ogg')
 pacman_picture = pygame.image.load('pac.png').convert()
 pellet_picture = pygame.image.load('dot.png').convert() # need to scale down
-ghost_picture = pygame.image.load('red_ghost.png').convert()
+red_ghost_picture = pygame.image.load('red_ghost.png').convert()
+green_ghost_picture = pygame.image.load('green_ghost.png').convert()
 # pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
 #pellet_picture.set_colorkey(BLACK)
 W_pacman = 64 # these variables are for images
@@ -155,13 +157,25 @@ pacmen.add(pacman)
 
 while True:
     ghost = Rectangle(W_ghost, H_ghost)
-    ghost.image.blit(ghost_picture, (0, 0))
+    ghost.image.blit(green_ghost_picture, (0, 0))
     ghost.rect.x = random.randrange(0, size[0]+1-W_ghost) # don't need step_size
     ghost.rect.y = random.randrange(0, size[1]+1-H_ghost) # don't need step_size
-    ghosts.add(ghost)
+    green_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
     if stuck != []: # `stuck` is actually list
-        ghosts.remove(ghost)
+        green_ghosts.remove(ghost)
+    else:
+        break # exit loop, if no overlap
+
+while True:
+    ghost = Rectangle(W_ghost, H_ghost)
+    ghost.image.blit(red_ghost_picture, (0, 0))
+    ghost.rect.x = random.randrange(0, size[0]+1-W_ghost) # don't need step_size
+    ghost.rect.y = random.randrange(0, size[1]+1-H_ghost) # don't need step_size
+    red_ghosts.add(ghost)
+    stuck = pygame.sprite.spritecollide(ghost, walls, False)
+    if stuck != []: # `stuck` is actually list
+        red_ghosts.remove(ghost)
     else:
         break # exit loop, if no overlap
 
@@ -198,11 +212,11 @@ while True:
                 timer -= 1
                 if timer % 5 == 0:
                     # x_increment_ghost = random.choice([-1, 1])
-                    x_increment_ghost = random.choice([-1, 0, 1])
-                    if x_increment_ghost == 0:
-                        y_increment_ghost = random.choice([-1, 1])
+                    x_increment_red_ghost = random.choice([-1, 0, 1])
+                    if x_increment_red_ghost == 0:
+                        y_increment_red_ghost = random.choice([-1, 1])
                     else: # when x_increment_ghost = -1 or 1
-                        y_increment_ghost = 0
+                        y_increment_red_ghost = 0
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
@@ -281,19 +295,31 @@ while True:
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
         score = len(collisions)
     else: # stops ghosts from moving when game over or win game
-        x_increment_ghost = 0
-        y_increment_ghost = 0
+        x_increment_red_ghost = 0
+        y_increment_red_ghost = 0
 
     # ghost.rect.x += x_increment_ghost # could also decrement
-    wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
-    if wall_ghost_hit_x != []:
-        x_increment_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
-    ghost.rect.x += x_increment_ghost # could also decrement
+    for ghost in red_ghosts:
+        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_x != []:
+            x_increment_red_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
+        ghost.rect.x += x_increment_red_ghost # could also decrement
 
-    wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
-    if wall_ghost_hit_y != []:
-        y_increment_ghost *= -1
-    ghost.rect.y += y_increment_ghost
+        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_y != []:
+            y_increment_red_ghost *= -1
+        ghost.rect.y += y_increment_red_ghost
+    
+    for ghost in green_ghosts:
+        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_x != []:
+            x_increment_red_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
+        ghost.rect.x += x_increment_red_ghost # could also decrement
+
+        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_y != []:
+            y_increment_red_ghost *= -1
+        ghost.rect.y += y_increment_red_ghost
     
     pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
     if pacman_removed != []:
@@ -339,7 +365,8 @@ while True:
     walls.draw(screen)
     pellets.draw(screen) # draw sprite on screen <-- multiple sprites
     # screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
-    ghosts.draw(screen) # previous code override what we want
+    red_ghosts.draw(screen) # previous code override what we want
+    green_ghosts.draw(screen) # previous code override what we want
     screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     screen.blit(timer_header, (10, 10))
