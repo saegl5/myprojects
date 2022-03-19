@@ -212,7 +212,8 @@ while True:
         if invader_removed != []: # why not put removed == True? 
             lasers.remove(laser)
             invader_explosion_sound.play()
-        elif laser.rect.y < -20: # "laser" sprites leaves canvas
+        # elif laser.rect.y < -20: # "laser" sprites leaves canvas
+        elif laser.rect.bottom < 0: # "laser" sprites leaves canvas
             lasers.remove(laser)
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0: # not equal to/is not
         score = len(collisions)
@@ -240,6 +241,9 @@ while True:
             # for spaceship in spaceships:
             spaceship.retry()
             retries -= 1
+            lasers_alt.remove(laser)
+        elif laser.rect.top > size[1]:
+            lasers_alt.remove(laser)
     if retries == 2:
         spaceship_retries_box_1 = spaceship_picture_retries
         spaceship_retries_box_2 = spaceship_picture_retries
