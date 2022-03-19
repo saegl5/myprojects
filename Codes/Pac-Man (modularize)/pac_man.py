@@ -141,29 +141,29 @@ while 50-len(pellets) > 0: # create and add fifty "pellet" sprites
 for i in range(0, retries):
     retry_boxes.append(pacman_picture_retry)
 
-while True:
+while True: # put first, else when try to get second (green) ghost moving it will move prematurely
     x = random.randrange(0, size[0]+1-W)
     y = random.randrange(0, size[1]+1-H)
-    red_ghost = Rectangle(x, y, W, H)
-    red_ghost.image.blit(red_ghost_picture, (0, 0))
-    red_ghosts.add(red_ghost)
-    stuck = pygame.sprite.spritecollide(red_ghost, walls, False)
+    ghost = Rectangle(x, y, W, H)
+    ghost.image.blit(green_ghost_picture, (0, 0))
+    green_ghosts.add(ghost)
+    stuck = pygame.sprite.spritecollide(ghost, walls, False)
     if stuck != []:
-        red_ghosts.remove(red_ghost)
+        green_ghosts.remove(ghost)
     else:
-        break # exit loop, not quitting game
+        break
 
 while True:
     x = random.randrange(0, size[0]+1-W)
     y = random.randrange(0, size[1]+1-H)
-    green_ghost = Rectangle(x, y, W, H)
-    green_ghost.image.blit(green_ghost_picture, (0, 0))
-    green_ghosts.add(green_ghost)
-    stuck = pygame.sprite.spritecollide(green_ghost, walls, False)
+    ghost = Rectangle(x, y, W, H)
+    ghost.image.blit(red_ghost_picture, (0, 0))
+    red_ghosts.add(ghost)
+    stuck = pygame.sprite.spritecollide(ghost, walls, False)
     if stuck != []:
-        green_ghosts.remove(green_ghost)
+        red_ghosts.remove(ghost)
     else:
-        break
+        break # exit loop, not quitting game
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
@@ -301,25 +301,27 @@ while True: # keeps display open
             break # no sense in completing above loop, if hit wall
 
     # if timer % 10 == 0:
-    wall_red_ghost_hit_x = pygame.sprite.spritecollide(red_ghost, walls, False)
-    if wall_red_ghost_hit_x != []:
-        x_increment_red_ghost *= -1
-    red_ghost.rect.x += x_increment_red_ghost # move "ghost" sprites rightward
+    for ghost in red_ghosts:
+        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_x != []:
+            x_increment_red_ghost *= -1
+        ghost.rect.x += x_increment_red_ghost # move "ghost" sprites rightward
 
-    wall_red_ghost_hit_y = pygame.sprite.spritecollide(red_ghost, walls, False)
-    if wall_red_ghost_hit_y != []:
-        y_increment_red_ghost *= -1
-    red_ghost.rect.y += y_increment_red_ghost # move "ghost" sprites downward
+        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_y != []:
+            y_increment_red_ghost *= -1
+        ghost.rect.y += y_increment_red_ghost # move "ghost" sprites downward
 
-    wall_green_ghost_hit_x = pygame.sprite.spritecollide(green_ghost, walls, False)
-    if wall_green_ghost_hit_x != []:
-        x_increment_green_ghost *= -1
-    green_ghost.rect.x += x_increment_green_ghost
+    for ghost in green_ghosts:
+        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_x != []:
+            x_increment_green_ghost *= -1
+        ghost.rect.x += x_increment_green_ghost
 
-    wall_green_ghost_hit_y = pygame.sprite.spritecollide(green_ghost, walls, False)
-    if wall_green_ghost_hit_y != []:
-        y_increment_green_ghost *= -1
-    green_ghost.rect.y += y_increment_green_ghost
+        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_y != []:
+            y_increment_green_ghost *= -1
+        ghost.rect.y += y_increment_green_ghost
 
     # theoretically, ghosts could still get stuck, but it would be extremely unusual
 
@@ -339,22 +341,24 @@ while True: # keeps display open
         y_increment_green_ghost = 0
         x_increment_red_ghost = 0
         y_increment_red_ghost = 0
-    pacman_removed_a = pygame.sprite.spritecollide(green_ghost, pacmen, True) # pac-man can bypass ghost for insane speeds
-    if pacman_removed_a != []:
-        ghost_hit_sound.play()
-    if pacman_removed_a != [] and retries > 0:
-        pacmen.add(pacman_removed_a)
-        pacman.retry()
-        retries -= 1
-        retry_boxes.pop()
-    pacman_removed_b = pygame.sprite.spritecollide(red_ghost, pacmen, True) # pac-man can bypass ghost for insane speeds
-    if pacman_removed_b != []:
-        ghost_hit_sound.play()
-    if pacman_removed_b != [] and retries > 0:
-        pacmen.add(pacman_removed_b)
-        pacman.retry()
-        retries -= 1
-        retry_boxes.pop()
+    for ghost in red_ghosts:
+        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True) # pac-man can bypass ghost for insane speeds
+        if pacman_removed != []:
+            ghost_hit_sound.play()
+        if pacman_removed != [] and retries > 0:
+            pacmen.add(pacman_removed)
+            pacman.retry()
+            retries -= 1
+            retry_boxes.pop()
+    for ghost in green_ghosts:
+        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True) # pac-man can bypass ghost for insane speeds
+        if pacman_removed != []:
+            ghost_hit_sound.play()
+        if pacman_removed != [] and retries > 0:
+            pacmen.add(pacman_removed)
+            pacman.retry()
+            retries -= 1
+            retry_boxes.pop()
     # --------------
     screen.fill(BLUE) # clear the display
     timer_header = style_header.render("Time Left", False, RED)
@@ -370,8 +374,10 @@ while True: # keeps display open
             pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, W/2, H/2), width=0)
         for wall in walls:
             wall.image.fill(DARKGRAY)
-        pygame.draw.rect(green_ghost.image, DARKGRAY, (0, 0, W, H), width = 0)
-        pygame.draw.rect(red_ghost.image, DARKGRAY, (0, 0, W, H), width = 0)
+        for ghost in red_ghosts:
+            pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, W, H), width = 0)
+        for ghost in green_ghosts:
+            pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, W, H), width = 0)
         screen.fill(GRAY)
         timer_header = style_header.render("Time Left", False, DARKGRAY)
         timer_text = style.render(str(timer), False, DARKGRAY)
