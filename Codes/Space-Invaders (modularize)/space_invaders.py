@@ -28,6 +28,7 @@ H = 64 # "spaceship" sprite height reference
 invaders = pygame.sprite.Group() # create a list for "invader" sprites, no longer invaders = [], Group() is class
 # collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+barriers = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
 spaceships = pygame.sprite.Group()
@@ -54,6 +55,7 @@ invader_picture = pygame.image.load('Images/alien.png').convert() # Edited from 
 # invader_picture.set_colorkey(BLACK)
 invader_picture_alt = pygame.image.load('Images/alien_lunging.png').convert() # my picture from alien.png
 # invader_picture_alt.set_colorkey(BLACK)
+p = 5 # number of partitions
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
@@ -104,6 +106,19 @@ wall = Rectangle(size[0]-1+1, 0, 1, size[1])
 walls.add(wall)
 # no inner walls
 
+# barriers (left and right)
+for i in range(0, p):
+    # barrier = Rectangle(50, 400, 250, 25)
+    barrier = Rectangle(50+i*250/p, 400, 250/p, 25)
+    barrier.image.fill(WHITE)
+    barriers.add(barrier)
+
+for i in range(0, p):
+    # barrier = Rectangle(size[0]-250-50, 400, 250, 25)
+    barrier = Rectangle(size[0]-250-50+i*250/p, 400, 250/p, 25)
+    barrier.image.fill(WHITE)
+    barriers.add(barrier)
+
 x = size[0]/2+x_offset # position and offset "spaceship" sprite
 y = size[1]-H
 spaceship = Rectangle(x, y, W, H) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
@@ -118,7 +133,7 @@ for i in range(0, retries):
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
 while 50-len(invaders) > 0: # create and add fifty "invader" sprites
     x = random.randrange(0, size[0]+1-W/2, W/2) # position "invader" sprite, allow it to touch edge but not breach it
-    y = random.randrange(0, size[1]+1-H/2-96, H/2) # "-96" leaves space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
+    y = random.randrange(0, size[1]+1-H/2-196, H/2) # "-96" leaves space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
     invader = Rectangle(x, y, W/2, H/2) # create a "invader" sprite
     invader.image.blit(invader_picture, (0, 0))
     pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position, essentially preventing "invader" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
@@ -243,6 +258,16 @@ while True: # keeps display open
     else: # stops lasers from moving when game over or win game
         lasers.update(0)
         lasers_alt.update(0)
+
+    for laser in lasers_alt:
+        barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
+        if barrier_removed != []:
+            lasers_alt.remove(laser)
+
+    for laser in lasers:
+        barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
+        if barrier_removed != []:
+            lasers.remove(laser)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_header = style_header.render("Time Left", False, RED)
@@ -270,6 +295,7 @@ while True: # keeps display open
         you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
     walls.draw(screen) # draw sprites on screen using list
+    barriers.draw(screen)
     invaders.draw(screen)
     lasers_alt.draw(screen)
     screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen, so you can see block
