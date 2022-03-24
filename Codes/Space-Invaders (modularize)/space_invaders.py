@@ -116,7 +116,7 @@ for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
-while 3-len(invaders) > 0: # create and add fifty "invader" sprites
+while 50-len(invaders) > 0: # create and add fifty "invader" sprites
     x = random.randrange(0, size[0]+1-W/2, W/2) # position "invader" sprite, allow it to touch edge but not breach it
     y = random.randrange(0, size[1]+1-H/2-96, H/2) # "-96" leaves space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
     invader = Rectangle(x, y, W/2, H/2) # create a "invader" sprite
