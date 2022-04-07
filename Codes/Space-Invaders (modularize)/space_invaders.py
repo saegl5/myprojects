@@ -264,10 +264,10 @@ while True: # keeps display open
         if barrier_removed != []:
             lasers_alt.remove(laser)
 
-    for laser in lasers:
-        barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
-        if barrier_removed != []:
-            lasers.remove(laser)
+    # for laser in lasers:
+    #     barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
+    #     if barrier_removed != []:
+    #         lasers.remove(laser)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_header = style_header.render("Time Left", False, RED)
