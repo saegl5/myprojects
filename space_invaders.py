@@ -26,6 +26,7 @@ collisions = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
 spaceships = pygame.sprite.Group()
+barriers = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 timer = 30 # 10 seconds
 score = 0
@@ -98,6 +99,20 @@ walls.add(wall)
 # for wall in walls:
 #     wall.image.fill(pygame.Color(1, 1, 1))
 
+# left barrier
+barrier = Rectangle(250, 25)
+barrier.rect.x = 50
+barrier.rect.y = 400
+barrier.image.fill(WHITE)
+barriers.add(barrier)
+
+# right barrier
+barrier = Rectangle(250, 25)
+barrier.rect.x = size[0]-250-50
+barrier.rect.y = 400
+barrier.image.fill(WHITE)
+barriers.add(barrier)
+
 spaceship = Rectangle(W_spaceship, H_spaceship)
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceship.rect.x = size[0]/2+x_offset
@@ -109,7 +124,7 @@ while 50-len(invaders) > 0:
     invader = Rectangle(W_invader, H_invader)
     invader.image.blit(invader_picture, (0, 0))
     invader.rect.x = random.randrange(0, size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
-    invader.rect.y = random.randrange(0, size[1]+1-H_invader-100, H_invader) # "-100" space at canvas bottom
+    invader.rect.y = random.randrange(0, size[1]+1-H_invader-200, H_invader) # "-100" space at canvas bottom
     pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position
     invaders.add(invader) # not invaders.append(invader) <-- multiple sprites
 
@@ -255,6 +270,10 @@ while True:
         spaceship_retries_box_2 = pygame.Surface((0, 0))
     spaceship_retries_box_1.set_colorkey(BLACK)
     spaceship_retries_box_2.set_colorkey(BLACK)
+    for laser in lasers_alt:
+        barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
+        if barrier_removed != []:
+            lasers_alt.remove(laser)
     # --------------
     screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -283,6 +302,7 @@ while True:
     # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
     walls.draw(screen)
+    barriers.draw(screen)
     invaders.draw(screen) # draw sprite on screen <-- multiple sprites
     lasers_alt.draw(screen)
     screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
