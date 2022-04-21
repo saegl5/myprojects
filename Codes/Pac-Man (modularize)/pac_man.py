@@ -33,7 +33,7 @@ walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
 red_ghosts = pygame.sprite.Group()
 green_ghosts = pygame.sprite.Group()
-timer = 5 # set timer for 30 seconds (multiple of modulo for random walks)
+timer = 30 # set timer for 30 seconds (multiple of modulo for random walks)
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
 style_header = pygame.font.Font(None, 30)
@@ -93,6 +93,14 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     def retry(self):
         self.rect.x = size[0]/2+x_offset
         self.rect.y = size[1]/2+y_offset
+    def flip(self, Bool, COLOR):
+        print(pygame.sprite.Sprite.groups(self))
+        if pygame.sprite.Sprite.groups(self) == red_ghosts:
+        # if COLOR == RED:
+            self.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
+        else:
+            self.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
+        self.image.set_colorkey(BLACK)
     # def flip(self, sign):
     #     if sign < 0:
     #         red_ghost.image.blit(ghost_picture_1_alt, (0, 0))
@@ -359,6 +367,16 @@ while True: # keeps display open
             pacman.retry()
             retries -= 1
             retry_boxes.pop()
+    for ghost in red_ghosts: # put down here, since there two ways increment changes sign: choice() and collisions
+        if x_increment_red_ghost < 0 or y_increment_red_ghost < 0:
+            ghost.flip(True, RED) # tell flip() which ghost it is
+        else:
+            ghost.flip(False, RED)
+    for ghost in green_ghosts:
+        if x_increment_green_ghost < 0 or y_increment_green_ghost < 0:
+            ghost.flip(True, GREEN)
+        else:
+            ghost.flip(False, GREEN)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_header = style_header.render("Time Left", False, RED)
