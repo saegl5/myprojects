@@ -33,7 +33,7 @@ walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
 red_ghosts = pygame.sprite.Group()
 green_ghosts = pygame.sprite.Group()
-timer = 30 # set timer for 30 seconds (multiple of modulo for random walks)
+timer = 5 # set timer for 30 seconds (multiple of modulo for random walks)
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
 style_header = pygame.font.Font(None, 30)
@@ -399,6 +399,8 @@ while True: # keeps display open
     for i in range(0, retries):
         screen.blit(retry_boxes[i], (100+i*W/2, 10))
         retry_boxes[i].set_colorkey(BLACK) # not passed through class definition
+        if timer == 0:
+            pygame.draw.rect(retry_boxes[i], WHITE, [0, 0, W/2, H/2], 0)
     screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
     screen.blit(score_text, (size[0]-score_text.get_width()-10, 30)) # near top-right corner
     screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
