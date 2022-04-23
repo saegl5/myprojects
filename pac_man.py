@@ -376,6 +376,8 @@ while True:
         for ghost in green_ghosts:
             ghost.image.fill(LIGHTGRAY)
         screen.fill(GRAY)
+        timer_header = style_header.render("Time Left", False, DARKGRAY)
+        score_header = style_header.render("Score", False, DARKGRAY)
         timer_text = style.render(str(timer), False, DARKGRAY) # True for anti-aliased, "string" --> str(timer)
         score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
