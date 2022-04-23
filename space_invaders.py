@@ -53,6 +53,7 @@ spaceship_picture = pygame.transform.scale(spaceship_picture, (W_spaceship, H_sp
 spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W_spaceship/2, H_spaceship/2))
 count = 0
 retries = 2
+p = 5 # chop up each barrier into 5 pieces
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
@@ -100,18 +101,20 @@ walls.add(wall)
 #     wall.image.fill(pygame.Color(1, 1, 1))
 
 # left barrier
-barrier = Rectangle(250, 25)
-barrier.rect.x = 50
-barrier.rect.y = 400
-barrier.image.fill(WHITE)
-barriers.add(barrier)
+for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
+    barrier = Rectangle(250/p, 25)
+    barrier.rect.x = 50+i*250/p
+    barrier.rect.y = 400
+    barrier.image.fill(WHITE)
+    barriers.add(barrier)
 
 # right barrier
-barrier = Rectangle(250, 25)
-barrier.rect.x = size[0]-250-50
-barrier.rect.y = 400
-barrier.image.fill(WHITE)
-barriers.add(barrier)
+for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
+    barrier = Rectangle(250/p, 25)
+    barrier.rect.x = size[0]-250-50+i*250/p
+    barrier.rect.y = 400
+    barrier.image.fill(WHITE)
+    barriers.add(barrier)
 
 spaceship = Rectangle(W_spaceship, H_spaceship)
 spaceship.image.blit(spaceship_picture, (0, 0))
@@ -295,6 +298,8 @@ while True:
         timer_text = style.render(str(timer), False, DARKGRAY)
         score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
+        timer_header = style_header.render("Time Left", False, DARKGRAY)
+        score_header = style_header.render("Score", False, DARKGRAY)
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
