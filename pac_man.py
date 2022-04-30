@@ -97,6 +97,12 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
     def retry(self):
         self.rect.x = size[0]/2 # restore pac-man, bypassed offset
         self.rect.y = size[1]/2
+    def flip(self, Bool, COLOR): # "Bool" is short for boolean
+        if COLOR == RED:
+            self.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
+        else:
+            self.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
+        self.image.set_colorkey(BLACK)
 # ---------------------
 
 # inner walls
@@ -359,6 +365,16 @@ while True:
         pacman_retries_box_2 = pygame.Surface((0, 0))
     pacman_retries_box_1.set_colorkey(BLACK)
     pacman_retries_box_2.set_colorkey(BLACK)
+    for ghost in red_ghosts:
+        if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
+            ghost.flip(True, RED) # horizontally
+        else:
+            ghost.flip(False, RED)
+    for ghost in green_ghosts:
+        if x_increment_green_ghost < 0 or y_increment_green_ghost < 0: # ghost moving leftward or upward
+            ghost.flip(True, GREEN) # horizontally
+        else:
+            ghost.flip(False, GREEN)
     # --------------
     screen.fill(BLUE)
     timer_header = style_header.render("Time Left", False, RED)
@@ -383,6 +399,8 @@ while True:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, BLACK)
+    if timer == 0:
+        pygame.draw.rect(pacman_picture_retries, WHITE, (0, 0, W_pacman/2, H_pacman/2), width=0)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
     # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen
