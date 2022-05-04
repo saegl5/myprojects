@@ -97,8 +97,9 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
     def retry(self):
         self.rect.x = size[0]/2 # restore pac-man, bypassed offset
         self.rect.y = size[1]/2
-    def flip(self, Bool, COLOR): # "Bool" is short for boolean
-        if COLOR == RED:
+    def flip(self, Bool): # "Bool" is short for boolean
+        # if COLOR == RED:
+        if self in red_ghosts:
             self.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
         else:
             self.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
@@ -367,14 +368,14 @@ while True:
     pacman_retries_box_2.set_colorkey(BLACK)
     for ghost in red_ghosts:
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
-            ghost.flip(True, RED) # horizontally
+            ghost.flip(True) # horizontally
         else:
-            ghost.flip(False, RED)
+            ghost.flip(False)
     for ghost in green_ghosts:
         if x_increment_green_ghost < 0 or y_increment_green_ghost < 0: # ghost moving leftward or upward
-            ghost.flip(True, GREEN) # horizontally
+            ghost.flip(True) # horizontally
         else:
-            ghost.flip(False, GREEN)
+            ghost.flip(False)
     # --------------
     screen.fill(BLUE)
     timer_header = style_header.render("Time Left", False, RED)
