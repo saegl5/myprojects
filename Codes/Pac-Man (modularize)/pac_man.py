@@ -93,10 +93,8 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     def retry(self):
         self.rect.x = size[0]/2+x_offset
         self.rect.y = size[1]/2+y_offset
-    def flip(self, Bool, COLOR):
-        print(pygame.sprite.Sprite.groups(self))
-        if pygame.sprite.Sprite.groups(self) == red_ghosts:
-        # if COLOR == RED:
+    def flip(self, Bool):
+        if self in red_ghosts:
             self.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
         else:
             self.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
@@ -367,16 +365,16 @@ while True: # keeps display open
             pacman.retry()
             retries -= 1
             retry_boxes.pop()
-    for ghost in red_ghosts: # put down here, since there two ways increment changes sign: choice() and collisions
+    for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0:
-            ghost.flip(True, RED) # tell flip() which ghost it is
+            ghost.flip(True) # tell flip() which ghost it is
         else:
-            ghost.flip(False, RED)
+            ghost.flip(False)
     for ghost in green_ghosts:
         if x_increment_green_ghost < 0 or y_increment_green_ghost < 0:
-            ghost.flip(True, GREEN)
+            ghost.flip(True)
         else:
-            ghost.flip(False, GREEN)
+            ghost.flip(False)
     # --------------
     screen.fill(BLUE) # clear the display
     timer_header = style_header.render("Time Left", False, RED)
