@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import canvas
 
 pygame.init()
 
@@ -85,6 +86,12 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
     def retry(self):
         self.rect.x = size[0]/2-W_spaceship/2
         self.rect.y = size[1]-H_spaceship
+    def return_fire(self, index):
+        self.image.fill(RED)
+        self.rect.centerx = invaders.sprites()[index].rect.centerx # 0 is index, range 0-49
+        self.rect.top = invaders.sprites()[index].rect.bottom
+        lasers_alt.add(self)
+        invader_laser_sound.play()
 # ---------------------
 
 wall = Rectangle(1, size[1])
@@ -158,13 +165,15 @@ while True:
                 for invader in invaders:
                     invader.lunge() # all invaders lunge
                 count += 1
-                if timer % 7 == 0: # 7 is optional
+                if timer % 4 == 0 and len(invaders) > 0: # 7 is optional
                     laser = Rectangle(10, 20) # 6 and 10 also optional
-                    laser.image.fill(RED)
-                    laser.rect.centerx = invaders.sprites()[0].rect.centerx # 0 is index, range 0-49
-                    laser.rect.top = invaders.sprites()[0].rect.bottom
-                    lasers_alt.add(laser)
-                    invader_laser_sound.play()
+                    laser.return_fire(0)
+                if timer % 7 == 0 and len(invaders) > 1: # 7 is optional
+                    laser = Rectangle(10, 20) # 6 and 10 also optional
+                    laser.return_fire(1)
+                if timer % 11 == 0 and len(invaders) > 2: # 7 is optional
+                    laser = Rectangle(10, 20) # 6 and 10 also optional
+                    laser.return_fire(2)
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0: # "and" or "or" depends
@@ -302,6 +311,8 @@ while True:
         score_header = style_header.render("Score", False, DARKGRAY)
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
+    if timer == 0:
+        pygame.draw.rect(spaceship_picture_retries, WHITE, (0, 0, W_spaceship/2, H_spaceship/2), width=0)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
     # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
