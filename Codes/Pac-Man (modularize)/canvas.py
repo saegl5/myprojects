@@ -1,5 +1,5 @@
 """
-Manages display
+Manages frame
 """
 
 import pygame, sys
