@@ -85,16 +85,14 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
     def retry(self):
         self.rect.x = size[0]/2+x_offset # center along bottom of display, bypassed offset
         self.rect.y = size[1]-H
-
-# Function, not Class method
-def return_fire(index):
-    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
-    laser.image.fill(RED)
-    # index = 0 # example, more randomized with random.randrange(0, len(invaders))
-    laser.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
-    laser.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
-    lasers_alt.add(laser)
-    invader_laser_sound.play()
+    def return_fire(self, index):
+        # index = 0 # example, more randomized with random.randrange(0, len(invaders))
+        self.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
+        self.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
+        # self.image = pygame.Surface((10, 20)) # can't do, if want interactions
+        self.image.fill(RED)
+        lasers_alt.add(self)
+        invader_laser_sound.play()
 # ---------------------
 
 # outer walls (only left and right):
@@ -162,11 +160,14 @@ while True: # keeps display open
                     invader.lunge()
                 count += 1
                 if timer % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
-                    return_fire(0)                
+                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser.return_fire(0)                
                 if timer % 7 == 0 and len(invaders) > 1: # some number not multiple of 5
-                    return_fire(1)
+                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser.return_fire(1)
                 if timer % 11 == 0 and len(invaders) > 2: # some number not multiple of 5
-                    return_fire(2)
+                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser.return_fire(2)
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
