@@ -1,6 +1,5 @@
-import pygame # import the pygame module
-import sys # import the sys module
-import random # import the random module
+import pygame, random # import the pygame and random module
+from canvas import size, screen, close
 
 pygame.init() # initialize any submodules that require it
 
@@ -14,8 +13,6 @@ LIGHTGRAY = pygame.Color("light gray")
 GRAY = pygame.Color("gray")
 DARKGRAY = pygame.Color("dark gray")
 
-size = (704, 512) # (width, height) in pixels, example
-screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
 x_offset = 50 # reordered
 y_offset = 0
@@ -173,9 +170,8 @@ while True:
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
-        if action.type == pygame.QUIT: # user clicked close button
-            pygame.quit() # needed if run module through IDLE
-            sys.exit() # exit entire process
+        if action.type == pygame.QUIT:
+            close()
         elif action.type == pygame.USEREVENT:
             if timer == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer
