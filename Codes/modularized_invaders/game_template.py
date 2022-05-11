@@ -3,18 +3,17 @@ Description
 """
 
 import pygame
-import src.frame as frame
-import src.canvas as canvas
-import src.efficiency as efficiency
+import src.canvas as canvas, src.efficiency as efficiency
 # Other modules to import
 
 pygame.display.set_caption("Title")
 
-# Other constants/variables/settings
+# Other initialization/constants/variables/settings
 
 while True:
     for action in pygame.event.get():
-        frame.open(action)
+        if action.type == pygame.QUIT:
+            canvas.close()
     
         # Keyboard events
         

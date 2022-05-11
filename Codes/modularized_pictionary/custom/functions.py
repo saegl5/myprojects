@@ -1,7 +1,3 @@
-"""
-Pictionary
-"""
-
 import custom.classes as classes
 
 def fill(previous_x, previous_y, sprite, COLOR, drawn):

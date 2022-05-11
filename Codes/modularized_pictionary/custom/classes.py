@@ -1,7 +1,3 @@
-"""
-Pictionary
-"""
-
 import pygame
 
 class Draw(pygame.sprite.Sprite):

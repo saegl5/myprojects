@@ -3,7 +3,7 @@ Saves energy (optional)
 """
 
 import pygame
-import src.canvas as canvas
+import src.canvas as canvas # works, if run from main module
 
 ticks = int()
 
