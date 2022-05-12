@@ -38,19 +38,19 @@ count = 0 # for lunging picture
 retries = 2
 retry_boxes = []
 ticks = int() # for saving energy
-game_over_sound = pygame.mixer.Sound('Sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
-you_win_sound = pygame.mixer.Sound('Sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
-spaceship_laser_sound = pygame.mixer.Sound('Sounds/laserLarge.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
-invader_laser_sound = pygame.mixer.Sound('Sounds/laserSmall.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
-spaceship_explosion_sound = pygame.mixer.Sound('Sounds/explosionCrunch.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
-invader_explosion_sound = pygame.mixer.Sound('Sounds/lowFrequency_explosion.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
-spaceship_picture = pygame.image.load('Images/ship.png').convert() # Edited from source: https://opengameart.org/content/pixel-space-invaders (changed black to (1, 1, 1), too)
+game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
+you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
+spaceship_laser_sound = pygame.mixer.Sound('sounds/laserLarge.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+invader_laser_sound = pygame.mixer.Sound('sounds/laserSmall.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+spaceship_explosion_sound = pygame.mixer.Sound('sounds/explosionCrunch.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+invader_explosion_sound = pygame.mixer.Sound('sounds/lowFrequency_explosion.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+spaceship_picture = pygame.image.load('images/ship.png').convert() # Edited from source: https://opengameart.org/content/pixel-space-invaders (changed black to (1, 1, 1), too)
 spaceship_picture = pygame.transform.scale(spaceship_picture, (w, h))
 spaceship_picture_retry = pygame.transform.scale(spaceship_picture, (w/2, h/2))
 # spaceship_picture.set_colorkey(BLACK)
-invader_picture = pygame.image.load('Images/alien.png').convert() # Edited from source: https://opengameart.org/content/alien-sprite-sheet (changed black to (1, 1, 1), too)
+invader_picture = pygame.image.load('images/alien.png').convert() # Edited from source: https://opengameart.org/content/alien-sprite-sheet (changed black to (1, 1, 1), too)
 # invader_picture.set_colorkey(BLACK)
-invader_picture_alt = pygame.image.load('Images/alien_lunging.png').convert() # my picture from alien.png
+invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert() # my picture from alien.png
 # invader_picture_alt.set_colorkey(BLACK)
 p = 5 # number of partitions
 

@@ -38,20 +38,20 @@ style_header.set_italic(True)
 count = 0 # for chomp picture
 ticks = int() # for saving energy
 # angle = 0 # redundant
-game_over_sound = pygame.mixer.Sound('Sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
-you_win_sound = pygame.mixer.Sound('Sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
-pacman_walk_sound = pygame.mixer.Sound('Sounds/footstep.ogg') # Source: https://www.kenney.nl/assets/rpg-audio
-ghost_hit_sound = pygame.mixer.Sound('Sounds/hit.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
-pacman_picture = pygame.image.load('Images/pac.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles
+game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
+you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
+pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg') # Source: https://www.kenney.nl/assets/rpg-audio
+ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
+pacman_picture = pygame.image.load('images/pac.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles
 # pacman_picture.set_colorkey(BLACK)
-pacman_picture_alt = pygame.image.load('Images/pac_chomp.png').convert() # my picture from pac.png
+pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert() # my picture from pac.png
 # pacman_picture_alt.set_colorkey(BLUE)
-pellet_picture = pygame.image.load('Images/dot.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles (changed black to (1, 1, 1), too)
+pellet_picture = pygame.image.load('images/dot.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles (changed black to (1, 1, 1), too)
 pellet_picture = pygame.transform.scale(pellet_picture, (int(w/2), int(h/2))) # int() addresses "TypeError: integer argument expected, got float"
 # pellet_picture.set_colorkey(BLACK)
-red_ghost_picture = pygame.image.load('Images/red_ghost.png').convert() # corrected profile
+red_ghost_picture = pygame.image.load('images/red_ghost.png').convert() # corrected profile
 # red_ghost_picture = pygame.transform.scale(red_ghost_picture, (int(w/2), int(h/2)))
-green_ghost_picture = pygame.image.load('Images/green_ghost.png').convert() # corrected profile
+green_ghost_picture = pygame.image.load('images/green_ghost.png').convert() # corrected profile
 # green_ghost_picture = pygame.transform.scale(green_ghost_picture, (int(w/2), int(h/2)))
 pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(w/2), int(h/2)))
 retries = 2
