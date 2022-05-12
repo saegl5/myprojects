@@ -18,7 +18,7 @@ x_offset = 0 # keep starting position at left edge, was 0, then 70, then 90
 y_increment = 8 # initialize increment early, was 50
 x_increment = 10 # initialize increment early, was 70, then 126 as decrement
 
-pygame.display.set_caption("QUESTABOX's Bouncing Animation") # title, example
+pygame.display.set_caption("QUESTABOX's Billiards Animation") # title, example
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display

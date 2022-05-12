@@ -1,7 +1,7 @@
 # My Projects
 
-## Bouncing Animation
-<img src="screenshots/bouncing.png" alt="screenshot of bouncing animation" width="700">
+## Billiards Animation
+<img src="screenshots/billiards.png" alt="screenshot of billiards animation" width="700">
 
 ## Snowfall Animation
 <img src="screenshots/snowfall.png" alt="screenshot of snowfall animation" width="700">
