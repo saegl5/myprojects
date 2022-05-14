@@ -80,7 +80,7 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         else:
             self.image.blit(invader_picture, (0, 0))
     def retry(self):
-        self.rect.x = canvas.size[0]/2+x_offset # center along bottom of display, bypassed offset
+        self.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of display
         self.rect.y = canvas.size[1]-h
     def return_fire(self, index):
         # index = 0 # example, more randomized with random.randrange(0, len(invaders))
@@ -117,6 +117,7 @@ for i in range(0, p):
 x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite
 y = canvas.size[1]-h
 spaceship = Rectangle(x, y, w, h) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+spaceship.rect.centerx = canvas.screen.get_rect().centerx # overwrites x above
 # ALIGN WITH PAC-MAN!!!
 # if one wants to position spaceship randomly, then one could use a WHILE loop as done for pac-man ghosts
 spaceship.image.blit(spaceship_picture, (0, 0))
