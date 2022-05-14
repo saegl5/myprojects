@@ -15,8 +15,6 @@ LIGHTGRAY = pygame.Color("light gray")
 GRAY = pygame.Color("gray")
 DARKGRAY = pygame.Color("dark gray")
 
-size = (704, 512)
-screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 x_offset = 0
 # y_offset = 0
@@ -84,8 +82,8 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         else:
             self.image.blit(invader_picture, (0, 0)) # revert
     def retry(self):
-        self.rect.x = size[0]/2-W_spaceship/2
-        self.rect.y = size[1]-H_spaceship
+        self.rect.centerx = canvas.screen.get_rect().centerx
+        self.rect.y = canvas.size[1]-H_spaceship
     def return_fire(self, index):
         self.image.fill(RED)
         self.rect.centerx = invaders.sprites()[index].rect.centerx # 0 is index, range 0-49
@@ -94,13 +92,13 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
         invader_laser_sound.play()
 # ---------------------
 
-wall = Rectangle(1, size[1])
+wall = Rectangle(1, canvas.size[1])
 wall.rect.x = 0-1
 wall.rect.y = 0
 walls.add(wall)
 
-wall = Rectangle(1, size[1])
-wall.rect.x = size[0]-1+1
+wall = Rectangle(1, canvas.size[1])
+wall.rect.x = canvas.size[0]-1+1
 wall.rect.y = 0
 walls.add(wall)
 
@@ -118,23 +116,23 @@ for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
 # right barrier
 for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
     barrier = Rectangle(250/p, 25)
-    barrier.rect.x = size[0]-250-50+i*250/p
+    barrier.rect.x = canvas.size[0]-250-50+i*250/p
     barrier.rect.y = 400
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
 spaceship = Rectangle(W_spaceship, H_spaceship)
 spaceship.image.blit(spaceship_picture, (0, 0))
-spaceship.rect.x = size[0]/2+x_offset
-spaceship.rect.y = size[1] - H_spaceship
+spaceship.rect.centerx = canvas.screen.get_rect().centerx
+spaceship.rect.y = canvas.size[1] - H_spaceship
 spaceships.add(spaceship)
 
 # for i in range(0, 50): # create and add fifty invaders
 while 50-len(invaders) > 0:
     invader = Rectangle(W_invader, H_invader)
     invader.image.blit(invader_picture, (0, 0))
-    invader.rect.x = random.randrange(0, size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
-    invader.rect.y = random.randrange(0, size[1]+1-H_invader-200, H_invader) # "-100" space at canvas bottom
+    invader.rect.x = random.randrange(0, canvas.size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.size[1]+1-H_invader-200, H_invader) # "-100" space at canvas bottom
     pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position
     invaders.add(invader) # not invaders.append(invader) <-- multiple sprites
 
@@ -269,7 +267,7 @@ while True:
             spaceship.retry()
             retries -= 1
             lasers_alt.remove(laser)
-        elif laser.rect.top > size[1]:
+        elif laser.rect.top > canvas.size[1]:
             lasers_alt.remove(laser)
     if retries == 2:
         spaceship_retries_box_1 = spaceship_picture_retries
@@ -287,7 +285,7 @@ while True:
         if barrier_removed != []:
             lasers_alt.remove(laser)
     # --------------
-    screen.fill(BLUE)
+    canvas.screen.fill(BLUE)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     timer_header = style_header.render("Time Left", False, RED)
     timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
@@ -303,7 +301,7 @@ while True:
         for laser in lasers_alt:
             laser.image.fill(LIGHTGRAY)
         spaceship.image.fill(WHITE)
-        screen.fill(GRAY)
+        canvas.screen.fill(GRAY)
         timer_text = style.render(str(timer), False, DARKGRAY)
         score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
@@ -317,20 +315,20 @@ while True:
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
     # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
-    walls.draw(screen)
-    barriers.draw(screen)
-    invaders.draw(screen) # draw sprite on screen <-- multiple sprites
-    lasers_alt.draw(screen)
-    screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
-    lasers.draw(screen)
-    screen.blit(timer_header, (10, 10))
-    screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
-    screen.blit(spaceship_retries_box_1, (100, 10))
-    screen.blit(spaceship_retries_box_2, (100+W_spaceship/2, 10))
-    screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
-    screen.blit(score_text, (size[0]-score_text.get_width()-10, 30))
-    screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
-    screen.blit(you_win_text, you_win_text.get_rect(center = screen.get_rect().center))
+    walls.draw(canvas.screen)
+    barriers.draw(canvas.screen)
+    invaders.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
+    lasers_alt.draw(canvas.screen)
+    canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
+    lasers.draw(canvas.screen)
+    canvas.screen.blit(timer_header, (10, 10))
+    canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
+    canvas.screen.blit(spaceship_retries_box_1, (100, 10))
+    canvas.screen.blit(spaceship_retries_box_2, (100+W_spaceship/2, 10))
+    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10))
+    canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))
+    canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
+    canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
     pygame.display.flip()
     clock.tick(60)
