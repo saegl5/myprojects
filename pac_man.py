@@ -1,10 +1,5 @@
-import pygame
-import sys
-import random
+import pygame, random, canvas
 
-pygame.init()
-
-BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
 BLACK = pygame.Color("black")
@@ -14,9 +9,6 @@ LIGHTGRAY = pygame.Color("light gray")
 GRAY = pygame.Color("gray")
 DARKGRAY = pygame.Color("dark gray")
 
-size = (704, 512)
-screen = pygame.display.set_mode(size)
-clock = pygame.time.Clock()
 x_offset = 0
 y_offset = 0
 x_increment = 0
@@ -95,8 +87,8 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
             self.image = pygame.transform.rotate(pacman_picture, angle)
         self.image.set_colorkey(BLACK)
     def retry(self):
-        self.rect.x = size[0]/2 # restore pac-man, bypassed offset
-        self.rect.y = size[1]/2
+        self.rect.x = canvas.size[0]/2 # restore pac-man, bypassed offset
+        self.rect.y = canvas.size[1]/2
     def flip(self, Bool): # "Bool" is short for boolean
         # if COLOR == RED:
         if self in red_ghosts:
@@ -109,20 +101,20 @@ class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
 # inner walls
 
 # top
-wall = Rectangle(size[0]-100-100, 10)
+wall = Rectangle(canvas.size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
 
 # bottom
-wall = Rectangle(size[0]-100-100, 10)
+wall = Rectangle(canvas.size[0]-100-100, 10)
 wall.rect.x = 100
-wall.rect.y = size[1]-100-10
+wall.rect.y = canvas.size[1]-100-10
 walls.add(wall)
 
 # middle
-wall = Rectangle(10, size[1]-100-100-10-10)
-wall.rect.x = size[0]/2-10/2
+wall = Rectangle(10, canvas.size[1]-100-100-10-10)
+wall.rect.x = canvas.size[0]/2-10/2
 wall.rect.y = 100+10
 walls.add(wall)
 
@@ -132,43 +124,43 @@ for wall in walls:
 # outer walls
 
 # left
-wall = Rectangle(1, size[1]) # 1px is minimum width, size[1] height of entire display
+wall = Rectangle(1, canvas.size[1]) # 1px is minimum width, size[1] height of entire display
 wall.rect.x = 0-1 # just subtract by 1 to move wall leftward
 wall.rect.y = 0
 walls.add(wall)
 
 # right
-wall = Rectangle(1, size[1])
-wall.rect.x = size[0]-1+1
+wall = Rectangle(1, canvas.size[1])
+wall.rect.x = canvas.size[0]-1+1
 wall.rect.y = 0
 walls.add(wall)
 
 # top
-wall = Rectangle(size[0]-2, 1)
+wall = Rectangle(canvas.size[0]-2, 1)
 wall.rect.x = 1
 wall.rect.y = 0-1
 walls.add(wall)
 
 # bottom
-wall = Rectangle(size[0]-2, 1)
+wall = Rectangle(canvas.size[0]-2, 1)
 wall.rect.x = 1
-wall.rect.y = size[1]-1+1
+wall.rect.y = canvas.size[1]-1+1
 walls.add(wall)
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 # pacman = Rectangle(pacman_picture, W_pacman, H_pacman)
 pacman = Rectangle(W_pacman, H_pacman)
 pacman.image.blit(pacman_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
-pacman.rect.x = size[0]/2+x_offset
-pacman.rect.y = size[1]/2+y_offset
+pacman.rect.x = canvas.size[0]/2+x_offset
+pacman.rect.y = canvas.size[1]/2+y_offset
 # if you want to position pac-man randomly, too, then you could use a WHILE loop as done for ghosts
 pacmen.add(pacman)
 
 while True:
     ghost = Rectangle(W_ghost, H_ghost)
     ghost.image.blit(green_ghost_picture, (0, 0))
-    ghost.rect.x = random.randrange(0, size[0]+1-W_ghost) # don't need step_size
-    ghost.rect.y = random.randrange(0, size[1]+1-H_ghost) # don't need step_size
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
     green_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
     if stuck != []: # `stuck` is actually list
@@ -179,8 +171,8 @@ while True:
 while True:
     ghost = Rectangle(W_ghost, H_ghost)
     ghost.image.blit(red_ghost_picture, (0, 0))
-    ghost.rect.x = random.randrange(0, size[0]+1-W_ghost) # don't need step_size
-    ghost.rect.y = random.randrange(0, size[1]+1-H_ghost) # don't need step_size
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
     red_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
     if stuck != []: # `stuck` is actually list
@@ -195,8 +187,8 @@ while 50-len(pellets) > 0:
     pellet = Rectangle(W_pellet, H_pellet)
     pellet.image.blit(pellet_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
-    pellet.rect.x = random.randrange(0, size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error
-    pellet.rect.y = random.randrange(0, size[1]+1-H_pellet, H_pellet)
+    pellet.rect.x = random.randrange(0, canvas.size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error
+    pellet.rect.y = random.randrange(0, canvas.size[1]+1-H_pellet, H_pellet)
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in same position
     pellets.add(pellet) # not pellets.append(pellet) <-- multiple sprites
     for wall in walls:
@@ -205,8 +197,7 @@ while 50-len(pellets) > 0:
 while True:
     for action in pygame.event.get():
         if action.type == pygame.QUIT:
-            pygame.quit() 
-            sys.exit()
+            canvas.close()
         elif action.type == pygame.USEREVENT:
             # timer -= 1 # same as timer = timer - 1, count down by 1 each second
             # if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
@@ -377,7 +368,7 @@ while True:
         else:
             ghost.flip(False)
     # --------------
-    screen.fill(BLUE)
+    canvas.clean()
     timer_header = style_header.render("Time Left", False, RED)
     timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
     score_header = style_header.render("Score", False, GREEN)
@@ -392,7 +383,7 @@ while True:
             ghost.image.fill(LIGHTGRAY)
         for ghost in green_ghosts:
             ghost.image.fill(LIGHTGRAY)
-        screen.fill(GRAY)
+        canvas.screen.fill(GRAY)
         timer_header = style_header.render("Time Left", False, DARKGRAY)
         score_header = style_header.render("Score", False, DARKGRAY)
         timer_text = style.render(str(timer), False, DARKGRAY) # True for anti-aliased, "string" --> str(timer)
@@ -406,23 +397,22 @@ while True:
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
     # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
-    walls.draw(screen)
-    pellets.draw(screen) # draw sprite on screen <-- multiple sprites
+    walls.draw(canvas.screen)
+    pellets.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
     # screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
-    red_ghosts.draw(screen) # previous code override what we want
-    green_ghosts.draw(screen) # previous code override what we want
-    screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
+    red_ghosts.draw(canvas.screen) # previous code override what we want
+    green_ghosts.draw(canvas.screen) # previous code override what we want
+    canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
-    screen.blit(timer_header, (10, 10))
-    screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
-    screen.blit(pacman_retries_box_1, (100, 10)) # to right of timer
-    screen.blit(pacman_retries_box_2, (100+W_pacman/2, 10)) # side-by-side
-    screen.blit(score_header, (size[0]-score_header.get_width()-10, 10))
-    screen.blit(score_text, (size[0]-score_text.get_width()-10, 30))
-    screen.blit(game_over_text, game_over_text.get_rect(center = screen.get_rect().center))
-    screen.blit(you_win_text, you_win_text.get_rect(center = screen.get_rect().center))
+    canvas.screen.blit(timer_header, (10, 10))
+    canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
+    canvas.screen.blit(pacman_retries_box_1, (100, 10)) # to right of timer
+    canvas.screen.blit(pacman_retries_box_2, (100+W_pacman/2, 10)) # side-by-side
+    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10))
+    canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))
+    canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
+    canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
-    pygame.display.flip()
-    clock.tick(60)
+    canvas.show()
     if pygame.time.get_ticks() - ticks > 10000:
-        clock.tick(1)
+        canvas.clock.tick(1)

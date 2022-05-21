@@ -1,7 +1,4 @@
-import pygame
-import sys
-import random
-import canvas
+import pygame, random, canvas
 
 pygame.init()
 
@@ -141,8 +138,7 @@ while 50-len(invaders) > 0:
 while True:
     for action in pygame.event.get():
         if action.type == pygame.QUIT:
-            pygame.quit() 
-            sys.exit()
+            canvas.close()
         elif action.type == pygame.USEREVENT:
             #timer -= 1 # same as timer = timer - 1, count down by 1 each second
             #if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
