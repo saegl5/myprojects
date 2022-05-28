@@ -1,8 +1,5 @@
 import pygame, random, canvas
 
-pygame.init()
-
-BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
 BLACK = pygame.Color("black")
@@ -12,7 +9,6 @@ LIGHTGRAY = pygame.Color("light gray")
 GRAY = pygame.Color("gray")
 DARKGRAY = pygame.Color("dark gray")
 
-clock = pygame.time.Clock()
 x_offset = 0
 # y_offset = 0
 x_increment = 0
@@ -50,6 +46,7 @@ spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W_spacesh
 count = 0
 retries = 2
 p = 5 # chop up each barrier into 5 pieces
+wait = 300 # ~ 5 seconds, frame rate is 60
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
@@ -160,13 +157,13 @@ while True:
                     invader.lunge() # all invaders lunge
                 count += 1
                 if timer % 4 == 0 and len(invaders) > 0: # 7 is optional
-                    laser = Rectangle(10, 20) # 6 and 10 also optional
+                    laser = Rectangle(6, 40) # 6 and 10 also optional
                     laser.return_fire(0)
                 if timer % 7 == 0 and len(invaders) > 1: # 7 is optional
-                    laser = Rectangle(10, 20) # 6 and 10 also optional
+                    laser = Rectangle(6, 40) # 6 and 10 also optional
                     laser.return_fire(1)
                 if timer % 11 == 0 and len(invaders) > 2: # 7 is optional
-                    laser = Rectangle(10, 20) # 6 and 10 also optional
+                    laser = Rectangle(6, 40) # 6 and 10 also optional
                     laser.return_fire(2)
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
@@ -254,7 +251,13 @@ while True:
             spaceship.retry()
             retries -= 1
     for laser in lasers_alt:
-        spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        if wait == 300:
+            spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        else:
+            spaceship_removed = []
+            wait -= 1
+            if wait == 0:
+                wait = 300
         if spaceship_removed != []:
             spaceship_explosion_sound.play()
         if spaceship_removed != [] and retries > 0:
@@ -263,6 +266,7 @@ while True:
             spaceship.retry()
             retries -= 1
             lasers_alt.remove(laser)
+            wait -= 1
         elif laser.rect.top > canvas.size[1]:
             lasers_alt.remove(laser)
     if retries == 2:
@@ -281,7 +285,7 @@ while True:
         if barrier_removed != []:
             lasers_alt.remove(laser)
     # --------------
-    canvas.screen.fill(BLUE)
+    canvas.clean()
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     timer_header = style_header.render("Time Left", False, RED)
     timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
@@ -326,7 +330,6 @@ while True:
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
-    pygame.display.flip()
-    clock.tick(60)
+    canvas.show()
     if pygame.time.get_ticks() - ticks > 10000:
-        clock.tick(1)
+        canvas.clock.tick(1)
