@@ -258,6 +258,7 @@ while True:
             wait -= 1
             if wait == 0:
                 wait = 120
+            break
         if spaceship_removed != []:
             spaceship_explosion_sound.play()
         if spaceship_removed != [] and retries > 0:
