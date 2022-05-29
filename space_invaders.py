@@ -46,7 +46,7 @@ spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W_spacesh
 count = 0
 retries = 2
 p = 5 # chop up each barrier into 5 pieces
-wait = 300 # ~ 5 seconds, frame rate is 60
+wait = 120 # ~ 2 seconds, frame rate is 60
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
@@ -251,13 +251,13 @@ while True:
             spaceship.retry()
             retries -= 1
     for laser in lasers_alt:
-        if wait == 300:
+        if wait == 120:
             spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
         else:
             spaceship_removed = []
             wait -= 1
             if wait == 0:
-                wait = 300
+                wait = 120
         if spaceship_removed != []:
             spaceship_explosion_sound.play()
         if spaceship_removed != [] and retries > 0:
