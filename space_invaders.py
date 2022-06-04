@@ -251,7 +251,7 @@ while True:
             spaceship.retry()
             retries -= 1
     for laser in lasers_alt:
-        if wait == 120:
+        if wait == 120: # 300
             spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
         else:
             spaceship_removed = []
