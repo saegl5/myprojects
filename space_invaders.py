@@ -112,7 +112,7 @@ for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
     barrier = Rectangle(250/p, 25)
     barrier.rect.x = canvas.size[0]-250-50+i*250/p
     barrier.rect.y = 400
-    barrier.image.fill(BLACK)
+    barrier.image.fill(WHITE) # BLACK became transparent
     barriers.add(barrier)
 
 spaceship = Rectangle(W_spaceship, H_spaceship)
