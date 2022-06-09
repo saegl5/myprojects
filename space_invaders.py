@@ -268,6 +268,7 @@ while True:
             retries -= 1
             lasers_alt.remove(laser)
             wait -= 1
+            break # makes timing extra precise
         elif laser.rect.top > canvas.size[1]:
             lasers_alt.remove(laser)
     if retries == 2:
