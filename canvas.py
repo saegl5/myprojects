@@ -7,7 +7,7 @@ import pygame, sys
 size = (704, 512)
 screen = pygame.display.set_mode(size)
 
-def close(): # use clicked close button
+def close(): # user clicked close button
     pygame.quit() # needed if run module through IDLE
     sys.exit() # exit entire process
 
