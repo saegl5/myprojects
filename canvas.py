@@ -1,5 +1,7 @@
+# import in main module
+
 """
-Manages Frame
+Manages Screen
 """
 
 import pygame, sys
