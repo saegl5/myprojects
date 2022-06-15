@@ -1,6 +1,6 @@
 import pygame
 import sys
-import heart
+import src.heart as heart
 from math import pi, cos, sin
 
 pygame.init()
