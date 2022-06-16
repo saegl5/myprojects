@@ -9,8 +9,8 @@ pygame.init() # initialize any submodules that require it
 size = (704, 512) # (width, height) in pixels, example
 screen = pygame.display.set_mode(size) # set up display
 clock = pygame.time.Clock() # define "clock"
-ball_picture = pygame.image.load('ball_blue_large.png') # foreground picture from https://kenney.nl/assets/rolling-ball-assets, see License.txt; the ball is a circle, but the picture of it is a rectangle
-background_picture = pygame.image.load('background_green.png') # background picture from https://kenney.nl/assets/rolling-ball-assets, see License.txt
+ball_picture = pygame.image.load('images/ball_blue_large.png') # foreground picture from https://kenney.nl/assets/rolling-ball-assets, see License.txt; the ball is a circle, but the picture of it is a rectangle
+background_picture = pygame.image.load('images/background_green.png') # background picture from https://kenney.nl/assets/rolling-ball-assets, see License.txt
 # offset = 0 # initialize offset earlier
 y_offset = 0 # initialize offset earlier, keep starting position at top edge, was 0, then 50
 x_offset = 0 # keep starting position at left edge, was 0, then 70, then 90

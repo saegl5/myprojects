@@ -1,4 +1,4 @@
-import pygame, random, canvas
+import pygame, random, src.canvas as canvas
 
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
@@ -30,14 +30,14 @@ style_header = pygame.font.Font(None, 30)
 # style_header.set_bold(True)
 style_header.set_italic(True)
 # style_header.set_underline(True)
-game_over_sound = pygame.mixer.Sound('game_over.ogg')
-you_win_sound = pygame.mixer.Sound('you_win.ogg')
-pacman_walk_sound = pygame.mixer.Sound('footstep.ogg')
-ghost_hit_sound = pygame.mixer.Sound('hit.ogg')
-pacman_picture = pygame.image.load('pac.png').convert()
-pellet_picture = pygame.image.load('dot.png').convert() # need to scale down
-red_ghost_picture = pygame.image.load('red_ghost.png').convert()
-green_ghost_picture = pygame.image.load('green_ghost.png').convert()
+game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg')
+you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
+pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg')
+ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg')
+pacman_picture = pygame.image.load('images/pac.png').convert()
+pellet_picture = pygame.image.load('images/dot.png').convert() # need to scale down
+red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
+green_ghost_picture = pygame.image.load('images/green_ghost.png').convert()
 # pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
 #pellet_picture.set_colorkey(BLACK)
 W_pacman = 64 # these variables are for images
@@ -47,7 +47,7 @@ H_pellet = 32
 W_ghost = 64
 H_ghost = 64
 pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
-pacman_picture_alt = pygame.image.load('pac_chomp.png').convert()
+pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert()
 count = 0
 ticks = int()
 angle = 0
