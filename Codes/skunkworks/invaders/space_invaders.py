@@ -1,9 +1,6 @@
 import pygame, random # import the pygame and random module
 import src.canvas as canvas
 
-pygame.init() # initialize any submodules that require it
-
-BLUE = pygame.Color("blue") # example
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
 YELLOW = pygame.Color("yellow")
@@ -14,7 +11,6 @@ LIGHTGRAY = pygame.Color("light gray")
 GRAY = pygame.Color("gray")
 DARKGRAY = pygame.Color("dark gray")
 
-clock = pygame.time.Clock() # define "clock"
 # x_offset = 0 # reordered
 # y_offset = 0
 x_increment = 0
@@ -23,12 +19,14 @@ w = 64 # "spaceship" sprite width reference
 x_offset = -w/2
 h = 64 # "spaceship" sprite height reference
 invaders = pygame.sprite.Group() # create a list for "invader" sprites, no longer invaders = [], Group() is class
+# counter = 0 # alternative to timer, uses frame rate, but frame rate may fluctuate
 # collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 barriers = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
 spaceships = pygame.sprite.Group()
+
 timer = 30 # set timer for 30 seconds (multiple of modulo for invaders.update())
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
@@ -53,13 +51,25 @@ invader_picture = pygame.image.load('images/alien.png').convert() # Edited from 
 invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert() # my picture from alien.png
 # invader_picture_alt.set_colorkey(BLACK)
 p = 5 # number of partitions
+invader_count = 50
+# wait1 = 60*5*invader_count # if spaceship hit by invader, 60 fps/invader x ~2 seconds * # invaders, since FOR loop checks all invaders remaining
+# wait2 = 0 # if spaceship hit by return fire, since FOR loop checks all return fire remaining, right now none
+wait1 = 60*2 # if spaceship hit by invader, 60 fps x 2 seconds
+wait2 = wait1 # if spaceship hit by return fire
+waiting = False # if spaceship hit by either
 
 pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 
 # --- Functions/Classes
+# # def draw_rect(display, COLOR, x, y, W, H, width):
+# #     pygame.draw.rect(display, COLOR, (x, y, W, H), width)
+# def draw_rect(display, x, y, W, H):
+#     # Draw a rectangle
+#     pygame.draw.rect(display, WHITE, (x, y, W, H), width=0)
 class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish class from a function
+    # def __init__(self, COLOR, w, h): # define a constructor, class accepts COLOR, width, and height parameters, must type "__" before and after "init," requires "self"
     def __init__(self, x, y, w, h): # define a constructor, class accepts width, height, x-coordinate, and y-coordinate parameters, must type "__" before and after "init," requires "self"
         super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
         size = (w, h) # define size of image, local variable
@@ -74,6 +84,11 @@ class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as s
         self.rect.y = y
     def update(self, px): # you cannot simply name another function/method
         self.rect.y += px # increase sprites' rect.y by px pixels
+        #### if self.rect.y > size[1]: # IF block has left the canvas, then reset block above canvas (assumes player block has not collided with it)
+            #### self.reset_position()
+    #### def reset_position(self):
+        ##### self.rect.y = random.randrange(-50, -20) # -50 is optional
+        ##### self.rect.x = random.randrange(0, size[0]-20)
     def lunge(self): # calling with sprite, not group
         if count % 2 == 0: # could also have used timer, using count because did same in pac-man
             self.image.blit(invader_picture_alt, (0, 0))
@@ -116,6 +131,7 @@ for i in range(0, p):
 
 x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite
 y = canvas.size[1]-h
+# spaceship = Rectangle(WHITE, 64, 64) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 spaceship = Rectangle(x, y, w, h) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 spaceship.rect.centerx = canvas.screen.get_rect().centerx # overwrites x above
 # ALIGN WITH PAC-MAN!!!
@@ -127,9 +143,10 @@ for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
-while 50-len(invaders) > 0: # create and add fifty "invader" sprites
+while invader_count-len(invaders) > 0: # create and add fifty "invader" sprites
     x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "invader" sprite, allow it to touch edge but not breach it
-    y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # "-96" leaves space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
+    y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # want lots of invaders, but if we use a larger step_size, many invaders may overlap, "-100" leaves space at bottom of canvas, "-96" leaves more space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
+    # invader = Rectangle(YELLOW, 32, 32) # create a "invader" sprite
     invader = Rectangle(x, y, w/2, h/2) # create a "invader" sprite
     invader.image.blit(invader_picture, (0, 0))
     pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position, essentially preventing "invader" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
@@ -157,14 +174,17 @@ while True: # keeps display open
                     invader.lunge()
                 count += 1
                 if timer % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
-                    laser.return_fire(0)                
+                    laser = Rectangle(int(), int(), 6, 40) # create "laser" sprite
+                    laser.return_fire(0)
+                    # wait2 = 60*5*len(lasers_alt)
                 if timer % 7 == 0 and len(invaders) > 1: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser = Rectangle(int(), int(), 6, 40) # create "laser" sprite
                     laser.return_fire(1)
+                    # wait2 = 60*5*len(lasers_alt)
                 if timer % 11 == 0 and len(invaders) > 2: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser = Rectangle(int(), int(), 6, 40) # create "laser" sprite
                     laser.return_fire(2)
+                    # wait2 = 60*5*len(lasers_alt)
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
@@ -172,7 +192,12 @@ while True: # keeps display open
                     x_increment = 5 # "5" is optional
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
+                # elif action.key == pygame.K_DOWN:
+                #     y_increment = 5 # note "y_increment," and recall that y increases going downward
+                # elif action.key == pygame.K_UP:
+                #     y_increment = -5
                 elif action.key == pygame.K_SPACE: # fire laser
+                    # laser = Rectangle(CYAN, 5, 20) # create "laser" sprite 
                     laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
                     laser.image.fill(CYAN)
                     laser.rect.centerx = spaceship.rect.centerx # align it with "spaceship" sprite's horizontal center
@@ -183,21 +208,26 @@ while True: # keeps display open
                         first = False
             else: # without "else," do nothing
                 x_increment = 0
+                # y_increment = 0
         elif action.type == pygame.KEYUP:
             ticks = pygame.time.get_ticks()
             if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
                 x_increment = 0
-            if action.key == pygame.K_SPACE:
+            if action.key == pygame.K_SPACE: # was elif
                 first = True
+            # y_increment = 0
         # -------------------------
     # --- Game logic
     # x_offset += x_increment
-
+    # y_offset += y_increment
     # if canvas.size[0]/2+x_offset < 0:
     #     x_offset = -canvas.size[0]/2 # prevent "spaceship" sprite from breaching left edge, solved for x_offset
     # elif canvas.size[0]/2+x_offset + w > canvas.size[0]:
     #     x_offset = canvas.size[0]/2 - w # simplified
-
+    # if canvas.size[1]/2+y_offset < 0: # note "if"
+    #     y_offset = -canvas.size[1]/2 # prevent "spaceship" sprite from breaching top edge, solved for y_offset
+    # elif canvas.size[1]/2+y_offset + h > canvas.size[1]:
+    #     y_offset = canvas.size[1]/2 - h # simplified
     # spaceship.rect.x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite <- do earlier
     for i in range(0, abs(x_increment)+1): # increment x-coordinate *abs(x_increment)* many times
         if x_increment == 0:
@@ -214,30 +244,60 @@ while True: # keeps display open
                     spaceship.rect.left = wall.rect.right # reverse
             break # no sense in completing above loop, if hit wall
 
-    # spaceship.rect.y = canvas.size[1]-h <- do earlier
+    # spaceship.rect.y = canvas.size[1]-h #/2+y_offset <- do earlier
 
     # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # remove a "invader" sprite, if "spaceship" sprite collides with it
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
         invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
         # collisions.add(removed)
         if invader_removed != []: # or "for invader in removed:"
+            # wait1 = 60*5*len(invaders) # update it
             lasers.remove(laser) # remove "laser" sprite, too
             score += 1
             invader_explosion_sound.play()
+        # elif laser.rect.y < -20:
         elif laser.rect.bottom < 0:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
     for invader in invaders:
         # touched = pygame.sprite.spritecollide(invader, spaceships, True)
         # spaceships.remove(touched)
-        spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True) # similar to pac-man ghosts
+        # if wait1 == 60*5*len(invaders):
+        if wait1 == 60*2 and waiting == False:
+            spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True) # similar to pac-man ghosts
+        elif wait1 == 60*2 and waiting == True:
+            break
+        else:
+            spaceship_removed = [] # we will wait to check for collision
+            wait1 -= 1
+            if wait1 == 0:
+                # wait1 = 60*5*len(invaders)
+                wait1 = 60*2
+                waiting = False
+            break
         if spaceship_removed != []:
             spaceship_explosion_sound.play()
-        if spaceship_removed and retries > 0:
+        if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             spaceship.retry()
             retries -= 1
+            wait1 -= 1
+            waiting = True
+            break
     for laser in lasers_alt:
-        spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        # if wait2 == 60*5*len(lasers_alt):
+        if wait2 == 60*2 and waiting == False:
+            spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        elif wait2 == 60*2 and waiting == True:
+        # elif waiting == True:
+            break
+        else:
+            spaceship_removed = [] # we will wait to check for collision
+            wait2 -= 1
+            if wait2 == 0:
+                # wait2 = 60*5*len(lasers_alt)
+                wait2 = 60*2
+                waiting = False
+            break
         if spaceship_removed != []:
             spaceship_explosion_sound.play()
         if spaceship_removed != [] and retries > 0:
@@ -245,13 +305,22 @@ while True: # keeps display open
             spaceship.retry()
             lasers_alt.remove(laser)
             retries -= 1
-            retry_boxes.pop()
+            # wait2 = 60*5*len(lasers_alt)
+            wait2 -= 1
+            waiting = True
+            break            
         elif laser.rect.top > canvas.size[1]:
             lasers_alt.remove(laser)
+            # wait2 = 60*5*len(lasers_alt)
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
         # score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
+    #### for invader in invaders_hit_list: # FOR each invader in the list
+        #### invader.reset_position()
+    # counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
+    # if counter % (60*5) == 0: # about every 5 seconds
+    #     invaders.update(32) # move "invader" sprites downward, requires timer to move slowly
     # if len(spaceships) == 0 or len(invaders) == 0:
     else: # stops lasers from moving when game over or win game
         lasers.update(0)
@@ -261,13 +330,14 @@ while True: # keeps display open
         barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
         if barrier_removed != []:
             lasers_alt.remove(laser)
+            # wait2 = 60*5*len(lasers_alt)
 
     # for laser in lasers:
     #     barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
     #     if barrier_removed != []:
     #         lasers.remove(laser)
     # --------------
-    canvas.screen.fill(BLUE) # clear the display
+    canvas.clean()
     timer_header = style_header.render("Time Left", False, RED)
     timer_text = style.render(str(timer), False, RED) # ("time remaining", anti-aliased, COLOR)
     score_header = style_header.render("Score", False, GREEN)
@@ -292,7 +362,10 @@ while True: # keeps display open
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     # --- Drawing code
-    walls.draw(canvas.screen) # draw sprites on screen using list
+    # pygame.draw.rect(canvas.screen, WHITE, (canvas.size[0]/2, canvas.size[1]/2, 64, 64), width=0)
+    # draw_rect(canvas.screen, canvas.size[0]/2, canvas.size[1]/2, 64, 64) # call function and input parameters
+    # draw_rect(canvas.screen, canvas.size[0]/2+x_offset, canvas.size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on keyboard
+    walls.draw(canvas.screen) # draw sprites on screen using group
     barriers.draw(canvas.screen)
     invaders.draw(canvas.screen)
     lasers_alt.draw(canvas.screen)
@@ -312,7 +385,6 @@ while True: # keeps display open
     # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
-    pygame.display.flip() # update the display
-    clock.tick(60) # maximum 60 frames per second
+    canvas.show()   
     if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for more than 10 seconds
-        clock.tick(1) # in which case minimize the frame rate
+        canvas.clock.tick(1) # in which case minimize the frame rate
