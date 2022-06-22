@@ -4,10 +4,9 @@ Base Module
 
 import pygame
 import src.canvas as canvas
-import custom.classes as c # sprites only
 # Other modules to import
 
-pygame.display.set_caption("Canvas")
+pygame.display.set_caption("Base Module")
 
 # Other initialization/constants/variables/settings
 
