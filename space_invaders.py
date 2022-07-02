@@ -1,4 +1,4 @@
-import pygame, random, src.canvas as canvas
+import pygame, random, src.canvas as canvas, classes as c
 
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
@@ -52,46 +52,31 @@ pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
 pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 
-# --- Functions/classes
+# --- Functions
 # def draw_rect(display, x, y, W, H):
     # pygame.draw.rect(display, WHITE, (x, y, W, H), width=1)
-class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
-    def __init__(self, W, H): # constructor, "self" is like a key for "spaceship" sprite to access class
-        super().__init__() # initialize your sprites, similar to init()
-        size = (W, H) # local variable
-        self.image = pygame.Surface(size) # blank image
-        self.image.fill(BLACK)
-        self.image.set_colorkey(BLACK) # removes background, needed for newer versions of python
-        # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # drawing on image, not screen
-        # self.image.blit(sprite_picture, (0, 0))
-        self.rect = self.image.get_rect() # pair image with rectangle object, the rectangle object is your sprite
-        # nutshell: drawing shape on an image, and you pair that image with a rectangle object, which is your sprite
-    def update(self, px): # cannot give function/method just any name
-        # global timer
-        # if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
-        self.rect.y += px # increase sprites' rect.y by 32 pixels
-    def lunge(self):
-        if count % 2 == 0: # could also have used timer
-            self.image.blit(invader_picture_alt, (0, 0)) # change picture
-        else:
-            self.image.blit(invader_picture, (0, 0)) # revert
-    def retry(self):
-        self.rect.centerx = canvas.screen.get_rect().centerx
-        self.rect.y = canvas.size[1]-H_spaceship
-    def return_fire(self, index):
-        self.image.fill(RED)
-        self.rect.centerx = invaders.sprites()[index].rect.centerx # 0 is index, range 0-49
-        self.rect.top = invaders.sprites()[index].rect.bottom
-        lasers_alt.add(self)
-        invader_laser_sound.play()
+def lunge(self):
+    if count % 2 == 0: # could also have used timer
+        self.image.blit(invader_picture_alt, (0, 0)) # change picture
+    else:
+        self.image.blit(invader_picture, (0, 0)) # revert
+def retry(self):
+    self.rect.centerx = canvas.screen.get_rect().centerx
+    self.rect.y = canvas.size[1]-H_spaceship
+def return_fire(self, index):
+    self.image.fill(RED)
+    self.rect.centerx = invaders.sprites()[index].rect.centerx # 0 is index, range 0-49
+    self.rect.top = invaders.sprites()[index].rect.bottom
+    lasers_alt.add(self)
+    invader_laser_sound.play()
 # ---------------------
 
-wall = Rectangle(1, canvas.size[1])
+wall = c.Rectangle(1, canvas.size[1])
 wall.rect.x = 0-1
 wall.rect.y = 0
 walls.add(wall)
 
-wall = Rectangle(1, canvas.size[1])
+wall = c.Rectangle(1, canvas.size[1])
 wall.rect.x = canvas.size[0]-1+1
 wall.rect.y = 0
 walls.add(wall)
@@ -101,7 +86,7 @@ walls.add(wall)
 
 # left barrier
 for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
-    barrier = Rectangle(250/p, 25)
+    barrier = c.Rectangle(250/p, 25)
     barrier.rect.x = 50+i*250/p
     barrier.rect.y = 400
     barrier.image.fill(WHITE)
@@ -109,13 +94,13 @@ for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
 
 # right barrier
 for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
-    barrier = Rectangle(250/p, 25)
+    barrier = c.Rectangle(250/p, 25)
     barrier.rect.x = canvas.size[0]-250-50+i*250/p
     barrier.rect.y = 400
     barrier.image.fill(WHITE) # BLACK became transparent
     barriers.add(barrier)
 
-spaceship = Rectangle(W_spaceship, H_spaceship)
+spaceship = c.Rectangle(W_spaceship, H_spaceship)
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
 spaceship.rect.y = canvas.size[1] - H_spaceship
@@ -123,7 +108,7 @@ spaceships.add(spaceship)
 
 # for i in range(0, 50): # create and add fifty invaders
 while 50-len(invaders) > 0:
-    invader = Rectangle(W_invader, H_invader)
+    invader = c.Rectangle(W_invader, H_invader)
     invader.image.blit(invader_picture, (0, 0))
     invader.rect.x = random.randrange(0, canvas.size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
     invader.rect.y = random.randrange(0, canvas.size[1]+1-H_invader-200, H_invader) # "-100" space at canvas bottom
@@ -154,17 +139,21 @@ while True:
                 if timer % 5 == 0:
                     invaders.update(32)
                 for invader in invaders:
-                    invader.lunge() # all invaders lunge
+                    # invader.lunge() # all invaders lunge
+                    lunge(invader)
                 count += 1
                 if timer % 4 == 0 and len(invaders) > 0: # 7 is optional
-                    laser = Rectangle(6, 40) # 6 and 10 also optional
-                    laser.return_fire(0)
+                    laser = c.Rectangle(6, 40) # 6 and 10 also optional
+                    # laser.return_fire(0)
+                    return_fire(laser, 0)
                 if timer % 7 == 0 and len(invaders) > 1: # 7 is optional
-                    laser = Rectangle(6, 40) # 6 and 10 also optional
-                    laser.return_fire(1)
+                    laser = c.Rectangle(6, 40) # 6 and 10 also optional
+                    # laser.return_fire(1)
+                    return_fire(laser, 1)
                 if timer % 11 == 0 and len(invaders) > 2: # 7 is optional
-                    laser = Rectangle(6, 40) # 6 and 10 also optional
-                    laser.return_fire(2)
+                    laser = c.Rectangle(6, 40) # 6 and 10 also optional
+                    # laser.return_fire(2)
+                    return_fire(laser, 2)
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0: # "and" or "or" depends
@@ -177,7 +166,7 @@ while True:
                 # elif action.key == pygame.K_UP:
                     # y_increment = -5
                 elif action.key == pygame.K_SPACE:
-                    laser = Rectangle(10, 20)
+                    laser = c.Rectangle(10, 20)
                     # laser.rect.x = spaceship.rect.x + 64/2 - 10/2
                     # laser.rect.x = spaceship.rect.centerx - 10/2 # last week, delete
                     laser.rect.centerx = spaceship.rect.centerx # correction
@@ -248,7 +237,8 @@ while True:
         if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             # for spaceship in spaceships:
-            spaceship.retry()
+            # spaceship.retry()
+            retry(spaceship)
             retries -= 1
     for laser in lasers_alt:
         if wait == 120: # 300
@@ -264,7 +254,8 @@ while True:
         if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             # for spaceship in spaceships:
-            spaceship.retry()
+            # spaceship.retry()
+            retry(spaceship)
             retries -= 1
             lasers_alt.remove(laser)
             wait -= 1
