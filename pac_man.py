@@ -1,4 +1,4 @@
-import pygame, random, src.canvas as canvas
+import pygame, random, src.canvas as canvas, classes as c
 
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
@@ -61,59 +61,44 @@ pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 # --- Functions/classes
 # def draw_rect(display, x, y, W, H):
     # pygame.draw.rect(display, WHITE, (x, y, W, H), width=1)
-class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
-    def __init__(self, W, H): # constructor, "self" is like a key for "pacman" sprite to access class
-        super().__init__() # initialize your sprites, similar to init()
-        size = (W, H) # local variable
-        self.image = pygame.Surface(size) # blank image
-        self.image.fill(BLACK)
-        self.image.set_colorkey(BLACK) # removes background, needed for newer versions of python
-        # pygame.draw.rect(self.image, COLOR, (0, 0, W, H), width=0) # drawing on image, not screen
-        # self.image.blit(sprite_picture, (0, 0))
-        self.rect = self.image.get_rect() # pair image with rectangle object, the rectangle object is your sprite
-        # nutshell: drawing shape on an image, and you pair that image with a rectangle object, which is your sprite
-    def update(self):
-        # global timer
-        # if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
-        self.rect.y += 32 # increase sprites' rect.y by 32 pixels
-    def turn(self, angle):
-        if count == 1:
-            self.image.blit(pacman_picture_alt, (0, 0))
-        if count == 5:
-            self.image = pygame.transform.rotate(pacman_picture, angle)
-        if count % 10 == 0:
-            self.image.blit(pacman_picture_alt, (0, 0))
-        if count % 20 == 0:
-            self.image = pygame.transform.rotate(pacman_picture, angle)
-        self.image.set_colorkey(BLACK)
-    def retry(self):
-        self.rect.x = canvas.size[0]/2 # restore pac-man, bypassed offset
-        self.rect.y = canvas.size[1]/2
-    def flip(self, Bool): # "Bool" is short for boolean
-        # if COLOR == RED:
-        if self in red_ghosts:
-            self.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
-        else:
-            self.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
-        self.image.set_colorkey(BLACK)
+def turn(sprite, angle):
+    if count == 1:
+        sprite.image.blit(pacman_picture_alt, (0, 0))
+    if count == 5:
+        sprite.image = pygame.transform.rotate(pacman_picture, angle)
+    if count % 10 == 0:
+        sprite.image.blit(pacman_picture_alt, (0, 0))
+    if count % 20 == 0:
+        sprite.image = pygame.transform.rotate(pacman_picture, angle)
+    sprite.image.set_colorkey(BLACK)
+def retry(sprite):
+    sprite.rect.x = canvas.size[0]/2 # restore pac-man, bypassed offset
+    sprite.rect.y = canvas.size[1]/2
+def flip(sprite, Bool): # "Bool" is short for boolean
+    # if COLOR == RED:
+    if sprite in red_ghosts:
+        sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
+    else:
+        sprite.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
+    sprite.image.set_colorkey(BLACK)
 # ---------------------
 
 # inner walls
 
 # top
-wall = Rectangle(canvas.size[0]-100-100, 10)
+wall = c.Rectangle(canvas.size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
 
 # bottom
-wall = Rectangle(canvas.size[0]-100-100, 10)
+wall = c.Rectangle(canvas.size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = canvas.size[1]-100-10
 walls.add(wall)
 
 # middle
-wall = Rectangle(10, canvas.size[1]-100-100-10-10)
+wall = c.Rectangle(10, canvas.size[1]-100-100-10-10)
 wall.rect.x = canvas.size[0]/2-10/2
 wall.rect.y = 100+10
 walls.add(wall)
@@ -124,32 +109,32 @@ for wall in walls:
 # outer walls
 
 # left
-wall = Rectangle(1, canvas.size[1]) # 1px is minimum width, size[1] height of entire display
+wall = c.Rectangle(1, canvas.size[1]) # 1px is minimum width, size[1] height of entire display
 wall.rect.x = 0-1 # just subtract by 1 to move wall leftward
 wall.rect.y = 0
 walls.add(wall)
 
 # right
-wall = Rectangle(1, canvas.size[1])
+wall = c.Rectangle(1, canvas.size[1])
 wall.rect.x = canvas.size[0]-1+1
 wall.rect.y = 0
 walls.add(wall)
 
 # top
-wall = Rectangle(canvas.size[0]-2, 1)
+wall = c.Rectangle(canvas.size[0]-2, 1)
 wall.rect.x = 1
 wall.rect.y = 0-1
 walls.add(wall)
 
 # bottom
-wall = Rectangle(canvas.size[0]-2, 1)
+wall = c.Rectangle(canvas.size[0]-2, 1)
 wall.rect.x = 1
 wall.rect.y = canvas.size[1]-1+1
 walls.add(wall)
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 # pacman = Rectangle(pacman_picture, W_pacman, H_pacman)
-pacman = Rectangle(W_pacman, H_pacman)
+pacman = c.Rectangle(W_pacman, H_pacman)
 pacman.image.blit(pacman_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
 pacman.rect.x = canvas.size[0]/2+x_offset
 pacman.rect.y = canvas.size[1]/2+y_offset
@@ -157,7 +142,7 @@ pacman.rect.y = canvas.size[1]/2+y_offset
 pacmen.add(pacman)
 
 while True:
-    ghost = Rectangle(W_ghost, H_ghost)
+    ghost = c.Rectangle(W_ghost, H_ghost)
     ghost.image.blit(green_ghost_picture, (0, 0))
     ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
     ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
@@ -169,7 +154,7 @@ while True:
         break # exit loop, if no overlap
 
 while True:
-    ghost = Rectangle(W_ghost, H_ghost)
+    ghost = c.Rectangle(W_ghost, H_ghost)
     ghost.image.blit(red_ghost_picture, (0, 0))
     ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
     ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
@@ -184,7 +169,7 @@ while True:
 while 50-len(pellets) > 0:
     # pellet = Rectangle(YELLOW, W_pellet, H_pellet)
     # pellet = Rectangle(pellet_picture, W_pellet, H_pellet)
-    pellet = Rectangle(W_pellet, H_pellet)
+    pellet = c.Rectangle(W_pellet, H_pellet)
     pellet.image.blit(pellet_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
     pellet.rect.x = random.randrange(0, canvas.size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error
@@ -229,28 +214,32 @@ while True:
                 if action.key == pygame.K_RIGHT:
                     x_increment = 5 # speed
                     angle = 0
-                    pacman.turn(angle)
+                    # pacman.turn(angle)
+                    turn(pacman, angle)
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
                     angle = 180
-                    pacman.turn(angle)
+                    # pacman.turn(angle)
+                    turn(pacman, angle)
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
                 elif action.key == pygame.K_DOWN:
                     y_increment = 5
                     angle = 270
-                    pacman.turn(angle)
+                    # pacman.turn(angle)
+                    turn(pacman, angle)
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
                 elif action.key == pygame.K_UP:
                     y_increment = -5
                     angle = 90
-                    pacman.turn(angle)
+                    # pacman.turn(angle)
+                    turn(pacman, angle)
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
@@ -261,7 +250,8 @@ while True:
             x_increment = 0
             y_increment = 0
             count = 0
-            pacman.turn(angle)
+            # pacman.turn(angle)
+            turn(pacman, angle)
             ticks = pygame.time.get_ticks()
         # -------------------
     # --- Game logic
@@ -335,7 +325,8 @@ while True:
             ghost_hit_sound.play()
         if pacman_removed != [] and retries > 0:
             pacmen.add(pacman_removed) # will reposition pac-man
-            pacman.retry()
+            # pacman.retry()
+            retry(pacman)
             retries -= 1
     for ghost in green_ghosts:
         pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
@@ -343,7 +334,8 @@ while True:
             ghost_hit_sound.play()
         if pacman_removed != [] and retries > 0:
             pacmen.add(pacman_removed) # will reposition pac-man
-            pacman.retry()
+            # pacman.retry()
+            retry(pacman)
             retries -= 1
 
     if retries == 2: # default
@@ -359,14 +351,18 @@ while True:
     pacman_retries_box_2.set_colorkey(BLACK)
     for ghost in red_ghosts:
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
-            ghost.flip(True) # horizontally
+            # ghost.flip(True) # horizontally
+            flip(ghost, True)
         else:
-            ghost.flip(False)
+            # ghost.flip(False)
+            flip(ghost, False)
     for ghost in green_ghosts:
         if x_increment_green_ghost < 0 or y_increment_green_ghost < 0: # ghost moving leftward or upward
-            ghost.flip(True) # horizontally
+            # ghost.flip(True) # horizontally
+            flip(ghost, True)
         else:
-            ghost.flip(False)
+            # ghost.flip(False)
+            flip(ghost, False)
     # --------------
     canvas.clean()
     timer_header = style_header.render("Time Left", False, RED)

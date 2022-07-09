@@ -55,19 +55,19 @@ pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
 # --- Functions
 # def draw_rect(display, x, y, W, H):
     # pygame.draw.rect(display, WHITE, (x, y, W, H), width=1)
-def lunge(self):
+def lunge(sprite):
     if count % 2 == 0: # could also have used timer
-        self.image.blit(invader_picture_alt, (0, 0)) # change picture
+        sprite.image.blit(invader_picture_alt, (0, 0)) # change picture
     else:
-        self.image.blit(invader_picture, (0, 0)) # revert
-def retry(self):
-    self.rect.centerx = canvas.screen.get_rect().centerx
-    self.rect.y = canvas.size[1]-H_spaceship
-def return_fire(self, index):
-    self.image.fill(RED)
-    self.rect.centerx = invaders.sprites()[index].rect.centerx # 0 is index, range 0-49
-    self.rect.top = invaders.sprites()[index].rect.bottom
-    lasers_alt.add(self)
+        sprite.image.blit(invader_picture, (0, 0)) # revert
+def retry(sprite):
+    sprite.rect.centerx = canvas.screen.get_rect().centerx
+    sprite.rect.y = canvas.size[1]-H_spaceship
+def return_fire(sprite, index):
+    sprite.image.fill(RED)
+    sprite.rect.centerx = invaders.sprites()[index].rect.centerx # 0 is index, range 0-49
+    sprite.rect.top = invaders.sprites()[index].rect.bottom
+    lasers_alt.add(sprite)
     invader_laser_sound.play()
 # ---------------------
 
