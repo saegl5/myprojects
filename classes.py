@@ -7,7 +7,7 @@ import pygame
 BLACK = pygame.Color("black")
 
 class Rectangle(pygame.sprite.Sprite): # make class of same class as Sprites
-    def __init__(self, W, H): # constructor, "self" is like a key for "spaceship" sprite to access class
+    def __init__(self, W, H): # constructor, "self" is like a key for sprite to access class
         super().__init__() # initialize your sprites, similar to init()
         size = (W, H) # local variable
         self.image = pygame.Surface(size) # blank image
