@@ -1,5 +1,4 @@
-import pygame # import the pygame module
-import sys # import the sys module
+import pygame, sys # import modules
 
 pygame.init() # initialize any submodules that require it
 

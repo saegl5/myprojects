@@ -1,4 +1,6 @@
-import pygame, random, src.canvas as canvas, custom.classes as c
+import pygame, random
+import src.canvas as canvas
+import custom.classes as c
 
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")

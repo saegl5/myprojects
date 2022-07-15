@@ -1,5 +1,4 @@
-import pygame
-import sys
+import pygame, sys
 import custom.heart as heart
 from math import pi, cos, sin
 

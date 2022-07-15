@@ -1,6 +1,4 @@
-import pygame # import modules
-import sys
-import random
+import pygame, sys, random # import modules
 
 pygame.init() # initialize any submodules that require it
  
