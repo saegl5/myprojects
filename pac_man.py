@@ -1,6 +1,6 @@
 import pygame, random
 import src.canvas as canvas
-import custom.classes as c
+from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
@@ -88,19 +88,19 @@ def flip(sprite, Bool): # "Bool" is short for boolean
 # inner walls
 
 # top
-wall = c.Rectangle(canvas.size[0]-100-100, 10)
+wall = Rectangle(canvas.size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
 
 # bottom
-wall = c.Rectangle(canvas.size[0]-100-100, 10)
+wall = Rectangle(canvas.size[0]-100-100, 10)
 wall.rect.x = 100
 wall.rect.y = canvas.size[1]-100-10
 walls.add(wall)
 
 # middle
-wall = c.Rectangle(10, canvas.size[1]-100-100-10-10)
+wall = Rectangle(10, canvas.size[1]-100-100-10-10)
 wall.rect.x = canvas.size[0]/2-10/2
 wall.rect.y = 100+10
 walls.add(wall)
@@ -111,32 +111,32 @@ for wall in walls:
 # outer walls
 
 # left
-wall = c.Rectangle(1, canvas.size[1]) # 1px is minimum width, size[1] height of entire display
+wall = Rectangle(1, canvas.size[1]) # 1px is minimum width, size[1] height of entire display
 wall.rect.x = 0-1 # just subtract by 1 to move wall leftward
 wall.rect.y = 0
 walls.add(wall)
 
 # right
-wall = c.Rectangle(1, canvas.size[1])
+wall = Rectangle(1, canvas.size[1])
 wall.rect.x = canvas.size[0]-1+1
 wall.rect.y = 0
 walls.add(wall)
 
 # top
-wall = c.Rectangle(canvas.size[0]-2, 1)
+wall = Rectangle(canvas.size[0]-2, 1)
 wall.rect.x = 1
 wall.rect.y = 0-1
 walls.add(wall)
 
 # bottom
-wall = c.Rectangle(canvas.size[0]-2, 1)
+wall = Rectangle(canvas.size[0]-2, 1)
 wall.rect.x = 1
 wall.rect.y = canvas.size[1]-1+1
 walls.add(wall)
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 # pacman = Rectangle(pacman_picture, W_pacman, H_pacman)
-pacman = c.Rectangle(W_pacman, H_pacman)
+pacman = Rectangle(W_pacman, H_pacman)
 pacman.image.blit(pacman_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
 pacman.rect.x = canvas.size[0]/2+x_offset
 pacman.rect.y = canvas.size[1]/2+y_offset
@@ -144,7 +144,7 @@ pacman.rect.y = canvas.size[1]/2+y_offset
 pacmen.add(pacman)
 
 while True:
-    ghost = c.Rectangle(W_ghost, H_ghost)
+    ghost = Rectangle(W_ghost, H_ghost)
     ghost.image.blit(green_ghost_picture, (0, 0))
     ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
     ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
@@ -156,7 +156,7 @@ while True:
         break # exit loop, if no overlap
 
 while True:
-    ghost = c.Rectangle(W_ghost, H_ghost)
+    ghost = Rectangle(W_ghost, H_ghost)
     ghost.image.blit(red_ghost_picture, (0, 0))
     ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
     ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
@@ -171,7 +171,7 @@ while True:
 while 50-len(pellets) > 0:
     # pellet = Rectangle(YELLOW, W_pellet, H_pellet)
     # pellet = Rectangle(pellet_picture, W_pellet, H_pellet)
-    pellet = c.Rectangle(W_pellet, H_pellet)
+    pellet = Rectangle(W_pellet, H_pellet)
     pellet.image.blit(pellet_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
     pellet.rect.x = random.randrange(0, canvas.size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error

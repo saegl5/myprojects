@@ -1,6 +1,6 @@
 import pygame, random
 import src.canvas as canvas
-import custom.classes as c
+from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
 YELLOW = pygame.Color("yellow")
@@ -73,12 +73,12 @@ def return_fire(sprite, index):
     invader_laser_sound.play()
 # ---------------------
 
-wall = c.Rectangle(1, canvas.size[1])
+wall = Rectangle(1, canvas.size[1])
 wall.rect.x = 0-1
 wall.rect.y = 0
 walls.add(wall)
 
-wall = c.Rectangle(1, canvas.size[1])
+wall = Rectangle(1, canvas.size[1])
 wall.rect.x = canvas.size[0]-1+1
 wall.rect.y = 0
 walls.add(wall)
@@ -88,7 +88,7 @@ walls.add(wall)
 
 # left barrier
 for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
-    barrier = c.Rectangle(250/p, 25)
+    barrier = Rectangle(250/p, 25)
     barrier.rect.x = 50+i*250/p
     barrier.rect.y = 400
     barrier.image.fill(WHITE)
@@ -96,13 +96,13 @@ for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
 
 # right barrier
 for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
-    barrier = c.Rectangle(250/p, 25)
+    barrier = Rectangle(250/p, 25)
     barrier.rect.x = canvas.size[0]-250-50+i*250/p
     barrier.rect.y = 400
     barrier.image.fill(WHITE) # BLACK became transparent
     barriers.add(barrier)
 
-spaceship = c.Rectangle(W_spaceship, H_spaceship)
+spaceship = Rectangle(W_spaceship, H_spaceship)
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
 spaceship.rect.y = canvas.size[1] - H_spaceship
@@ -110,7 +110,7 @@ spaceships.add(spaceship)
 
 # for i in range(0, 50): # create and add fifty invaders
 while 50-len(invaders) > 0:
-    invader = c.Rectangle(W_invader, H_invader)
+    invader = Rectangle(W_invader, H_invader)
     invader.image.blit(invader_picture, (0, 0))
     invader.rect.x = random.randrange(0, canvas.size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
     invader.rect.y = random.randrange(0, canvas.size[1]+1-H_invader-200, H_invader) # "-100" space at canvas bottom
@@ -145,15 +145,15 @@ while True:
                     lunge(invader)
                 count += 1
                 if timer % 4 == 0 and len(invaders) > 0: # 7 is optional
-                    laser = c.Rectangle(6, 40) # 6 and 10 also optional
+                    laser = Rectangle(6, 40) # 6 and 10 also optional
                     # laser.return_fire(0)
                     return_fire(laser, 0)
                 if timer % 7 == 0 and len(invaders) > 1: # 7 is optional
-                    laser = c.Rectangle(6, 40) # 6 and 10 also optional
+                    laser = Rectangle(6, 40) # 6 and 10 also optional
                     # laser.return_fire(1)
                     return_fire(laser, 1)
                 if timer % 11 == 0 and len(invaders) > 2: # 7 is optional
-                    laser = c.Rectangle(6, 40) # 6 and 10 also optional
+                    laser = Rectangle(6, 40) # 6 and 10 also optional
                     # laser.return_fire(2)
                     return_fire(laser, 2)
         # --- Keyboard events
@@ -168,7 +168,7 @@ while True:
                 # elif action.key == pygame.K_UP:
                     # y_increment = -5
                 elif action.key == pygame.K_SPACE:
-                    laser = c.Rectangle(10, 20)
+                    laser = Rectangle(10, 20)
                     # laser.rect.x = spaceship.rect.x + 64/2 - 10/2
                     # laser.rect.x = spaceship.rect.centerx - 10/2 # last week, delete
                     laser.rect.centerx = spaceship.rect.centerx # correction

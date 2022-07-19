@@ -10,7 +10,7 @@ RED = pygame.Color("red")
 # size = (100, 100)
 # screen = pygame.display.set_mode(size)
 # clock = pygame.time.Clock()
-def draw(x, y):
+def heart(x, y):
 # position = (50, 50) # define x- and y-coordinates
 # multiple = 4 # define multiple (0-5)
     position = (x, y) # define x- and y-coordinates

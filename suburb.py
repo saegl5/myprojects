@@ -1,5 +1,5 @@
 import pygame, sys
-import custom.heart as heart
+from custom.heart import heart
 from math import pi, cos, sin
 
 pygame.init()
@@ -57,7 +57,7 @@ while True:
     font = pygame.font.SysFont('Courier New', 16, bold=True, italic=False)
     text = font.render("There is hope!", True, BLACK)
     screen.blit(text, (475, 125))
-    heart.draw(500, 300) # balloon
+    heart(500, 300) # balloon
     pygame.draw.arc(screen, RED, (499, 298, 25, 50), 180*pi/180, 275*pi/180, width=2) # balloon string
     pygame.display.flip()
     clock.tick(60)
