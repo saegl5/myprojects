@@ -355,14 +355,14 @@ while True:
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
             # ghost.flip(True) # horizontally
             flip(ghost, True)
-        else:
+        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
             # ghost.flip(False)
             flip(ghost, False)
     for ghost in green_ghosts:
         if x_increment_green_ghost < 0 or y_increment_green_ghost < 0: # ghost moving leftward or upward
             # ghost.flip(True) # horizontally
             flip(ghost, True)
-        else:
+        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
             # ghost.flip(False)
             flip(ghost, False)
     # --------------
@@ -374,18 +374,18 @@ while True:
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, BLACK)
     if timer == 0 or len(pacmen) == 0:
-        for pellet in pellets:
-            pellet.image.fill(LIGHTGRAY)
-        pacman.image.fill(WHITE)
-        for ghost in red_ghosts:
-            ghost.image.fill(LIGHTGRAY)
-        for ghost in green_ghosts:
-            ghost.image.fill(LIGHTGRAY)
-        canvas.screen.fill(GRAY)
-        timer_header = style_header.render("Time Left", False, DARKGRAY)
-        score_header = style_header.render("Score", False, DARKGRAY)
-        timer_text = style.render(str(timer), False, DARKGRAY) # True for anti-aliased, "string" --> str(timer)
-        score_text = style.render(str(score), False, DARKGRAY)
+        # for pellet in pellets:
+        #     pellet.image.fill(LIGHTGRAY)
+        # pacman.image.fill(WHITE)
+        # for ghost in red_ghosts:
+        #     ghost.image.fill(LIGHTGRAY)
+        # for ghost in green_ghosts:
+        #     ghost.image.fill(LIGHTGRAY)
+        # canvas.screen.fill(GRAY)
+        # timer_header = style_header.render("Time Left", False, DARKGRAY)
+        # score_header = style_header.render("Score", False, DARKGRAY)
+        # timer_text = style.render(str(timer), False, DARKGRAY) # True for anti-aliased, "string" --> str(timer)
+        # score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, BLACK)

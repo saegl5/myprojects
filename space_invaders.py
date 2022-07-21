@@ -289,19 +289,19 @@ while True:
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(spaceships) == 0:
-        for invader in invaders:
-            invader.image.fill(LIGHTGRAY) # similar to self.image.fill(COLOR)
-        for laser in lasers:
-            laser.image.fill(LIGHTGRAY)
-        for laser in lasers_alt:
-            laser.image.fill(LIGHTGRAY)
-        spaceship.image.fill(WHITE)
-        canvas.screen.fill(GRAY)
-        timer_text = style.render(str(timer), False, DARKGRAY)
-        score_text = style.render(str(score), False, DARKGRAY)
+        # for invader in invaders:
+        #     invader.image.fill(LIGHTGRAY) # similar to self.image.fill(COLOR)
+        # for laser in lasers:
+        #     laser.image.fill(LIGHTGRAY)
+        # for laser in lasers_alt:
+        #     laser.image.fill(LIGHTGRAY)
+        # spaceship.image.fill(WHITE)
+        # canvas.screen.fill(GRAY)
+        # timer_text = style.render(str(timer), False, DARKGRAY)
+        # score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
-        timer_header = style_header.render("Time Left", False, DARKGRAY)
-        score_header = style_header.render("Score", False, DARKGRAY)
+        # timer_header = style_header.render("Time Left", False, DARKGRAY)
+        # score_header = style_header.render("Score", False, DARKGRAY)
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     if timer == 0:
