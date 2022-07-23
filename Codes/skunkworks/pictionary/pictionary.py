@@ -3,8 +3,10 @@
 """
 
 import pygame
-import src.canvas as canvas, src.efficiency as efficiency
-import custom.classes as c, custom.functions as f
+import src.canvas as canvas
+import src.efficiency as efficiency
+from custom.classes import Draw
+from custom.functions import fill
 
 pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
 
@@ -35,11 +37,11 @@ while True:
     x_offset = pos[0]-canvas.size[0]/2
     y_offset = pos[1]-canvas.size[1]/2
     if draw == True: # IF mouse/trackpad button pressed
-        mark = c.Draw(WHITE)
+        mark = Draw(WHITE)
         mark.rect.x = canvas.size[0]/2+x_offset
         mark.rect.y = canvas.size[1]/2+y_offset
         drawn.add(mark) # preserves marks from being cleared
-        f.fill(previous_x, previous_y, mark, WHITE, drawn) # fill gaps between marks
+        fill(previous_x, previous_y, mark, WHITE, drawn) # fill gaps between marks
         previous_x = mark.rect.x
         previous_y = mark.rect.y
     else:

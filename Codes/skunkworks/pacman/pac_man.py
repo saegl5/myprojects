@@ -1,5 +1,6 @@
 import pygame, random # import the pygame and random module
 import src.canvas as canvas
+from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
@@ -26,6 +27,7 @@ walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
 red_ghosts = pygame.sprite.Group()
 green_ghosts = pygame.sprite.Group()
+sprites = pygame.sprite.Group() # all sprites
 timer = 30 # set timer for 30 seconds (multiple of modulo for random walks)
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
@@ -63,75 +65,80 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 
-# --- Functions/Classes
-class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish class from a function
-    def __init__(self, x, y, w, h): # define a constructor, class accepts picture, width, height, x-coordinate, and y-coordinate parameters, must type "__" before and after "init," requires "self"
-        super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
-        size = (w, h) # define size of image, local variable
-        self.image = pygame.Surface(size) # creates a blank image using Surface class
-        self.image.fill(BLACK) # useful if run module on macOS
-        # pygame.draw.rect(self.image, COLOR, (0, 0, w, h), width=0) # draw shape on image, draw over entire image with (0, 0, w, h), where (0, 0) is located at image's top-left corner
-        # self.image.blit(sprite_picture, (0, 0))
-        self.image.set_colorkey(BLACK) # windows only and newer python
-        self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
-        # sprite consists of image and rectangle object
-        self.rect.x = x
-        self.rect.y = y
-    # def update(self):
-        # self.rect.y += 32 # increase sprites' rect.y by 32 pixels
-    def turn(self, angle): # calling with sprite, not group
-        if count == 1: # in case there is a quick KEYDOWN and KEYUP event
-            self.image.blit(pacman_picture_alt, (0, 0))
-        if count == 5: # else appears to chomp too long
-            self.image = pygame.transform.rotate(pacman_picture, angle)         
-        if count % 10 == 0:
-            self.image.blit(pacman_picture_alt, (0, 0))
-        if count % 20 == 0:
-            self.image = pygame.transform.rotate(pacman_picture, angle)         
-        self.image.set_colorkey(BLACK)
-    def retry(self):
-        self.rect.x = canvas.size[0]/2+x_offset
-        self.rect.y = canvas.size[1]/2+y_offset
-    def flip(self, Bool):
-        if self in red_ghosts:
-            self.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
-        else:
-            self.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
-        self.image.set_colorkey(BLACK)
-    # def flip(self, sign):
-    #     if sign < 0:
-    #         red_ghost.image.blit(ghost_picture_1_alt, (0, 0))
-    #         green_ghost.image.blit(ghost_picture_2_alt, (0, 0))
-    #     elif sign > 0:
-    #         red_ghost.image.blit(ghost_picture_1, (0, 0))
-    #         green_ghost.image.blit(ghost_picture_2, (0, 0))
+# --- Functions
+def turn(sprite, angle): # calling with sprite, not group
+    if count == 1: # in case there is a quick KEYDOWN and KEYUP event
+        sprite.image.blit(pacman_picture_alt, (0, 0))
+    if count == 5: # else appears to chomp too long
+        sprite.image = pygame.transform.rotate(pacman_picture, angle)         
+    if count % 10 == 0:
+        sprite.image.blit(pacman_picture_alt, (0, 0))
+    if count % 20 == 0:
+        sprite.image = pygame.transform.rotate(pacman_picture, angle)         
+    sprite.image.set_colorkey(BLACK)
+def retry(sprite):
+    sprite.rect.x = canvas.size[0]/2+x_offset
+    sprite.rect.y = canvas.size[1]/2+y_offset
+def flip_y(sprite, Bool):
+    if sprite in red_ghosts:
+        sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
+    else:
+        sprite.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
+    sprite.image.set_colorkey(BLACK)
+# def flip(self, sign):
+#     if sign < 0:
+#         red_ghost.image.blit(ghost_picture_1_alt, (0, 0))
+#         green_ghost.image.blit(ghost_picture_2_alt, (0, 0))
+#     elif sign > 0:
+#         red_ghost.image.blit(ghost_picture_1, (0, 0))
+#         green_ghost.image.blit(ghost_picture_2, (0, 0))
 
 # ---------------------
 # inner walls:
-wall = Rectangle(100, 100, canvas.size[0]-100-100, 10)
+wall = Rectangle(canvas.size[0]-100-100, 10)
+wall.rect.x = 100
+wall.rect.y = 100
 walls.add(wall)
-wall = Rectangle(100, canvas.size[1]-10-100, canvas.size[0]-100-100, 10)
+wall = Rectangle(canvas.size[0]-100-100, 10)
+wall.rect.x = 100
+wall.rect.y = canvas.size[1]-10-100
 walls.add(wall)
-wall = Rectangle(canvas.size[0]/2-10/2, 100+10, 10, canvas.size[1]-100-100-10-10)
+wall = Rectangle(10, canvas.size[1]-100-100-10-10)
+wall.rect.x = canvas.size[0]/2-10/2
+wall.rect.y = 100+10
 walls.add(wall)
 for wall in walls:
     wall.image.fill(LIGHTGRAY)
 
 # outer walls (left, right, top, bottom):
-wall = Rectangle(0-1, 0, 1, canvas.size[1]) # need at least some thickness, moved walls outside display
+wall = Rectangle(1, canvas.size[1]) # need at least some thickness, moved walls outside display
+wall.rect.x = 0-1
+wall.rect.y = 0
+
 walls.add(wall)
-wall = Rectangle(canvas.size[0]-1+1, 0, 1, canvas.size[1])
+wall = Rectangle(1, canvas.size[1])
+wall.rect.x = canvas.size[0]-1+1
+wall.rect.y = 0
+
 walls.add(wall)
-wall = Rectangle(1, 0-1, canvas.size[0]-2, 1)
+wall = Rectangle(canvas.size[0]-2, 1)
+wall.rect.x = 1
+wall.rect.y = 0-1
+
 walls.add(wall)
-wall = Rectangle(1, canvas.size[1]-1+1, canvas.size[0]-2, 1)
+wall = Rectangle(canvas.size[0]-2, 1)
+wall.rect.x = 1
+wall.rect.y = canvas.size[1]-1+1
+
 walls.add(wall)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "pellet" sprites
 while pellet_count-len(pellets) > 0: # create and add fifty "pellet" sprites
-    x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "pellet" sprite, allow it to touch edge but not breach it
-    y = random.randrange(0, canvas.size[1]+1-h/2, h/2) #  want "pellet" sprites equally spaced, also mitigates overlap
-    pellet = Rectangle(x, y, w/2, h/2) # create a "pellet" sprite
+    # x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "pellet" sprite, allow it to touch edge but not breach it
+    # y = random.randrange(0, canvas.size[1]+1-h/2, h/2) #  want "pellet" sprites equally spaced, also mitigates overlap
+    pellet = Rectangle(w/2, h/2) # create a "pellet" sprite
+    pellet.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "pellet" sprite, allow it to touch edge but not breach it
+    pellet.rect.y = random.randrange(0, canvas.size[1]+1-h/2, h/2) #  want "pellet" sprites equally spaced, also mitigates overlap
     pellet.image.blit(pellet_picture, (0, 0))
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in list in same position, essentially preventing "pellet" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
     pellets.add(pellet) # add "pellet" sprite to list, no longer append
@@ -141,15 +148,19 @@ while pellet_count-len(pellets) > 0: # create and add fifty "pellet" sprites
 for i in range(0, retries):
     retry_boxes.append(pacman_picture_retry)
 
-pacman = Rectangle(canvas.size[0]/2+x_offset, canvas.size[1]/2+y_offset, w, h) # creates a "pacman" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+pacman = Rectangle(w, h) # creates a "pacman" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
 # if one wants to position pac-man randomly, then one could use a WHILE loop as done for ghosts
+pacman.rect.x = canvas.size[0]/2+x_offset
+pacman.rect.y = canvas.size[1]/2+y_offset
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
 
 while True: # put first, else when try to get second (green) ghost moving it will move prematurely
-    x = random.randrange(0, canvas.size[0]+1-w)
-    y = random.randrange(0, canvas.size[1]+1-h)
-    ghost = Rectangle(x, y, w, h)
+    # x = random.randrange(0, canvas.size[0]+1-w)
+    # y = random.randrange(0, canvas.size[1]+1-h)
+    ghost = Rectangle(w, h)
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-w)
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-h)
     ghost.image.blit(green_ghost_picture, (0, 0))
     green_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
@@ -160,9 +171,11 @@ while True: # put first, else when try to get second (green) ghost moving it wil
         break
 
 while True:
-    x = random.randrange(0, canvas.size[0]+1-w)
-    y = random.randrange(0, canvas.size[1]+1-h)
-    ghost = Rectangle(x, y, w, h)
+    # x = random.randrange(0, canvas.size[0]+1-w)
+    # y = random.randrange(0, canvas.size[1]+1-h)
+    ghost = Rectangle(w, h)
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-w)
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-h)
     ghost.image.blit(red_ghost_picture, (0, 0))
     red_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
@@ -217,28 +230,28 @@ while True: # keeps display open
                 if action.key == pygame.K_RIGHT: # note "action.key"
                     x_increment = 5 # "5" is optional
                     angle = 0
-                    pacman.turn(angle) # place in IF statement, if using keyboard combination to take screenshots
+                    turn(pacman, angle) # place in IF statement, if using keyboard combination to take screenshots
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
                 elif action.key == pygame.K_UP:
                     y_increment = -5
                     angle = 90
-                    pacman.turn(angle)
+                    turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
                     angle = 180
-                    pacman.turn(angle)
+                    turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
                 elif action.key == pygame.K_DOWN:
                     y_increment = 5 # note "y_increment," and recall that y increases going downward
                     angle = 270
-                    pacman.turn(angle)
+                    turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
@@ -253,7 +266,7 @@ while True: # keeps display open
             x_increment = 0
             y_increment = 0
             count = 0
-            pacman.turn(angle)
+            turn(pacman, angle)
             # if action.key == pygame.K_RIGHT: 
             # pacman.image.blit(pacman_picture, (0, 0))
 
@@ -363,7 +376,7 @@ while True: # keeps display open
             ghost_hit_sound.play()
         if pacman_removed != [] and retries > 0:
             pacmen.add(pacman_removed)
-            pacman.retry()
+            retry(pacman)
             retries -= 1
             wait1 -= 1
             waiting = True
@@ -385,7 +398,7 @@ while True: # keeps display open
             ghost_hit_sound.play()
         if pacman_removed != [] and retries > 0:
             pacmen.add(pacman_removed)
-            pacman.retry()
+            retry(pacman)
             retries -= 1
             wait2 -= 1
             waiting = True
@@ -393,14 +406,14 @@ while True: # keeps display open
             # retry_boxes.pop()    
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0:
-            ghost.flip(True) # tell flip() which ghost it is
-        else:
-            ghost.flip(False)
+            flip_y(ghost, True) # tell flip() which ghost it is
+        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+            flip_y(ghost, False)
     for ghost in green_ghosts:
         if x_increment_green_ghost < 0 or y_increment_green_ghost < 0:
-            ghost.flip(True)
-        else:
-            ghost.flip(False)
+            flip_y(ghost, True)
+        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+            flip_y(ghost, False)
     # --------------
     canvas.clean()
     timer_header = style_header.render("Time Left", False, RED)
@@ -410,39 +423,44 @@ while True: # keeps display open
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(pacmen) == 0:
-        # pacman.image.fill(WHITE)
-        pygame.draw.rect(pacman.image, WHITE, (0, 0, w, h), width=0)
-        for pellet in pellets:
-            pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, w/2, h/2), width=0)
-        for wall in walls:
-            wall.image.fill(DARKGRAY)
-        for ghost in red_ghosts:
-            pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, w, h), width = 0)
-        for ghost in green_ghosts:
-            pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, w, h), width = 0)
-        canvas.screen.fill(GRAY)
-        timer_header = style_header.render("Time Left", False, DARKGRAY)
-        timer_text = style.render(str(timer), False, DARKGRAY)
-        score_header = style_header.render("Score", False, DARKGRAY)
-        score_text = style.render(str(score), False, DARKGRAY)
+        # # pacman.image.fill(WHITE)
+        # pygame.draw.rect(pacman.image, WHITE, (0, 0, w, h), width=0)
+        # for pellet in pellets:
+        #     pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, w/2, h/2), width=0)
+        # for wall in walls:
+        #     wall.image.fill(DARKGRAY)
+        # for ghost in red_ghosts:
+        #     pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, w, h), width = 0)
+        # for ghost in green_ghosts:
+        #     pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, w, h), width = 0)
+        # canvas.screen.fill(GRAY)
+        # timer_header = style_header.render("Time Left", False, DARKGRAY)
+        # timer_text = style.render(str(timer), False, DARKGRAY)
+        # score_header = style_header.render("Score", False, DARKGRAY)
+        # score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
+    # sprites.add(pellets, walls, pacmen, red_ghosts, green_ghosts)
+    if timer > 0 and len(pacmen) > 0 and len(pellets) > 0:
+        sprites.empty()
+        sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen)
     # --- Drawing code
-    walls.draw(canvas.screen) # draw sprites on screen using list
-    pellets.draw(canvas.screen)
+    # walls.draw(canvas.screen) # draw sprites on screen using list
+    # pellets.draw(canvas.screen)
     # canvas.screen.blit(red_ghost.image, (red_ghost.rect.x, red_ghost.rect.y))
     # canvas.screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
-    red_ghosts.draw(canvas.screen) # previous code override what we want
-    green_ghosts.draw(canvas.screen) # previous code override what we want
+    # red_ghosts.draw(canvas.screen) # previous code override what we want
+    # green_ghosts.draw(canvas.screen) # previous code override what we want
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen, so you can see block
+    sprites.draw(canvas.screen)
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (100+i*w/2, 10))
         retry_boxes[i].set_colorkey(BLACK) # not passed through class definition
-        if timer == 0:
-            pygame.draw.rect(retry_boxes[i], WHITE, [0, 0, w/2, h/2], 0)
+        # if timer == 0:
+        #     pygame.draw.rect(retry_boxes[i], WHITE, [0, 0, w/2, h/2], 0)
     canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10))
     canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30)) # near top-right corner
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))

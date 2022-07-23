@@ -1,5 +1,6 @@
 import pygame, random # import the pygame and random module
 import src.canvas as canvas
+from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
@@ -26,7 +27,7 @@ barriers = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
 spaceships = pygame.sprite.Group()
-
+sprites = pygame.sprite.Group() # all sprites
 timer = 30 # set timer for 30 seconds (multiple of modulo for invaders.update())
 score = 0 # initialize score
 style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
@@ -62,56 +63,39 @@ pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 
-# --- Functions/Classes
+# --- Functions
 # # def draw_rect(display, COLOR, x, y, W, H, width):
 # #     pygame.draw.rect(display, COLOR, (x, y, W, H), width)
 # def draw_rect(display, x, y, W, H):
 #     # Draw a rectangle
 #     pygame.draw.rect(display, WHITE, (x, y, W, H), width=0)
-class Rectangle(pygame.sprite.Sprite): # make Rectangle class of same class as sprites, use sentence case to distinguish class from a function
-    # def __init__(self, COLOR, w, h): # define a constructor, class accepts COLOR, width, and height parameters, must type "__" before and after "init," requires "self"
-    def __init__(self, x, y, w, h): # define a constructor, class accepts width, height, x-coordinate, and y-coordinate parameters, must type "__" before and after "init," requires "self"
-        super().__init__() # initialize your sprites by calling the constructor of the parent (sprite) class
-        size = (w, h) # define size of image, local variable
-        self.image = pygame.Surface(size) # creates a blank image using Surface class
-        self.image.fill(BLACK) # useful if run module on macOS
-        # pygame.draw.rect(self.image, COLOR, (0, 0, w, h), width=0) # draw shape on image, draw over entire image with (0, 0, w, h), where (0, 0) is located at image's top-left corner
-        # self.image.blit(sprite_picture, (0, 0))
-        self.image.set_colorkey(BLACK) # windows only and newer python
-        self.rect = self.image.get_rect() # pair image with rectangle object, where (rect.x, rect.y) is located at rectangle object's top-left corner
-        # sprite consists of image and rectangle object
-        self.rect.x = x
-        self.rect.y = y
-    def update(self, px): # you cannot simply name another function/method
-        self.rect.y += px # increase sprites' rect.y by px pixels
-        #### if self.rect.y > size[1]: # IF block has left the canvas, then reset block above canvas (assumes player block has not collided with it)
-            #### self.reset_position()
-    #### def reset_position(self):
-        ##### self.rect.y = random.randrange(-50, -20) # -50 is optional
-        ##### self.rect.x = random.randrange(0, size[0]-20)
-    def lunge(self): # calling with sprite, not group
-        if count % 2 == 0: # could also have used timer, using count because did same in pac-man
-            self.image.blit(invader_picture_alt, (0, 0))
-        else:
-            self.image.blit(invader_picture, (0, 0))
-    def retry(self):
-        self.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of display
-        self.rect.y = canvas.size[1]-h
-    def return_fire(self, index):
-        # index = 0 # example, more randomized with random.randrange(0, len(invaders))
-        self.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
-        self.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
-        # self.image = pygame.Surface((10, 20)) # can't do, if want interactions
-        self.image.fill(RED)
-        lasers_alt.add(self)
-        invader_laser_sound.play()
+def lunge(sprite): # calling with sprite, not group
+    if count % 2 == 0: # could also have used timer, using count because did same in pac-man
+        sprite.image.blit(invader_picture_alt, (0, 0))
+    else:
+        sprite.image.blit(invader_picture, (0, 0))
+def retry(sprite):
+    sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of display
+    sprite.rect.y = canvas.size[1]-h
+def return_fire(sprite, index):
+    # index = 0 # example, more randomized with random.randrange(0, len(invaders))
+    sprite.rect.centerx = invaders.sprites()[index].rect.centerx # align its horizontal center with "invader" sprite's horizontal center
+    sprite.rect.top = invaders.sprites()[index].rect.bottom # align its bottom with "invader" sprite's bottom
+    # self.image = pygame.Surface((10, 20)) # can't do, if want interactions
+    sprite.image.fill(RED)
+    lasers_alt.add(sprite)
+    invader_laser_sound.play()
 # ---------------------
 
 # outer walls (only left and right):
-wall = Rectangle(0-1, 0, 1, canvas.size[1]) # need at least some thickness, moved walls outside display
+wall = Rectangle(1, canvas.size[1]) # need at least some thickness, moved walls outside display
+wall.rect.x = 0-1
+wall.rect.y = 0
 # wall.image.fill(pygame.Color(1, 1, 1)) # windows
 walls.add(wall)
-wall = Rectangle(canvas.size[0]-1+1, 0, 1, canvas.size[1])
+wall = Rectangle(1, canvas.size[1])
+wall.rect.x = canvas.size[0]-1+1
+wall.rect.y = 0
 # wall.image.fill(pygame.Color(1, 1, 1)) # windows
 walls.add(wall)
 # no inner walls
@@ -119,21 +103,27 @@ walls.add(wall)
 # barriers (left and right)
 for i in range(0, p):
     # barrier = Rectangle(50, 400, 250, 25)
-    barrier = Rectangle(50+i*250/p, 400, 250/p, 25)
+    barrier = Rectangle(250/p, 25)
+    barrier.rect.x = 50+i*250/p
+    barrier.rect.y = 400
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
 for i in range(0, p):
     # barrier = Rectangle(canvas.size[0]-250-50, 400, 250, 25)
-    barrier = Rectangle(canvas.size[0]-250-50+i*250/p, 400, 250/p, 25)
+    barrier = Rectangle(250/p, 25)
+    barrier.rect.x = canvas.size[0]-250-50+i*250/p
+    barrier.rect.y = 400
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
-x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite
-y = canvas.size[1]-h
+# x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite
+# y = canvas.size[1]-h
 # spaceship = Rectangle(WHITE, 64, 64) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
-spaceship = Rectangle(x, y, w, h) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+spaceship = Rectangle(w, h) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
+# spaceship.rect.x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite
 spaceship.rect.centerx = canvas.screen.get_rect().centerx # overwrites x above
+spaceship.rect.y = canvas.size[1]-h
 # ALIGN WITH PAC-MAN!!!
 # if one wants to position spaceship randomly, then one could use a WHILE loop as done for pac-man ghosts
 spaceship.image.blit(spaceship_picture, (0, 0))
@@ -144,10 +134,12 @@ for i in range(0, retries):
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
 while invader_count-len(invaders) > 0: # create and add fifty "invader" sprites
-    x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "invader" sprite, allow it to touch edge but not breach it
-    y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # want lots of invaders, but if we use a larger step_size, many invaders may overlap, "-100" leaves space at bottom of canvas, "-96" leaves more space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
+    # x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "invader" sprite, allow it to touch edge but not breach it
+    # y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # want lots of invaders, but if we use a larger step_size, many invaders may overlap, "-100" leaves space at bottom of canvas, "-96" leaves more space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
     # invader = Rectangle(YELLOW, 32, 32) # create a "invader" sprite
-    invader = Rectangle(x, y, w/2, h/2) # create a "invader" sprite
+    invader = Rectangle(w/2, h/2) # create a "invader" sprite
+    invader.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "invader" sprite, allow it to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # want lots of invaders, but if we use a larger step_size, many invaders may overlap, "-100" leaves space at bottom of canvas, "-96" leaves more space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
     invader.image.blit(invader_picture, (0, 0))
     pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position, essentially preventing "invader" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
     invaders.add(invader) # add "invader" sprite to list, no longer append
@@ -171,19 +163,23 @@ while True: # keeps display open
                 if timer % 5 == 0: # every 5 seconds, divides into timer evenly
                     invaders.update(32) # move "invader" sprites downward
                 for invader in invaders:
-                    invader.lunge()
+                    # invader.lunge() 
+                    lunge(invader)   
                 count += 1
                 if timer % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 6, 40) # create "laser" sprite
-                    laser.return_fire(0)
+                    laser = Rectangle(6, 40) # create "laser" sprite
+                    # laser.return_fire(0)
+                    return_fire(laser, 0)
                     # wait2 = 60*5*len(lasers_alt)
                 if timer % 7 == 0 and len(invaders) > 1: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 6, 40) # create "laser" sprite
-                    laser.return_fire(1)
+                    laser = Rectangle(6, 40) # create "laser" sprite
+                    # laser.return_fire(1)
+                    return_fire(laser, 1)
                     # wait2 = 60*5*len(lasers_alt)
                 if timer % 11 == 0 and len(invaders) > 2: # some number not multiple of 5
-                    laser = Rectangle(int(), int(), 6, 40) # create "laser" sprite
-                    laser.return_fire(2)
+                    laser = Rectangle(6, 40) # create "laser" sprite
+                    # laser.return_fire(2)
+                    return_fire(laser, 2)
                     # wait2 = 60*5*len(lasers_alt)
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
@@ -198,7 +194,7 @@ while True: # keeps display open
                 #     y_increment = -5
                 elif action.key == pygame.K_SPACE: # fire laser
                     # laser = Rectangle(CYAN, 5, 20) # create "laser" sprite 
-                    laser = Rectangle(int(), int(), 10, 20) # create "laser" sprite
+                    laser = Rectangle(10, 20) # create "laser" sprite
                     laser.image.fill(CYAN)
                     laser.rect.centerx = spaceship.rect.centerx # align it with "spaceship" sprite's horizontal center
                     laser.rect.bottom = spaceship.rect.top + 10 # align its bottom with "spaceship" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn spaceship after lasers)
@@ -278,7 +274,8 @@ while True: # keeps display open
             spaceship_explosion_sound.play()
         if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
-            spaceship.retry()
+            # spaceship.retry()
+            retry(spaceship)
             retries -= 1
             wait1 -= 1
             waiting = True
@@ -302,7 +299,8 @@ while True: # keeps display open
             spaceship_explosion_sound.play()
         if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # repositioning the spaceship
-            spaceship.retry()
+            # spaceship.retry()
+            retry(spaceship)
             lasers_alt.remove(laser)
             retries -= 1
             # wait2 = 60*5*len(lasers_alt)
@@ -345,39 +343,43 @@ while True: # keeps display open
     game_over_text = style.render(None, False, pygame.Color("black"))
     you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(spaceships) == 0:
-        # spaceship.image.fill(WHITE)
-        pygame.draw.rect(spaceship.image, WHITE, (0, 0, w, h), width=0)
-        for invader in invaders:
-            pygame.draw.rect(invader.image, DARKGRAY, (0, 0, w/2, h/2), width=0)
-        for laser in lasers:
-            laser.image.fill(LIGHTGRAY)
-        for laser in lasers_alt:
-            laser.image.fill(DARKGRAY)
-        canvas.screen.fill(GRAY)
-        timer_header = style_header.render("Time Left", False, DARKGRAY)
-        timer_text = style.render(str(timer), False, DARKGRAY)
-        score_header = style_header.render("Score", False, DARKGRAY)
-        score_text = style.render(str(score), False, DARKGRAY)
+        # # spaceship.image.fill(WHITE)
+        # pygame.draw.rect(spaceship.image, WHITE, (0, 0, w, h), width=0)
+        # for invader in invaders:
+        #     pygame.draw.rect(invader.image, DARKGRAY, (0, 0, w/2, h/2), width=0)
+        # for laser in lasers:
+        #     laser.image.fill(LIGHTGRAY)
+        # for laser in lasers_alt:
+        #     laser.image.fill(DARKGRAY)
+        # canvas.screen.fill(GRAY)
+        # timer_header = style_header.render("Time Left", False, DARKGRAY)
+        # timer_text = style.render(str(timer), False, DARKGRAY)
+        # score_header = style_header.render("Score", False, DARKGRAY)
+        # score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, pygame.Color("black"))
     if len(invaders) == 0:
-        you_win_text = style.render("WINNER!", False, GREEN)
+        you_win_text = style.render("WINNER!", False, GREEN)        
+    # sprites.add(invaders, walls, barriers, lasers, lasers_alt, spaceships)
+    sprites.empty()
+    sprites.add(walls, barriers, invaders, lasers_alt, spaceships, lasers)
     # --- Drawing code
     # pygame.draw.rect(canvas.screen, WHITE, (canvas.size[0]/2, canvas.size[1]/2, 64, 64), width=0)
     # draw_rect(canvas.screen, canvas.size[0]/2, canvas.size[1]/2, 64, 64) # call function and input parameters
     # draw_rect(canvas.screen, canvas.size[0]/2+x_offset, canvas.size[1]/2+y_offset, 64, 64) # call function, input parameters, and rely on keyboard
-    walls.draw(canvas.screen) # draw sprites on screen using group
-    barriers.draw(canvas.screen)
-    invaders.draw(canvas.screen)
-    lasers_alt.draw(canvas.screen)
+    # walls.draw(canvas.screen) # draw sprites on screen using group
+    # barriers.draw(canvas.screen)
+    # invaders.draw(canvas.screen)
+    # lasers_alt.draw(canvas.screen)
     canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen, so you can see block
-    lasers.draw(canvas.screen)
+    # lasers.draw(canvas.screen)
+    sprites.draw(canvas.screen)
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (100+i*w/2, 10))
         retry_boxes[i].set_colorkey(BLACK)
-        if timer == 0:
-            pygame.draw.rect(retry_boxes[i], WHITE, [0, 0, w/2, h/2], 0)
+        # if timer == 0:
+        #     pygame.draw.rect(retry_boxes[i], WHITE, [0, 0, w/2, h/2], 0)
     canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10))
     canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30)) # near top-right corner
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))

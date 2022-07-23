@@ -1,5 +1,5 @@
 """
-Construct Sprites
+Constructs Sprites
 """
 
 import pygame

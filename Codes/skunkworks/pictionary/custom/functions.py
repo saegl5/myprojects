@@ -1,4 +1,4 @@
-import custom.classes as classes
+from custom.classes import Draw
 
 def fill(previous_x, previous_y, sprite, COLOR, drawn):
     if previous_x != None: # or previous_y != None
@@ -9,7 +9,7 @@ def fill(previous_x, previous_y, sprite, COLOR, drawn):
             dx = diff_x / steps
             dy = diff_y / steps
             for i in range(int(steps)):
-                mark = classes.Draw(COLOR)
+                mark = Draw(COLOR)
                 previous_x += dx
                 previous_y += dy
                 mark.rect.x = previous_x

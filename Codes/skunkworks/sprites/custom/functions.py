@@ -18,27 +18,27 @@ Construct Walls
 
 import pygame
 import src.canvas as canvas  # works, if run from main module
-import custom.classes as c
+from custom.classes import Rectangle
 
 def walls():
     sprites = pygame.sprite.Group()
 
-    left_wall = c.Rectangle(1, canvas.size[1])
+    left_wall = Rectangle(1, canvas.size[1])
     left_wall.rect.x = -1 # hide
     left_wall.rect.y = 0
     sprites.add(left_wall)
 
-    right_wall = c.Rectangle(1, canvas.size[1])
+    right_wall = Rectangle(1, canvas.size[1])
     right_wall.rect.x = canvas.size[0]
     right_wall.rect.y = 0
     sprites.add(right_wall)
 
-    top_wall = c.Rectangle(canvas.size[0], 1) # overlap okay
+    top_wall = Rectangle(canvas.size[0], 1) # overlap okay
     top_wall.rect.x = 0
     top_wall.rect.y = -1 # hide
     sprites.add(top_wall)
 
-    bottom_wall = c.Rectangle(canvas.size[0], 1)
+    bottom_wall = Rectangle(canvas.size[0], 1)
     bottom_wall.rect.x = 0
     bottom_wall.rect.y = canvas.size[1]
     sprites.add(bottom_wall)

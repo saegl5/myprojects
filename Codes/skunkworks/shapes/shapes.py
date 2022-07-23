@@ -1,4 +1,5 @@
-import pygame, src.canvas as canvas # import the pygame module
+import pygame
+import src.canvas as canvas # import the pygame module
 from math import pi, cos, sin # for drawing arcs and rotating lines
 
 pygame.init() # initialize any submodules that require it
