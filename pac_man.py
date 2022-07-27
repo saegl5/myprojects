@@ -377,8 +377,6 @@ while True:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, BLACK)
-    if timer == 0:
-        pygame.draw.rect(pacman_picture_retries, WHITE, (0, 0, W_pacman/2, H_pacman/2), width=0)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
     # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen

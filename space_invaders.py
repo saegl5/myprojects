@@ -292,8 +292,6 @@ while True:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
-    if timer == 0:
-        pygame.draw.rect(spaceship_picture_retries, WHITE, (0, 0, W_spaceship/2, H_spaceship/2), width=0)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
     # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
