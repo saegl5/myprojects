@@ -210,6 +210,7 @@ while True:
                         y_increment_red_ghost = random.choice([-1, 1])
                     else: # when x_increment_ghost = -1 or 1
                         y_increment_red_ghost = 0
+                    red_ghosts.update(50)
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
