@@ -1,5 +1,4 @@
-import pygame
-# import sys
+import pygame#, sys
 import src.canvas as canvas # works, if run from main module
 
 pygame.init()
