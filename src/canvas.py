@@ -1,4 +1,4 @@
-# import in base.py
+# import in main module
 
 """
 Manages Screen
