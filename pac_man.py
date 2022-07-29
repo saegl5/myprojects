@@ -108,7 +108,7 @@ wall.rect.x = canvas.size[0]/2-10/2
 wall.rect.y = 100+10
 walls.add(wall)
 for wall in walls:
-    wall.image.fill(LIGHTGRAY)
+    wall.image.fill(WHITE)
 
 # outer walls (left, right, top, bottom):
 wall = Rectangle(1, canvas.size[1]) # need at least some thickness, moved walls outside display
