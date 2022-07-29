@@ -370,9 +370,9 @@ while True: # keeps display open
     # barriers.draw(canvas.screen)
     # invaders.draw(canvas.screen)
     # lasers_alt.draw(canvas.screen)
-    canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen, so you can see block
     # lasers.draw(canvas.screen)
     sprites.draw(canvas.screen)
+    canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen, so you can see block
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):

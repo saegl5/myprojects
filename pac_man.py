@@ -452,8 +452,8 @@ while True: # keeps display open
     # canvas.screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
     # red_ghosts.draw(canvas.screen) # previous code override what we want
     # green_ghosts.draw(canvas.screen) # previous code override what we want
-    canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen, so you can see block
     sprites.draw(canvas.screen)
+    canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen, so you can see block
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     for i in range(0, retries):
