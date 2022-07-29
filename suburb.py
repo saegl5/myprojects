@@ -7,9 +7,6 @@ import src.canvas as canvas
 from custom.heart import heart
 from math import pi, cos, sin
 
-pygame.init()
- 
-BLUE = pygame.Color("blue")
 GREEN = pygame.Color("green")
 GRAY = pygame.Color("gray")
 YELLOW = pygame.Color("yellow")
@@ -18,15 +15,13 @@ DARKGRAY = pygame.Color("darkgray")
 BLACK = pygame.Color("black")
 RED = pygame.Color("red")
  
-clock = pygame.time.Clock()
-
 pygame.display.set_caption("QUESTABOX's Suburb Drawing")
 
 while True:
     for action in pygame.event.get():
         if action.type == pygame.QUIT:
             canvas.close()
-    canvas.screen.fill(BLUE)
+    canvas.clean()
     pygame.draw.rect(canvas.screen, GRAY, (200, 300, 100, 100), width=0) # building
     pygame.draw.rect(canvas.screen, GREEN, (0, 400, 704, 112), width=0) # grass
     pygame.draw.circle(canvas.screen, YELLOW, (100, 100), radius=50, width=0) # sun
@@ -61,5 +56,4 @@ while True:
     canvas.screen.blit(text, (475, 125))
     heart(500, 300) # balloon
     pygame.draw.arc(canvas.screen, RED, (499, 298, 25, 50), 180*pi/180, 275*pi/180, width=2) # balloon string
-    pygame.display.flip()
-    clock.tick(60)
+    canvas.show()
