@@ -5,12 +5,8 @@ Billiards Animation
 import pygame # import the pygame module
 import src.canvas as canvas
 
-pygame.init() # initialize any submodules that require it
-
-# BLUE = pygame.Color("blue") # example, redundant
 # WHITE = pygame.Color("white") # example, redundant
 
-clock = pygame.time.Clock() # define "clock"
 ball_picture = pygame.image.load('images/ball_blue_large.png') # foreground picture from https://kenney.nl/assets/rolling-ball-assets, see License.txt; the ball is a circle, but the picture of it is a rectangle
 background_picture = pygame.image.load('images/background_green.png') # background picture from https://kenney.nl/assets/rolling-ball-assets, see License.txt
 # offset = 0 # initialize offset earlier
@@ -28,7 +24,7 @@ while True: # keeps display open
             canvas.close()
     # --- Game logic
     # --------------
-    # canvas.screen.fill(BLUE) # clear the display, redundant
+    canvas.clean() # redundant
     # --- Drawing code
     for i in range(0, canvas.size[0], 64): # 64 pixels is step size, based on width of background picture
         for j in range(0, canvas.size[1], 64): # again, 64 pixels is step size, but this one is based on height of background picture
@@ -73,6 +69,4 @@ while True: # keeps display open
     # if 0+x_offset + 64 >= size[0] or 0+x_offset <= 0: # if rectangle at right or left edge
         # x_decrement *= -1 # x_increment = x_increment*-1, that is change the increment's sign, changed to decrement
     # ----------------
-    pygame.display.flip() # update the display
-    clock.tick(60) # maximum 60 frames per second
-    # clock.tick(10) # so can see rectangle moving, was 10, then 30, then 1
+    canvas.show()
