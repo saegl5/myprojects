@@ -1,3 +1,7 @@
+"""
+"Pac-Man" Game
+"""
+
 import pygame, random
 import src.canvas as canvas
 from custom.classes import Rectangle

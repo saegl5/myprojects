@@ -1,3 +1,7 @@
+"""
+Suburb Drawing
+"""
+
 import pygame, sys
 from custom.heart import heart
 from math import pi, cos, sin

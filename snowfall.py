@@ -1,3 +1,7 @@
+"""
+Snowfall Animation
+"""
+
 import pygame, sys, random # import modules
 
 pygame.init() # initialize any submodules that require it
