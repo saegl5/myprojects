@@ -1,3 +1,7 @@
+"""
+"Space Invaders" Game
+"""
+
 import pygame, random # import the pygame and random module
 import src.canvas as canvas
 from custom.classes import Rectangle

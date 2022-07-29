@@ -1,3 +1,7 @@
+"""
+Suburb Drawing
+"""
+
 import pygame
 import src.canvas as canvas
 from custom.heart import heart

@@ -1,3 +1,7 @@
+"""
+Snowfall Animation
+"""
+
 import pygame, random # import modules
 import src.canvas as canvas
 

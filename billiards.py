@@ -1,3 +1,7 @@
+"""
+Billiards Animation
+"""
+
 import pygame # import the pygame module
 import src.canvas as canvas
 
