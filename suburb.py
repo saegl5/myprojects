@@ -4,6 +4,7 @@ Suburb Drawing
 
 import pygame
 import src.canvas as canvas
+import src.efficiency as efficiency
 from custom.heart import heart
 from math import pi, cos, sin
 
@@ -21,6 +22,7 @@ while True:
     for action in pygame.event.get():
         if action.type == pygame.QUIT:
             canvas.close()
+        efficiency.snapshot(action)
     canvas.clean()
     pygame.draw.rect(canvas.screen, GRAY, (200, 300, 100, 100), width=0) # building
     pygame.draw.rect(canvas.screen, GREEN, (0, 400, 704, 112), width=0) # grass
@@ -57,3 +59,4 @@ while True:
     heart(500, 300) # balloon
     pygame.draw.arc(canvas.screen, RED, (499, 298, 25, 50), 180*pi/180, 275*pi/180, width=2) # balloon string
     canvas.show()
+    efficiency.activate()

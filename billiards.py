@@ -4,6 +4,7 @@ Billiards Animation
 
 import pygame # import the pygame module
 import src.canvas as canvas
+import src.efficiency as efficiency
 
 # WHITE = pygame.Color("white") # example, redundant
 
@@ -22,6 +23,7 @@ while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
+        efficiency.snapshot(action)
     # --- Game logic
     # --------------
     canvas.clean() # redundant
@@ -70,3 +72,4 @@ while True: # keeps display open
         # x_decrement *= -1 # x_increment = x_increment*-1, that is change the increment's sign, changed to decrement
     # ----------------
     canvas.show()
+    efficiency.activate()

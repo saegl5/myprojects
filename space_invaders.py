@@ -4,6 +4,7 @@
 
 import pygame, random # import the pygame and random module
 import src.canvas as canvas
+import src.efficiency as efficiency
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
@@ -40,7 +41,6 @@ style_header.set_italic(True)
 count = 0 # for lunging picture
 retries = 2
 retry_boxes = []
-ticks = int() # for saving energy
 game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 spaceship_laser_sound = pygame.mixer.Sound('sounds/laserLarge.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
@@ -65,7 +65,7 @@ waiting = False # if spaceship hit by either
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
 
 # --- Functions
 # # def draw_rect(display, COLOR, x, y, W, H, width):
@@ -155,6 +155,7 @@ while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
+
         elif action.type == pygame.USEREVENT:
             if timer == 0 or len(spaceships) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "invader" sprites stop moving too
@@ -210,12 +211,13 @@ while True: # keeps display open
                 x_increment = 0
                 # y_increment = 0
         elif action.type == pygame.KEYUP:
-            ticks = pygame.time.get_ticks()
             if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
                 x_increment = 0
             if action.key == pygame.K_SPACE: # was elif
                 first = True
             # y_increment = 0
+
+        efficiency.snapshot(action)
         # -------------------------
     # --- Game logic
     # x_offset += x_increment
@@ -391,6 +393,5 @@ while True: # keeps display open
     # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
-    canvas.show()   
-    if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for more than 10 seconds
-        canvas.clock.tick(1) # in which case minimize the frame rate
+    canvas.show()
+    efficiency.activate()

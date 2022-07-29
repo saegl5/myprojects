@@ -4,6 +4,7 @@
 
 import pygame, random # import the pygame and random module
 import src.canvas as canvas
+import src.efficiency as efficiency
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
@@ -38,7 +39,6 @@ style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, fon
 style_header = pygame.font.Font(None, 30)
 style_header.set_italic(True)
 count = 0 # for chomp picture
-ticks = int() # for saving energy
 # angle = 0 # redundant
 game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
 you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
@@ -67,7 +67,7 @@ waiting = False # if pacman hit by either
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
 
 # --- Functions
 def turn(sprite, angle): # calling with sprite, not group
@@ -193,6 +193,7 @@ while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
         if action.type == pygame.QUIT:
             canvas.close()
+
         elif action.type == pygame.USEREVENT:
             if timer == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer
@@ -266,7 +267,6 @@ while True: # keeps display open
                 x_increment = 0
                 y_increment = 0
         elif action.type == pygame.KEYUP:
-            ticks = pygame.time.get_ticks()
             x_increment = 0
             y_increment = 0
             count = 0
@@ -274,6 +274,7 @@ while True: # keeps display open
             # if action.key == pygame.K_RIGHT: 
             # pacman.image.blit(pacman_picture, (0, 0))
 
+        efficiency.snapshot(action)
         # -------------------------
     # --- Game logic
     # x_offset += x_increment
@@ -473,9 +474,4 @@ while True: # keeps display open
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
     canvas.show()
-    if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for more than 10 seconds
-        # pygame.time.set_timer(pygame.USEREVENT, 0)
-        canvas.clock.tick(1) # in which case minimize the frame rate
-    # if pygame.time.set_timer(pygame.USEREVENT, 0) == True:
-        # print("true") # and pygame.time.get_ticks() - ticks <= 10000:
-        # pygame.time.set_timer(pygame.USEREVENT, 1000)
+    efficiency.activate()

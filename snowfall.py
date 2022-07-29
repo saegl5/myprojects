@@ -4,6 +4,7 @@ Snowfall Animation
 
 import pygame, random # import modules
 import src.canvas as canvas
+import src.efficiency as efficiency
 
 WHITE = pygame.Color("white") # example
 
@@ -26,6 +27,7 @@ while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
+        efficiency.snapshot(action)
     # --- Game logic
     # --------------
     # canvas.screen.fill(BLUE) # clear the display, redundant
@@ -46,3 +48,4 @@ while True: # keeps display open
             snowflakes[i][0] = random.randrange(0, canvas.size[0]+1)
     # ----------------
     canvas.show()
+    efficiency.activate()
