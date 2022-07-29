@@ -1,13 +1,13 @@
-import pygame, sys
+"""
+"Pictionary" Game
+"""
 
-pygame.init()
+import pygame
+import src.canvas as canvas
 
 BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
 
-size = (704, 512)
-screen = pygame.display.set_mode(size)
-clock = pygame.time.Clock()
 draw = False # start as "False," so won't draw unless press mouse/trackpad button and move
 previous_x = None
 previous_y = None
@@ -49,21 +49,21 @@ def fill(sprite):
 while True:
     for action in pygame.event.get():
         if action.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            canvas.close()
+
         elif action.type == pygame.MOUSEBUTTONDOWN:
             draw = True
         elif action.type == pygame.MOUSEBUTTONUP:
             draw = False
             ticks = pygame.time.get_ticks()
+
     pos = pygame.mouse.get_pos()
-    x_offset = pos[0]-size[0]/2
-    y_offset = pos[1]-size[1]/2
-    screen.fill(BLUE)
+    x_offset = pos[0]-canvas.size[0]/2
+    y_offset = pos[1]-canvas.size[1]/2
     if draw == True: # IF mouse/trackpad button pressed
         mark = Draw()
-        mark.rect.x = size[0]/2+x_offset
-        mark.rect.y = size[1]/2+y_offset
+        mark.rect.x = canvas.size[0]/2+x_offset
+        mark.rect.y = canvas.size[1]/2+y_offset
         drawn.add(mark) # preserves marks from being cleared
         fill(mark) # fill gaps between marks
         previous_x = mark.rect.x
@@ -71,9 +71,12 @@ while True:
     else:
         previous_x = None
         previous_y = None
-    drawn.draw(screen)
-    screen.blit(cursor_picture, (pos[0]-11, pos[1])) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
-    pygame.display.flip()
-    clock.tick(60)
+
+    canvas.clean()
+
+    drawn.draw(canvas.screen)
+    canvas.screen.blit(cursor_picture, (pos[0]-11, pos[1])) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
+    
+    canvas.show()
     if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for 10 seconds
-        clock.tick(1) # in which case minimize the frame rate
+        canvas.clock.tick(1) # in which case minimize the frame rate
