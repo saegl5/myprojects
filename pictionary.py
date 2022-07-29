@@ -8,17 +8,17 @@ import src.efficiency as efficiency
 from custom.classes import Draw
 from custom.functions import fill
 
-pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
-
+BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
 
 draw = False # start as "False," so won't draw unless press mouse/trackpad button and move
 previous_x = None
 previous_y = None
 drawn = pygame.sprite.Group()
-cursor_picture = pygame.image.load('images/chalk.png').convert()
-cursor_picture.set_colorkey(canvas.BLUE)
+pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
 
+cursor_picture = pygame.image.load('images/chalk.png').convert()
+cursor_picture.set_colorkey(BLUE)
 pygame.mouse.set_visible(False)  # hide the system cursor, will replace it with picture of chalk later
 
 while True:
