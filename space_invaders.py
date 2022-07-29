@@ -195,7 +195,7 @@ while True: # keeps display open
                 elif action.key == pygame.K_SPACE: # fire laser
                     # laser = Rectangle(CYAN, 5, 20) # create "laser" sprite 
                     laser = Rectangle(10, 20) # create "laser" sprite
-                    laser.image.fill(CYAN)
+                    laser.image.fill(YELLOW)
                     laser.rect.centerx = spaceship.rect.centerx # align it with "spaceship" sprite's horizontal center
                     laser.rect.bottom = spaceship.rect.top + 10 # align its bottom with "spaceship" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn spaceship after lasers)
                     if first == True:
