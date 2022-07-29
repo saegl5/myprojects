@@ -61,7 +61,7 @@ wait1 = 60*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 wait2 = wait1 # if pacman hit by green ghost
 waiting = False # if pacman hit by either
 
-pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
+pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 

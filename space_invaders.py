@@ -59,7 +59,7 @@ wait1 = 60*2 # if spaceship hit by invader, 60 fps x 2 seconds
 wait2 = wait1 # if spaceship hit by return fire
 waiting = False # if spaceship hit by either
 
-pygame.display.set_caption("QUESTABOX's Cool Game") # title, example
+pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game") # title, example
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 
