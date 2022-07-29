@@ -106,7 +106,8 @@ wall.rect.y = 100+10
 walls.add(wall)
 
 for wall in walls:
-    wall.image.fill(pygame.Color(1, 1, 1))
+    # wall.image.fill(pygame.Color(1, 1, 1))
+    wall.image.fill(LIGHTGRAY)
 
 # outer walls
 
