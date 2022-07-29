@@ -107,7 +107,7 @@ walls.add(wall)
 
 for wall in walls:
     # wall.image.fill(pygame.Color(1, 1, 1))
-    wall.image.fill(LIGHTGRAY)
+    wall.image.fill(WHITE)
 
 # outer walls
 
