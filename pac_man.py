@@ -447,9 +447,9 @@ while True: # keeps display open
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     # sprites.add(pellets, walls, pacmen, red_ghosts, green_ghosts)
-    if timer > 0 and len(pacmen) > 0 and len(pellets) > 0:
-        sprites.empty()
-        sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen)
+    # if timer > 0 and len(pacmen) > 0 and len(pellets) > 0:
+    sprites.empty()
+    sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen)
     # --- Drawing code
     # walls.draw(canvas.screen) # draw sprites on screen using list
     # pellets.draw(canvas.screen)
