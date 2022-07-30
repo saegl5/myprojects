@@ -2,7 +2,7 @@
 Billiards Animation
 """
 
-import pygame # import the pygame module
+import pygame
 import src.canvas as canvas
 
 # WHITE = pygame.Color("white") # example, redundant

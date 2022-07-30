@@ -7,59 +7,56 @@ import src.canvas as canvas
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
+BLACK = pygame.Color("black") # useful if run module on macOS
 YELLOW = pygame.Color("yellow")
-BLACK = pygame.Color("black")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 LIGHTGRAY = pygame.Color("light gray")
 GRAY = pygame.Color("gray")
 DARKGRAY = pygame.Color("dark gray")
 
-x_offset = 0
+x_offset = 50 # don't start on wall
 y_offset = 0
 x_increment = 0
 y_increment = 0
-x_increment_red_ghost = 1 # ghost moving rightward at launch
+x_increment_red_ghost = 1 # moving rightward at launch
 y_increment_red_ghost = 0
 x_increment_green_ghost = 0
 y_increment_green_ghost = 1
-pellets = pygame.sprite.Group() # not pellets = [] <-- multiple sprites
-collisions = pygame.sprite.Group()
-walls = pygame.sprite.Group()
-pacmen = pygame.sprite.Group()
-red_ghosts = pygame.sprite.Group()
-green_ghosts = pygame.sprite.Group()
-sprites = pygame.sprite.Group() # all sprites
-timer = 30 # 30 seconds
-score = 0
-style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
-style_header = pygame.font.Font(None, 30)
-# style_header.set_bold(True)
-style_header.set_italic(True)
-# style_header.set_underline(True)
-game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg')
-you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
-pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg')
-ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg')
-pacman_picture = pygame.image.load('images/pac.png').convert()
-pellet_picture = pygame.image.load('images/dot.png').convert() # need to scale down
-red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
-green_ghost_picture = pygame.image.load('images/green_ghost.png').convert()
-# pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
-#pellet_picture.set_colorkey(BLACK)
 W_pacman = 64 # these variables are for images
 H_pacman = 64
 W_pellet = 32
 H_pellet = 32
 W_ghost = 64
 H_ghost = 64
-pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
+pellets = pygame.sprite.Group() # not pellets = []
+collisions = pygame.sprite.Group()
+walls = pygame.sprite.Group()
+pacmen = pygame.sprite.Group()
+red_ghosts = pygame.sprite.Group()
+green_ghosts = pygame.sprite.Group()
+sprites = pygame.sprite.Group() # all sprites
+style = pygame.font.Font(None, 100) # faster than SysFont(), "None" utilizes default font (i.e., freesansbold.ttf)
+style_header = pygame.font.Font(None, 30)
+style_header.set_italic(True)
+game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg')
+you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
+pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg')
+ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg')
+pacman_picture = pygame.image.load('images/pac.png').convert()
 pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert()
-count = 0
+pellet_picture = pygame.image.load('images/dot.png').convert()
+pellet_picture = pygame.transform.scale(pellet_picture, (W_pellet, H_pellet))
+red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
+green_ghost_picture = pygame.image.load('images/green_ghost.png').convert()
+pacman_picture_retries = pygame.transform.scale(pacman_picture, (W_pacman/2, H_pacman/2))
+
+timer = 30 # 30 seconds (multiple of modulo for random walks)
+score = 0
+count = 0 # for chomp picture
 ticks = int()
 angle = 0
 retries = 2
-pacman_picture_retries = pygame.transform.scale(pacman_picture, (W_pacman/2, H_pacman/2))
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press

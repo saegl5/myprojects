@@ -2,7 +2,7 @@
 Snowfall Animation
 """
 
-import pygame, random # import modules
+import pygame, random
 import src.canvas as canvas
 
 WHITE = pygame.Color("white") # example
