@@ -29,6 +29,7 @@ walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
 red_ghosts = pygame.sprite.Group()
 green_ghosts = pygame.sprite.Group()
+sprites = pygame.sprite.Group() # all sprites
 timer = 30 # 30 seconds
 score = 0
 style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -215,7 +216,6 @@ while True:
                         y_increment_red_ghost = random.choice([-1, 1])
                     else: # when x_increment_ghost = -1 or 1
                         y_increment_red_ghost = 0
-                    red_ghosts.update(50)
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
@@ -383,15 +383,19 @@ while True:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, BLACK)
+    # if timer > 0 and len(pacmen) > 0 and len(pellets) > 0:
+    sprites.empty()
+    sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
     # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
-    walls.draw(canvas.screen)
-    pellets.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
+    # walls.draw(canvas.screen)
+    # pellets.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
     # screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
-    red_ghosts.draw(canvas.screen) # previous code override what we want
-    green_ghosts.draw(canvas.screen) # previous code override what we want
+    # red_ghosts.draw(canvas.screen) # previous code override what we want
+    # green_ghosts.draw(canvas.screen) # previous code override what we want
+    sprites.draw(canvas.screen)
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
     canvas.screen.blit(timer_header, (10, 10))

@@ -26,6 +26,7 @@ lasers_alt = pygame.sprite.Group()
 spaceships = pygame.sprite.Group()
 barriers = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+sprites = pygame.sprite.Group() # all sprites
 timer = 30 # 10 seconds
 score = 0
 first = True
@@ -296,16 +297,20 @@ while True:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
+    sprites.empty()
+    sprites.add(walls, barriers, invaders, lasers_alt, spaceships, lasers)
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
     # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
     # screen.blit(text, (x, y)) unit 1
-    walls.draw(canvas.screen)
-    barriers.draw(canvas.screen)
-    invaders.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
-    lasers_alt.draw(canvas.screen)
+    # walls.draw(canvas.screen)
+    # barriers.draw(canvas.screen)
+    # invaders.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
+    # lasers_alt.draw(canvas.screen)
+    # canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
+    # lasers.draw(canvas.screen)
+    sprites.draw(canvas.screen)
     canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
-    lasers.draw(canvas.screen)
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
     canvas.screen.blit(spaceship_retries_box_1, (100, 10))
