@@ -55,7 +55,7 @@ timer = 30 # 30 seconds (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
 ticks = int()
-angle = 0
+angle = 0 # redundant
 retries = 2
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
@@ -84,55 +84,47 @@ def flip_horizontal(sprite, Bool):
     sprite.image.set_colorkey(BLACK)
 # ---------------------
 
-# inner walls
+# left wall
+wall = Rectangle(1, canvas.size[1]) # need at least some thickness
+wall.rect.x = -1 # moved walls outside screen
+wall.rect.y = 0
+walls.add(wall)
+# right wall
+wall = Rectangle(1, canvas.size[1])
+wall.rect.x = canvas.size[0]
+wall.rect.y = 0
+walls.add(wall)
+# top wall
+wall = Rectangle(canvas.size[0]-2, 1) # no overlap
+wall.rect.x = 1
+wall.rect.y = -1
+walls.add(wall)
+# bottom wall
+wall = Rectangle(canvas.size[0]-2, 1)
+wall.rect.x = 1
+wall.rect.y = canvas.size[1]
+walls.add(wall)
 
-# top
-wall = Rectangle(canvas.size[0]-100-100, 10)
+# inner top wall
+wall = Rectangle(canvas.size[0]-200, 10) # leave room around walls
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
-
-# bottom
-wall = Rectangle(canvas.size[0]-100-100, 10)
+# inner bottom wall
+wall = Rectangle(canvas.size[0]-200, 10)
 wall.rect.x = 100
-wall.rect.y = canvas.size[1]-100-10
+wall.rect.y = canvas.size[1]-110 # wall is 10px thick
+walls.add(wall)
+# inner middle wall
+wall = Rectangle(10, canvas.size[1]-220)
+wall.rect.x = canvas.size[0]/2-5 # places wall in center
+wall.rect.y = 110
 walls.add(wall)
 
-# middle
-wall = Rectangle(10, canvas.size[1]-100-100-10-10)
-wall.rect.x = canvas.size[0]/2-10/2
-wall.rect.y = 100+10
-walls.add(wall)
-
+# all walls
 for wall in walls:
-    # wall.image.fill(pygame.Color(1, 1, 1))
     wall.image.fill(WHITE)
 
-# outer walls
-
-# left
-wall = Rectangle(1, canvas.size[1]) # 1px is minimum width, size[1] height of entire display
-wall.rect.x = 0-1 # just subtract by 1 to move wall leftward
-wall.rect.y = 0
-walls.add(wall)
-
-# right
-wall = Rectangle(1, canvas.size[1])
-wall.rect.x = canvas.size[0]-1+1
-wall.rect.y = 0
-walls.add(wall)
-
-# top
-wall = Rectangle(canvas.size[0]-2, 1)
-wall.rect.x = 1
-wall.rect.y = 0-1
-walls.add(wall)
-
-# bottom
-wall = Rectangle(canvas.size[0]-2, 1)
-wall.rect.x = 1
-wall.rect.y = canvas.size[1]-1+1
-walls.add(wall)
 
 # pacman = Rectangle(WHITE, W_pacman, H_pacman)
 # pacman = Rectangle(pacman_picture, W_pacman, H_pacman)

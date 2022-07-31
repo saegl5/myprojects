@@ -26,9 +26,11 @@ spaceships = pygame.sprite.Group()
 barriers = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
+
 style = pygame.font.Font(None, 100) # faster than SysFont(), "None" utilizes default font (i.e., freesansbold.ttf)
 style_header = pygame.font.Font(None, 30)
 style_header.set_italic(True)
+
 game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg')
 you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
 spaceship_laser_sound = pygame.mixer.Sound('sounds/laserLarge.ogg')
@@ -72,21 +74,20 @@ def return_fire(sprite, index):
     invader_laser_sound.play()
 # ---------------------
 
-wall = Rectangle(1, canvas.size[1])
-wall.rect.x = 0-1
+# left wall
+wall = Rectangle(1, canvas.size[1]) # need at least some thickness
+wall.rect.x = -1 # moved walls outside screen
 wall.rect.y = 0
 walls.add(wall)
 
+# right wall
 wall = Rectangle(1, canvas.size[1])
-wall.rect.x = canvas.size[0]-1+1
+wall.rect.x = canvas.size[0]
 wall.rect.y = 0
 walls.add(wall)
-
-# for wall in walls:
-#     wall.image.fill(pygame.Color(1, 1, 1))
 
 # left barrier
-for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
+for i in range(0, p):
     barrier = Rectangle(250/p, 25)
     barrier.rect.x = 50+i*250/p
     barrier.rect.y = 400
@@ -94,11 +95,11 @@ for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
     barriers.add(barrier)
 
 # right barrier
-for i in range(0, p): # i = 0, 1, 2, 3, ..., p-1
+for i in range(0, p):
     barrier = Rectangle(250/p, 25)
     barrier.rect.x = canvas.size[0]-250-50+i*250/p
     barrier.rect.y = 400
-    barrier.image.fill(WHITE) # BLACK became transparent
+    barrier.image.fill(WHITE)
     barriers.add(barrier)
 
 spaceship = Rectangle(W_spaceship, H_spaceship)
