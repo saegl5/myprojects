@@ -8,12 +8,8 @@ from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
-YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
-LIGHTGRAY = pygame.Color("light gray")
-GRAY = pygame.Color("gray")
-DARKGRAY = pygame.Color("dark gray")
 
 x_offset = 50 # don't start on wall
 y_offset = 0
@@ -29,6 +25,7 @@ W_pellet = 32
 H_pellet = 32
 W_ghost = 64
 H_ghost = 64
+
 pellets = pygame.sprite.Group() # not pellets = []
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
@@ -36,13 +33,16 @@ pacmen = pygame.sprite.Group()
 red_ghosts = pygame.sprite.Group()
 green_ghosts = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
+
 style = pygame.font.Font(None, 100) # faster than SysFont(), "None" utilizes default font (i.e., freesansbold.ttf)
 style_header = pygame.font.Font(None, 30)
 style_header.set_italic(True)
+
 game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg')
 you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
 pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg')
 ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg')
+
 pacman_picture = pygame.image.load('images/pac.png').convert()
 pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert()
 pellet_picture = pygame.image.load('images/dot.png').convert()
@@ -59,16 +59,14 @@ angle = 0
 retries = 2
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
-pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
-pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
+pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 
-# --- Functions/classes
-# def draw_rect(display, x, y, W, H):
-    # pygame.draw.rect(display, WHITE, (x, y, W, H), width=1)
+# --- Functions
 def turn(sprite, angle):
-    if count == 1:
+    if count == 1: # in case there is a quick KEYDOWN and KEYUP event
         sprite.image.blit(pacman_picture_alt, (0, 0))
-    if count == 5:
+    if count == 5: # else appears to chomp too long
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
     if count % 10 == 0:
         sprite.image.blit(pacman_picture_alt, (0, 0))
@@ -76,10 +74,9 @@ def turn(sprite, angle):
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
     sprite.image.set_colorkey(BLACK)
 def retry(sprite):
-    sprite.rect.x = canvas.size[0]/2 # restore pac-man, bypassed offset
-    sprite.rect.y = canvas.size[1]/2
-def flip(sprite, Bool): # "Bool" is short for boolean
-    # if COLOR == RED:
+    sprite.rect.x = canvas.size[0]/2+x_offset
+    sprite.rect.y = canvas.size[1]/2+y_offset
+def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
     else:
@@ -356,18 +353,18 @@ while True:
     pacman_retries_box_2.set_colorkey(BLACK)
     for ghost in red_ghosts:
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
-            # ghost.flip(True) # horizontally
-            flip(ghost, True)
+            # ghost.flip_horizontal(True) # horizontally
+            flip_horizontal(ghost, True)
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
-            # ghost.flip(False)
-            flip(ghost, False)
+            # ghost.flip_horizontal(False)
+            flip_horizontal(ghost, False)
     for ghost in green_ghosts:
         if x_increment_green_ghost < 0 or y_increment_green_ghost < 0: # ghost moving leftward or upward
-            # ghost.flip(True) # horizontally
-            flip(ghost, True)
+            # ghost.flip_horizontal(True) # horizontally
+            flip_horizontal(ghost, True)
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
-            # ghost.flip(False)
-            flip(ghost, False)
+            # ghost.flip_horizontal(False)
+            flip_horizontal(ghost, False)
     # --------------
     canvas.clean()
     timer_header = style_header.render("Time Left", False, RED)

@@ -7,19 +7,18 @@ import src.canvas as canvas
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
+BLACK = pygame.Color("black") # useful if run module on macOS
 YELLOW = pygame.Color("yellow")
-BLACK = pygame.Color("black")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
-LIGHTGRAY = pygame.Color("light gray")
-GRAY = pygame.Color("gray")
-DARKGRAY = pygame.Color("dark gray")
 
-x_offset = 0
-# y_offset = 0
 x_increment = 0
-# y_increment = 0
-invaders = pygame.sprite.Group() # not invaders = [] <-- multiple sprites
+W_spaceship = 64 # these variables are for images
+H_spaceship = 64
+W_invader = 32
+H_invader = 32
+
+invaders = pygame.sprite.Group() # not invaders = []
 collisions = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
@@ -27,52 +26,47 @@ spaceships = pygame.sprite.Group()
 barriers = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
-timer = 30 # 10 seconds
-score = 0
-first = True
+style = pygame.font.Font(None, 100) # faster than SysFont(), "None" utilizes default font (i.e., freesansbold.ttf)
+style_header = pygame.font.Font(None, 30)
+style_header.set_italic(True)
 game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg')
 you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
 spaceship_laser_sound = pygame.mixer.Sound('sounds/laserLarge.ogg')
 spaceship_explosion_sound = pygame.mixer.Sound('sounds/explosionCrunch.ogg')
 invader_laser_sound = pygame.mixer.Sound('sounds/laserSmall.ogg')
 invader_explosion_sound = pygame.mixer.Sound('sounds/lowFrequency_explosion.ogg')
-style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
-style_header = pygame.font.Font(None, 30)
-style_header.set_italic(True)
+
 spaceship_picture = pygame.image.load('images/ship.png').convert()
-#spaceship_picture = pygame.transform.scale(spaceship_picture, (64, 64))
-invader_picture = pygame.image.load('images/alien.png').convert()
-invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
-ticks = int() # some integer, clock sound
-W_spaceship = 64 # these variables are for images
-H_spaceship = 64
-W_invader = 32
-H_invader = 32
 spaceship_picture = pygame.transform.scale(spaceship_picture, (W_spaceship, H_spaceship))
 spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W_spaceship/2, H_spaceship/2))
-count = 0
+invader_picture = pygame.image.load('images/alien.png').convert()
+invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
+
+ticks = int()
+timer = 30 # 30 seconds (multiple of modulo for invaders.update())
+score = 0
+first = True # for spaceship laser
+count = 0 # for lunging picture
 retries = 2
 p = 5 # chop up each barrier into 5 pieces
-wait = 120 # ~ 2 seconds, frame rate is 60
+wait = 120 # ~2 seconds, max frame rate is 60
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
-pygame.key.set_repeat(10) # repeat key press, and add 10 millisecond delay between repeated key press
-pygame.time.set_timer(pygame.USEREVENT, 1000) # 1000 milliseconds = 1 second
+pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
 
 # --- Functions
-# def draw_rect(display, x, y, W, H):
-    # pygame.draw.rect(display, WHITE, (x, y, W, H), width=1)
 def lunge(sprite):
     if count % 2 == 0: # could also have used timer
         sprite.image.blit(invader_picture_alt, (0, 0)) # change picture
     else:
         sprite.image.blit(invader_picture, (0, 0)) # revert
 def retry(sprite):
-    sprite.rect.centerx = canvas.screen.get_rect().centerx
+    sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen
     sprite.rect.y = canvas.size[1]-H_spaceship
 def return_fire(sprite, index):
     sprite.image.fill(RED)
-    sprite.rect.centerx = invaders.sprites()[index].rect.centerx # 0 is index, range 0-49
+    sprite.rect.centerx = invaders.sprites()[index].rect.centerx
     sprite.rect.top = invaders.sprites()[index].rect.bottom
     lasers_alt.add(sprite)
     invader_laser_sound.play()
