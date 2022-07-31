@@ -6,6 +6,7 @@ import pygame, random
 import src.canvas as canvas
 import src.efficiency as efficiency
 from custom.classes import Rectangle
+from custom.functions import outer_walls
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
@@ -84,43 +85,29 @@ def flip_horizontal(sprite, Bool):
         sprite.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
     sprite.image.set_colorkey(BLACK)
 # ---------------------
-# inner walls:
-wall = Rectangle(canvas.size[0]-100-100, 10)
+
+outer_walls()
+
+# inner top wall
+wall = Rectangle(canvas.size[0]-200, 10) # leave room around walls
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
-wall = Rectangle(canvas.size[0]-100-100, 10)
+# inner bottom wall
+wall = Rectangle(canvas.size[0]-200, 10)
 wall.rect.x = 100
-wall.rect.y = canvas.size[1]-10-100
+wall.rect.y = canvas.size[1]-110 # wall is 10px thick
 walls.add(wall)
-wall = Rectangle(10, canvas.size[1]-100-100-10-10)
-wall.rect.x = canvas.size[0]/2-10/2
-wall.rect.y = 100+10
+# inner middle wall
+wall = Rectangle(10, canvas.size[1]-220)
+wall.rect.x = canvas.size[0]/2-5 # places wall in center
+wall.rect.y = 110
 walls.add(wall)
+
+# all walls
 for wall in walls:
     wall.image.fill(WHITE)
 
-# outer walls (left, right, top, bottom):
-wall = Rectangle(1, canvas.size[1]) # need at least some thickness, moved walls outside display
-wall.rect.x = 0-1
-wall.rect.y = 0
-
-walls.add(wall)
-wall = Rectangle(1, canvas.size[1])
-wall.rect.x = canvas.size[0]-1+1
-wall.rect.y = 0
-
-walls.add(wall)
-wall = Rectangle(canvas.size[0]-2, 1)
-wall.rect.x = 1
-wall.rect.y = 0-1
-
-walls.add(wall)
-wall = Rectangle(canvas.size[0]-2, 1)
-wall.rect.x = 1
-wall.rect.y = canvas.size[1]-1+1
-
-walls.add(wall)
 
 # for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "pellet" sprites
 while pellet_count-len(pellets) > 0: # create and add fifty "pellet" sprites

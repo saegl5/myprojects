@@ -6,6 +6,7 @@ import pygame, random
 import src.canvas as canvas
 import src.efficiency as efficiency
 from custom.classes import Rectangle
+from custom.functions import outer_walls
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
@@ -76,30 +77,18 @@ def return_fire(sprite, index):
     invader_laser_sound.play()
 # ---------------------
 
-# outer walls (only left and right):
-wall = Rectangle(1, canvas.size[1]) # need at least some thickness, moved walls outside display
-wall.rect.x = 0-1
-wall.rect.y = 0
-# wall.image.fill(pygame.Color(1, 1, 1)) # windows
-walls.add(wall)
-wall = Rectangle(1, canvas.size[1])
-wall.rect.x = canvas.size[0]-1+1
-wall.rect.y = 0
-# wall.image.fill(pygame.Color(1, 1, 1)) # windows
-walls.add(wall)
-# no inner walls
+outer_walls() # top and bottom walls redundant
 
-# barriers (left and right)
+# left barrier
 for i in range(0, p):
-    # barrier = Rectangle(50, 400, 250, 25)
     barrier = Rectangle(250/p, 25)
     barrier.rect.x = 50+i*250/p
     barrier.rect.y = 400
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
+# right barrier
 for i in range(0, p):
-    # barrier = Rectangle(canvas.size[0]-250-50, 400, 250, 25)
     barrier = Rectangle(250/p, 25)
     barrier.rect.x = canvas.size[0]-250-50+i*250/p
     barrier.rect.y = 400
