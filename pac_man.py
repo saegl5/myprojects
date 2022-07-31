@@ -2,101 +2,87 @@
 "Pac-Man" Game
 """
 
-import pygame, random # import the pygame and random module
+import pygame, random
 import src.canvas as canvas
 import src.efficiency as efficiency
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
-YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
-LIGHTGRAY = pygame.Color("light gray")
-GRAY = pygame.Color("gray")
-DARKGRAY = pygame.Color("dark gray")
 
-x_offset = 50 # reordered
+x_offset = 50 # don't start on wall
 y_offset = 0
 x_increment = 0
-x_increment_red_ghost = 1 # offsetting directly, moving at launch, direction optional
-x_increment_green_ghost = 0
 y_increment = 0
-y_increment_red_ghost = 0 # offsetting directly
+x_increment_red_ghost = 1 # moving rightward at launch
+y_increment_red_ghost = 0
+x_increment_green_ghost = 0
 y_increment_green_ghost = 1
 w = 64 # "pacman" sprite width reference
 h = 64 # "pacman" sprite height reference
-pellets = pygame.sprite.Group() # create a list for "pellet" sprites, no longer pellets = [], Group() is class
+
+pellets = pygame.sprite.Group() # not pellets = []
 # collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
 red_ghosts = pygame.sprite.Group()
 green_ghosts = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
-timer = 30 # set timer for 30 seconds (multiple of modulo for random walks)
-score = 0 # initialize score
-style = pygame.font.Font(None, 100) # faster than SysFont! (filename/object, font size in pixels), "None" utilizes default font (i.e., freesansbold.ttf)
+
+style = pygame.font.Font(None, 100) # faster than SysFont(), "None" utilizes default font (i.e., freesansbold.ttf)
 style_header = pygame.font.Font(None, 30)
 style_header.set_italic(True)
+
+game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg')
+you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
+pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg')
+ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg')
+
+pacman_picture = pygame.image.load('images/pac.png').convert()
+pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert()
+pellet_picture = pygame.image.load('images/dot.png').convert()
+pellet_picture = pygame.transform.scale(pellet_picture, (int(w/2), int(h/2))) # int() addresses "TypeError: integer argument expected, got float"
+red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
+green_ghost_picture = pygame.image.load('images/green_ghost.png').convert()
+pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(w/2), int(h/2)))
+
+timer = 30 # 30 seconds (multiple of modulo for random walks)
+score = 0
 count = 0 # for chomp picture
 # angle = 0 # redundant
-game_over_sound = pygame.mixer.Sound('sounds/game_over.ogg') # Source: https://kenney.nl/assets/voiceover-pack
-you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg') # Source: https://kenney.nl/assets/voiceover-pack
-pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg') # Source: https://www.kenney.nl/assets/rpg-audio
-ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg') # Source: https://www.kenney.nl/assets/sci-fi-sounds
-pacman_picture = pygame.image.load('images/pac.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles
-# pacman_picture.set_colorkey(BLACK)
-pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert() # my picture from pac.png
-# pacman_picture_alt.set_colorkey(BLUE)
-pellet_picture = pygame.image.load('images/dot.png').convert() # Edited from source: https://opengameart.org/content/pacman-tiles (changed black to (1, 1, 1), too)
-pellet_picture = pygame.transform.scale(pellet_picture, (int(w/2), int(h/2))) # int() addresses "TypeError: integer argument expected, got float"
-# pellet_picture.set_colorkey(BLACK)
-red_ghost_picture = pygame.image.load('images/red_ghost.png').convert() # corrected profile
-# red_ghost_picture = pygame.transform.scale(red_ghost_picture, (int(w/2), int(h/2)))
-green_ghost_picture = pygame.image.load('images/green_ghost.png').convert() # corrected profile
-# green_ghost_picture = pygame.transform.scale(green_ghost_picture, (int(w/2), int(h/2)))
-pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(w/2), int(h/2)))
 retries = 2
 retry_boxes = []
 pellet_count = 50
-# obstructed1 = False
-# obstructed2 = False 
 wait1 = 60*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 wait2 = wait1 # if pacman hit by green ghost
 waiting = False # if pacman hit by either
 
-pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game") # title, example
+pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
 pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
 
 # --- Functions
-def turn(sprite, angle): # calling with sprite, not group
+def turn(sprite, angle):
     if count == 1: # in case there is a quick KEYDOWN and KEYUP event
         sprite.image.blit(pacman_picture_alt, (0, 0))
     if count == 5: # else appears to chomp too long
-        sprite.image = pygame.transform.rotate(pacman_picture, angle)         
+        sprite.image = pygame.transform.rotate(pacman_picture, angle)
     if count % 10 == 0:
         sprite.image.blit(pacman_picture_alt, (0, 0))
     if count % 20 == 0:
-        sprite.image = pygame.transform.rotate(pacman_picture, angle)         
+        sprite.image = pygame.transform.rotate(pacman_picture, angle)
     sprite.image.set_colorkey(BLACK)
 def retry(sprite):
     sprite.rect.x = canvas.size[0]/2+x_offset
     sprite.rect.y = canvas.size[1]/2+y_offset
-def flip_y(sprite, Bool):
+def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
     else:
         sprite.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
     sprite.image.set_colorkey(BLACK)
-# def flip(self, sign):
-#     if sign < 0:
-#         red_ghost.image.blit(ghost_picture_1_alt, (0, 0))
-#         green_ghost.image.blit(ghost_picture_2_alt, (0, 0))
-#     elif sign > 0:
-#         red_ghost.image.blit(ghost_picture_1, (0, 0))
-#         green_ghost.image.blit(ghost_picture_2, (0, 0))
-
 # ---------------------
 # inner walls:
 wall = Rectangle(canvas.size[0]-100-100, 10)
@@ -411,14 +397,14 @@ while True: # keeps display open
             # retry_boxes.pop()    
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0:
-            flip_y(ghost, True) # tell flip() which ghost it is
+            flip_horizontal(ghost, True) # tell flip() which ghost it is
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
-            flip_y(ghost, False)
+            flip_horizontal(ghost, False)
     for ghost in green_ghosts:
         if x_increment_green_ghost < 0 or y_increment_green_ghost < 0:
-            flip_y(ghost, True)
+            flip_horizontal(ghost, True)
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
-            flip_y(ghost, False)
+            flip_horizontal(ghost, False)
     # --------------
     canvas.clean()
     timer_header = style_header.render("Time Left", False, RED)
