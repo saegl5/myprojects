@@ -74,13 +74,13 @@ def return_fire(sprite, index):
     invader_laser_sound.play()
 # ---------------------
 
-# left wall
+# outer left wall
 wall = Rectangle(1, canvas.size[1]) # need at least some thickness
 wall.rect.x = -1 # moved walls outside screen
 wall.rect.y = 0
 walls.add(wall)
 
-# right wall
+# outer right wall
 wall = Rectangle(1, canvas.size[1])
 wall.rect.x = canvas.size[0]
 wall.rect.y = 0
@@ -103,19 +103,19 @@ for i in range(0, p):
     barriers.add(barrier)
 
 spaceship = Rectangle(W_spaceship, H_spaceship)
-spaceship.image.blit(spaceship_picture, (0, 0))
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
 spaceship.rect.y = canvas.size[1] - H_spaceship
+spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 
-# for i in range(0, 50): # create and add fifty invaders
-while 50-len(invaders) > 0:
+
+while 50-len(invaders) > 0: # create and add fifty "invader" sprites
     invader = Rectangle(W_invader, H_invader)
+    invader.rect.x = random.randrange(0, canvas.size[0]+1-W_invader, W_invader) # allow sprite to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.size[1]+1-H_invader-196, H_invader) # 196px space at canvas bottom
     invader.image.blit(invader_picture, (0, 0))
-    invader.rect.x = random.randrange(0, canvas.size[0]+1-W_invader, W_invader) # allow invader to touch edge but not breach it
-    invader.rect.y = random.randrange(0, canvas.size[1]+1-H_invader-200, H_invader) # "-100" space at canvas bottom
-    pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position
-    invaders.add(invader) # not invaders.append(invader) <-- multiple sprites
+    pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
+    invaders.add(invader)
 
 # we will create "laser" sprites later
 
@@ -230,6 +230,7 @@ while True:
         lasers_alt.update(2) # 2 is optional
     # if len(spaceships) == 0:
     else: # stops lasers from moving when game over or win game
+        score = len(collisions)
         lasers.update(0)
         lasers_alt.update(0)
     for invader in invaders:

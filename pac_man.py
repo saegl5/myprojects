@@ -125,51 +125,43 @@ walls.add(wall)
 for wall in walls:
     wall.image.fill(WHITE)
 
-
-# pacman = Rectangle(WHITE, W_pacman, H_pacman)
-# pacman = Rectangle(pacman_picture, W_pacman, H_pacman)
 pacman = Rectangle(W_pacman, H_pacman)
-pacman.image.blit(pacman_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
 pacman.rect.x = canvas.size[0]/2+x_offset
 pacman.rect.y = canvas.size[1]/2+y_offset
-# if you want to position pac-man randomly, too, then you could use a WHILE loop as done for ghosts
+pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
 
 while True:
     ghost = Rectangle(W_ghost, H_ghost)
-    ghost.image.blit(green_ghost_picture, (0, 0))
     ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
-    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost)
+    ghost.image.blit(green_ghost_picture, (0, 0))
     green_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
-    if stuck != []: # `stuck` is actually list
+    if stuck != []:
         green_ghosts.remove(ghost)
     else:
-        break # exit loop, if no overlap
+        break
 
 while True:
     ghost = Rectangle(W_ghost, H_ghost)
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost)
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost)
     ghost.image.blit(red_ghost_picture, (0, 0))
-    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
-    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost) # don't need step_size
     red_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
-    if stuck != []: # `stuck` is actually list
+    if stuck != []:
         red_ghosts.remove(ghost)
     else:
-        break # exit loop, if no overlap
+        break
 
-# for i in range(0, 50): # create and add fifty pellets
-while 50-len(pellets) > 0:
-    # pellet = Rectangle(YELLOW, W_pellet, H_pellet)
-    # pellet = Rectangle(pellet_picture, W_pellet, H_pellet)
+while 50-len(pellets) > 0: # create and add fifty "pellet" sprites
     pellet = Rectangle(W_pellet, H_pellet)
-    pellet.image.blit(pellet_picture, (0, 0)) # was self.image.blit(sprite_picture, (0, 0))
-    # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
-    pellet.rect.x = random.randrange(0, canvas.size[0]+1-W_pellet, W_pellet) # includes max, but prone to off-by-one error
+    pellet.rect.x = random.randrange(0, canvas.size[0]+1-W_pellet, W_pellet) # allow sprite to touch edge but not breach it
     pellet.rect.y = random.randrange(0, canvas.size[1]+1-H_pellet, H_pellet)
-    pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in same position
-    pellets.add(pellet) # not pellets.append(pellet) <-- multiple sprites
+    pellet.image.blit(pellet_picture, (0, 0))
+    pygame.sprite.spritecollide(pellet, pellets, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
+    pellets.add(pellet)
     for wall in walls:
         pygame.sprite.spritecollide(wall, pellets, True)
 
@@ -285,6 +277,7 @@ while True:
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
         score = len(collisions)
     else: # stops ghosts from moving when game over or win game
+        score = len(collisions)
         x_increment_red_ghost = 0
         y_increment_red_ghost = 0
         x_increment_green_ghost = 0
