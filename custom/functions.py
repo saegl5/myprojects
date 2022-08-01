@@ -42,27 +42,26 @@ import pygame
 import src.canvas as canvas  # works, if run from main module
 from custom.classes import Rectangle
 
-def outer_walls():
-    sprites = pygame.sprite.Group()
+def left_wall():
+    wall = Rectangle(1, canvas.size[1]) # need at least some thickness
+    wall.rect.x = -1 # moved walls outside screen
+    wall.rect.y = 0
+    return wall
 
-    left_wall = Rectangle(1, canvas.size[1]) # need at least some thickness
-    left_wall.rect.x = -1 # moved walls outside screen
-    left_wall.rect.y = 0
-    sprites.add(left_wall)
+def right_wall():
+    wall = Rectangle(1, canvas.size[1])
+    wall.rect.x = canvas.size[0]
+    wall.rect.y = 0
+    return wall
 
-    right_wall = Rectangle(1, canvas.size[1])
-    right_wall.rect.x = canvas.size[0]
-    right_wall.rect.y = 0
-    sprites.add(right_wall)
+def top_wall():
+    wall = Rectangle(canvas.size[0]-2, 1) # no overlap
+    wall.rect.x = 1
+    wall.rect.y = -1
+    return wall
 
-    top_wall = Rectangle(canvas.size[0]-2, 1) # no overlap
-    top_wall.rect.x = 1
-    top_wall.rect.y = -1
-    sprites.add(top_wall)
-
-    bottom_wall = Rectangle(canvas.size[0]-2, 1)
-    bottom_wall.rect.x = 1
-    bottom_wall.rect.y = canvas.size[1]
-    sprites.add(bottom_wall)
-
-    return sprites
+def bottom_wall():
+    wall = Rectangle(canvas.size[0]-2, 1)
+    wall.rect.x = 1
+    wall.rect.y = canvas.size[1]
+    return wall
