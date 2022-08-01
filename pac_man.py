@@ -6,7 +6,7 @@ import pygame, random
 import src.canvas as canvas
 import src.efficiency as efficiency
 from custom.classes import Rectangle
-from custom.functions import outer_walls
+from custom.functions import left_wall, right_wall, top_wall, bottom_wall
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
@@ -86,7 +86,11 @@ def flip_horizontal(sprite, Bool):
     sprite.image.set_colorkey(BLACK)
 # ---------------------
 
-outer_walls()
+# outer walls
+walls.add(left_wall())
+walls.add(right_wall())
+walls.add(top_wall())
+walls.add(bottom_wall())
 
 # inner top wall
 wall = Rectangle(canvas.size[0]-200, 10) # leave room around walls
@@ -108,35 +112,18 @@ walls.add(wall)
 for wall in walls:
     wall.image.fill(WHITE)
 
-
-# for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "pellet" sprites
-while pellet_count-len(pellets) > 0: # create and add fifty "pellet" sprites
-    # x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "pellet" sprite, allow it to touch edge but not breach it
-    # y = random.randrange(0, canvas.size[1]+1-h/2, h/2) #  want "pellet" sprites equally spaced, also mitigates overlap
-    pellet = Rectangle(w/2, h/2) # create a "pellet" sprite
-    pellet.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "pellet" sprite, allow it to touch edge but not breach it
-    pellet.rect.y = random.randrange(0, canvas.size[1]+1-h/2, h/2) #  want "pellet" sprites equally spaced, also mitigates overlap
-    pellet.image.blit(pellet_picture, (0, 0))
-    pygame.sprite.spritecollide(pellet, pellets, True) # remove any "pellet" sprite in list in same position, essentially preventing "pellet" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
-    pellets.add(pellet) # add "pellet" sprite to list, no longer append
-    for wall in walls:
-        pygame.sprite.spritecollide(wall, pellets, True) # remove any "pellet" sprite in list in same position
-
-for i in range(0, retries):
-    retry_boxes.append(pacman_picture_retry)
-
-pacman = Rectangle(w, h) # creates a "pacman" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
-# if one wants to position pac-man randomly, then one could use a WHILE loop as done for ghosts
+pacman = Rectangle(w, h)
 pacman.rect.x = canvas.size[0]/2+x_offset
 pacman.rect.y = canvas.size[1]/2+y_offset
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
 
-while True: # put first, else when try to get second (green) ghost moving it will move prematurely
-    # x = random.randrange(0, canvas.size[0]+1-w)
-    # y = random.randrange(0, canvas.size[1]+1-h)
+for i in range(0, retries):
+    retry_boxes.append(pacman_picture_retry)
+
+while True: # put green "ghost" sprite first, else when try to get ghost moving it will move prematurely
     ghost = Rectangle(w, h)
-    ghost.rect.x = random.randrange(0, canvas.size[0]+1-w)
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-w) # don't need step_size
     ghost.rect.y = random.randrange(0, canvas.size[1]+1-h)
     ghost.image.blit(green_ghost_picture, (0, 0))
     green_ghosts.add(ghost)
@@ -148,8 +135,6 @@ while True: # put first, else when try to get second (green) ghost moving it wil
         break
 
 while True:
-    # x = random.randrange(0, canvas.size[0]+1-w)
-    # y = random.randrange(0, canvas.size[1]+1-h)
     ghost = Rectangle(w, h)
     ghost.rect.x = random.randrange(0, canvas.size[0]+1-w)
     ghost.rect.y = random.randrange(0, canvas.size[1]+1-h)
@@ -160,7 +145,17 @@ while True:
     if stuck != [] or obstruct != []:
         red_ghosts.remove(ghost)
     else:
-        break # exit loop, not quitting game
+        break
+
+while pellet_count-len(pellets) > 0: # create and add fifty "pellet" sprites
+    pellet = Rectangle(w/2, h/2)
+    pellet.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # allow sprite to touch edge but not breach it
+    pellet.rect.y = random.randrange(0, canvas.size[1]+1-h/2, h/2)
+    pellet.image.blit(pellet_picture, (0, 0))
+    pygame.sprite.spritecollide(pellet, pellets, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
+    pellets.add(pellet)
+    for wall in walls:
+        pygame.sprite.spritecollide(wall, pellets, True)
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display

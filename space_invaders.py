@@ -6,7 +6,7 @@ import pygame, random
 import src.canvas as canvas
 import src.efficiency as efficiency
 from custom.classes import Rectangle
-from custom.functions import outer_walls
+from custom.functions import left_wall, right_wall
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black") # useful if run module on macOS
@@ -51,7 +51,7 @@ count = 0 # for lunging picture
 retries = 2
 retry_boxes = []
 p = 5 # chop up each barrier into 5 pieces
-invader_count = 50
+invader_count = 20
 wait1 = 60*2 # if spaceship hit by invader, 60 fps x 2 seconds
 wait2 = wait1 # if spaceship hit by return fire
 waiting = False # if spaceship hit by either
@@ -77,7 +77,9 @@ def return_fire(sprite, index):
     invader_laser_sound.play()
 # ---------------------
 
-outer_walls() # top and bottom walls redundant
+# outer walls
+walls.add(left_wall())
+walls.add(right_wall())
 
 # left barrier
 for i in range(0, p):
@@ -95,32 +97,26 @@ for i in range(0, p):
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
-# x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite
-# y = canvas.size[1]-h
-# spaceship = Rectangle(WHITE, 64, 64) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
-spaceship = Rectangle(w, h) # creates a "spaceship" sprite, which will be your sprite to play with, calling class, don't need screen, will instead use it in drawing code, will use original/starting position and offsets in game logic, specified boundary thickness in class definition
-# spaceship.rect.x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite
-spaceship.rect.centerx = canvas.screen.get_rect().centerx # overwrites x above
+spaceship = Rectangle(w, h)
+spaceship.rect.centerx = canvas.screen.get_rect().centerx
 spaceship.rect.y = canvas.size[1]-h
-# ALIGN WITH PAC-MAN!!!
-# if one wants to position spaceship randomly, then one could use a WHILE loop as done for pac-man ghosts
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 
 for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)
 
-# for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50), create and add fifty "invader" sprites
 while invader_count-len(invaders) > 0: # create and add fifty "invader" sprites
-    # x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "invader" sprite, allow it to touch edge but not breach it
-    # y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # want lots of invaders, but if we use a larger step_size, many invaders may overlap, "-100" leaves space at bottom of canvas, "-96" leaves more space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
-    # invader = Rectangle(YELLOW, 32, 32) # create a "invader" sprite
-    invader = Rectangle(w/2, h/2) # create a "invader" sprite
-    invader.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # position "invader" sprite, allow it to touch edge but not breach it
-    invader.rect.y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # want lots of invaders, but if we use a larger step_size, many invaders may overlap, "-100" leaves space at bottom of canvas, "-96" leaves more space at bottom of canvas and want "invader" sprites equally spaced, also mitigates overlap
+    invader = Rectangle(w/2, h/2)
+    invader.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # allow sprite to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # 196px space at canvas bottom
     invader.image.blit(invader_picture, (0, 0))
-    pygame.sprite.spritecollide(invader, invaders, True) # remove any "invader" sprite in same position, essentially preventing "invader" sprites from taking same position and essentially preventing overlap, you cannot check if sprite is in group or belongs to group since each sprite is unique
-    invaders.add(invader) # add "invader" sprite to list, no longer append
+    pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
+    invaders.add(invader)
+
+print(len(invaders))
+
+# we will create "laser" sprites later
 
 while True: # keeps display open
     for action in pygame.event.get(): # check for user input when open display
@@ -298,6 +294,7 @@ while True: # keeps display open
     #     invaders.update(32) # move "invader" sprites downward, requires timer to move slowly
     # if len(spaceships) == 0 or len(invaders) == 0:
     else: # stops lasers from moving when game over or win game
+        # score = len(collisions)
         lasers.update(0)
         lasers_alt.update(0)
 
