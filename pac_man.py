@@ -273,7 +273,7 @@ while True:
     # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
     # pellet.rect.y = random.randrange(0, size[1]+1-H_pellet) # problem is that recalculates each loop
     pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # "True" to remove a "pellet" sprite, if "pacman" sprites collides with it
-    collisions.add(pellet_removed) # when "pellet" sprite is removed from pellets list, add it to collisions list
+    collisions.add(pellet_removed) # when "pellet" sprite is removed from pellets group, add it to collisions group
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
         score = len(collisions)
     else: # stops ghosts from moving when game over or win game

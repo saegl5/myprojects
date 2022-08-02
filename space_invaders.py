@@ -217,7 +217,7 @@ while True:
     # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # "True" to remove a "invader" sprite, if "spaceship" sprites collides with it
     for laser in lasers:
         invader_removed = pygame.sprite.spritecollide(laser, invaders, True)
-        collisions.add(invader_removed) # when "invader" sprite is removed from invaders list, add it to collisions list
+        collisions.add(invader_removed) # when "invader" sprite is removed from invaders group, add it to collisions group
         if invader_removed != []: # why not put removed == True? 
             lasers.remove(laser)
             invader_explosion_sound.play()
