@@ -179,18 +179,17 @@ while True: # keeps screen open
                 you_win_sound.play()
             else: # after one second
                 timer -= 1
-                if timer % 10 == 0:
+                if timer % 10 == 0: # every 10 seconds
                     y_increment_green_ghost = random.choice([-1, 0, 1])
                     if y_increment_green_ghost == 0:
                         x_increment_green_ghost = random.choice([-1, 1])
-                    else:
-                        x_increment_green_ghost = 0
+                    else: # when y_increment_green_ghost = -1 or 1
+                        x_increment_green_ghost = 0 # always moving
                 elif timer % 5 == 0:
-                    # x_increment_ghost = random.choice([-1, 1])
                     x_increment_red_ghost = random.choice([-1, 0, 1])
                     if x_increment_red_ghost == 0:
                         y_increment_red_ghost = random.choice([-1, 1])
-                    else: # when x_increment_ghost = -1 or 1
+                    else:
                         y_increment_red_ghost = 0
 
         # --- Keyboard events
