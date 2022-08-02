@@ -117,7 +117,6 @@ pacman.rect.x = canvas.size[0]/2+x_offset
 pacman.rect.y = canvas.size[1]/2+y_offset
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
-
 for i in range(0, retries):
     retry_boxes.append(pacman_picture_retry)
 
@@ -157,20 +156,20 @@ while pellet_count-len(pellets) > 0: # create and add fifty "pellet" sprites
     for wall in walls:
         pygame.sprite.spritecollide(wall, pellets, True)
 
-while True: # keeps display open
-    for action in pygame.event.get(): # check for user input when open display
-        if action.type == pygame.QUIT:
+while True: # keeps screen open
+    for action in pygame.event.get(): # check for user input when open screen
+        if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
-        elif action.type == pygame.USEREVENT:
+        elif action.type == pygame.USEREVENT: # for timer
             if timer == 0 or len(pacmen) == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer
+                pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
             elif len(pellets) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
             else: # after one second
-                timer -= 1 # decrement timer
+                timer -= 1
                 if timer % 10 == 0:
                     y_increment_green_ghost = random.choice([-1, 0, 1]) # let Python choose direction and speed
                     if y_increment_green_ghost == 0:
@@ -197,6 +196,7 @@ while True: # keeps display open
                 # if timer % 5 == 0: # every 5 seconds
                 # red_ghost.rect.x += x_increment_ghost # move "ghost" sprites downward
                 # green_ghost.rect.y += y_increment_ghost # move "ghost" sprites downward
+
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:

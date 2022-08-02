@@ -51,7 +51,7 @@ count = 0 # for lunging picture
 retries = 2
 retry_boxes = []
 p = 5 # chop up each barrier into 5 pieces
-invader_count = 20
+invader_count = 50
 wait1 = 60*2 # if spaceship hit by invader, 60 fps x 2 seconds
 wait2 = wait1 # if spaceship hit by return fire
 waiting = False # if spaceship hit by either
@@ -102,7 +102,6 @@ spaceship.rect.centerx = canvas.screen.get_rect().centerx
 spaceship.rect.y = canvas.size[1]-h
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
-
 for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)
 
@@ -114,24 +113,22 @@ while invader_count-len(invaders) > 0: # create and add fifty "invader" sprites
     pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     invaders.add(invader)
 
-print(len(invaders))
-
 # we will create "laser" sprites later
 
-while True: # keeps display open
-    for action in pygame.event.get(): # check for user input when open display
+while True: # keeps screen open
+    for action in pygame.event.get(): # check for user input when open screen
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
-        elif action.type == pygame.USEREVENT:
+        elif action.type == pygame.USEREVENT: # for timer
             if timer == 0 or len(spaceships) == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0) # stop timer, "invader" sprites stop moving too
+                pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
             elif len(invaders) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
             else: # after one second
-                timer -= 1 # decrement timer
+                timer -= 1
                 if timer % 5 == 0: # every 5 seconds, divides into timer evenly
                     invaders.update(32) # move "invader" sprites downward
                 for invader in invaders:
@@ -153,6 +150,7 @@ while True: # keeps display open
                     # laser.return_fire(2)
                     return_fire(laser, 2)
                     # wait2 = 60*5*len(lasers_alt)
+
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
