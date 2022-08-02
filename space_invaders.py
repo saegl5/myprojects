@@ -19,7 +19,7 @@ w = 64 # "spaceship" sprite width reference
 h = 64 # "spaceship" sprite height reference
 
 invaders = pygame.sprite.Group() # not invaders = []
-# collisions = pygame.sprite.Group()
+collisions = pygame.sprite.Group()
 lasers = pygame.sprite.Group()
 lasers_alt = pygame.sprite.Group()
 spaceships = pygame.sprite.Group()
@@ -218,15 +218,30 @@ while True: # keeps display open
     # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # remove a "invader" sprite, if "spaceship" sprite collides with it
     for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
         invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
-        # collisions.add(removed)
+        collisions.add(invader_removed) # when "invader" sprite is removed from invaders group, add it to collisions group
         if invader_removed != []: # or "for invader in removed:"
             # wait1 = 60*5*len(invaders) # update it
             lasers.remove(laser) # remove "laser" sprite, too
-            score += 1
             invader_explosion_sound.play()
         # elif laser.rect.y < -20:
         elif laser.rect.bottom < 0:
             lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
+
+    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
+        score = len(collisions)
+        lasers.update(-10)
+        lasers_alt.update(2)
+    #### for invader in invaders_hit_list: # FOR each invader in the list
+        #### invader.reset_position()
+    # counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
+    # if counter % (60*5) == 0: # about every 5 seconds
+    #     invaders.update(32) # move "invader" sprites downward, requires timer to move slowly
+    # if len(spaceships) == 0 or len(invaders) == 0:
+    else: # stops lasers from moving when game over or win game
+        score = len(collisions)
+        lasers.update(0)
+        lasers_alt.update(0)
+
     for invader in invaders:
         # touched = pygame.sprite.spritecollide(invader, spaceships, True)
         # spaceships.remove(touched)
@@ -283,20 +298,6 @@ while True: # keeps display open
         elif laser.rect.top > canvas.size[1]:
             lasers_alt.remove(laser)
             # wait2 = 60*5*len(lasers_alt)
-    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
-        # score = len(collisions)
-        lasers.update(-10)
-        lasers_alt.update(2)
-    #### for invader in invaders_hit_list: # FOR each invader in the list
-        #### invader.reset_position()
-    # counter += 1 # alternative to timer, uses frame rate, but frame rate may fluctuate
-    # if counter % (60*5) == 0: # about every 5 seconds
-    #     invaders.update(32) # move "invader" sprites downward, requires timer to move slowly
-    # if len(spaceships) == 0 or len(invaders) == 0:
-    else: # stops lasers from moving when game over or win game
-        # score = len(collisions)
-        lasers.update(0)
-        lasers_alt.update(0)
 
     for laser in lasers_alt:
         barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
