@@ -119,23 +119,18 @@ while 50-len(invaders) > 0: # create and add fifty "invader" sprites
 
 # we will create "laser" sprites later
 
-while True:
-    for action in pygame.event.get():
-        if action.type == pygame.QUIT:
+while True: # keeps screen open
+    for action in pygame.event.get(): # check for user input when open screen
+        if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
-        elif action.type == pygame.USEREVENT:
-            #timer -= 1 # same as timer = timer - 1, count down by 1 each second
-            #if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
-                #invaders.update(32)
-            if timer == 0:
+
+        elif action.type == pygame.USEREVENT: # for timer
+            if timer == 0 or len(spaceships) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
             elif len(invaders) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
-            elif len(spaceships) == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0)
-                game_over_sound.play()
             else: # after one second
                 timer -= 1
                 if timer % 5 == 0:
@@ -156,6 +151,7 @@ while True:
                     laser = Rectangle(6, 40) # 6 and 10 also optional
                     # laser.return_fire(2)
                     return_fire(laser, 2)
+
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0: # "and" or "or" depends

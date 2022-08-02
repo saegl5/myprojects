@@ -131,7 +131,7 @@ pacman.rect.y = canvas.size[1]/2+y_offset
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
 
-while True:
+while True: # put green "ghost" sprite first, else when try to get ghost moving it will move prematurely
     ghost = Rectangle(W_ghost, H_ghost)
     ghost.rect.x = random.randrange(0, canvas.size[0]+1-W_ghost) # don't need step_size
     ghost.rect.y = random.randrange(0, canvas.size[1]+1-H_ghost)
@@ -165,21 +165,19 @@ while 50-len(pellets) > 0: # create and add fifty "pellet" sprites
     for wall in walls:
         pygame.sprite.spritecollide(wall, pellets, True)
 
-while True:
-    for action in pygame.event.get():
-        if action.type == pygame.QUIT:
+while True: # keeps screen open
+    for action in pygame.event.get(): # check for user input when open screen
+        if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
-        elif action.type == pygame.USEREVENT:
-            # timer -= 1 # same as timer = timer - 1, count down by 1 each second
-            # if timer % 5 == 0: # every 5 seconds, % modulu operator that computes remainder
-                # pellets.update()
+
+        elif action.type == pygame.USEREVENT: # for timer
             if timer == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
             elif len(pellets) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
-            else:
+            else: # after one second
                 timer -= 1
                 if timer % 10 == 0:
                     y_increment_green_ghost = random.choice([-1, 0, 1])
@@ -194,6 +192,7 @@ while True:
                         y_increment_red_ghost = random.choice([-1, 1])
                     else: # when x_increment_ghost = -1 or 1
                         y_increment_red_ghost = 0
+
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
