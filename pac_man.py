@@ -170,32 +170,18 @@ while True: # keeps screen open
                 you_win_sound.play()
             else: # after one second
                 timer -= 1
-                if timer % 10 == 0:
-                    y_increment_green_ghost = random.choice([-1, 0, 1]) # let Python choose direction and speed
+                if timer % 10 == 0: # every 10 seconds
+                    y_increment_green_ghost = random.choice([-1, 0, 1])
                     if y_increment_green_ghost == 0:
                         x_increment_green_ghost = random.choice([-1, 1])
-                    else:
-                        x_increment_green_ghost = 0
-                    # green_ghost.image = pygame.transform.flip(green_ghost.image, True, False)
-                    # green_ghost.image.set_colorkey(BLACK)
+                    else: # when y_increment_green_ghost = -1 or 1
+                        x_increment_green_ghost = 0 # always moving
                 elif timer % 5 == 0:
-                    x_increment_red_ghost = random.choice([-1, 0, 1]) # let Python choose direction and speed
+                    x_increment_red_ghost = random.choice([-1, 0, 1])
                     if x_increment_red_ghost == 0:
                         y_increment_red_ghost = random.choice([-1, 1])
                     else:
                         y_increment_red_ghost = 0
-                    # red_ghost.image = pygame.transform.flip(red_ghost.image, True, False)
-                    # red_ghost.image.set_colorkey(BLACK)                    
-                    # y_increment_red_ghost = random.randint(-1, 1) # let Python choose direction and speed
-                    # if y_increment_red_ghost == 0:
-                    #     x_increment_red_ghost = random.choice([-1, 1]) # always moving
-                    # x_increment_green_ghost = random.randint(-1, 1)
-                    # if x_increment_green_ghost == 0:
-                    #     y_increment_green_ghost = random.choice([-1, 1])
-
-                # if timer % 5 == 0: # every 5 seconds
-                # red_ghost.rect.x += x_increment_ghost # move "ghost" sprites downward
-                # green_ghost.rect.y += y_increment_ghost # move "ghost" sprites downward
 
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if

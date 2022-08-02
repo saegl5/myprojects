@@ -129,27 +129,20 @@ while True: # keeps screen open
                 you_win_sound.play()
             else: # after one second
                 timer -= 1
-                if timer % 5 == 0: # every 5 seconds, divides into timer evenly
-                    invaders.update(32) # move "invader" sprites downward
                 for invader in invaders:
-                    # invader.lunge() 
-                    lunge(invader)   
+                    lunge(invader) # all "invader" sprites lunge
                 count += 1
+                if timer % 5 == 0: # every 5 seconds
+                    invaders.update(32) # move "invader" sprites downward
                 if timer % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
-                    laser = Rectangle(6, 40) # create "laser" sprite
-                    # laser.return_fire(0)
+                    laser = Rectangle(6, 40)
                     return_fire(laser, 0)
-                    # wait2 = 60*5*len(lasers_alt)
-                if timer % 7 == 0 and len(invaders) > 1: # some number not multiple of 5
-                    laser = Rectangle(6, 40) # create "laser" sprite
-                    # laser.return_fire(1)
+                if timer % 7 == 0 and len(invaders) > 1:
+                    laser = Rectangle(6, 40)
                     return_fire(laser, 1)
-                    # wait2 = 60*5*len(lasers_alt)
-                if timer % 11 == 0 and len(invaders) > 2: # some number not multiple of 5
-                    laser = Rectangle(6, 40) # create "laser" sprite
-                    # laser.return_fire(2)
+                if timer % 11 == 0 and len(invaders) > 2:
+                    laser = Rectangle(6, 40)
                     return_fire(laser, 2)
-                    # wait2 = 60*5*len(lasers_alt)
 
         # --- Mouse/keyboard events
         elif action.type == pygame.KEYDOWN: # "elif" means else if
