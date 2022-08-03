@@ -362,7 +362,7 @@ while True: # keeps screen open
         you_win_text = style.render("WINNER!", False, BLACK)
     # if timer > 0 and len(pacmen) > 0 and len(pellets) > 0:
     sprites.empty()
-    sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen)
+    sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen) # pacmen is redundant
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
     # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen

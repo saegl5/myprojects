@@ -282,7 +282,7 @@ while True: # keeps screen open
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     sprites.empty()
-    sprites.add(walls, barriers, invaders, lasers_alt, spaceships, lasers)
+    sprites.add(walls, barriers, invaders, lasers_alt, spaceships, lasers) # spaceships is redundant
     # --- Drawing code
     # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
     # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
