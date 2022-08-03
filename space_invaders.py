@@ -14,7 +14,7 @@ YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 
-x_increment = 0
+x_increment = 0 # speed
 w = 64 # "spaceship" sprite width reference
 h = 64 # "spaceship" sprite height reference
 
@@ -120,7 +120,7 @@ while True: # keeps screen open
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
-        elif action.type == pygame.USEREVENT: # for timer
+        elif action.type == pygame.USEREVENT: # for timer, "elif" means else if
             if timer == 0 or len(spaceships) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
@@ -144,39 +144,36 @@ while True: # keeps screen open
                     laser = Rectangle(6, 40)
                     return_fire(laser, 2)
 
-        # --- Mouse/keyboard events
-        elif action.type == pygame.KEYDOWN: # "elif" means else if
+        # --- Keyboard events
+        elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
-                if action.key == pygame.K_RIGHT: # note "action.key"
-                    x_increment = 5 # "5" is optional
+                if action.key == pygame.K_RIGHT:
+                    x_increment = 5
                 elif action.key == pygame.K_LEFT:
                     x_increment = -5
-                # elif action.key == pygame.K_DOWN:
-                #     y_increment = 5 # note "y_increment," and recall that y increases going downward
-                # elif action.key == pygame.K_UP:
-                #     y_increment = -5
                 elif action.key == pygame.K_SPACE: # fire laser
-                    # laser = Rectangle(CYAN, 5, 20) # create "laser" sprite 
-                    laser = Rectangle(10, 20) # create "laser" sprite
+                    laser = Rectangle(10, 20)
+                    laser.rect.centerx = spaceship.rect.centerx
+                    laser.rect.bottom = spaceship.rect.top + 10 # "+ 10" because update() is called before "laser" sprites are drawn
                     laser.image.fill(YELLOW)
-                    laser.rect.centerx = spaceship.rect.centerx # align it with "spaceship" sprite's horizontal center
-                    laser.rect.bottom = spaceship.rect.top + 10 # align its bottom with "spaceship" sprite's top, "+ 10" because update() is called before "laser" sprites are drawn (could probably have also drawn spaceship after lasers)
                     if first == True:
                         lasers.add(laser)
                         spaceship_laser_sound.play()
                         first = False
-            else: # without "else," do nothing
+                else:
+                    x_increment = 0
+            else:
                 x_increment = 0
-                # y_increment = 0
+
         elif action.type == pygame.KEYUP:
             if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
                 x_increment = 0
-            if action.key == pygame.K_SPACE: # was elif
+            elif action.key == pygame.K_SPACE:
                 first = True
-            # y_increment = 0
 
         efficiency.snapshot(action)
-        # -------------------------
+        # -------------------
+        
     # --- Game logic
     # x_offset += x_increment
     # y_offset += y_increment
