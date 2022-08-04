@@ -202,21 +202,21 @@ while True: # keeps screen open
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
-                elif action.key == pygame.K_UP: # recall that y increases going downward
+                if action.key == pygame.K_UP: # recall that y increases going downward
                     y_increment = -5
                     angle = 90
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
-                elif action.key == pygame.K_LEFT:
+                if action.key == pygame.K_LEFT:
                     x_increment = -5
                     angle = 180
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
-                elif action.key == pygame.K_DOWN:
+                if action.key == pygame.K_DOWN:
                     y_increment = 5
                     angle = 270
                     turn(pacman, angle)

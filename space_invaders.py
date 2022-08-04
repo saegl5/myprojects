@@ -153,9 +153,9 @@ while True: # keeps screen open
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
                 if action.key == pygame.K_RIGHT:
                     x_increment = 5
-                elif action.key == pygame.K_LEFT:
+                if action.key == pygame.K_LEFT:
                     x_increment = -5
-                elif action.key == pygame.K_SPACE: # fire laser
+                if action.key == pygame.K_SPACE: # fire laser
                     laser = Rectangle(10, 20)
                     laser.rect.centerx = spaceship.rect.centerx
                     laser.rect.bottom = spaceship.rect.top + 10 # "+ 10" because update() is called before "laser" sprites are drawn
