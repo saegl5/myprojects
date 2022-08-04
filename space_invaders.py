@@ -176,40 +176,23 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    # x_offset += x_increment
-    # y_offset += y_increment
-    # if size[0]/2+x_offset < 0: # left edge
-    #     x_offset = -size[0]/2
-    # elif size[0]/2+x_offset + W_spaceship > size[0]: # right edge
-    #     x_offset = size[0]/2 - W_spaceship
-    # if size[1]/2+y_offset < 0: # top edge
-        # y_offset = -size[1]/2
-    # elif size[1]/2+y_offset + 64 > size[1]: # bottom edge
-        # y_offset = size[1]/2 - 64
-    # spaceship.rect.x = size[0]/2+x_offset
     spaceship.rect.x += x_increment
-
-    hit = pygame.sprite.spritecollide(spaceship, walls, False)
+    hit = pygame.sprite.spritecollide(spaceship, walls, False) # don't remove wall, returns a list
     for wall in hit: # wall that spaceship hit
         if x_increment > 0:
             spaceship.rect.right = wall.rect.left
-        else:
+        else: # x_increment = 0 not hitting a wall
             spaceship.rect.left = wall.rect.right
 
-    # spaceship.rect.y = size[1] - H_spaceship # was size[1]/2+y_offset
-    # invader.rect.x = random.randrange(0, size[0]+1-32) # allow invader to touch edge but not breach it
-    # invader.rect.y = random.randrange(0, size[1]+1-32) # problem is that recalculates each loop
-
-    # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # "True" to remove a "invader" sprite, if "spaceship" sprites collides with it
-    for laser in lasers:
-        invader_removed = pygame.sprite.spritecollide(laser, invaders, True)
-        collisions.add(invader_removed) # when "invader" sprite is removed from invaders group, add it to collisions group
-        if invader_removed != []: # why not put removed == True? 
-            lasers.remove(laser)
+    for laser in lasers: # "laser" sprite was not created before WHILE loop
+        invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove invader
+        collisions.add(invader_removed) # when invader is removed, add it to collisions group
+        if invader_removed != []: # OR for invader in invader_removed:
+            lasers.remove(laser) # remove laser, too
             invader_explosion_sound.play()
-        # elif laser.rect.y < -20: # "laser" sprites leaves canvas
-        elif laser.rect.bottom < 0: # "laser" sprites leaves canvas
+        elif laser.rect.bottom < 0: # lasers leave canvas
             lasers.remove(laser)
+
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0: # not equal to/is not
         score = len(collisions)
         lasers.update(-10)

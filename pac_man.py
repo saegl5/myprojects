@@ -236,39 +236,25 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    #x_offset += x_increment
-    #y_offset += y_increment
-    # if size[0]/2+x_offset < 0: # left edge
-    #     x_offset = -size[0]/2
-    # elif size[0]/2+x_offset + W_pacman > size[0]: # right edge
-    #     x_offset = size[0]/2 - W_pacman
-    # if size[1]/2+y_offset < 0: # top edge
-    #     y_offset = -size[1]/2
-    # elif size[1]/2+y_offset + H_pacman > size[1]: # bottom edge
-    #     y_offset = size[1]/2 - H_pacman
-
-    # pacman.rect.x = size[0]/2+x_offset
     pacman.rect.x += x_increment
-    wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
-    for wall in wall_pacman_hit_x:
+    wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall, returns a list
+    for wall in wall_pacman_hit_x: # wall that pacman hit
         if x_increment > 0:
             pacman.rect.right = wall.rect.left
         else: # x_increment = 0 not hitting a wall
             pacman.rect.left = wall.rect.right
     
-    # pacman.rect.y = size[1]/2+y_offset
     pacman.rect.y += y_increment
-    wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall
+    wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False)
     for wall in wall_pacman_hit_y:
         if y_increment > 0:
             pacman.rect.bottom = wall.rect.top
         else: # y_increment = 0 not hitting a wall
             pacman.rect.top = wall.rect.bottom
 
-    # pellet.rect.x = random.randrange(0, size[0]+1-W_pellet) # allow pellet to touch edge but not breach it
-    # pellet.rect.y = random.randrange(0, size[1]+1-H_pellet) # problem is that recalculates each loop
-    pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # "True" to remove a "pellet" sprite, if "pacman" sprites collides with it
-    collisions.add(pellet_removed) # when "pellet" sprite is removed from pellets group, add it to collisions group
+    pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # remove pellet
+    collisions.add(pellet_removed) # when pellet is removed, add it to collisions group
+    
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
         score = len(collisions)
     else: # stops ghosts from moving when game over or win game
