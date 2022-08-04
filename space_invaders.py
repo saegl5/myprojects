@@ -173,45 +173,22 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    # x_offset += x_increment
-    # y_offset += y_increment
-    # if canvas.size[0]/2+x_offset < 0:
-    #     x_offset = -canvas.size[0]/2 # prevent "spaceship" sprite from breaching left edge, solved for x_offset
-    # elif canvas.size[0]/2+x_offset + w > canvas.size[0]:
-    #     x_offset = canvas.size[0]/2 - w # simplified
-    # if canvas.size[1]/2+y_offset < 0: # note "if"
-    #     y_offset = -canvas.size[1]/2 # prevent "spaceship" sprite from breaching top edge, solved for y_offset
-    # elif canvas.size[1]/2+y_offset + h > canvas.size[1]:
-    #     y_offset = canvas.size[1]/2 - h # simplified
-    # spaceship.rect.x = canvas.size[0]/2+x_offset # position and offset "spaceship" sprite <- do earlier
-    for i in range(0, abs(x_increment)+1): # increment x-coordinate *abs(x_increment)* many times
-        if x_increment == 0:
-            pass # don't increment x-coordinate
-        else:
-            spaceship.rect.x += x_increment/abs(x_increment) # bypass offset for new positions, always += -1 or += 1 depending on direction of movement
-        wall_spaceship_hit = pygame.sprite.spritecollide(spaceship, walls, False) # DON'T remove a "wall" sprite, if "spaceship" sprite hits it, returns a list
-        # instead...
-        if wall_spaceship_hit != []: # align, then break out of above loop
-            for wall in wall_spaceship_hit: # wall that spaceship hit
-                if x_increment > 0: # moving rightward
-                    spaceship.rect.right = wall.rect.left
-                else: # moving leftward, x_increment = 0 not hitting wall
-                    spaceship.rect.left = wall.rect.right # reverse
-            break # no sense in completing above loop, if hit wall
+    spaceship.rect.x += x_increment
+    hit = pygame.sprite.spritecollide(spaceship, walls, False) # don't remove wall, returns a list
+    for wall in hit: # wall that spaceship hit
+        if x_increment > 0:
+            spaceship.rect.right = wall.rect.left
+        else: # x_increment = 0 not hitting a wall
+            spaceship.rect.left = wall.rect.right
 
-    # spaceship.rect.y = canvas.size[1]-h #/2+y_offset <- do earlier
-
-    # removed = pygame.sprite.spritecollide(spaceship, invaders, True) # remove a "invader" sprite, if "spaceship" sprite collides with it
-    for laser in lasers: # "laser" sprite was not created before WHILE loop, for any laser in lasers
-        invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove a "invader" sprite, if "laser" sprite collides with it
-        collisions.add(invader_removed) # when "invader" sprite is removed from invaders group, add it to collisions group
-        if invader_removed != []: # or "for invader in removed:"
-            # wait1 = 60*5*len(invaders) # update it
-            lasers.remove(laser) # remove "laser" sprite, too
+    for laser in lasers: # "laser" sprite was not created before WHILE loop
+        invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove invader
+        collisions.add(invader_removed) # when invader is removed, add it to collisions group
+        if invader_removed != []: # OR for invader in invader_removed:
+            lasers.remove(laser) # remove laser, too
             invader_explosion_sound.play()
-        # elif laser.rect.y < -20:
-        elif laser.rect.bottom < 0:
-            lasers.remove(laser) # otherwise, remove "laser" sprite if it exits screen
+        elif laser.rect.bottom < 0: # lasers leave canvas
+            lasers.remove(laser)
 
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
         score = len(collisions)
