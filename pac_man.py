@@ -214,9 +214,6 @@ while True: # keeps screen open
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
-                else:
-                    x_increment = 0
-                    y_increment = 0
             else:
                 x_increment = 0
                 y_increment = 0

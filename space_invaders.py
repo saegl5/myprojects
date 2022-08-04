@@ -160,8 +160,6 @@ while True: # keeps screen open
                         lasers.add(laser)
                         spaceship_laser_sound.play()
                         first = False
-                else:
-                    x_increment = 0
             else:
                 x_increment = 0
 
