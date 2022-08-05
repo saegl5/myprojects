@@ -246,30 +246,17 @@ while True: # keeps screen open
 
     pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # remove pellet
     collisions.add(pellet_removed) # when pellet is removed, add it to collisions group
-    
-    # if pellet_removed != []: # or "for pellet in removed:"
-    # if timer != 0:
-    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
-        score = len(collisions)
-    else: # stops ghosts from moving when game over or win game
-        score = len(collisions)
-        x_increment_green_ghost = 0
-        y_increment_green_ghost = 0
-        x_increment_red_ghost = 0
-        y_increment_red_ghost = 0
 
-
-    # if timer % 10 == 0:
     for ghost in red_ghosts:
         wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
         if wall_ghost_hit_x != []:
             x_increment_red_ghost *= -1
-        ghost.rect.x += x_increment_red_ghost # move "ghost" sprites rightward
+        ghost.rect.x += x_increment_red_ghost # increment here, else ghost may get stuck on wall
 
         wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
         if wall_ghost_hit_y != []:
             y_increment_red_ghost *= -1
-        ghost.rect.y += y_increment_red_ghost # move "ghost" sprites downward
+        ghost.rect.y += y_increment_red_ghost
 
     for ghost in green_ghosts:
         wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
@@ -282,14 +269,9 @@ while True: # keeps screen open
             y_increment_green_ghost *= -1
         ghost.rect.y += y_increment_green_ghost
 
-    # theoretically, ghosts could still get stuck, but it would be extremely unusual
-
-    # red_ghost.rect.x = canvas.size[0]/2+x_offset
-    # green_ghost.rect.y = canvas.size[1]/2+y_offset
-    # pygame.sprite.spritecollide(pacman, ghosts, True) # remove a "ghost" sprite, if "pacman" sprite collides with it
     for ghost in red_ghosts:
         if wait1 == 60*2 and waiting == False:
-            pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True) # pac-man can bypass ghost for insane speeds
+            pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
         elif wait1 == 60*2 and waiting == True:
             break        
         else:
@@ -302,20 +284,20 @@ while True: # keeps screen open
         if pacman_removed != []:
             ghost_hit_sound.play()
         if pacman_removed != [] and retries > 0:
-            pacmen.add(pacman_removed)
+            pacmen.add(pacman_removed) # will reposition pac-man
             retry(pacman)
             retries -= 1
             wait1 -= 1
             waiting = True
-            break
-            # retry_boxes.pop()
+            break # makes timing extra precise
+
     for ghost in green_ghosts:
         if wait2 == 60*2 and waiting == False:
-            pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True) # pac-man can bypass ghost for insane speeds
+            pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
         elif wait2 == 60*2 and waiting == True:
             break        
         else:
-            pacman_removed = [] # we will wait to check for collision
+            pacman_removed = []
             wait2 -= 1
             if wait2 == 0:
                 wait2 = 60*2
@@ -330,7 +312,26 @@ while True: # keeps screen open
             wait2 -= 1
             waiting = True
             break
-            # retry_boxes.pop()    
+
+    # if pellet_removed != []: # or "for pellet in removed:"
+    # if timer != 0:
+    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+        score = len(collisions)
+    else: # stops ghosts from moving when game over or win game
+        score = len(collisions)
+        x_increment_green_ghost = 0
+        y_increment_green_ghost = 0
+        x_increment_red_ghost = 0
+        y_increment_red_ghost = 0
+
+
+    # theoretically, ghosts could still get stuck, but it would be extremely unusual
+
+    # red_ghost.rect.x = canvas.size[0]/2+x_offset
+    # green_ghost.rect.y = canvas.size[1]/2+y_offset
+    # pygame.sprite.spritecollide(pacman, ghosts, True) # remove a "ghost" sprite, if "pacman" sprite collides with it
+
+
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
         if x_increment_red_ghost < 0 or y_increment_red_ghost < 0:
             flip_horizontal(ghost, True) # tell flip() which ghost it is
