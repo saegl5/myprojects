@@ -51,7 +51,7 @@ first = True # for spaceship laser
 count = 0 # for lunging picture
 retries = 2
 p = 5 # chop up each barrier into 5 pieces
-wait = 120 # ~2 seconds, max frame rate is 60
+wait = 60*2 # if spaceship hit by return fire, 60 fps x 2 seconds
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
