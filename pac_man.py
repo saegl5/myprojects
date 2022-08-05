@@ -254,7 +254,47 @@ while True: # keeps screen open
 
     pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # remove pellet
     collisions.add(pellet_removed) # when pellet is removed, add it to collisions group
-    
+
+    for ghost in red_ghosts:
+        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_x != []:
+            x_increment_red_ghost *= -1
+        ghost.rect.x += x_increment_red_ghost # increment here, else ghost may get stuck on wall
+
+        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_y != []:
+            y_increment_red_ghost *= -1
+        ghost.rect.y += y_increment_red_ghost
+
+    for ghost in green_ghosts:
+        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_x != []:
+            x_increment_green_ghost *= -1
+        ghost.rect.x += x_increment_green_ghost
+
+        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
+        if wall_ghost_hit_y != []:
+            y_increment_green_ghost *= -1
+        ghost.rect.y += y_increment_green_ghost
+
+    for ghost in red_ghosts:
+        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+        if pacman_removed != []: # we will wait to check for collision
+            ghost_hit_sound.play()
+        if pacman_removed != [] and retries > 0:
+            pacmen.add(pacman_removed) # will reposition pac-man
+            retry(pacman)
+            retries -= 1
+
+    for ghost in green_ghosts:
+        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+        if pacman_removed != []:
+            ghost_hit_sound.play()
+        if pacman_removed != [] and retries > 0:
+            pacmen.add(pacman_removed)
+            retry(pacman)
+            retries -= 1
+
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
         score = len(collisions)
     else: # stops ghosts from moving when game over or win game
@@ -264,47 +304,7 @@ while True: # keeps screen open
         x_increment_green_ghost = 0
         y_increment_green_ghost = 0
 
-    # ghost.rect.x += x_increment_ghost # could also decrement
-    for ghost in red_ghosts:
-        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
-        if wall_ghost_hit_x != []:
-            x_increment_red_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
-        ghost.rect.x += x_increment_red_ghost # could also decrement
 
-        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
-        if wall_ghost_hit_y != []:
-            y_increment_red_ghost *= -1
-        ghost.rect.y += y_increment_red_ghost
-    
-    for ghost in green_ghosts:
-        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
-        if wall_ghost_hit_x != []:
-            x_increment_green_ghost *= -1 # multiply x_increment_ghost by -1, same as x_increment_ghost = x_increment_ghost * -1
-        ghost.rect.x += x_increment_green_ghost # could also decrement
-
-        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
-        if wall_ghost_hit_y != []:
-            y_increment_green_ghost *= -1
-        ghost.rect.y += y_increment_green_ghost
-    
-    for ghost in red_ghosts:
-        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-        if pacman_removed != []:
-            ghost_hit_sound.play()
-        if pacman_removed != [] and retries > 0:
-            pacmen.add(pacman_removed) # will reposition pac-man
-            # pacman.retry()
-            retry(pacman)
-            retries -= 1
-    for ghost in green_ghosts:
-        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-        if pacman_removed != []:
-            ghost_hit_sound.play()
-        if pacman_removed != [] and retries > 0:
-            pacmen.add(pacman_removed) # will reposition pac-man
-            # pacman.retry()
-            retry(pacman)
-            retries -= 1
 
     if retries == 2: # default
         pacman_retries_box_1 = pacman_picture_retries

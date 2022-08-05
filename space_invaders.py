@@ -193,6 +193,36 @@ while True: # keeps screen open
         elif laser.rect.bottom < 0: # lasers leave canvas
             lasers.remove(laser)
 
+    for invader in invaders:
+        spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True)
+        if spaceship_removed != []: # we will wait to check for collision
+            spaceship_explosion_sound.play()
+        if spaceship_removed != [] and retries > 0:
+            spaceships.add(spaceship_removed) # will reposition the spaceship
+            retry(spaceship)
+            retries -= 1
+    
+    for laser in lasers_alt:
+        if wait == 60*2:
+            spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        else:
+            spaceship_removed = []
+            wait -= 1
+            if wait == 0:
+                wait = 60*2
+            break
+        if spaceship_removed != []:
+            spaceship_explosion_sound.play()
+        if spaceship_removed != [] and retries > 0:
+            spaceships.add(spaceship_removed)
+            retry(spaceship)
+            lasers_alt.remove(laser)
+            retries -= 1
+            wait -= 1
+            break # makes timing extra precise
+        elif laser.rect.top > canvas.size[1]:
+            lasers_alt.remove(laser)
+
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0: # not equal to/is not
         score = len(collisions)
         lasers.update(-10)
@@ -202,38 +232,7 @@ while True: # keeps screen open
         score = len(collisions)
         lasers.update(0)
         lasers_alt.update(0)
-    for invader in invaders:
-        spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True)
-        if spaceship_removed != []:
-            spaceship_explosion_sound.play()
-        if spaceship_removed != [] and retries > 0:
-            spaceships.add(spaceship_removed) # will reposition the spaceship
-            # for spaceship in spaceships:
-            # spaceship.retry()
-            retry(spaceship)
-            retries -= 1
-    for laser in lasers_alt:
-        if wait == 120: # 300
-            spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
-        else:
-            spaceship_removed = []
-            wait -= 1
-            if wait == 0:
-                wait = 120
-            break
-        if spaceship_removed != []:
-            spaceship_explosion_sound.play()
-        if spaceship_removed != [] and retries > 0:
-            spaceships.add(spaceship_removed) # will reposition the spaceship
-            # for spaceship in spaceships:
-            # spaceship.retry()
-            retry(spaceship)
-            retries -= 1
-            lasers_alt.remove(laser)
-            wait -= 1
-            break # makes timing extra precise
-        elif laser.rect.top > canvas.size[1]:
-            lasers_alt.remove(laser)
+
     if retries == 2:
         spaceship_retries_box_1 = spaceship_picture_retries
         spaceship_retries_box_2 = spaceship_picture_retries
