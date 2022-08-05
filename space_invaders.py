@@ -223,36 +223,36 @@ while True: # keeps screen open
         elif laser.rect.top > canvas.size[1]:
             lasers_alt.remove(laser)
 
-    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0: # not equal to/is not
+    for laser in lasers_alt:
+        barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
+        if barrier_removed != []:
+            lasers_alt.remove(laser)
+
+    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
         score = len(collisions)
         lasers.update(-10)
-        lasers_alt.update(2) # 2 is optional
-    # if len(spaceships) == 0:
+        lasers_alt.update(2)
     else: # stops lasers from moving when game over or win game
         score = len(collisions)
         lasers.update(0)
         lasers_alt.update(0)
 
-    if retries == 2:
+    if retries == 2: # default
         spaceship_retries_box_1 = spaceship_picture_retries
         spaceship_retries_box_2 = spaceship_picture_retries
     elif retries == 1:
         spaceship_retries_box_1 = spaceship_picture_retries
-        spaceship_retries_box_2 = pygame.Surface((0, 0))
+        spaceship_retries_box_2 = pygame.Surface((0, 0)) # blank box
     else:
         spaceship_retries_box_1 = pygame.Surface((0, 0))
         spaceship_retries_box_2 = pygame.Surface((0, 0))
     spaceship_retries_box_1.set_colorkey(BLACK)
     spaceship_retries_box_2.set_colorkey(BLACK)
-    for laser in lasers_alt:
-        barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
-        if barrier_removed != []:
-            lasers_alt.remove(laser)
     # --------------
+
     canvas.clean()
-    # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
-    timer_header = style_header.render("Time Left", False, RED)
-    timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
+    timer_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
+    timer_text = style.render(str(timer), False, RED)
     score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
@@ -263,16 +263,8 @@ while True: # keeps screen open
         you_win_text = style.render("WINNER!", False, GREEN)
     sprites.empty()
     sprites.add(walls, barriers, invaders, lasers_alt, spaceships, lasers) # spaceships is redundant
+
     # --- Drawing code
-    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, 64, 64)
-    # screen.blit(spaceship.image, spaceship.rect) # draw ONE sprite on screen
-    # screen.blit(text, (x, y)) unit 1
-    # walls.draw(canvas.screen)
-    # barriers.draw(canvas.screen)
-    # invaders.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
-    # lasers_alt.draw(canvas.screen)
-    # canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
-    # lasers.draw(canvas.screen)
     sprites.draw(canvas.screen)
     canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see block, otherwise can just use spaceships.draw(screen)
     canvas.screen.blit(timer_header, (10, 10))
@@ -284,6 +276,7 @@ while True: # keeps screen open
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
+
     canvas.show()
     if pygame.time.get_ticks() - ticks > 10000:
         canvas.clock.tick(1)

@@ -295,7 +295,18 @@ while True: # keeps screen open
             retry(pacman)
             retries -= 1
 
-    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
+    for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
+        if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
+            flip_horizontal(ghost, True)
+        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+            flip_horizontal(ghost, False)
+    for ghost in green_ghosts:
+        if x_increment_green_ghost < 0 or y_increment_green_ghost < 0:
+            flip_horizontal(ghost, True)
+        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+            flip_horizontal(ghost, False)
+
+    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
         score = len(collisions)
     else: # stops ghosts from moving when game over or win game
         score = len(collisions)
@@ -303,8 +314,6 @@ while True: # keeps screen open
         y_increment_red_ghost = 0
         x_increment_green_ghost = 0
         y_increment_green_ghost = 0
-
-
 
     if retries == 2: # default
         pacman_retries_box_1 = pacman_picture_retries
@@ -317,44 +326,23 @@ while True: # keeps screen open
         pacman_retries_box_2 = pygame.Surface((0, 0))
     pacman_retries_box_1.set_colorkey(BLACK)
     pacman_retries_box_2.set_colorkey(BLACK)
-    for ghost in red_ghosts:
-        if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
-            # ghost.flip_horizontal(True) # horizontally
-            flip_horizontal(ghost, True)
-        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
-            # ghost.flip_horizontal(False)
-            flip_horizontal(ghost, False)
-    for ghost in green_ghosts:
-        if x_increment_green_ghost < 0 or y_increment_green_ghost < 0: # ghost moving leftward or upward
-            # ghost.flip_horizontal(True) # horizontally
-            flip_horizontal(ghost, True)
-        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0: # not equal to/is not
-            # ghost.flip_horizontal(False)
-            flip_horizontal(ghost, False)
     # --------------
+
     canvas.clean()
-    timer_header = style_header.render("Time Left", False, RED)
-    timer_text = style.render(str(timer), False, RED) # True for anti-aliased, "string" --> str(timer)
+    timer_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
+    timer_text = style.render(str(timer), False, RED)
     score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
-    you_win_text = style.render(None, False, BLACK)
+    you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(pacmen) == 0:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
-        you_win_text = style.render("WINNER!", False, BLACK)
-    # if timer > 0 and len(pacmen) > 0 and len(pellets) > 0:
+        you_win_text = style.render("WINNER!", False, GREEN)
     sprites.empty()
     sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen) # pacmen is redundant
+
     # --- Drawing code
-    # draw_rect(screen, size[0]/2+x_offset, size[1]/2+y_offset, W_pacman, H_pacman)
-    # screen.blit(pacman.image, pacman.rect) # draw ONE sprite on screen
-    # screen.blit(text, (x, y)) unit 1
-    # walls.draw(canvas.screen)
-    # pellets.draw(canvas.screen) # draw sprite on screen <-- multiple sprites
-    # screen.blit(ghost.image, (ghost.rect.x, ghost.rect.y))
-    # red_ghosts.draw(canvas.screen) # previous code override what we want
-    # green_ghosts.draw(canvas.screen) # previous code override what we want
     sprites.draw(canvas.screen)
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
     # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
@@ -367,6 +355,7 @@ while True: # keeps screen open
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
+
     canvas.show()
     if pygame.time.get_ticks() - ticks > 10000:
         canvas.clock.tick(1)
