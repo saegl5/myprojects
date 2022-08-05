@@ -313,28 +313,9 @@ while True: # keeps screen open
             waiting = True
             break
 
-    # if pellet_removed != []: # or "for pellet in removed:"
-    # if timer != 0:
-    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
-        score = len(collisions)
-    else: # stops ghosts from moving when game over or win game
-        score = len(collisions)
-        x_increment_green_ghost = 0
-        y_increment_green_ghost = 0
-        x_increment_red_ghost = 0
-        y_increment_red_ghost = 0
-
-
-    # theoretically, ghosts could still get stuck, but it would be extremely unusual
-
-    # red_ghost.rect.x = canvas.size[0]/2+x_offset
-    # green_ghost.rect.y = canvas.size[1]/2+y_offset
-    # pygame.sprite.spritecollide(pacman, ghosts, True) # remove a "ghost" sprite, if "pacman" sprite collides with it
-
-
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
-        if x_increment_red_ghost < 0 or y_increment_red_ghost < 0:
-            flip_horizontal(ghost, True) # tell flip() which ghost it is
+        if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
+            flip_horizontal(ghost, True)
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
     for ghost in green_ghosts:
@@ -342,44 +323,33 @@ while True: # keeps screen open
             flip_horizontal(ghost, True)
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
+
+    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+        score = len(collisions)
+    else: # stops ghosts from moving when game over or win game
+        score = len(collisions)
+        x_increment_red_ghost = 0
+        y_increment_red_ghost = 0
+        x_increment_green_ghost = 0
+        y_increment_green_ghost = 0
+
     # --------------
+
     canvas.clean()
-    timer_header = style_header.render("Time Left", False, RED)
-    timer_text = style.render(str(timer), False, RED) # ("time remaining", anti-aliased, COLOR)
+    timer_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
+    timer_text = style.render(str(timer), False, RED)
     score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
     if timer == 0 or len(pacmen) == 0:
-        # # pacman.image.fill(WHITE)
-        # pygame.draw.rect(pacman.image, WHITE, (0, 0, w, h), width=0)
-        # for pellet in pellets:
-        #     pygame.draw.rect(pellet.image, LIGHTGRAY, (0, 0, w/2, h/2), width=0)
-        # for wall in walls:
-        #     wall.image.fill(DARKGRAY)
-        # for ghost in red_ghosts:
-        #     pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, w, h), width = 0)
-        # for ghost in green_ghosts:
-        #     pygame.draw.rect(ghost.image, DARKGRAY, (0, 0, w, h), width = 0)
-        # canvas.screen.fill(GRAY)
-        # timer_header = style_header.render("Time Left", False, DARKGRAY)
-        # timer_text = style.render(str(timer), False, DARKGRAY)
-        # score_header = style_header.render("Score", False, DARKGRAY)
-        # score_text = style.render(str(score), False, DARKGRAY)
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
-    # sprites.add(pellets, walls, pacmen, red_ghosts, green_ghosts)
-    # if timer > 0 and len(pacmen) > 0 and len(pellets) > 0:
     sprites.empty()
-    sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen)
+    sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen) # pacmen is redundant
+
     # --- Drawing code
-    # walls.draw(canvas.screen) # draw sprites on screen using list
-    # pellets.draw(canvas.screen)
-    # canvas.screen.blit(red_ghost.image, (red_ghost.rect.x, red_ghost.rect.y))
-    # canvas.screen.blit(green_ghost.image, (green_ghost.rect.x, green_ghost.rect.y))
-    # red_ghosts.draw(canvas.screen) # previous code override what we want
-    # green_ghosts.draw(canvas.screen) # previous code override what we want
     sprites.draw(canvas.screen)
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # draw sprite on screen, so you can see block
     canvas.screen.blit(timer_header, (10, 10))
@@ -396,5 +366,6 @@ while True: # keeps screen open
     # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
+
     canvas.show()
     efficiency.activate()
