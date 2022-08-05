@@ -25,8 +25,8 @@ Decorates Screen
 pygame.init() # initialize any submodules (e.g., font and mixer) that require it
 
 BLUE = pygame.Color("blue") # optional color with which to wipe screen
-
 clock = pygame.time.Clock()
+fps = 60 # 60 frames per second (max)
 
 def clean(): # wipe the screen
     screen.fill(BLUE)
@@ -34,5 +34,5 @@ def clean(): # wipe the screen
 
 def show(): # showcase your work
     pygame.display.flip() # literally, update the screen
-    clock.tick(60) # maximum 60 frames per second
+    clock.tick(fps)
 # show() is for what flip() is used
