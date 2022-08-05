@@ -56,7 +56,7 @@ count = 0 # for chomp picture
 retries = 2
 retry_boxes = []
 pellet_count = 50
-wait1 = 60*2 # if pacman hit by red ghost, 60 fps x 2 seconds
+wait1 = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 wait2 = wait1 # if pacman hit by green ghost
 waiting = False # if pacman hit by either
 
@@ -270,15 +270,15 @@ while True: # keeps screen open
         ghost.rect.y += y_increment_green_ghost
 
     for ghost in red_ghosts:
-        if wait1 == 60*2 and waiting == False:
+        if wait1 == canvas.fps*2 and waiting == False:
             pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-        elif wait1 == 60*2 and waiting == True:
+        elif wait1 == canvas.fps*2 and waiting == True:
             break        
         else:
             pacman_removed = [] # we will wait to check for collision
             wait1 -= 1
             if wait1 == 0:
-                wait1 = 60*2
+                wait1 = canvas.fps*2
                 waiting = False
             break
         if pacman_removed != []:
@@ -292,15 +292,15 @@ while True: # keeps screen open
             break # makes timing extra precise
 
     for ghost in green_ghosts:
-        if wait2 == 60*2 and waiting == False:
+        if wait2 == canvas.fps*2 and waiting == False:
             pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-        elif wait2 == 60*2 and waiting == True:
+        elif wait2 == canvas.fps*2 and waiting == True:
             break        
         else:
             pacman_removed = []
             wait2 -= 1
             if wait2 == 0:
-                wait2 = 60*2
+                wait2 = canvas.fps*2
                 waiting = False
             break
         if pacman_removed != []:

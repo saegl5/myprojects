@@ -52,7 +52,7 @@ retries = 2
 retry_boxes = []
 p = 5 # chop up each barrier into 5 pieces
 invader_count = 50
-wait1 = 60*2 # if spaceship hit by invader, 60 fps x 2 seconds
+wait1 = canvas.fps*2 # if spaceship hit by invader, 60 fps x 2 seconds
 wait2 = wait1 # if spaceship hit by return fire
 waiting = False # if spaceship hit by either
 
@@ -191,15 +191,15 @@ while True: # keeps screen open
             lasers.remove(laser)
 
     for invader in invaders:
-        if wait1 == 60*2 and waiting == False:
+        if wait1 == canvas.fps*2 and waiting == False:
             spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True)
-        elif wait1 == 60*2 and waiting == True:
+        elif wait1 == canvas.fps*2 and waiting == True:
             break
         else:
             spaceship_removed = [] # we will wait to check for collision
             wait1 -= 1
             if wait1 == 0:
-                wait1 = 60*2
+                wait1 = canvas.fps*2
                 waiting = False
             break
         if spaceship_removed != []:
@@ -213,15 +213,15 @@ while True: # keeps screen open
             break # makes timing extra precise
     
     for laser in lasers_alt:
-        if wait2 == 60*2 and waiting == False:
+        if wait2 == canvas.fps*2 and waiting == False:
             spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
-        elif wait2 == 60*2 and waiting == True:
+        elif wait2 == canvas.fps*2 and waiting == True:
             break
         else:
             spaceship_removed = []
             wait2 -= 1
             if wait2 == 0:
-                wait2 = 60*2
+                wait2 = canvas.fps*2
                 waiting = False
             break
         if spaceship_removed != []:
