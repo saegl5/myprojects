@@ -243,13 +243,12 @@ while True: # keeps screen open
             lasers_alt.remove(laser)
 
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
-        score = len(collisions)
         lasers.update(-10)
         lasers_alt.update(2)
     else: # stops lasers from moving when game over or win game
-        score = len(collisions)
         lasers.update(0)
         lasers_alt.update(0)
+    score = len(collisions)
 
     # --------------
 
