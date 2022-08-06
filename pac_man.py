@@ -307,13 +307,13 @@ while True: # keeps screen open
             flip_horizontal(ghost, False)
 
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
-        score = len(collisions)
+        pass
     else: # stops ghosts from moving when game over or win game
-        score = len(collisions)
         x_increment_red_ghost = 0
         y_increment_red_ghost = 0
         x_increment_green_ghost = 0
         y_increment_green_ghost = 0
+    score = len(collisions)
 
     if retries == 2: # default
         pacman_retries_box_1 = pacman_picture_retries
