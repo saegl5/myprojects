@@ -344,15 +344,16 @@ while True: # keeps screen open
 
     # --- Drawing code
     sprites.draw(canvas.screen)
-    canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see block, otherwise can just use pacmen.draw(screen)
-    # style = pygame.font.Font(None, 100) # used to be SysFont() from Unit I, but Font() is FASTER! "None" default font, 100 font size
+    canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see it, even if game over
     canvas.screen.blit(timer_header, (10, 10))
-    canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
+    canvas.screen.blit(timer_text, (10, 30))
     canvas.screen.blit(pacman_retries_box_1, (100, 10)) # to right of timer
     canvas.screen.blit(pacman_retries_box_2, (100+W_pacman/2, 10)) # side-by-side
-    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10))
+    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
+    # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument
+    # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
 
