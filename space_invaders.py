@@ -268,18 +268,16 @@ while True: # keeps screen open
 
     # --- Drawing code
     sprites.draw(canvas.screen)
-    canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # draw sprite on screen, so you can see block
+    canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see it, even if game over
     canvas.screen.blit(timer_header, (10, 10))
-    canvas.screen.blit(timer_text, (10, 30)) # copy image of text onto screen at (10, 10)
+    canvas.screen.blit(timer_text, (10, 30))
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (100+i*w/2, 10))
         retry_boxes[i].set_colorkey(BLACK)
-        # if timer == 0:
-        #     pygame.draw.rect(retry_boxes[i], WHITE, [0, 0, w/2, h/2], 0)
-    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10))
-    canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30)) # near top-right corner
+    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10)) # near top-right corner
+    canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
-    # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument (recall: positional args vs keyword args)
+    # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument
     # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
     canvas.screen.blit(you_win_text, you_win_text.get_rect(center = canvas.screen.get_rect().center))
     # ----------------
