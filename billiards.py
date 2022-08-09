@@ -19,13 +19,6 @@ while True: # keeps screen open
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
     # --- Game logic
-    # --------------
-    canvas.clean() # redundant
-    # --- Drawing code
-    for i in range(0, canvas.size[0], 64): # 64 pixels is step size, based on width of background picture
-        for j in range(0, canvas.size[1], 64): # again, 64 pixels is step size, but this one is based on height of background picture
-            canvas.screen.blit(background_picture, (i, j)) # copy the background picture onto the screen, fills in vertically from left to right
-    canvas.screen.blit(ball_picture, (0+x_offset, 0+y_offset)) # copy the foreground picture onto the screen starting at (0+x_offset, 0+y_offset)
     y_offset += y_increment
     x_offset += x_increment
     if 0+y_offset + 64 > canvas.size[1]: # if rectangle would breach bottom edge
@@ -40,5 +33,13 @@ while True: # keeps screen open
     elif 0+x_offset < 0: # else if rectangle would breach left edge
         x_offset = 0
         x_increment *= -1
+    # --------------
+    canvas.clean() # redundant
+    # --- Drawing code
+    for i in range(0, canvas.size[0], 64): # 64 pixels is step size, based on width of background picture
+        for j in range(0, canvas.size[1], 64): # again, 64 pixels is step size, but this one is based on height of background picture
+            canvas.screen.blit(background_picture, (i, j)) # copy the background picture onto the screen, fills in vertically from left to right
+    canvas.screen.blit(ball_picture, (0+x_offset, 0+y_offset)) # copy the foreground picture onto the screen starting at (0+x_offset, 0+y_offset)
+    # ball already moved once, but oh well
     # ----------------
     canvas.show()

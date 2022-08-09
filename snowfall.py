@@ -26,17 +26,18 @@ while True: # keeps screen open
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
     # --- Game logic
-    # --------------
-    canvas.clean() # redundant
-    # --- Drawing code
-    canvas.screen.blit(background_picture, (0, 0)) # copy the background picture onto the screen starting at top-left corner
     for i in range(0, len(snowflakes)): # FOR each index in the list
-        pygame.draw.circle(canvas.screen, WHITE, snowflakes[i], radius=r, width=0)
         snowflakes[i][1] += y_increment # increase y by 1 pixel for each point
         if snowflakes[i][1] > canvas.size[1]+r: # IF snowflake has left the screen
             # Recreate it above the screen
             snowflakes[i][1] = random.randrange(-50, -r) # -50 is optional
             # More randomness
             snowflakes[i][0] = random.randrange(0, canvas.size[0]+1)
+    # --------------
+    canvas.clean() # redundant
+    # --- Drawing code
+    canvas.screen.blit(background_picture, (0, 0)) # copy the background picture onto the screen starting at top-left corner
+    for i in range(0, len(snowflakes)):
+        pygame.draw.circle(canvas.screen, WHITE, snowflakes[i], radius=r, width=0) # snowflakes already moved once, but oh well
     # ----------------
     canvas.show()
