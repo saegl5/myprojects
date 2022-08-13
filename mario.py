@@ -8,7 +8,7 @@ from custom.classes import Rectangle
 from custom.energy import time_stamp, save_energy
 # Other modules to import
 
-pygame.display.set_caption("\"Mario\" Game")
+pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
 # Other settings
 
@@ -31,19 +31,19 @@ while True:
     for action in pygame.event.get():
         if action.type == pygame.QUIT:
             canvas.close()
-    
+
         elif action.type == pygame.KEYDOWN:
-            if action.key == pygame.K_RIGHT: # comment out any key and increment not needed
+            if action.key == pygame.K_RIGHT:
                 x_inc = speed
             if action.key == pygame.K_LEFT:
                 x_inc = -speed
             if action.key == pygame.K_SPACE:
                 y_inc = -speed # y decreases going upward
         elif action.type == pygame.KEYUP:
-            x_inc = 0 # comment out any increment not needed
+            x_inc = 0
             y_inc = 0 # keep?
         # Other keyboard or mouse/trackpad events
-                
+
         time_stamp(action)
 
     mario.rect.x += x_inc
