@@ -1,5 +1,5 @@
 """
-Base Module
+"Mario" Game
 """
 
 import pygame
@@ -8,19 +8,20 @@ from custom.classes import Rectangle
 from custom.energy import time_stamp, save_energy
 # Other modules to import
 
-pygame.display.set_caption("Base Module")
+pygame.display.set_caption("\"Mario\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
 # Other settings
 
 WHITE = pygame.Color("white") # optional color
-width = 64
+width = 48
 height = 64
-player = Rectangle(width, height) # see classes.py
-player.rect.x = 300
-player.rect.y = 200
-player.image.fill(WHITE) # example
+ground_height = 50
+mario = Rectangle(width, height) # see classes.py
+mario.rect.x = 50
+mario.rect.bottom = canvas.screen.get_rect().bottom - ground_height
+mario.image.fill(WHITE) # example
 sprites = pygame.sprite.Group()
-sprites.add(player)
+sprites.add(mario)
 speed = 5 # example
 x_inc = 0 # short for "increment"
 y_inc = 0
@@ -34,23 +35,20 @@ while True:
         elif action.type == pygame.KEYDOWN:
             if action.key == pygame.K_RIGHT: # comment out any key and increment not needed
                 x_inc = speed
-            if action.key == pygame.K_UP:
-                y_inc = -speed # y decreases going upward
             if action.key == pygame.K_LEFT:
                 x_inc = -speed
-            if action.key == pygame.K_DOWN:
-                y_inc = speed
             if action.key == pygame.K_SPACE:
-                y_inc = -speed
+                y_inc = -speed # y decreases going upward
         elif action.type == pygame.KEYUP:
-            x_inc = 0
-            y_inc = 0
+            x_inc = 0 # comment out any increment not needed
+            y_inc = 0 # keep?
         # Other keyboard or mouse/trackpad events
                 
         time_stamp(action)
 
-    player.rect.x += x_inc
-    player.rect.y += y_inc
+    mario.rect.x += x_inc
+    mario.rect.y += y_inc
+    y_inc += 0.15 # gravity
     # Other game logic
 
     canvas.clean()
