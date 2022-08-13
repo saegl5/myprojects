@@ -18,7 +18,7 @@ height = 64
 ground_height = 50
 mario = Rectangle(width, height) # see classes.py
 mario.rect.x = 50
-mario.rect.bottom = canvas.screen.get_rect().bottom - ground_height
+mario.rect.bottom = canvas.screen.get_rect().bottom - ground_height # could also use rect.y, canvas.size[1] and subtract mario height
 mario.image.fill(WHITE) # example
 sprites = pygame.sprite.Group()
 sprites.add(mario)
