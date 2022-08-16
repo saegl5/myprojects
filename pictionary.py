@@ -11,19 +11,18 @@ from custom.functions import fill
 BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
 
-draw = False # start as "False," so won't draw unless press mouse/trackpad button and move
+draw = False # don't draw unless press mouse/trackpad button and move
 previous_x = None
 previous_y = None
 drawn = pygame.sprite.Group()
-pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
-
 cursor_picture = pygame.image.load('images/chalk.png').convert()
 cursor_picture.set_colorkey(BLUE)
-pygame.mouse.set_visible(False)  # hide the system cursor, will replace it with picture of chalk later
+pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
+pygame.mouse.set_visible(False)  # hide the mouse cursor, will replace it with picture of chalk later
 
-while True:
-    for action in pygame.event.get():
-        if action.type == pygame.QUIT:
+while True: # keeps screen open
+    for action in pygame.event.get(): # check for user input when open screen
+        if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
         elif action.type == pygame.MOUSEBUTTONDOWN:
@@ -33,6 +32,7 @@ while True:
 
         efficiency.snapshot(action)
 
+    # --- Game logic
     pos = pygame.mouse.get_pos()
     x_offset = pos[0]-canvas.size[0]/2
     y_offset = pos[1]-canvas.size[1]/2
@@ -47,11 +47,11 @@ while True:
     else:
         previous_x = None
         previous_y = None
-
+    # --------------
     canvas.clean()
-
+    # --- Drawing code    
     drawn.draw(canvas.screen)
     canvas.screen.blit(cursor_picture, (pos[0]-11, pos[1])) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
-    
+    # ----------------
     canvas.show()
     efficiency.activate()
