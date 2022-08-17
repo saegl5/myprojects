@@ -48,7 +48,7 @@ while True:
 
     mario.rect.x += x_inc
     mario.rect.y += y_inc
-    y_inc += 0.15 # gravity
+    y_inc -= 0.15 # gravity
     # Other game logic
 
     canvas.clean()
