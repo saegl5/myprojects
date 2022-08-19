@@ -221,11 +221,11 @@ while True: # keeps screen open
         elif action.type == pygame.KEYUP:
             if action.key == pygame.K_RIGHT and x_increment > 0: # being more specific reduces jagged movement
                 x_increment = 0
-            elif action.key == pygame.K_LEFT and x_increment < 0:
+            if action.key == pygame.K_LEFT and x_increment < 0:
                 x_increment = 0
-            elif action.key == pygame.K_UP and y_increment < 0:
+            if action.key == pygame.K_UP and y_increment < 0:
                 y_increment = 0
-            elif action.key == pygame.K_DOWN and y_increment > 0:
+            if action.key == pygame.K_DOWN and y_increment > 0:
                 y_increment = 0
             count = 0
             turn(pacman, angle)
