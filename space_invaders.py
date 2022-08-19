@@ -4,6 +4,7 @@
 
 import pygame, random
 import src.canvas as canvas
+from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
@@ -44,7 +45,6 @@ spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W_spacesh
 invader_picture = pygame.image.load('images/alien.png').convert()
 invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
 
-ticks = int()
 timer = 30 # 30 seconds (multiple of modulo for invaders.update())
 score = 0
 first = True # for spaceship laser
@@ -174,7 +174,8 @@ while True: # keeps screen open
                 x_increment = 0
             if action.key == pygame.K_SPACE:
                 first = True
-            ticks = pygame.time.get_ticks()
+
+        time_stamp(action)
         # -------------------
         
     # --- Game logic
@@ -281,5 +282,4 @@ while True: # keeps screen open
     # ----------------
 
     canvas.show()
-    if pygame.time.get_ticks() - ticks > 10000:
-        canvas.clock.tick(1)
+    save_energy()

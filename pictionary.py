@@ -4,6 +4,7 @@
 
 import pygame
 import src.canvas as canvas
+from custom.energy import time_stamp, save_energy
 
 BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
@@ -12,7 +13,6 @@ draw = False # don't draw unless press mouse/trackpad button and move
 previous_x = None
 previous_y = None
 drawn = pygame.sprite.Group()
-ticks = int() # for saving energy
 cursor_picture = pygame.image.load('images/chalk.png').convert()
 cursor_picture.set_colorkey(BLUE)
 pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
@@ -53,7 +53,8 @@ while True: # keeps screen open
             draw = True
         elif action.type == pygame.MOUSEBUTTONUP:
             draw = False
-            ticks = pygame.time.get_ticks()
+
+        time_stamp(action)
 
     # --- Game logic
     pos = pygame.mouse.get_pos()
@@ -77,5 +78,4 @@ while True: # keeps screen open
     canvas.screen.blit(cursor_picture, (pos[0]-11, pos[1])) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
     # ----------------
     canvas.show()
-    if pygame.time.get_ticks() - ticks > 10000: # unless user stops playing for 10 seconds
-        canvas.clock.tick(1) # in which case minimize the frame rate
+    save_energy()

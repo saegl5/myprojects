@@ -4,6 +4,7 @@ Billiards Animation
 
 import pygame
 import src.canvas as canvas
+from custom.energy import time_stamp, save_energy
 
 ball_picture = pygame.image.load('images/ball_blue_large.png')
 background_picture = pygame.image.load('images/background_green.png')
@@ -18,6 +19,7 @@ while True: # keeps screen open
     for action in pygame.event.get(): # check for user input when open screen
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
+        time_stamp(action)
     # --- Game logic
     y += y_increment
     x += x_increment
@@ -43,3 +45,4 @@ while True: # keeps screen open
     # ball already moved once, but oh well
     # ----------------
     canvas.show()
+    save_energy()

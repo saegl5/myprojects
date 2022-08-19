@@ -4,6 +4,7 @@ Suburb Drawing
 
 import pygame
 import src.canvas as canvas
+from custom.energy import time_stamp, save_energy
 from custom.heart import heart
 from math import pi, cos, sin
 
@@ -21,6 +22,7 @@ while True: # keeps screen open
     for action in pygame.event.get(): # check for user input when open screen
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
+        time_stamp(action)
     # --- Game logic
     # --------------
     canvas.clean()
@@ -71,3 +73,4 @@ while True: # keeps screen open
     pygame.draw.arc(canvas.screen, RED, (499, 298, 25, 50), 180*pi/180, 275*pi/180, width=2) # balloon string
     # ----------------
     canvas.show()
+    save_energy()

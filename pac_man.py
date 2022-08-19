@@ -4,6 +4,7 @@
 
 import pygame, random
 import src.canvas as canvas
+from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
@@ -54,7 +55,6 @@ pacman_picture_retries = pygame.transform.scale(pacman_picture, (W_pacman/2, H_p
 timer = 30 # 30 seconds (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
-ticks = int()
 angle = 0 # redundant
 retries = 2
 
@@ -238,7 +238,8 @@ while True: # keeps screen open
                 y_increment = 0
             count = 0
             turn(pacman, angle)
-            ticks = pygame.time.get_ticks()
+
+        time_stamp(action)
         # -------------------
         
     # --- Game logic
@@ -364,5 +365,4 @@ while True: # keeps screen open
     # ----------------
 
     canvas.show()
-    if pygame.time.get_ticks() - ticks > 10000:
-        canvas.clock.tick(1)
+    save_energy()
