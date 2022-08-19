@@ -4,7 +4,7 @@
 
 import pygame, random
 import src.canvas as canvas
-import src.efficiency as efficiency
+from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
 from custom.functions import left_wall, right_wall, top_wall, bottom_wall
 
@@ -230,7 +230,7 @@ while True: # keeps screen open
             count = 0
             turn(pacman, angle)
 
-        efficiency.snapshot(action)
+        time_stamp(action)
         # -------------------
         
     # --- Game logic
@@ -372,4 +372,4 @@ while True: # keeps screen open
     # ----------------
 
     canvas.show()
-    efficiency.activate()
+    save_energy()

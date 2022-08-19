@@ -4,7 +4,7 @@ Snowfall Animation
 
 import pygame, random
 import src.canvas as canvas
-import src.efficiency as efficiency
+from custom.energy import time_stamp, save_energy
 
 WHITE = pygame.Color("white") # example
 
@@ -26,7 +26,7 @@ while True: # keeps screen open
     for action in pygame.event.get(): # check for user input when open screen
         if action.type == pygame.QUIT: # user clicked close button
             canvas.close()
-        efficiency.snapshot(action)
+        time_stamp(action)
     # --- Game logic
     for i in range(0, len(snowflakes)): # FOR each index in the list
         snowflakes[i][1] += y_increment # increase y by 1 pixel for each point
@@ -43,4 +43,4 @@ while True: # keeps screen open
         pygame.draw.circle(canvas.screen, WHITE, snowflakes[i], radius=r, width=0) # snowflakes already moved once, but oh well
     # ----------------
     canvas.show()
-    efficiency.activate()
+    save_energy()

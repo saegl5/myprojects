@@ -4,7 +4,7 @@
 
 import pygame, random
 import src.canvas as canvas
-import src.efficiency as efficiency
+from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
 from custom.functions import left_wall, right_wall
 
@@ -171,7 +171,7 @@ while True: # keeps screen open
             if action.key == pygame.K_SPACE:
                 first = True
 
-        efficiency.snapshot(action)
+        time_stamp(action)
         # -------------------
         
     # --- Game logic
@@ -285,4 +285,4 @@ while True: # keeps screen open
     # ----------------
 
     canvas.show()
-    efficiency.activate()
+    save_energy()

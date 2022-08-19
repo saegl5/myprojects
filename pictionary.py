@@ -4,7 +4,7 @@
 
 import pygame
 import src.canvas as canvas
-import src.efficiency as efficiency
+from custom.energy import time_stamp, save_energy
 from custom.classes import Draw
 from custom.functions import fill
 
@@ -30,7 +30,7 @@ while True: # keeps screen open
         elif action.type == pygame.MOUSEBUTTONUP:
             draw = False
 
-        efficiency.snapshot(action)
+        time_stamp(action)
 
     # --- Game logic
     pos = pygame.mouse.get_pos()
@@ -54,4 +54,4 @@ while True: # keeps screen open
     canvas.screen.blit(cursor_picture, (pos[0]-11, pos[1])) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
     # ----------------
     canvas.show()
-    efficiency.activate()
+    save_energy()
