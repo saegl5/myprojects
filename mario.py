@@ -12,8 +12,8 @@ pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
 # Other settings
 
-WHITE = pygame.Color("white") # optional color, mario
-BROWN = pygame.Color("burlywood4") # ground
+BROWN = pygame.Color("burlywood4") # optional color, ground
+WHITE = pygame.Color("white") # mario
 width = 48
 height = 64
 ground_height = 50
@@ -56,7 +56,7 @@ while True:
         time_stamp(action)
 
     mario.rect.x += x_inc
-    
+
     mario.rect.y += y_inc
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
     if hit_ground != []:
