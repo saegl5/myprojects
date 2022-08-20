@@ -12,16 +12,25 @@ pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
 # Other settings
 
-WHITE = pygame.Color("white") # optional color
+WHITE = pygame.Color("white") # optional color, mario
+BROWN = pygame.Color("burlywood4") # ground
 width = 48
 height = 64
 ground_height = 50
+
+ground = Rectangle(canvas.size[0], ground_height)
+ground.rect.left = canvas.screen.get_rect().left
+ground.rect.bottom = canvas.screen.get_rect().bottom
+ground.image.fill(BROWN)
 mario = Rectangle(width, height) # see classes.py
 mario.rect.x = 50
-mario.rect.bottom = canvas.screen.get_rect().bottom - ground_height # could also use rect.y, canvas.size[1] and subtract mario height
+mario.rect.bottom = ground.rect.top
 mario.image.fill(WHITE) # example
-sprites = pygame.sprite.Group()
-sprites.add(mario)
+grounds = pygame.sprite.Group()
+sprites = pygame.sprite.Group() # all sprites
+grounds.add(ground)
+sprites.add(ground, mario)
+
 speed = 5 # example
 x_inc = 0 # short for "increment"
 y_inc = 0
@@ -48,7 +57,11 @@ while True:
 
     mario.rect.x += x_inc
     mario.rect.y += y_inc
-    y_inc -= 0.15 # gravity
+    hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
+    if hit_ground != []:
+        mario.rect.bottom = ground.rect.top
+    else:
+        y_inc += 0.15 # gravity, place here otherwise increment will keep running
     # Other game logic
 
     canvas.clean()
