@@ -56,6 +56,7 @@ while True:
         time_stamp(action)
 
     mario.rect.x += x_inc
+    
     mario.rect.y += y_inc
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
     if hit_ground != []:
