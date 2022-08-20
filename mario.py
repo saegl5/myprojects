@@ -29,7 +29,7 @@ mario.image.fill(WHITE) # example
 grounds = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
 grounds.add(ground)
-sprites.add(ground, mario)
+sprites.add(ground, mario) # displays mario in front of ground (order matters)
 
 speed = 5 # example
 x_inc = 0 # short for "increment"
