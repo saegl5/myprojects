@@ -8,7 +8,7 @@ from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
 
 WHITE = pygame.Color("white")
-BLACK = pygame.Color("black") # useful if run module on macOS
+BLACK = pygame.Color("black")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 
