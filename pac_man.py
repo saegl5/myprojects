@@ -9,7 +9,7 @@ from custom.classes import Rectangle
 from custom.functions import left_wall, right_wall, top_wall, bottom_wall
 
 WHITE = pygame.Color("white")
-BLACK = pygame.Color("black") # useful if run module on macOS
+BLACK = pygame.Color("black")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 
