@@ -17,6 +17,10 @@ WHITE = pygame.Color("white") # mario
 width = 48
 height = 64
 ground_height = 50
+speed = 5 # example
+x_inc = 0 # short for "increment"
+y_inc = 0
+# Other variables and constants
 
 ground = Rectangle(canvas.size[0], ground_height)
 ground.rect.left = canvas.screen.get_rect().left
@@ -30,11 +34,7 @@ grounds = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
 grounds.add(ground)
 sprites.add(ground, mario) # displays mario in front of ground (order matters)
-
-speed = 5 # example
-x_inc = 0 # short for "increment"
-y_inc = 0
-# Other variables and constants
+# Other sprites
 
 while True:
     for action in pygame.event.get():
