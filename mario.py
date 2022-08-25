@@ -14,8 +14,8 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
-width = 48
-height = 64
+w = 48
+h = 64
 ground_height = 50
 speed = 5 # example
 x_inc = 0 # short for "increment"
@@ -26,7 +26,7 @@ ground = Rectangle(canvas.size[0], ground_height)
 ground.rect.left = canvas.screen.get_rect().left
 ground.rect.bottom = canvas.screen.get_rect().bottom
 ground.image.fill(BROWN)
-mario = Rectangle(width, height) # see classes.py
+mario = Rectangle(w, h) # see classes.py
 mario.rect.x = 50
 mario.rect.bottom = ground.rect.top
 mario.image.fill(WHITE) # example
