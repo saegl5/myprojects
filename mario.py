@@ -34,7 +34,7 @@ mario.rect.bottom = ground.rect.top
 mario.image.fill(WHITE) # example
 platform = Rectangle(200, 50)
 platform.rect.right = canvas.screen.get_rect().right
-platform.rect.y = 300
+platform.rect.y = 300 # low enough for mario to jump over
 platform.image.fill(YELLOW)
 grounds = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
@@ -68,12 +68,13 @@ while True:
 
     mario.rect.y += y_inc
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
+    hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
-    # note to self: need else: here????
-    hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
-    if hit_platform != []:
+        y_inc = 0
+    elif hit_platform != []:
         mario.rect.bottom = platform.rect.top
+        y_inc = 0
     else:
         y_inc += 0.30 # gravity, place here otherwise increment will keep running
     # Other game logic
