@@ -71,7 +71,6 @@ while True:
     hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
-        y_inc = 0
     elif hit_platform != []:
         mario.rect.bottom = platform.rect.top
         y_inc = 0
