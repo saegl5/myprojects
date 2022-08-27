@@ -73,7 +73,7 @@ while True:
         mario.rect.bottom = ground.rect.top
     elif hit_platform != []:
         mario.rect.bottom = platform.rect.top
-        y_inc = 0
+        y_inc = 0 # in case mario walks off platform
     else:
         y_inc += 0.30 # gravity, place here otherwise increment will keep running
     # Other game logic
