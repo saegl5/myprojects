@@ -9,33 +9,41 @@ from custom.energy import time_stamp, save_energy
 # Other modules to import
 
 pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
-# pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement, but mario may continually hop
+pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
 # Other settings
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
-width = 48
-height = 64
+YELLOW = pygame.Color("yellow") # platform
+w = 48
+h = 64
 ground_height = 50
+speed = 5 # example
+x_inc = 0 # short for "increment"
+y_inc = 0
+first = True # hopping
+halt = True # walking
+# Other variables and constants
 
 ground = Rectangle(canvas.size[0], ground_height)
 ground.rect.left = canvas.screen.get_rect().left
 ground.rect.bottom = canvas.screen.get_rect().bottom
 ground.image.fill(BROWN)
-mario = Rectangle(width, height) # see classes.py
+mario = Rectangle(w, h) # see classes.py
 mario.rect.x = 50
 mario.rect.bottom = ground.rect.top
 mario.image.fill(WHITE) # example
+platform = Rectangle(200, 50)
+platform.rect.right = canvas.screen.get_rect().right
+platform.rect.y = 300 # low enough for mario to jump over
+platform.image.fill(YELLOW)
 grounds = pygame.sprite.Group()
+platforms = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
 grounds.add(ground)
-sprites.add(ground, mario) # displays mario in front of ground (order matters)
-
-speed = 5 # example
-x_inc = 0 # short for "increment"
-y_inc = 0
-first = True
-# Other variables and constants
+platforms.add(platform)
+sprites.add(ground, platform, mario) # displays mario in front of ground and platform (order matters)
+# Other sprites
 
 while True:
     for action in pygame.event.get():
@@ -43,17 +51,21 @@ while True:
             canvas.close()
 
         elif action.type == pygame.KEYDOWN:
-            if action.key == pygame.K_RIGHT and mario.rect.bottom > ground.rect.top-50:
+            if action.key == pygame.K_RIGHT:
                 x_inc = speed
-            if action.key == pygame.K_LEFT and mario.rect.bottom > ground.rect.top-50:
+                halt = False
+            if action.key == pygame.K_LEFT:
                 x_inc = -speed
-            if action.key == pygame.K_SPACE and mario.rect.bottom == ground.rect.top:
-                y_inc = -2*speed # y decreases going upward
+                halt = False
+            if action.key == pygame.K_SPACE and first == True:
+                if mario.rect.bottom == ground.rect.top or mario.rect.bottom == platform.rect.top:
+                    y_inc = -2*speed # y decreases going upward
+                    first = False
         elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_LEFT and x_inc < 0 and mario.rect.bottom == ground.rect.top:
-                x_inc = 0
-            if action.key == pygame.K_RIGHT and x_inc > 0 and mario.rect.bottom == ground.rect.top:
-                x_inc = 0
+            if action.key == pygame.K_SPACE:
+                first = True
+            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+                halt = True
         # Other keyboard or mouse/trackpad events
 
         time_stamp(action)
@@ -62,14 +74,18 @@ while True:
 
     mario.rect.y += y_inc
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
+    hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
-        if first == True:
+        if halt == True:
             x_inc = 0
-            first = False
-    else: # proceed normally
-        y_inc += 0.35 # gravity, place here otherwise increment will keep running
-        first = True
+    elif hit_platform != []:
+        mario.rect.bottom = platform.rect.top
+        y_inc = 0 # in case mario walks off platform
+        if halt == True:
+            x_inc = 0
+    else:
+        y_inc += 0.30 # gravity, place here otherwise increment will keep running
     # Other game logic
 
     canvas.clean()
