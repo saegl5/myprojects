@@ -72,6 +72,7 @@ while True:
 
     mario.rect.x += x_inc
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
+    # could also check if hit_ground, but this is redundant
     if hit_platform_x != []:
         if x_inc > 0:
             mario.rect.right = platform.rect.left
