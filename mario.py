@@ -71,17 +71,28 @@ while True:
         time_stamp(action)
 
     mario.rect.x += x_inc
+    hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
+    if hit_platform_x != []:
+        if x_inc > 0:
+            mario.rect.right = platform.rect.left
+        elif x_inc < 0:
+            mario.rect.left = platform.rect.right
 
     mario.rect.y += y_inc
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
-    hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
+    hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
+        y_inc = 0 # logical
         if halt == True:
             x_inc = 0
-    elif hit_platform != []:
-        mario.rect.bottom = platform.rect.top
-        y_inc = 0 # in case mario walks off platform
+    elif hit_platform_y != []:
+        if y_inc >= 0: # location where mario hits platform may be inside it
+            mario.rect.bottom = platform.rect.top
+            y_inc = 0 # in case mario walks off platform
+        elif y_inc < 0: # mario always moving upward from below
+            mario.rect.top = platform.rect.bottom # bonks his head on platform
+            y_inc = 0 # unsticks mario
         if halt == True:
             x_inc = 0
     else:
