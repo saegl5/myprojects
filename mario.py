@@ -23,7 +23,7 @@ x_inc = 0 # short for "increment"
 y_inc = 0
 first = True # hopping
 halt = True # walking
-# Other variables and constants
+# Other constants and variables
 
 ground = Rectangle(canvas.size[0], ground_height)
 ground.rect.left = canvas.screen.get_rect().left
