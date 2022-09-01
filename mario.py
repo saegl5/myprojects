@@ -59,7 +59,7 @@ while True:
                 halt = False
             if action.key == pygame.K_SPACE and first == True:
                 if mario.rect.bottom == ground.rect.top or mario.rect.bottom == platform.rect.top:
-                    y_inc = -2*speed # y decreases going upward
+                    y_inc = -2.75*speed # y decreases going upward
                     first = False
         elif action.type == pygame.KEYUP:
             if action.key == pygame.K_SPACE:
@@ -79,7 +79,7 @@ while True:
         elif x_inc < 0:
             mario.rect.left = platform.rect.right
 
-    mario.rect.y += y_inc
+    mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
@@ -96,8 +96,8 @@ while True:
             y_inc = 0 # unsticks mario
         if halt == True:
             x_inc = 0
-    else:
-        y_inc += 0.30 # gravity, place here otherwise increment will keep running
+    else: # cycles, fewer for higher values of gravity
+        y_inc += 0.5 # gravity, place here otherwise increment will keep running
     # Other game logic
 
     canvas.clean()
