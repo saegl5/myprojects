@@ -14,7 +14,7 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
-YELLOW = pygame.Color("yellow") # platform
+YELLOW = pygame.Color("yellow3") # platforms
 w = 48
 h = 64
 ground_height = 50
@@ -71,18 +71,37 @@ while True:
         time_stamp(action)
 
     mario.rect.x += x_inc
+    hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
     # could also check if hit_ground, but this is redundant
-    if hit_platform_x != []:
+    if hit_ground_x != []:
+        if x_inc > 0:
+            mario.rect.right = ground.rect.left
+        elif x_inc < 0:
+            mario.rect.left = ground.rect.right
+    elif hit_platform_x != []:
         if x_inc > 0:
             mario.rect.right = platform.rect.left
         elif x_inc < 0:
             mario.rect.left = platform.rect.right
+    if mario.rect.left < ground.rect.left: # could also use mario.rect.x < 0
+        mario.rect.left = ground.rect.left
+    elif mario.rect.right >= 500: # don't use canvas.size[0] because won't be able to see ahead of you 
+        move_left = mario.rect.right - 500
+        ground.rect.x -= move_left
+        platform.rect.x -= move_left
+        mario.rect.right = 500 # keep mario still, also maintains correct change in movement
+    elif mario.rect.left <= 200:
+        if ground.rect.x < 0:
+            move_right = 200 - mario.rect.left
+            ground.rect.x += move_right
+            platform.rect.x += move_right
+            mario.rect.left = 200
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
-    hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
+    hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
-    if hit_ground != []:
+    if hit_ground_y != []:
         mario.rect.bottom = ground.rect.top
         y_inc = 0 # logical
         if halt == True:
