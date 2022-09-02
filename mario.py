@@ -46,7 +46,7 @@ mario.rect.x = 50
 mario.rect.bottom = canvas.size[1]-ground_height
 mario.image.fill(WHITE) # example
 
-blocks = [  (200, 50, 500, 300),
+blocks = [  (200, 50, 400, 300),
             (200, 50, 800, 250),
             (200, 50, 1300, 100),
             (200, 50, 1700, 400)
