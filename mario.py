@@ -114,11 +114,17 @@ while True:
             platform.rect.x -= move_left
         mario.rect.right = 500 # keep mario still, also maintains correct change in movement
     elif mario.rect.left <= 200:
-        if ground.rect.x < 0:
+        if ground.rect.x < 0: # helps preserve boundary
             move_right = 200 - mario.rect.left
-            ground.rect.x += move_right
-            for platform in platforms:
-                platform.rect.x += move_right
+            if ground.rect.x + move_right > 0: # securely preserves boundary
+                over = ground.rect.x + move_right # negative + positive
+                ground.rect.x += move_right-over # zero out over
+                for platform in platforms:
+                    platform.rect.x += move_right-over
+            else:
+                ground.rect.x += move_right
+                for platform in platforms:
+                    platform.rect.x += move_right
             mario.rect.left = 200
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
