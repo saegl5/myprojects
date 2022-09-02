@@ -55,7 +55,7 @@ while True:
             if action.key == pygame.K_LEFT:
                 x_inc = -speed
             if action.key == pygame.K_SPACE and mario.rect.bottom == ground.rect.top and first == True:
-                y_inc = -2.75*speed # y decreases going upward
+                y_inc = -2.5*speed # y decreases going upward
                 first = False
         elif action.type == pygame.KEYUP:
             x_inc = 0
