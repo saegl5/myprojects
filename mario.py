@@ -23,6 +23,7 @@ x_inc = 0 # short for "increment"
 y_inc = 0
 first = True # hopping
 halt = True # walking
+on = True # ground or platform
 # Other constants and variables
 
 # grounds = pygame.sprite.Group()
@@ -76,14 +77,10 @@ while True:
             if action.key == pygame.K_LEFT:
                 x_inc = -speed
                 halt = False
-            if action.key == pygame.K_SPACE and first == True:
-                if mario.rect.bottom == ground.rect.top:
-                    y_inc = -2.5*speed # y decreases going upward
-                    first = False
-                for platform in platforms:
-                    if mario.rect.bottom == platform.rect.top:
-                        y_inc = -2.5*speed
-                        first = False
+            if action.key == pygame.K_SPACE and first == True and on == True:
+                y_inc = -2.5*speed # y decreases going upward
+                first = False
+                on = False
         elif action.type == pygame.KEYUP:
             if action.key == pygame.K_SPACE:
                 first = True
@@ -130,6 +127,7 @@ while True:
     if hit_ground_y != []:
         mario.rect.bottom = ground.rect.top
         y_inc = 0 # logical
+        on = True
         if halt == True:
             x_inc = 0
     elif hit_platform_y != []:
@@ -137,6 +135,7 @@ while True:
             if y_inc >= 0: # location where mario hits platform may be inside it
                 mario.rect.bottom = platform.rect.top
                 y_inc = 0 # in case mario walks off platform
+                on = True
             elif y_inc < 0: # mario always moving upward from below
                 mario.rect.top = platform.rect.bottom # bonks his head on platform
                 y_inc = 0 # unsticks mario
@@ -144,6 +143,7 @@ while True:
                 x_inc = 0
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
+        on = False
     # Other game logic
 
     canvas.clean()
