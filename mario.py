@@ -43,7 +43,7 @@ ground.rect.y = canvas.size[1]-ground_height
 ground.image.fill(BROWN)
 mario = Rectangle(w, h) # see classes.py
 mario.rect.x = 50
-mario.rect.bottom = canvas.size[1]-ground_height
+mario.rect.y = canvas.size[1]-h-ground_height
 mario.image.fill(WHITE) # example
 
 blocks = [  (200, 50, 400, 300),
