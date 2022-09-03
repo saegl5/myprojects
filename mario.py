@@ -22,6 +22,8 @@ speed = 5 # example
 x_inc = 0 # short for "increment"
 y_inc = 0
 first = True # hopping
+halt = True # walking
+on = True # ground or platform
 # Other constants and variables
 
 ground = Rectangle(canvas.size[0], ground_height)
@@ -52,14 +54,20 @@ while True:
         elif action.type == pygame.KEYDOWN:
             if action.key == pygame.K_RIGHT:
                 x_inc = speed
+                halt = False
             if action.key == pygame.K_LEFT:
                 x_inc = -speed
-            if action.key == pygame.K_SPACE and mario.rect.bottom == ground.rect.top and first == True:
+                halt = False
+            if action.key == pygame.K_SPACE and first == True and on == True:
+                # if mario.rect.bottom == ground.rect.top:
                 y_inc = -2.5*speed # y decreases going upward
                 first = False
+                on = False
         elif action.type == pygame.KEYUP:
-            x_inc = 0
-            first = True
+            if action.key == pygame.K_SPACE:
+                first = True
+            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+                halt = True
         # Other keyboard or mouse/trackpad events
 
         time_stamp(action)
@@ -71,11 +79,18 @@ while True:
     hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
+        on = True
+        if halt == True:
+            x_inc = 0
     elif hit_platform != []:
         mario.rect.bottom = platform.rect.top
         y_inc = 0 # in case mario walks off platform
+        on = True
+        if halt == True:
+            x_inc = 0
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
+        on = False
     # Other game logic
 
     canvas.clean()
