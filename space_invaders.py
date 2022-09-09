@@ -14,7 +14,7 @@ YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 
-x_increment = 0 # speed
+x_inc = 0 # speed
 w = 64 # "spaceship" sprite width reference
 h = 64 # "spaceship" sprite height reference
 
@@ -99,7 +99,7 @@ for i in range(0, p):
 
 spaceship = Rectangle(w, h)
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
-spaceship.rect.y = canvas.size[1]-h
+spaceship.rect.y = canvas.size[1] - h
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 for i in range(0, retries):
@@ -148,9 +148,9 @@ while True: # keeps screen open
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
                 if action.key == pygame.K_RIGHT:
-                    x_increment = 5
+                    x_inc = 5
                 if action.key == pygame.K_LEFT:
-                    x_increment = -5
+                    x_inc = -5
                 if action.key == pygame.K_SPACE: # fire laser
                     laser = Rectangle(10, 20)
                     laser.rect.centerx = spaceship.rect.centerx
@@ -161,13 +161,11 @@ while True: # keeps screen open
                         spaceship_laser_sound.play()
                         first = False
             else:
-                x_increment = 0
+                x_inc = 0
 
         elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_RIGHT and x_increment > 0: # being more specific reduces jagged movement
-                x_increment = 0
-            if action.key == pygame.K_LEFT and x_increment < 0:
-                x_increment = 0
+            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+                x_inc = 0
             if action.key == pygame.K_SPACE:
                 first = True
 
@@ -175,12 +173,12 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    spaceship.rect.x += x_increment
+    spaceship.rect.x += x_inc
     hit = pygame.sprite.spritecollide(spaceship, walls, False) # don't remove wall, returns a list
     for wall in hit: # wall that spaceship hit
-        if x_increment > 0:
+        if x_inc > 0:
             spaceship.rect.right = wall.rect.left
-        else: # x_increment = 0 not hitting a wall
+        else: # x_inc = 0 not hitting a wall
             spaceship.rect.left = wall.rect.right
 
     for laser in lasers: # "laser" sprite was not created before WHILE loop

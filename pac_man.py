@@ -15,12 +15,12 @@ GREEN = pygame.Color("green")
 
 x_offset = 50 # don't start on wall
 y_offset = 0
-x_increment = 0 # speed
-y_increment = 0
-x_increment_red_ghost = 1 # moving rightward at launch
-y_increment_red_ghost = 0
-x_increment_green_ghost = 0
-y_increment_green_ghost = 1
+x_inc = 0 # speed
+y_inc = 0
+x_inc_red_ghost = 1 # moving rightward at launch
+y_inc_red_ghost = 0
+x_inc_green_ghost = 0
+y_inc_green_ghost = 1
 w = 64 # "pacman" sprite width reference
 h = 64 # "pacman" sprite height reference
 
@@ -171,62 +171,58 @@ while True: # keeps screen open
             else: # after one second
                 timer -= 1
                 if timer % 10 == 0: # every 10 seconds
-                    y_increment_green_ghost = random.choice([-1, 0, 1])
-                    if y_increment_green_ghost == 0:
-                        x_increment_green_ghost = random.choice([-1, 1])
-                    else: # when y_increment_green_ghost = -1 or 1
-                        x_increment_green_ghost = 0 # always moving
+                    y_inc_green_ghost = random.choice([-1, 0, 1])
+                    if y_inc_green_ghost == 0:
+                        x_inc_green_ghost = random.choice([-1, 1])
+                    else: # when y_inc_green_ghost = -1 or 1
+                        x_inc_green_ghost = 0 # always moving
                 elif timer % 5 == 0:
-                    x_increment_red_ghost = random.choice([-1, 0, 1])
-                    if x_increment_red_ghost == 0:
-                        y_increment_red_ghost = random.choice([-1, 1])
+                    x_inc_red_ghost = random.choice([-1, 0, 1])
+                    if x_inc_red_ghost == 0:
+                        y_inc_red_ghost = random.choice([-1, 1])
                     else:
-                        y_increment_red_ghost = 0
+                        y_inc_red_ghost = 0
 
         # --- Keyboard events
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
                 if action.key == pygame.K_RIGHT:
-                    x_increment = 5
+                    x_inc = 5
                     angle = 0
                     turn(pacman, angle) # placing here also helps with using keyboard combination to take screenshots
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
                 if action.key == pygame.K_UP: # recall that y increases going downward
-                    y_increment = -5
+                    y_inc = -5
                     angle = 90
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
                 if action.key == pygame.K_LEFT:
-                    x_increment = -5
+                    x_inc = -5
                     angle = 180
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
                 if action.key == pygame.K_DOWN:
-                    y_increment = 5
+                    y_inc = 5
                     angle = 270
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
             else:
-                x_increment = 0
-                y_increment = 0
+                x_inc = 0
+                y_inc = 0
                 
         elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_RIGHT and x_increment > 0: # being more specific reduces jagged movement
-                x_increment = 0
-            if action.key == pygame.K_LEFT and x_increment < 0:
-                x_increment = 0
-            if action.key == pygame.K_UP and y_increment < 0:
-                y_increment = 0
-            if action.key == pygame.K_DOWN and y_increment > 0:
-                y_increment = 0
+            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+                x_inc = 0
+            if action.key == pygame.K_UP or action.key == pygame.K_DOWN:
+                y_inc = 0
             count = 0
             turn(pacman, angle)
 
@@ -234,20 +230,20 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    pacman.rect.x += x_increment
+    pacman.rect.x += x_inc
     wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall, returns a list
     for wall in wall_pacman_hit_x: # wall that pacman hit
-        if x_increment > 0:
+        if x_inc > 0:
             pacman.rect.right = wall.rect.left
-        else: # x_increment = 0 not hitting a wall
+        else: # x_inc = 0 not hitting a wall
             pacman.rect.left = wall.rect.right
     
-    pacman.rect.y += y_increment
+    pacman.rect.y += y_inc
     wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False)
     for wall in wall_pacman_hit_y:
-        if y_increment > 0:
+        if y_inc > 0:
             pacman.rect.bottom = wall.rect.top
-        else: # y_increment = 0 not hitting a wall
+        else: # y_inc = 0 not hitting a wall
             pacman.rect.top = wall.rect.bottom
 
     pellet_removed = pygame.sprite.spritecollide(pacman, pellets, True) # remove pellet
@@ -256,24 +252,24 @@ while True: # keeps screen open
     for ghost in red_ghosts:
         wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
         if wall_ghost_hit_x != []:
-            x_increment_red_ghost *= -1
-        ghost.rect.x += x_increment_red_ghost # increment here, else ghost may get stuck on wall
+            x_inc_red_ghost *= -1
+        ghost.rect.x += x_inc_red_ghost # increment here, else ghost may get stuck on wall
 
         wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
         if wall_ghost_hit_y != []:
-            y_increment_red_ghost *= -1
-        ghost.rect.y += y_increment_red_ghost
+            y_inc_red_ghost *= -1
+        ghost.rect.y += y_inc_red_ghost
 
     for ghost in green_ghosts:
         wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
         if wall_ghost_hit_x != []:
-            x_increment_green_ghost *= -1
-        ghost.rect.x += x_increment_green_ghost
+            x_inc_green_ghost *= -1
+        ghost.rect.x += x_inc_green_ghost
 
         wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
         if wall_ghost_hit_y != []:
-            y_increment_green_ghost *= -1
-        ghost.rect.y += y_increment_green_ghost
+            y_inc_green_ghost *= -1
+        ghost.rect.y += y_inc_green_ghost
 
     for ghost in red_ghosts:
         if wait1 == canvas.fps*2 and waiting == False:
@@ -320,12 +316,12 @@ while True: # keeps screen open
             break
 
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
-        if x_increment_red_ghost < 0 or y_increment_red_ghost < 0: # ghost moving leftward or upward
+        if x_inc_red_ghost < 0 or y_inc_red_ghost < 0: # ghost moving leftward or upward
             flip_horizontal(ghost, True)
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
     for ghost in green_ghosts:
-        if x_increment_green_ghost < 0 or y_increment_green_ghost < 0:
+        if x_inc_green_ghost < 0 or y_inc_green_ghost < 0:
             flip_horizontal(ghost, True)
         elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
@@ -333,10 +329,10 @@ while True: # keeps screen open
     if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
         pass
     else: # stops ghosts from moving when game over or win game
-        x_increment_red_ghost = 0
-        y_increment_red_ghost = 0
-        x_increment_green_ghost = 0
-        y_increment_green_ghost = 0
+        x_inc_red_ghost = 0
+        y_inc_red_ghost = 0
+        x_inc_green_ghost = 0
+        y_inc_green_ghost = 0
     score = len(collisions)
 
     # --------------

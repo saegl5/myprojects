@@ -10,8 +10,8 @@ ball_picture = pygame.image.load('images/ball_blue_large.png')
 background_picture = pygame.image.load('images/background_green.png')
 y = 0 # initialize position
 x = 0
-y_increment = 8 # initialize increment
-x_increment = 10
+y_inc = 8 # initialize increment
+x_inc = 10
 
 pygame.display.set_caption("QUESTABOX's Billiards Animation")
 
@@ -21,20 +21,20 @@ while True: # keeps screen open
             canvas.close()
         time_stamp(action)
     # --- Game logic
-    y += y_increment
-    x += x_increment
+    y += y_inc
+    x += x_inc
     if y + 64 > canvas.size[1]: # if rectangle would breach bottom edge
         y = canvas.size[1] - 64 # prevent rectangle from breaching edge
-        y_increment *= -1 # y_increment = y_increment*-1, that is change the increment's sign
+        y_inc *= -1 # y_inc = y_inc*-1, that is change the increment's sign
     elif y < 0: # else if rectangle would breach top edge
         y = 0
-        y_increment *= -1 # change the increment's sign back
+        y_inc *= -1 # change the increment's sign back
     if x + 64 > canvas.size[0]: # if rectangle would breach right edge
         x = canvas.size[0] - 64
-        x_increment *= -1
+        x_inc *= -1
     elif x < 0: # else if rectangle would breach left edge
         x = 0
-        x_increment *= -1
+        x_inc *= -1
     # --------------
     canvas.clean() # redundant
     # --- Drawing code
