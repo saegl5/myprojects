@@ -11,7 +11,7 @@ WHITE = pygame.Color("white") # example
 background_picture = pygame.image.load('images/north_pole.jpeg')
 background_picture = pygame.transform.scale(background_picture, canvas.size)
 snowflakes = [] # empty list
-y_increment = 1 # initialize increment
+y_inc = 1 # initialize increment
 r = 4 # circle radius
 
 pygame.display.set_caption("QUESTABOX's Snowfall Animation")
@@ -29,7 +29,7 @@ while True: # keeps screen open
         time_stamp(action)
     # --- Game logic
     for i in range(0, len(snowflakes)): # FOR each index in the list
-        snowflakes[i][1] += y_increment # increase y by 1 pixel for each point
+        snowflakes[i][1] += y_inc # increase y by 1 pixel for each point
         if snowflakes[i][1] > canvas.size[1]+r: # IF snowflake has left the screen
             # Recreate it above the screen
             snowflakes[i][1] = random.randrange(-50, -r) # -50 is optional

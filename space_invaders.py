@@ -13,11 +13,9 @@ YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 
-x_increment = 0 # speed
-W_spaceship = 64 # these variables are for images
-H_spaceship = 64
-W_invader = 32
-H_invader = 32
+x_inc = 0 # speed
+w = 64 # "spaceship" sprite width reference
+h = 64 # "spaceship" sprite height reference
 
 invaders = pygame.sprite.Group() # not invaders = []
 collisions = pygame.sprite.Group()
@@ -40,8 +38,8 @@ invader_laser_sound = pygame.mixer.Sound('sounds/laserSmall.ogg')
 invader_explosion_sound = pygame.mixer.Sound('sounds/lowFrequency_explosion.ogg')
 
 spaceship_picture = pygame.image.load('images/ship.png').convert()
-spaceship_picture = pygame.transform.scale(spaceship_picture, (W_spaceship, H_spaceship))
-spaceship_picture_retries = pygame.transform.scale(spaceship_picture, (W_spaceship/2, H_spaceship/2))
+spaceship_picture = pygame.transform.scale(spaceship_picture, (w, h))
+spaceship_picture_retry = pygame.transform.scale(spaceship_picture, (w/2, h/2))
 invader_picture = pygame.image.load('images/alien.png').convert()
 invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
 
@@ -50,6 +48,7 @@ score = 0
 first = True # for spaceship laser
 count = 0 # for lunging picture
 retries = 2
+invader_count = 50
 p = 5 # chop up each barrier into 5 pieces
 wait = 60*2 # if spaceship hit by return fire, 60 fps x 2 seconds
 
@@ -65,7 +64,7 @@ def lunge(sprite):
         sprite.image.blit(invader_picture, (0, 0)) # revert
 def retry(sprite):
     sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen
-    sprite.rect.y = canvas.size[1]-H_spaceship
+    sprite.rect.y = canvas.size[1]-h
 def return_fire(sprite, index):
     sprite.image.fill(RED)
     sprite.rect.centerx = invaders.sprites()[index].rect.centerx
@@ -102,17 +101,16 @@ for i in range(0, p):
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
-spaceship = Rectangle(W_spaceship, H_spaceship)
+spaceship = Rectangle(w, h)
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
-spaceship.rect.y = canvas.size[1] - H_spaceship
+spaceship.rect.y = canvas.size[1] - h
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 
-
-while 50-len(invaders) > 0: # create and add fifty "invader" sprites
-    invader = Rectangle(W_invader, H_invader)
-    invader.rect.x = random.randrange(0, canvas.size[0]+1-W_invader, W_invader) # allow sprite to touch edge but not breach it
-    invader.rect.y = random.randrange(0, canvas.size[1]+1-H_invader-196, H_invader) # 196px space at canvas bottom
+while invader_count-len(invaders) > 0: # create and add fifty "invader" sprites
+    invader = Rectangle(w/2, h/2)
+    invader.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # allow sprite to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # 196px space at canvas bottom
     invader.image.blit(invader_picture, (0, 0))
     pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     invaders.add(invader)
@@ -152,9 +150,9 @@ while True: # keeps screen open
         elif action.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
                 if action.key == pygame.K_RIGHT:
-                    x_increment = 5
+                    x_inc = 5
                 if action.key == pygame.K_LEFT:
-                    x_increment = -5
+                    x_inc = -5
                 if action.key == pygame.K_SPACE: # fire laser
                     laser = Rectangle(10, 20)
                     laser.rect.centerx = spaceship.rect.centerx
@@ -165,13 +163,11 @@ while True: # keeps screen open
                         spaceship_laser_sound.play()
                         first = False
             else:
-                x_increment = 0
+                x_inc = 0
 
         elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_RIGHT and x_increment > 0: # being more specific reduces jagged movement
-                x_increment = 0
-            if action.key == pygame.K_LEFT and x_increment < 0:
-                x_increment = 0
+            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+                x_inc = 0
             if action.key == pygame.K_SPACE:
                 first = True
 
@@ -179,12 +175,12 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    spaceship.rect.x += x_increment
+    spaceship.rect.x += x_inc
     hit = pygame.sprite.spritecollide(spaceship, walls, False) # don't remove wall, returns a list
     for wall in hit: # wall that spaceship hit
-        if x_increment > 0:
+        if x_inc > 0:
             spaceship.rect.right = wall.rect.left
-        else: # x_increment = 0 not hitting a wall
+        else: # x_inc = 0 not hitting a wall
             spaceship.rect.left = wall.rect.right
 
     for laser in lasers: # "laser" sprite was not created before WHILE loop
@@ -240,16 +236,16 @@ while True: # keeps screen open
     score = len(collisions)
 
     if retries == 2: # default
-        spaceship_retries_box_1 = spaceship_picture_retries
-        spaceship_retries_box_2 = spaceship_picture_retries
+        spaceship_retry_box_1 = spaceship_picture_retry
+        spaceship_retry_box_2 = spaceship_picture_retry
     elif retries == 1:
-        spaceship_retries_box_1 = spaceship_picture_retries
-        spaceship_retries_box_2 = pygame.Surface((0, 0)) # blank box
+        spaceship_retry_box_1 = spaceship_picture_retry
+        spaceship_retry_box_2 = pygame.Surface((0, 0)) # blank box
     else:
-        spaceship_retries_box_1 = pygame.Surface((0, 0))
-        spaceship_retries_box_2 = pygame.Surface((0, 0))
-    spaceship_retries_box_1.set_colorkey(BLACK)
-    spaceship_retries_box_2.set_colorkey(BLACK)
+        spaceship_retry_box_1 = pygame.Surface((0, 0))
+        spaceship_retry_box_2 = pygame.Surface((0, 0))
+    spaceship_retry_box_1.set_colorkey(BLACK)
+    spaceship_retry_box_2.set_colorkey(BLACK)
     # --------------
 
     canvas.clean()
@@ -271,8 +267,8 @@ while True: # keeps screen open
     canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see it, even if game over
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30))
-    canvas.screen.blit(spaceship_retries_box_1, (100, 10)) # to right of timer
-    canvas.screen.blit(spaceship_retries_box_2, (100+W_spaceship/2, 10)) # side-by-side
+    canvas.screen.blit(spaceship_retry_box_1, (100, 10)) # to right of timer
+    canvas.screen.blit(spaceship_retry_box_2, (100+w/2, 10)) # side-by-side
     canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
