@@ -90,7 +90,7 @@ while True:
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
-    # Other game logic
+    # Other game logic (e.g., checking collisions)
 
     canvas.clean()
 
