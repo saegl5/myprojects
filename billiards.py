@@ -6,14 +6,14 @@ import pygame
 import src.canvas as canvas
 from custom.energy import time_stamp, save_energy
 
+pygame.display.set_caption("QUESTABOX's Billiards Animation")
+
 ball_picture = pygame.image.load('images/ball_blue_large.png')
 background_picture = pygame.image.load('images/background_green.png')
 y = 0 # initialize position
 x = 0
 y_inc = 8 # initialize increment
 x_inc = 10
-
-pygame.display.set_caption("QUESTABOX's Billiards Animation")
 
 while True: # keeps screen open
     for action in pygame.event.get(): # check for user input when open screen

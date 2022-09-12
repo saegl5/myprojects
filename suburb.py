@@ -8,6 +8,8 @@ from custom.energy import time_stamp, save_energy
 from custom.heart import heart
 from math import pi, cos, sin
 
+pygame.display.set_caption("QUESTABOX's Suburb Drawing")
+
 GREEN = pygame.Color("green")
 GRAY = pygame.Color("gray")
 YELLOW = pygame.Color("yellow")
@@ -15,9 +17,11 @@ WHITE = pygame.Color("white")
 DARKGRAY = pygame.Color("darkgray")
 BLACK = pygame.Color("black")
 RED = pygame.Color("red")
+y_offset = 0 # road center lines
+font = pygame.font.SysFont('Courier New', 16, bold=True, italic=False)
+text = font.render("There is hope!", True, BLACK)
+angle_offset = 0*pi/180 # sun rays
  
-pygame.display.set_caption("QUESTABOX's Suburb Drawing")
-
 while True: # keeps screen open
     for action in pygame.event.get(): # check for user input when open screen
         if action.type == pygame.QUIT: # user clicked close button
@@ -40,8 +44,7 @@ while True: # keeps screen open
     pygame.draw.polygon(canvas.screen, BLACK, [(400, 400), (380, 512), (460, 512), (440, 400)], width=0) # road
     pygame.draw.line(canvas.screen, WHITE, (405, 400), (385, 512), width=1) # left shoulder of road
     pygame.draw.line(canvas.screen, WHITE, (455, 512), (435, 400), width=1) # right shoulder of road
-    # road center lines
-    y_offset = 0
+    
     while y_offset <= 112:
         pygame.draw.line(canvas.screen, WHITE, (419, 400+y_offset), (419, 410+y_offset), width=4)
         y_offset += 20
@@ -56,15 +59,12 @@ while True: # keeps screen open
     pygame.draw.ellipse(canvas.screen, WHITE, (460, 60, 180, 80), width=0) # cover top of cloud outlines
     pygame.draw.ellipse(canvas.screen, WHITE, (510, 110, 180, 80), width=0) # cover bottom-right of cloud outlines
     
-    # text
-    font = pygame.font.SysFont('Courier New', 16, bold=True, italic=False)
-    text = font.render("There is hope!", True, BLACK)
     canvas.screen.blit(text, (475, 125))
     
     pygame.draw.circle(canvas.screen, YELLOW, (100, 100), radius=50, width=0) # sun
     pygame.draw.circle(canvas.screen, BLACK, (100, 100), radius=50, width=1) # outline of sun
-    # sun rays (HARD!)
-    angle_offset = 0*pi/180
+    
+    # HARD!
     while angle_offset <= 360*pi/180:
         pygame.draw.line(canvas.screen, YELLOW, (100, 100), (100+100*cos(angle_offset), 100-100*sin(angle_offset)), width=2)
         angle_offset += 20*pi/180

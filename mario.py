@@ -15,10 +15,10 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
 YELLOW = pygame.Color("yellow") # platform
-w = 48
-h = 64
-ground_height = 50
-speed = 5 # example
+W = 48
+H = 64
+GH = 50 # ground height
+V = 5 # example
 x_inc = 0 # short for "increment"
 y_inc = 0
 first = True # hopping
@@ -26,11 +26,11 @@ halt = True # walking
 on = True # ground or platform
 # Other constants and variables
 
-ground = Rectangle(canvas.size[0], ground_height)
+ground = Rectangle(canvas.size[0], GH)
 ground.rect.left = canvas.screen.get_rect().left
 ground.rect.bottom = canvas.screen.get_rect().bottom
 ground.image.fill(BROWN)
-mario = Rectangle(w, h) # see classes.py
+mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
 mario.rect.bottom = ground.rect.top
 mario.image.fill(WHITE) # example
@@ -53,13 +53,13 @@ while True:
 
         elif action.type == pygame.KEYDOWN:
             if action.key == pygame.K_RIGHT:
-                x_inc = speed
+                x_inc = V
                 halt = False
             if action.key == pygame.K_LEFT:
-                x_inc = -speed
+                x_inc = -V
                 halt = False
             if action.key == pygame.K_SPACE and first == True and on == True:
-                y_inc = -2.5*speed # y decreases going upward
+                y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
         elif action.type == pygame.KEYUP:
@@ -78,6 +78,7 @@ while True:
     hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
+        y_inc = 0 # logical
         on = True
         if halt == True:
             x_inc = 0
@@ -90,7 +91,7 @@ while True:
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
-    # Other game logic (e.g., checking collisions)
+    # Other game logic
 
     canvas.clean()
 

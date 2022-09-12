@@ -37,10 +37,10 @@ def heart(x, y):
     c_top_left = ((p_left[0]+p_top[0])/2, (p_left[1]+p_top[1])/2)
     c_top_right = ((p_top[0]+p_right[0])/2, (p_top[1]+p_right[1])/2)
     # Circle Radius
-    r = 5*2*multiple*1/2
+    R = 5*2*multiple*1/2
     # Draw Circles
-    pygame.draw.circle(canvas.screen, RED, c_top_left, radius=r, width=0)
-    pygame.draw.circle(canvas.screen, RED, c_top_right, radius=r, width=0)
+    pygame.draw.circle(canvas.screen, RED, c_top_left, radius=R, width=0)
+    pygame.draw.circle(canvas.screen, RED, c_top_right, radius=R, width=0)
     # Cut Each Circle into Semi-Circles
     # (includes corrections to any remaining errors)
     pygame.draw.polygon(canvas.screen, BLUE, [(p_top[0]-1, p_top[1]), (p_right[0]-1, p_right[1]-1), (p_bottom[0]-1, p_bottom[1]+6*multiple), (p_left[0], p_left[1]-1)], width=0)
