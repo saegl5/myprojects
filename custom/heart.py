@@ -10,9 +10,10 @@ pygame.init()
 BLUE = pygame.Color("blue")
 RED = pygame.Color("red")
 MULTIPLE = 4 # define multiple (0-5)
+R = 5*2*MULTIPLE*1/2 # Circle Radius
  
-# size = (100, 100)
-# screen = pygame.display.set_mode(size)
+# SIZE = (100, 100)
+# screen = pygame.display.set_mode(SIZE)
 # clock = pygame.time.Clock()
 def heart(x, y):
 # position = (50, 50) # define x- and y-coordinates
@@ -36,8 +37,6 @@ def heart(x, y):
     # Circle Center
     c_top_left = ((p_left[0]+p_top[0])/2, (p_left[1]+p_top[1])/2)
     c_top_right = ((p_top[0]+p_right[0])/2, (p_top[1]+p_right[1])/2)
-    # Circle Radius
-    R = 5*2*MULTIPLE*1/2
     # Draw Circles
     pygame.draw.circle(canvas.screen, RED, c_top_left, radius=R, width=0)
     pygame.draw.circle(canvas.screen, RED, c_top_right, radius=R, width=0)

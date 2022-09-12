@@ -21,8 +21,8 @@ cursor_picture.set_colorkey(BLUE)
 class Draw(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        size = (2, 2) # thicker drawing marks
-        self.image = pygame.Surface(size)
+        SIZE = (2, 2) # thicker drawing marks
+        self.image = pygame.Surface(SIZE)
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
 
@@ -58,12 +58,12 @@ while True: # keeps screen open
 
     # --- Game logic
     pos = pygame.mouse.get_pos()
-    x_offset = pos[0]-canvas.size[0]/2
-    y_offset = pos[1]-canvas.size[1]/2
+    x_offset = pos[0]-canvas.SIZE[0]/2
+    y_offset = pos[1]-canvas.SIZE[1]/2
     if draw == True: # IF mouse/trackpad button pressed
         mark = Draw()
-        mark.rect.x = canvas.size[0]/2+x_offset
-        mark.rect.y = canvas.size[1]/2+y_offset
+        mark.rect.x = canvas.SIZE[0]/2+x_offset
+        mark.rect.y = canvas.SIZE[1]/2+y_offset
         drawn.add(mark) # preserves marks from being cleared
         fill(mark) # fill gaps between marks
         previous_x = mark.rect.x

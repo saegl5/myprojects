@@ -26,7 +26,7 @@ halt = True # walking
 on = True # ground or platform
 # Other constants and variables
 
-ground = Rectangle(canvas.size[0], GH)
+ground = Rectangle(canvas.SIZE[0], GH)
 ground.rect.left = canvas.screen.get_rect().left
 ground.rect.bottom = canvas.screen.get_rect().bottom
 ground.image.fill(BROWN)
