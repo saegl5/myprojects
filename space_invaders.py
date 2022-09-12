@@ -8,15 +8,18 @@ from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
 from custom.functions import left_wall, right_wall
 
+pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
+pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
+
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
 YELLOW = pygame.Color("yellow")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
-
+W = 64 # "spaceship" sprite width reference
+H = 64 # "spaceship" sprite height reference
 x_inc = 0 # speed
-w = 64 # "spaceship" sprite width reference
-h = 64 # "spaceship" sprite height reference
 
 invaders = pygame.sprite.Group() # not invaders = []
 collisions = pygame.sprite.Group()
@@ -39,26 +42,22 @@ invader_laser_sound = pygame.mixer.Sound('sounds/laserSmall.ogg')
 invader_explosion_sound = pygame.mixer.Sound('sounds/lowFrequency_explosion.ogg')
 
 spaceship_picture = pygame.image.load('images/ship.png').convert()
-spaceship_picture = pygame.transform.scale(spaceship_picture, (w, h))
-spaceship_picture_retry = pygame.transform.scale(spaceship_picture, (w/2, h/2))
+spaceship_picture = pygame.transform.scale(spaceship_picture, (W, H))
+spaceship_picture_retry = pygame.transform.scale(spaceship_picture, (W/2, H/2))
 invader_picture = pygame.image.load('images/alien.png').convert()
 invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
 
+INVADER_COUNT = 50
 timer = 30 # 30 seconds (multiple of modulo for invaders.update())
 score = 0
 first = True # for spaceship laser
 count = 0 # for lunging picture
 retries = 2
 retry_boxes = []
-p = 5 # chop up each barrier into 5 pieces
-invader_count = 50
+P = 5 # chop up each barrier into 5 pieces
 wait1 = canvas.fps*2 # if spaceship hit by invader, 60 fps x 2 seconds
 wait2 = wait1 # if spaceship hit by return fire
 waiting = False # if spaceship hit by either
-
-pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
-pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
 
 # --- Functions
 def lunge(sprite):
@@ -68,7 +67,7 @@ def lunge(sprite):
         sprite.image.blit(invader_picture, (0, 0)) # revert
 def retry(sprite):
     sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen
-    sprite.rect.y = canvas.size[1]-h
+    sprite.rect.y = canvas.size[1]-H
 def return_fire(sprite, index):
     sprite.image.fill(RED)
     sprite.rect.centerx = invaders.sprites()[index].rect.centerx
@@ -82,33 +81,33 @@ walls.add(left_wall())
 walls.add(right_wall())
 
 # left barrier
-for i in range(0, p):
-    barrier = Rectangle(250/p, 25)
-    barrier.rect.x = 50+i*250/p
+for i in range(0, P):
+    barrier = Rectangle(250/P, 25)
+    barrier.rect.x = 50+i*250/P
     barrier.rect.y = 400
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
 # right barrier
-for i in range(0, p):
-    barrier = Rectangle(250/p, 25)
-    barrier.rect.x = canvas.size[0]-250-50+i*250/p
+for i in range(0, P):
+    barrier = Rectangle(250/P, 25)
+    barrier.rect.x = canvas.size[0]-250-50+i*250/P
     barrier.rect.y = 400
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
-spaceship = Rectangle(w, h)
+spaceship = Rectangle(W, H)
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
-spaceship.rect.y = canvas.size[1] - h
+spaceship.rect.y = canvas.size[1] - H
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)
 
-while invader_count-len(invaders) > 0: # create and add fifty "invader" sprites
-    invader = Rectangle(w/2, h/2)
-    invader.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # allow sprite to touch edge but not breach it
-    invader.rect.y = random.randrange(0, canvas.size[1]+1-h/2-196, h/2) # 196px space at canvas bottom
+while INVADER_COUNT-len(invaders) > 0: # create and add fifty "invader" sprites
+    invader = Rectangle(W/2, H/2)
+    invader.rect.x = random.randrange(0, canvas.size[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.size[1]+1-H/2-196, H/2) # 196px space at canvas bottom
     invader.image.blit(invader_picture, (0, 0))
     pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     invaders.add(invader)
@@ -272,7 +271,7 @@ while True: # keeps screen open
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30))
     for i in range(0, retries):
-        canvas.screen.blit(retry_boxes[i], (100+i*w/2, 10))
+        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10))
         retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))

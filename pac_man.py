@@ -8,21 +8,24 @@ from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
 from custom.functions import left_wall, right_wall, top_wall, bottom_wall
 
+pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
+pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
+
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
-
-x_offset = 50 # don't start on wall
-y_offset = 0
+X_OFFSET = 50 # don't start on wall
+Y_OFFSET = 0
+W = 64 # "pacman" sprite width reference
+H = 64 # "pacman" sprite height reference
 x_inc = 0 # speed
 y_inc = 0
 x_inc_red_ghost = 1 # moving rightward at launch
 y_inc_red_ghost = 0
 x_inc_green_ghost = 0
 y_inc_green_ghost = 1
-w = 64 # "pacman" sprite width reference
-h = 64 # "pacman" sprite height reference
 
 pellets = pygame.sprite.Group() # not pellets = []
 collisions = pygame.sprite.Group()
@@ -44,25 +47,21 @@ ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg')
 pacman_picture = pygame.image.load('images/pac.png').convert()
 pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert()
 pellet_picture = pygame.image.load('images/dot.png').convert()
-pellet_picture = pygame.transform.scale(pellet_picture, (int(w/2), int(h/2))) # int() addresses "TypeError: integer argument expected, got float"
+pellet_picture = pygame.transform.scale(pellet_picture, (int(W/2), int(H/2))) # int() addresses "TypeError: integer argument expected, got float"
 red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
 green_ghost_picture = pygame.image.load('images/green_ghost.png').convert()
-pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(w/2), int(h/2)))
+pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 
+PELLET_COUNT = 50
 timer = 30 # 30 seconds (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
 # angle = 0 # redundant
 retries = 2
 retry_boxes = []
-pellet_count = 50
 wait1 = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 wait2 = wait1 # if pacman hit by green ghost
 waiting = False # if pacman hit by either
-
-pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
-pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
 
 # --- Functions
 def turn(sprite, angle):
@@ -76,8 +75,8 @@ def turn(sprite, angle):
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
     sprite.image.set_colorkey(BLACK)
 def retry(sprite):
-    sprite.rect.x = canvas.size[0]/2+x_offset
-    sprite.rect.y = canvas.size[1]/2+y_offset
+    sprite.rect.x = canvas.size[0]/2+X_OFFSET
+    sprite.rect.y = canvas.size[1]/2+Y_OFFSET
 def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
@@ -112,18 +111,18 @@ walls.add(wall)
 for wall in walls:
     wall.image.fill(WHITE)
 
-pacman = Rectangle(w, h)
-pacman.rect.x = canvas.size[0]/2+x_offset
-pacman.rect.y = canvas.size[1]/2+y_offset
+pacman = Rectangle(W, H)
+pacman.rect.x = canvas.size[0]/2+X_OFFSET
+pacman.rect.y = canvas.size[1]/2+Y_OFFSET
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
 for i in range(0, retries):
     retry_boxes.append(pacman_picture_retry)
 
 while True: # put green "ghost" sprite first, else when try to get ghost moving it will move prematurely
-    ghost = Rectangle(w, h)
-    ghost.rect.x = random.randrange(0, canvas.size[0]+1-w) # don't need step_size
-    ghost.rect.y = random.randrange(0, canvas.size[1]+1-h)
+    ghost = Rectangle(W, H)
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W) # don't need step_size
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H)
     ghost.image.blit(green_ghost_picture, (0, 0))
     green_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
@@ -134,9 +133,9 @@ while True: # put green "ghost" sprite first, else when try to get ghost moving 
         break
 
 while True:
-    ghost = Rectangle(w, h)
-    ghost.rect.x = random.randrange(0, canvas.size[0]+1-w)
-    ghost.rect.y = random.randrange(0, canvas.size[1]+1-h)
+    ghost = Rectangle(W, H)
+    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W)
+    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H)
     ghost.image.blit(red_ghost_picture, (0, 0))
     red_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
@@ -146,10 +145,10 @@ while True:
     else:
         break
 
-while pellet_count-len(pellets) > 0: # create and add fifty "pellet" sprites
-    pellet = Rectangle(w/2, h/2)
-    pellet.rect.x = random.randrange(0, canvas.size[0]+1-w/2, w/2) # allow sprite to touch edge but not breach it
-    pellet.rect.y = random.randrange(0, canvas.size[1]+1-h/2, h/2)
+while PELLET_COUNT-len(pellets) > 0: # create and add fifty "pellet" sprites
+    pellet = Rectangle(W/2, H/2)
+    pellet.rect.x = random.randrange(0, canvas.size[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
+    pellet.rect.y = random.randrange(0, canvas.size[1]+1-H/2, H/2)
     pellet.image.blit(pellet_picture, (0, 0))
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     pellets.add(pellet)
@@ -357,7 +356,7 @@ while True: # keeps screen open
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30))
     for i in range(0, retries):
-        canvas.screen.blit(retry_boxes[i], (100+i*w/2, 10))
+        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10))
         retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))

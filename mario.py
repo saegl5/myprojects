@@ -15,10 +15,10 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
 YELLOW = pygame.Color("yellow3") # platforms
-w = 48
-h = 64
-ground_height = 50
-speed = 5 # example
+W = 48
+H = 64
+GH = 50 # ground height
+V = 5 # example
 x_inc = 0 # short for "increment"
 y_inc = 0
 first = True # hopping
@@ -27,38 +27,36 @@ on = True # ground or platform
 # Other constants and variables
 
 # grounds = pygame.sprite.Group()
-# blocks = [ (canvas.size[0], ground_height, 0, canvas.size[1]-ground_height),
-#             (300, ground_height, canvas.size[0]+100, canvas.size[1]-ground_height),
-#             (500, ground_height, canvas.size[0]+500, canvas.size[1]-ground_height)
+# BLOCKS = [ (canvas.size[0], GH, 0, canvas.size[1]-GH),
+#             (300, GH, canvas.size[0]+100, canvas.size[1]-GH),
+#             (500, GH, canvas.size[0]+500, canvas.size[1]-GH)
 #           ]
-# for block in blocks:
+# for block in BLOCKS:
     # ground = Rectangle(block[0], block[1])
     # ground.rect.x = block[2]
     # ground.rect.y = block[3]
     # ground.image.fill(BROWN)
     # grounds.add(ground)
-ground = Rectangle(canvas.size[0], ground_height)
+ground = Rectangle(canvas.size[0], GH)
 ground.rect.x = 0
-ground.rect.y = canvas.size[1]-ground_height
+ground.rect.y = canvas.size[1]-GH
 ground.image.fill(BROWN)
-mario = Rectangle(w, h) # see classes.py
+mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
-mario.rect.y = canvas.size[1]-h-ground_height
+mario.rect.y = canvas.size[1]-H-GH
 mario.image.fill(WHITE) # example
-
-blocks = [  (200, 50, 400, 300),
+BLOCKS = [  (200, 50, 400, 300),
             (200, 50, 800, 250),
             (200, 50, 1300, 100),
             (200, 50, 1700, 400)
          ] # four blocks, (w, h, x, y) each, can also vary width and height, third is too hard to reach but make part for lesson
 platforms = pygame.sprite.Group()
-for block in blocks: # each block
+for block in BLOCKS: # each block
     platform = Rectangle(block[0], block[1])
     platform.rect.x = block[2] # reverted to x
     platform.rect.y = block[3] # low enough for mario to jump over, reverted to y 
     platform.image.fill(YELLOW)
     platforms.add(platform)
-
 grounds = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
 grounds.add(ground)
@@ -72,13 +70,13 @@ while True:
 
         elif action.type == pygame.KEYDOWN:
             if action.key == pygame.K_RIGHT:
-                x_inc = speed
+                x_inc = V
                 halt = False
             if action.key == pygame.K_LEFT:
-                x_inc = -speed
+                x_inc = -V
                 halt = False
             if action.key == pygame.K_SPACE and first == True and on == True:
-                y_inc = -2.5*speed # y decreases going upward
+                y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
         elif action.type == pygame.KEYUP:

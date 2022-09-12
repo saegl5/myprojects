@@ -8,17 +8,17 @@ from custom.energy import time_stamp, save_energy
 from custom.classes import Draw
 from custom.functions import fill
 
+pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
+pygame.mouse.set_visible(False)  # hide the mouse cursor, will replace it with picture of chalk later
+
 BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
-
 draw = False # don't draw unless press mouse/trackpad button and move
 previous_x = None
 previous_y = None
 drawn = pygame.sprite.Group()
 cursor_picture = pygame.image.load('images/chalk.png').convert()
 cursor_picture.set_colorkey(BLUE)
-pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
-pygame.mouse.set_visible(False)  # hide the mouse cursor, will replace it with picture of chalk later
 
 while True: # keeps screen open
     for action in pygame.event.get(): # check for user input when open screen
