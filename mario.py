@@ -27,9 +27,9 @@ on = True # ground or platform
 # Other constants and variables
 
 # grounds = pygame.sprite.Group()
-# BLOCKS = [ (canvas.size[0], GH, 0, canvas.size[1]-GH),
-#             (300, GH, canvas.size[0]+100, canvas.size[1]-GH),
-#             (500, GH, canvas.size[0]+500, canvas.size[1]-GH)
+# BLOCKS = [ (canvas.SIZE[0], GH, 0, canvas.SIZE[1]-GH),
+#             (300, GH, canvas.SIZE[0]+100, canvas.SIZE[1]-GH),
+#             (500, GH, canvas.SIZE[0]+500, canvas.SIZE[1]-GH)
 #           ]
 # for block in BLOCKS:
     # ground = Rectangle(block[0], block[1])
@@ -37,13 +37,13 @@ on = True # ground or platform
     # ground.rect.y = block[3]
     # ground.image.fill(BROWN)
     # grounds.add(ground)
-ground = Rectangle(canvas.size[0], GH)
+ground = Rectangle(canvas.SIZE[0], GH)
 ground.rect.x = 0
-ground.rect.y = canvas.size[1]-GH
+ground.rect.y = canvas.SIZE[1]-GH
 ground.image.fill(BROWN)
 mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
-mario.rect.y = canvas.size[1]-H-GH
+mario.rect.y = canvas.SIZE[1]-H-GH
 mario.image.fill(WHITE) # example
 BLOCKS = [  (200, 50, 400, 300),
             (200, 50, 800, 250),
@@ -105,7 +105,7 @@ while True:
                 mario.rect.left = platform.rect.right
     if mario.rect.left < ground.rect.left: # could also use mario.rect.x < 0
         mario.rect.left = ground.rect.left
-    elif mario.rect.right >= 500: # don't use canvas.size[0] because won't be able to see ahead of you 
+    elif mario.rect.right >= 500: # don't use canvas.SIZE[0] because won't be able to see ahead of you 
         move_left = mario.rect.right - 500
         ground.rect.x -= move_left
         for platform in platforms:

@@ -75,8 +75,8 @@ def turn(sprite, angle):
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
     sprite.image.set_colorkey(BLACK)
 def retry(sprite):
-    sprite.rect.x = canvas.size[0]/2+X_OFFSET
-    sprite.rect.y = canvas.size[1]/2+Y_OFFSET
+    sprite.rect.x = canvas.SIZE[0]/2+X_OFFSET
+    sprite.rect.y = canvas.SIZE[1]/2+Y_OFFSET
 def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
@@ -92,18 +92,18 @@ walls.add(top_wall())
 walls.add(bottom_wall())
 
 # inner top wall
-wall = Rectangle(canvas.size[0]-200, 10) # leave room around walls
+wall = Rectangle(canvas.SIZE[0]-200, 10) # leave room around walls
 wall.rect.x = 100
 wall.rect.y = 100
 walls.add(wall)
 # inner bottom wall
-wall = Rectangle(canvas.size[0]-200, 10)
+wall = Rectangle(canvas.SIZE[0]-200, 10)
 wall.rect.x = 100
-wall.rect.y = canvas.size[1]-110 # wall is 10px thick
+wall.rect.y = canvas.SIZE[1]-110 # wall is 10px thick
 walls.add(wall)
 # inner middle wall
-wall = Rectangle(10, canvas.size[1]-220)
-wall.rect.x = canvas.size[0]/2-5 # places wall in center
+wall = Rectangle(10, canvas.SIZE[1]-220)
+wall.rect.x = canvas.SIZE[0]/2-5 # places wall in center
 wall.rect.y = 110
 walls.add(wall)
 
@@ -112,8 +112,8 @@ for wall in walls:
     wall.image.fill(WHITE)
 
 pacman = Rectangle(W, H)
-pacman.rect.x = canvas.size[0]/2+X_OFFSET
-pacman.rect.y = canvas.size[1]/2+Y_OFFSET
+pacman.rect.x = canvas.SIZE[0]/2+X_OFFSET
+pacman.rect.y = canvas.SIZE[1]/2+Y_OFFSET
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
 for i in range(0, retries):
@@ -121,8 +121,8 @@ for i in range(0, retries):
 
 while True: # put green "ghost" sprite first, else when try to get ghost moving it will move prematurely
     ghost = Rectangle(W, H)
-    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W) # don't need step_size
-    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H)
+    ghost.rect.x = random.randrange(0, canvas.SIZE[0]+1-W) # don't need step_size
+    ghost.rect.y = random.randrange(0, canvas.SIZE[1]+1-H)
     ghost.image.blit(green_ghost_picture, (0, 0))
     green_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
@@ -134,8 +134,8 @@ while True: # put green "ghost" sprite first, else when try to get ghost moving 
 
 while True:
     ghost = Rectangle(W, H)
-    ghost.rect.x = random.randrange(0, canvas.size[0]+1-W)
-    ghost.rect.y = random.randrange(0, canvas.size[1]+1-H)
+    ghost.rect.x = random.randrange(0, canvas.SIZE[0]+1-W)
+    ghost.rect.y = random.randrange(0, canvas.SIZE[1]+1-H)
     ghost.image.blit(red_ghost_picture, (0, 0))
     red_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
@@ -147,8 +147,8 @@ while True:
 
 while PELLET_COUNT-len(pellets) > 0: # create and add fifty "pellet" sprites
     pellet = Rectangle(W/2, H/2)
-    pellet.rect.x = random.randrange(0, canvas.size[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
-    pellet.rect.y = random.randrange(0, canvas.size[1]+1-H/2, H/2)
+    pellet.rect.x = random.randrange(0, canvas.SIZE[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
+    pellet.rect.y = random.randrange(0, canvas.SIZE[1]+1-H/2, H/2)
     pellet.image.blit(pellet_picture, (0, 0))
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     pellets.add(pellet)
@@ -358,8 +358,8 @@ while True: # keeps screen open
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10))
         retry_boxes[i].set_colorkey(BLACK)
-    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10)) # near top-right corner
-    canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))
+    canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
+    canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument
     # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center

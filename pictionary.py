@@ -34,12 +34,12 @@ while True: # keeps screen open
 
     # --- Game logic
     pos = pygame.mouse.get_pos()
-    x_offset = pos[0]-canvas.size[0]/2
-    y_offset = pos[1]-canvas.size[1]/2
+    x_offset = pos[0]-canvas.SIZE[0]/2
+    y_offset = pos[1]-canvas.SIZE[1]/2
     if draw == True: # IF mouse/trackpad button pressed
         mark = Draw(WHITE)
-        mark.rect.x = canvas.size[0]/2+x_offset
-        mark.rect.y = canvas.size[1]/2+y_offset
+        mark.rect.x = canvas.SIZE[0]/2+x_offset
+        mark.rect.y = canvas.SIZE[1]/2+y_offset
         drawn.add(mark) # preserves marks from being cleared
         fill(previous_x, previous_y, mark, WHITE, drawn) # fill gaps between marks
         previous_x = mark.rect.x

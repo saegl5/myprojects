@@ -36,7 +36,7 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
         # self.rect.y -= 2 /* this all could be used to show spring effect */
  
         # If it is ok to jump, set our speed upwards
-        # if len(platform_hit_list) > 0 or self.rect.bottom >= canvas.size[1]:
+        # if len(platform_hit_list) > 0 or self.rect.bottom >= canvas.SIZE[1]:
 
 
 """

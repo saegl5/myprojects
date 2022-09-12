@@ -67,7 +67,7 @@ def lunge(sprite):
         sprite.image.blit(invader_picture, (0, 0)) # revert
 def retry(sprite):
     sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen
-    sprite.rect.y = canvas.size[1]-H
+    sprite.rect.y = canvas.SIZE[1]-H
 def return_fire(sprite, index):
     sprite.image.fill(RED)
     sprite.rect.centerx = invaders.sprites()[index].rect.centerx
@@ -91,14 +91,14 @@ for i in range(0, P):
 # right barrier
 for i in range(0, P):
     barrier = Rectangle(250/P, 25)
-    barrier.rect.x = canvas.size[0]-250-50+i*250/P
+    barrier.rect.x = canvas.SIZE[0]-250-50+i*250/P
     barrier.rect.y = 400
     barrier.image.fill(WHITE)
     barriers.add(barrier)
 
 spaceship = Rectangle(W, H)
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
-spaceship.rect.y = canvas.size[1] - H
+spaceship.rect.y = canvas.SIZE[1] - H
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
 for i in range(0, retries):
@@ -106,8 +106,8 @@ for i in range(0, retries):
 
 while INVADER_COUNT-len(invaders) > 0: # create and add fifty "invader" sprites
     invader = Rectangle(W/2, H/2)
-    invader.rect.x = random.randrange(0, canvas.size[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
-    invader.rect.y = random.randrange(0, canvas.size[1]+1-H/2-196, H/2) # 196px space at canvas bottom
+    invader.rect.x = random.randrange(0, canvas.SIZE[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.SIZE[1]+1-H/2-196, H/2) # 196px space at canvas bottom
     invader.image.blit(invader_picture, (0, 0))
     pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     invaders.add(invader)
@@ -233,7 +233,7 @@ while True: # keeps screen open
             wait2 -= 1
             waiting = True
             break            
-        elif laser.rect.top > canvas.size[1]:
+        elif laser.rect.top > canvas.SIZE[1]:
             lasers_alt.remove(laser)
 
     for laser in lasers_alt:
@@ -273,8 +273,8 @@ while True: # keeps screen open
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10))
         retry_boxes[i].set_colorkey(BLACK)
-    canvas.screen.blit(score_header, (canvas.size[0]-score_header.get_width()-10, 10)) # near top-right corner
-    canvas.screen.blit(score_text, (canvas.size[0]-score_text.get_width()-10, 30))
+    canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
+    canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
     # inside out: pair screen with rectangle object, get object's center, outer get_rect() input requires keyword argument
     # outside in: pair game_over_text with rectangle object whose center is the screen's rectangle object's center...that is, both rectangle objects have the same center
