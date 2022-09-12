@@ -121,7 +121,7 @@ for i in range(0, retries):
 
 while True: # put green "ghost" sprite first, else when try to get ghost moving it will move prematurely
     ghost = Rectangle(W, H)
-    ghost.rect.x = random.randrange(0, canvas.SIZE[0]+1-W) # don't need step_size
+    ghost.rect.x = random.randrange(0, canvas.SIZE[0]+1-W) # don't need step size
     ghost.rect.y = random.randrange(0, canvas.SIZE[1]+1-H)
     ghost.image.blit(green_ghost_picture, (0, 0))
     green_ghosts.add(ghost)
