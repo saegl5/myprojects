@@ -6,7 +6,7 @@ import pygame
 import src.canvas as canvas
 from custom.energy import time_stamp, save_energy
 from custom.heart import heart
-from math import pi, cos, sin
+from math import pi, cos, sin # for drawing arcs and rotating lines
 
 pygame.display.set_caption("QUESTABOX's Suburb Drawing")
 
@@ -21,7 +21,7 @@ y_offset = 0 # road center lines
 font = pygame.font.SysFont('Courier New', 16, bold=True, italic=False)
 text = font.render("There is hope!", True, BLACK)
 angle_offset = 0*pi/180 # sun rays
- 
+
 while True: # keeps screen open
     for action in pygame.event.get(): # check for user input when open screen
         if action.type == pygame.QUIT: # user clicked close button
@@ -30,7 +30,7 @@ while True: # keeps screen open
     # --- Game logic
     # --------------
     canvas.clean()
-    # --- Drawing code    
+    # --- Drawing code
     pygame.draw.rect(canvas.screen, GREEN, (0, 400, 704, 112), width=0) # grass
     pygame.draw.aaline(canvas.screen, BLACK, (0, 400), (704, 400)) # outline of grass
 
@@ -38,7 +38,7 @@ while True: # keeps screen open
     pygame.draw.aalines(canvas.screen, BLACK, False, [(280, 300), (200, 300), (200, 400), (280, 400), (280, 300), (300, 300), (300, 400), (280, 400)]) # outline of building, could also use pygame.draw.lines() with width=1
     
     pygame.draw.arc(canvas.screen, DARKGRAY, (250, 150, 50, 50), -90*pi/180, 90*pi/180, width=25) # moon, if you want a more solidly colored moon then draw circle and cover half
-    pygame.draw.arc(canvas.screen, BLACK, (250, 150, 50, 50), -90*pi/180, 90*pi/180, width=1) # outline around half the moon
+    pygame.draw.arc(canvas.screen, BLACK, (250, 150, 50, 50), -90*pi/180, 90*pi/180, width=1) # outline around half the moon, minimum width=1
     pygame.draw.aaline(canvas.screen, BLACK, (275, 150), (275, 200)) # outline of left side of moon
 
     pygame.draw.polygon(canvas.screen, BLACK, [(400, 400), (380, 512), (460, 512), (440, 400)], width=0) # road
@@ -58,12 +58,12 @@ while True: # keeps screen open
     pygame.draw.ellipse(canvas.screen, WHITE, (410, 110, 180, 80), width=0) # cover bottom-left of cloud outlines
     pygame.draw.ellipse(canvas.screen, WHITE, (460, 60, 180, 80), width=0) # cover top of cloud outlines
     pygame.draw.ellipse(canvas.screen, WHITE, (510, 110, 180, 80), width=0) # cover bottom-right of cloud outlines
-    
+
     canvas.screen.blit(text, (475, 125))
-    
-    pygame.draw.circle(canvas.screen, YELLOW, (100, 100), radius=50, width=0) # sun
+
+    pygame.draw.circle(canvas.screen, YELLOW, (100, 100), radius=50, width=0) # sun, minimum radius=1
     pygame.draw.circle(canvas.screen, BLACK, (100, 100), radius=50, width=1) # outline of sun
-    
+
     # HARD!
     while angle_offset <= 360*pi/180:
         pygame.draw.line(canvas.screen, YELLOW, (100, 100), (100+100*cos(angle_offset), 100-100*sin(angle_offset)), width=2)
