@@ -95,13 +95,13 @@ while True:
     if hit_ground_x != []:
         if x_inc > 0:
             mario.rect.right = ground.rect.left
-        elif x_inc < 0:
+        else:
             mario.rect.left = ground.rect.right
     elif hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc > 0:
                 mario.rect.right = platform.rect.left
-            elif x_inc < 0:
+            else:
                 mario.rect.left = platform.rect.right
     if mario.rect.left < ground.rect.left: # could also use mario.rect.x < 0
         mario.rect.left = ground.rect.left
@@ -136,13 +136,13 @@ while True:
             x_inc = 0
     elif hit_platform_y != []:
         for platform in hit_platform_y:
-            if y_inc >= 0: # location where mario hits platform may be inside it
+            if y_inc < 0: # in jump
+                mario.rect.top = platform.rect.bottom # bonks his head on platform
+                y_inc = 0 # unsticks mario
+            else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 y_inc = 0 # in case mario walks off platform
                 on = True
-            elif y_inc < 0: # mario always moving upward from below
-                mario.rect.top = platform.rect.bottom # bonks his head on platform
-                y_inc = 0 # unsticks mario
             if halt == True:
                 x_inc = 0
     else: # cycles, fewer for higher values of gravity
