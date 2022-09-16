@@ -53,6 +53,7 @@ score = 0
 first = True # for spaceship laser
 count = 0 # for lunging picture
 retries = 2
+retry_boxes = []
 P = 5 # chop up each barrier into 5 pieces
 wait1 = canvas.fps*2 # if spaceship hit by invader, 60 fps x 2 seconds
 wait2 = wait1 # if spaceship hit by return fire
@@ -100,6 +101,8 @@ spaceship.rect.centerx = canvas.screen.get_rect().centerx
 spaceship.rect.y = canvas.SIZE[1] - H
 spaceship.image.blit(spaceship_picture, (0, 0))
 spaceships.add(spaceship)
+for i in range(0, retries):
+    retry_boxes.append(spaceship_picture_retry)
 
 while INVADER_COUNT-len(invaders) > 0: # create and add fifty "invader" sprites
     invader = Rectangle(W/2, H/2)
@@ -246,17 +249,6 @@ while True: # keeps screen open
         lasers_alt.update(0)
     score = len(collisions)
 
-    if retries == 2: # default
-        spaceship_retry_box_1 = spaceship_picture_retry
-        spaceship_retry_box_2 = spaceship_picture_retry
-    elif retries == 1:
-        spaceship_retry_box_1 = spaceship_picture_retry
-        spaceship_retry_box_2 = pygame.Surface((0, 0)) # blank box
-    else:
-        spaceship_retry_box_1 = pygame.Surface((0, 0))
-        spaceship_retry_box_2 = pygame.Surface((0, 0))
-    spaceship_retry_box_1.set_colorkey(BLACK)
-    spaceship_retry_box_2.set_colorkey(BLACK)
     # --------------
 
     canvas.clean()
@@ -278,8 +270,9 @@ while True: # keeps screen open
     canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see it, even if game over
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30))
-    canvas.screen.blit(spaceship_retry_box_1, (100, 10)) # to right of timer
-    canvas.screen.blit(spaceship_retry_box_2, (100+W/2, 10)) # side-by-side
+    for i in range(0, retries):
+        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10)) # to right of timer
+        retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))

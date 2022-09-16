@@ -57,6 +57,7 @@ timer = 30 # 30 seconds (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
 retries = 2
+retry_boxes = []
 wait1 = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 wait2 = wait1 # if pacman hit by green ghost
 waiting = False # if pacman hit by either
@@ -114,6 +115,8 @@ pacman.rect.x = canvas.SIZE[0]/2+X_OFFSET
 pacman.rect.y = canvas.SIZE[1]/2+Y_OFFSET
 pacman.image.blit(pacman_picture, (0, 0))
 pacmen.add(pacman)
+for i in range(0, retries):
+    retry_boxes.append(pacman_picture_retry)
 
 while True: # put green "ghost" sprite first, else when try to get ghost moving it will move prematurely
     ghost = Rectangle(W, H)
@@ -328,17 +331,6 @@ while True: # keeps screen open
         y_inc_green_ghost = 0
     score = len(collisions)
 
-    if retries == 2: # default
-        pacman_retry_box_1 = pacman_picture_retry
-        pacman_retry_box_2 = pacman_picture_retry
-    elif retries == 1:
-        pacman_retry_box_1 = pacman_picture_retry
-        pacman_retry_box_2 = pygame.Surface((0, 0)) # blank box
-    else:
-        pacman_retry_box_1 = pygame.Surface((0, 0))
-        pacman_retry_box_2 = pygame.Surface((0, 0))
-    pacman_retry_box_1.set_colorkey(BLACK)
-    pacman_retry_box_2.set_colorkey(BLACK)
     # --------------
 
     canvas.clean()
@@ -360,8 +352,9 @@ while True: # keeps screen open
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see it, even if game over
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30))
-    canvas.screen.blit(pacman_retry_box_1, (100, 10)) # to right of timer
-    canvas.screen.blit(pacman_retry_box_2, (100+W/2, 10)) # side-by-side
+    for i in range(0, retries):
+        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10)) # to right of timer
+        retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
