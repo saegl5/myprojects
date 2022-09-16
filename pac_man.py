@@ -125,7 +125,8 @@ while True: # put green "ghost" sprite first, else when try to get ghost moving 
     ghost.image.blit(green_ghost_picture, (0, 0))
     green_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
-    if stuck != []:
+    obstruct = pygame.sprite.spritecollide(ghost, pacmen, False)
+    if stuck != [] or obstruct != []:
         green_ghosts.remove(ghost)
     else:
         break
@@ -137,7 +138,8 @@ while True:
     ghost.image.blit(red_ghost_picture, (0, 0))
     red_ghosts.add(ghost)
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
-    if stuck != []:
+    obstruct = pygame.sprite.spritecollide(ghost, pacmen, False)
+    if stuck != [] or obstruct != []:
         red_ghosts.remove(ghost)
     else:
         break
