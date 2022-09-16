@@ -6,10 +6,11 @@ import pygame, random
 import src.canvas as canvas
 from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
+from custom.functions import left_wall, right_wall, top_wall, bottom_wall
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with time_stamp
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
@@ -55,7 +56,6 @@ PELLET_COUNT = 50
 timer = 30 # 30 seconds (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
-angle = 0 # redundant
 retries = 2
 
 # --- Functions
@@ -80,26 +80,11 @@ def flip_horizontal(sprite, Bool):
     sprite.image.set_colorkey(BLACK)
 # ---------------------
 
-# left wall
-wall = Rectangle(1, canvas.SIZE[1]) # need at least some thickness
-wall.rect.x = -1 # moved walls outside screen
-wall.rect.y = 0
-walls.add(wall)
-# right wall
-wall = Rectangle(1, canvas.SIZE[1])
-wall.rect.x = canvas.SIZE[0]
-wall.rect.y = 0
-walls.add(wall)
-# top wall
-wall = Rectangle(canvas.SIZE[0]-2, 1) # no overlap
-wall.rect.x = 1
-wall.rect.y = -1
-walls.add(wall)
-# bottom wall
-wall = Rectangle(canvas.SIZE[0]-2, 1)
-wall.rect.x = 1
-wall.rect.y = canvas.SIZE[1]
-walls.add(wall)
+# outer walls
+walls.add(left_wall())
+walls.add(right_wall())
+walls.add(top_wall())
+walls.add(bottom_wall())
 
 # inner top wall
 wall = Rectangle(canvas.SIZE[0]-200, 10) # leave room around walls

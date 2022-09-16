@@ -6,10 +6,11 @@ import pygame, random
 import src.canvas as canvas
 from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
+from custom.functions import left_wall, right_wall
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second)
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with time_stamp
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
@@ -72,17 +73,9 @@ def return_fire(sprite, index):
     invader_laser_sound.play()
 # ---------------------
 
-# outer left wall
-wall = Rectangle(1, canvas.SIZE[1]) # need at least some thickness
-wall.rect.x = -1 # moved walls outside screen
-wall.rect.y = 0
-walls.add(wall)
-
-# outer right wall
-wall = Rectangle(1, canvas.SIZE[1])
-wall.rect.x = canvas.SIZE[0]
-wall.rect.y = 0
-walls.add(wall)
+# outer walls
+walls.add(left_wall())
+walls.add(right_wall())
 
 # left barrier
 for i in range(0, P):
