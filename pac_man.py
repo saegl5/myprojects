@@ -10,7 +10,7 @@ from custom.functions import left_wall, right_wall, top_wall, bottom_wall
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with time_stamp
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
@@ -56,7 +56,6 @@ PELLET_COUNT = 50
 timer = 30 # 30 seconds (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
-# angle = 0 # redundant
 retries = 2
 retry_boxes = []
 wait1 = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
