@@ -10,7 +10,7 @@ from custom.functions import left_wall, right_wall
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with efficiency snapshot
+pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with time_stamp
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
@@ -271,7 +271,7 @@ while True: # keeps screen open
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30))
     for i in range(0, retries):
-        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10))
+        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10)) # to right of timer
         retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))

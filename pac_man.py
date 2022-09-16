@@ -355,7 +355,7 @@ while True: # keeps screen open
     canvas.screen.blit(timer_header, (10, 10))
     canvas.screen.blit(timer_text, (10, 30))
     for i in range(0, retries):
-        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10))
+        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10)) # to right of timer
         retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
