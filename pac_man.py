@@ -57,6 +57,9 @@ timer = 30 # 30 seconds (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
 retries = 2
+wait1 = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
+wait2 = wait1 # if pacman hit by green ghost
+waiting = False # if pacman hit by either
 
 # --- Functions
 def turn(sprite, angle):
@@ -262,22 +265,48 @@ while True: # keeps screen open
         ghost.rect.y += y_inc_green_ghost
 
     for ghost in red_ghosts:
-        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-        if pacman_removed != []: # we will wait to check for collision
+        if wait1 == canvas.fps*2 and waiting == False:
+            pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+        elif wait1 == canvas.fps*2 and waiting == True:
+            break        
+        else:
+            pacman_removed = [] # we will wait to check for collision
+            wait1 -= 1
+            if wait1 == 0:
+                wait1 = canvas.fps*2
+                waiting = False
+            break
+        if pacman_removed != []:
             ghost_hit_sound.play()
         if pacman_removed != [] and retries > 0:
             pacmen.add(pacman_removed) # will reposition pac-man
             retry(pacman)
             retries -= 1
+            wait1 -= 1
+            waiting = True
+            break # makes timing extra precise
 
     for ghost in green_ghosts:
-        pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+        if wait2 == canvas.fps*2 and waiting == False:
+            pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
+        elif wait2 == canvas.fps*2 and waiting == True:
+            break        
+        else:
+            pacman_removed = []
+            wait2 -= 1
+            if wait2 == 0:
+                wait2 = canvas.fps*2
+                waiting = False
+            break
         if pacman_removed != []:
             ghost_hit_sound.play()
         if pacman_removed != [] and retries > 0:
             pacmen.add(pacman_removed)
             retry(pacman)
             retries -= 1
+            wait2 -= 1
+            waiting = True
+            break
 
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
         if x_inc_red_ghost < 0 or y_inc_red_ghost < 0: # ghost moving leftward or upward

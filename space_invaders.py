@@ -54,7 +54,9 @@ first = True # for spaceship laser
 count = 0 # for lunging picture
 retries = 2
 P = 5 # chop up each barrier into 5 pieces
-wait = 60*2 # if spaceship hit by return fire, 60 fps x 2 seconds
+wait1 = canvas.fps*2 # if spaceship hit by invader, 60 fps x 2 seconds
+wait2 = wait1 # if spaceship hit by return fire
+waiting = False # if spaceship hit by either
 
 # --- Functions
 def lunge(sprite):
@@ -185,22 +187,38 @@ while True: # keeps screen open
             lasers.remove(laser)
 
     for invader in invaders:
-        spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True)
-        if spaceship_removed != []: # we will wait to check for collision
+        if wait1 == canvas.fps*2 and waiting == False:
+            spaceship_removed = pygame.sprite.spritecollide(invader, spaceships, True)
+        elif wait1 == canvas.fps*2 and waiting == True:
+            break
+        else:
+            spaceship_removed = [] # we will wait to check for collision
+            wait1 -= 1
+            if wait1 == 0:
+                wait1 = canvas.fps*2
+                waiting = False
+            break
+        if spaceship_removed != []:
             spaceship_explosion_sound.play()
         if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed) # will reposition the spaceship
             retry(spaceship)
             retries -= 1
+            wait1 -= 1
+            waiting = True
+            break # makes timing extra precise
     
     for laser in lasers_alt:
-        if wait == 60*2:
+        if wait2 == canvas.fps*2 and waiting == False:
             spaceship_removed = pygame.sprite.spritecollide(laser, spaceships, True)
+        elif wait2 == canvas.fps*2 and waiting == True:
+            break
         else:
             spaceship_removed = []
-            wait -= 1
-            if wait == 0:
-                wait = 60*2
+            wait2 -= 1
+            if wait2 == 0:
+                wait2 = canvas.fps*2
+                waiting = False
             break
         if spaceship_removed != []:
             spaceship_explosion_sound.play()
@@ -209,8 +227,9 @@ while True: # keeps screen open
             retry(spaceship)
             lasers_alt.remove(laser)
             retries -= 1
-            wait -= 1
-            break # makes timing extra precise
+            wait2 -= 1
+            waiting = True
+            break            
         elif laser.rect.top > canvas.SIZE[1]:
             lasers_alt.remove(laser)
 
