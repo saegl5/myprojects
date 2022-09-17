@@ -72,20 +72,34 @@ while True:
         time_stamp(action)
 
     mario.rect.x += x_inc
+    hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
+    if hit_platform_x != []:
+        if x_inc > 0: # mario moving rightward
+            mario.rect.right = platform.rect.left
+            if halt == True:
+                x_inc = 0
+        else:
+            mario.rect.left = platform.rect.right
+            if halt == True:
+                x_inc = 0
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
-    hit_platform = pygame.sprite.spritecollide(mario, platforms, False)
+    hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
         y_inc = 0 # logical
         on = True
         if halt == True:
             x_inc = 0
-    elif hit_platform != []:
-        mario.rect.bottom = platform.rect.top
-        y_inc = 0 # in case mario walks off platform
-        on = True
+    elif hit_platform_y != []:
+        if y_inc < 0: # in jump
+            mario.rect.top = platform.rect.bottom # hits his head
+            y_inc = 0 # unsticks mario, reason stuck if not have?
+        else: # falling or plateaued        
+            mario.rect.bottom = platform.rect.top
+            y_inc = 0 # in case mario walks off platform
+            on = True
         if halt == True:
             x_inc = 0
     else: # cycles, fewer for higher values of gravity
