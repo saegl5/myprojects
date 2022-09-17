@@ -19,7 +19,7 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
         # self.level = None
 
     def update(self, px): # cannot simply name another function/method for group
-        self.rect.y += px  
+        self.rect.y += px
     
         # if self.y_inc == 0:
         #     self.y_inc = 1
