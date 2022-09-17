@@ -95,7 +95,7 @@ while True:
     elif hit_platform_y != []:
         if y_inc < 0: # in jump
             mario.rect.top = platform.rect.bottom # hits his head
-            y_inc = 0 # unsticks mario, reason stuck if not have?
+            y_inc = 0 # unsticks mario, otherwise y_inc won't change
         else: # falling or plateaued        
             mario.rect.bottom = platform.rect.top
             y_inc = 0 # in case mario walks off platform
