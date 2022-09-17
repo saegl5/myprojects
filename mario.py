@@ -73,6 +73,7 @@ while True:
 
     mario.rect.x += x_inc
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
+    # could also check if hit_ground, but this is redundant
     if hit_platform_x != []:
         if x_inc > 0: # mario moving rightward
             mario.rect.right = platform.rect.left
@@ -96,7 +97,7 @@ while True:
         if y_inc < 0: # in jump
             mario.rect.top = platform.rect.bottom # hits his head
             y_inc = 0 # unsticks mario, otherwise y_inc won't change
-        else: # falling or plateaued        
+        else: # falling or plateaued
             mario.rect.bottom = platform.rect.top
             y_inc = 0 # in case mario walks off platform
             on = True
