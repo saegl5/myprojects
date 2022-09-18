@@ -21,18 +21,6 @@ def fill(previous_x, previous_y, sprite, COLOR, drawn):
                 drawn.add(mark) # preserves marks from being cleared
 
 
-"""
-Swap Positions of Sprites
-"""
-
-def swap(sprite1, sprite2):
-    x = sprite1.rect.x
-    y = sprite1.rect.y
-    sprite1.rect.x = sprite2.rect.x
-    sprite1.rect.y = sprite2.rect.y
-    sprite2.rect.x = x
-    sprite2.rect.y = y
-
 
 """
 Construct Outer Walls
