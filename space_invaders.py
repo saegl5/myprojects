@@ -145,7 +145,7 @@ while True: # keeps screen open
 
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN:
-            if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
+            if timer != 0 and len(invaders) != 0 and len(spaceships) != 0: # game still in play
                 if event.key == pygame.K_RIGHT:
                     x_inc = 5
                 if event.key == pygame.K_LEFT:
