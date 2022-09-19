@@ -4,7 +4,7 @@ Connects Marks
 
 from custom.classes import Draw
 
-def fill(previous_x, previous_y, sprite, COLOR, drawn):
+def fill(previous_x, previous_y, sprite, color, drawn, w, h):
     if previous_x != None: # or previous_y != None
         diff_x = sprite.rect.x - previous_x
         diff_y = sprite.rect.y - previous_y
@@ -13,7 +13,7 @@ def fill(previous_x, previous_y, sprite, COLOR, drawn):
             dx = diff_x / steps
             dy = diff_y / steps
             for i in range(int(steps)):
-                mark = Draw(COLOR)
+                mark = Draw(color, w, h)
                 previous_x += dx
                 previous_y += dy
                 mark.rect.x = previous_x
