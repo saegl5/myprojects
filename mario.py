@@ -47,29 +47,29 @@ sprites.add(ground, platform, mario) # displays mario in front of ground and pla
 # Other sprites
 
 while True:
-    for action in pygame.event.get():
-        if action.type == pygame.QUIT:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             canvas.close()
 
-        elif action.type == pygame.KEYDOWN:
-            if action.key == pygame.K_RIGHT:
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
                 x_inc = V
                 halt = False
-            if action.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT:
                 x_inc = -V
                 halt = False
-            if action.key == pygame.K_SPACE and first == True and on == True:
+            if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
-        elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_SPACE:
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE:
                 first = True
-            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
         # Other keyboard or mouse/trackpad events
 
-        time_stamp(action)
+        time_stamp(event)
 
     mario.rect.x += x_inc
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)

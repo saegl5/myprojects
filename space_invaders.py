@@ -115,11 +115,11 @@ while INVADER_COUNT-len(invaders) > 0: # create and add fifty "invader" sprites
 # we will create "laser" sprites later
 
 while True: # keeps screen open
-    for action in pygame.event.get(): # check for user input when open screen
-        if action.type == pygame.QUIT: # user clicked close button
+    for event in pygame.event.get(): # check for user input when open screen
+        if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
-        elif action.type == pygame.USEREVENT: # for timer, "elif" means else if
+        elif event.type == pygame.USEREVENT: # for timer, "elif" means else if
             if timer == 0 or len(spaceships) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
@@ -144,13 +144,13 @@ while True: # keeps screen open
                     return_fire(laser, 2)
 
         # --- Keyboard events
-        elif action.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN:
             if timer != 0 and len(invaders) != 0 and len(spaceships) != 0:
-                if action.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT:
                     x_inc = 5
-                if action.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT:
                     x_inc = -5
-                if action.key == pygame.K_SPACE: # fire laser
+                if event.key == pygame.K_SPACE: # fire laser
                     laser = Rectangle(10, 20)
                     laser.rect.centerx = spaceship.rect.centerx
                     laser.rect.bottom = spaceship.rect.top + 10 # "+ 10" because update() is called before "laser" sprites are drawn
@@ -162,13 +162,13 @@ while True: # keeps screen open
             else:
                 x_inc = 0
 
-        elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 x_inc = 0
-            if action.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE:
                 first = True
 
-        time_stamp(action)
+        time_stamp(event)
         # -------------------
         
     # --- Game logic

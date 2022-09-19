@@ -22,10 +22,10 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     snowflakes[i] = list(snowflakes[i]) # each center point is a tuple, but tuples are immutable, so convert them to a list
 
 while True: # keeps screen open
-    for action in pygame.event.get(): # check for user input when open screen
-        if action.type == pygame.QUIT: # user clicked close button
+    for event in pygame.event.get(): # check for user input when open screen
+        if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
-        time_stamp(action)
+        time_stamp(event)
     # --- Game logic
     for i in range(0, len(snowflakes)): # FOR each index in the list
         snowflakes[i][1] += Y_INC # increase y by 1 pixel for each point

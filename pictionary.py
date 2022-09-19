@@ -21,16 +21,16 @@ cursor_picture = pygame.image.load('images/chalk.png').convert()
 cursor_picture.set_colorkey(BLUE)
 
 while True: # keeps screen open
-    for action in pygame.event.get(): # check for user input when open screen
-        if action.type == pygame.QUIT: # user clicked close button
+    for event in pygame.event.get(): # check for user input when open screen
+        if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
-        elif action.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONDOWN:
             draw = True
-        elif action.type == pygame.MOUSEBUTTONUP:
+        elif event.type == pygame.MOUSEBUTTONUP:
             draw = False
 
-        time_stamp(action)
+        time_stamp(event)
 
     # --- Game logic
     pos = pygame.mouse.get_pos()
