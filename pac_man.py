@@ -155,11 +155,11 @@ while PELLET_COUNT-len(pellets) > 0: # create and add fifty "pellet" sprites
         pygame.sprite.spritecollide(wall, pellets, True)
 
 while True: # keeps screen open
-    for action in pygame.event.get(): # check for user input when open screen
-        if action.type == pygame.QUIT: # user clicked close button
+    for event in pygame.event.get(): # check for user input when open screen
+        if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
-        elif action.type == pygame.USEREVENT: # for timer, "elif" means else if
+        elif event.type == pygame.USEREVENT: # for timer, "elif" means else if
             if timer == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
@@ -182,30 +182,30 @@ while True: # keeps screen open
                         y_inc_red_ghost = 0
 
         # --- Keyboard events
-        elif action.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN:
             if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
-                if action.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT:
                     x_inc = 5
                     angle = 0
                     turn(pacman, angle) # placing here also helps with using keyboard combination to take screenshots
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
-                if action.key == pygame.K_UP: # recall that y increases going downward
+                if event.key == pygame.K_UP: # recall that y increases going downward
                     y_inc = -5
                     angle = 90
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
-                if action.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT:
                     x_inc = -5
                     angle = 180
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
-                if action.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN:
                     y_inc = 5
                     angle = 270
                     turn(pacman, angle)
@@ -216,15 +216,15 @@ while True: # keeps screen open
                 x_inc = 0
                 y_inc = 0
                 
-        elif action.type == pygame.KEYUP:
-            if action.key == pygame.K_RIGHT or action.key == pygame.K_LEFT:
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 x_inc = 0
-            if action.key == pygame.K_UP or action.key == pygame.K_DOWN:
+            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_inc = 0
             count = 0
             turn(pacman, angle)
 
-        time_stamp(action)
+        time_stamp(event)
         # -------------------
         
     # --- Game logic

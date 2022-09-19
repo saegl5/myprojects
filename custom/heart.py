@@ -21,8 +21,8 @@ def heart(x, y):
     position = (x, y) # define x- and y-coordinates
 
 # while True:
-#     for action in pygame.event.get():
-#         if action.type == pygame.QUIT:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
 #             pygame.quit()
 #             sys.exit()
     # screen.fill(BLACK)

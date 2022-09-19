@@ -23,10 +23,10 @@ text = font.render("There is hope!", True, BLACK)
 angle_offset = 0*pi/180 # sun rays
 
 while True: # keeps screen open
-    for action in pygame.event.get(): # check for user input when open screen
-        if action.type == pygame.QUIT: # user clicked close button
+    for event in pygame.event.get(): # check for user input when open screen
+        if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
-        time_stamp(action)
+        time_stamp(event)
     # --- Game logic
     # --------------
     canvas.clean()

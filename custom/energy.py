@@ -7,9 +7,9 @@ import src.canvas as canvas
 
 ticks = int() # for time stamp
 
-def time_stamp(action):
+def time_stamp(event):
     global ticks
-    if action.type == pygame.MOUSEBUTTONUP or action.type is not pygame.MOUSEMOTION or action.type == pygame.KEYUP:
+    if event.type == pygame.MOUSEBUTTONUP or event.type is not pygame.MOUSEMOTION or event.type == pygame.KEYUP:
         ticks = pygame.time.get_ticks() # time stamp
 
 def save_energy():
