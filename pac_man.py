@@ -183,7 +183,7 @@ while True: # keeps screen open
 
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN:
-            if timer != 0 and len(pellets) != 0 and len(pacmen) != 0:
+            if timer != 0 and len(pellets) != 0 and len(pacmen) != 0: # game still in play
                 if event.key == pygame.K_RIGHT:
                     x_inc = 5
                     angle = 0
