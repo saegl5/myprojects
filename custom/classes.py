@@ -21,9 +21,9 @@ Draws Mark
 """
 
 class Draw(pygame.sprite.Sprite):
-    def __init__(self, COLOR):
+    def __init__(self, color, w, h):
         super().__init__()
-        SIZE = (2, 2) # thicker drawing marks
-        self.image = pygame.Surface(SIZE)
-        self.image.fill(COLOR)
+        size = (w, h) # thicker drawing marks
+        self.image = pygame.Surface(size)
+        self.image.fill(color)
         self.rect = self.image.get_rect()
