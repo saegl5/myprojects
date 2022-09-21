@@ -143,7 +143,7 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
-            y_inc = 0 # unsticks mario from below---otherwise y_inc won't change, in case mario walks off platform
+            y_inc = 0 # unsticks mario from below, and in case mario walks off platform
             if halt == True:
                 x_inc = 0
     else: # cycles, fewer for higher values of gravity
