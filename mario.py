@@ -6,6 +6,7 @@ import pygame
 import src.canvas as canvas # still processes pygame.init()
 from custom.classes import Rectangle
 from custom.energy import time_stamp, save_energy
+from custom.functions import left_wall
 # Other modules to import
 
 pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
@@ -24,6 +25,7 @@ y_inc = 0
 first = True # hopping
 halt = True # walking
 on = True # ground or platform
+l = canvas.SIZE[0]/2 # where world starts moving
 # Other constants and variables
 
 # grounds = pygame.sprite.Group()
@@ -58,9 +60,11 @@ for block in BLOCKS: # each block
     platform.image.fill(YELLOW)
     platforms.add(platform)
 grounds = pygame.sprite.Group()
+walls = pygame.sprite.Group()
+walls.add(left_wall()) # outer wall
 sprites = pygame.sprite.Group() # all sprites
 grounds.add(ground)
-sprites.add(grounds, platforms, mario) # displays mario in front of grounds and platforms (order matters)
+sprites.add(walls, grounds, platforms, mario) # displays mario in front of grounds and platforms (order matters)
 # Other sprites
 
 while True:
@@ -105,27 +109,32 @@ while True:
                 mario.rect.left = platform.rect.right
             if halt == True:
                 x_inc = 0
-    if mario.rect.left < ground.rect.left: # could also use mario.rect.x < 0
-        mario.rect.left = ground.rect.left
-    elif mario.rect.right >= 500: # don't use canvas.SIZE[0] because won't be able to see ahead of you 
-        move_left = mario.rect.right - 500
-        ground.rect.x -= move_left
+    diff = abs(mario.rect.x - l) # not interested in sign
+    # if mario.rect.left < ground.rect.left: # could also use mario.rect.x < 0
+    #     mario.rect.left = ground.rect.left
+    if mario.rect.x >= l: # move world leftward
+        ground.rect.x -= diff
         for platform in platforms:
-            platform.rect.x -= move_left
-        mario.rect.right = 500 # keep mario still, also maintains correct change in movement
-    elif mario.rect.left <= 200:
-        if ground.rect.x < 0: # helps preserve boundary <-- use wall?????
-            move_right = 200 - mario.rect.left
-            if ground.rect.x + move_right > 0: # securely preserves boundary
-                over = ground.rect.x + move_right # negative + positive
-                ground.rect.x += move_right-over # zero out over
+            platform.rect.x -= diff
+        mario.rect.x = l # keep mario still
+    elif mario.rect.x < l: # move world leftward
+        if ground.rect.x < 0: # resets initial positions because only true if world had already been moved rightward <-- use wall?????
+            if ground.rect.x + diff > 0: # check gap
+                gap = ground.rect.x + diff
+                ground.rect.x += diff - gap
                 for platform in platforms:
-                    platform.rect.x += move_right-over
+                    platform.rect.x += diff - gap
             else:
-                ground.rect.x += move_right
+                ground.rect.x += diff
                 for platform in platforms:
-                    platform.rect.x += move_right
-            mario.rect.left = 200
+                    platform.rect.x += diff
+            mario.rect.x = l
+    hit_wall = pygame.sprite.spritecollide(mario, walls, False)
+    for wall in hit_wall:
+        # if x_inc > 0: # redundant
+        #     mario.rect.right = wall.rect.left
+        # else:
+        mario.rect.left = wall.rect.right # currently only one wall
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
