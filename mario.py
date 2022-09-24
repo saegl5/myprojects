@@ -93,11 +93,10 @@ while True:
                 gap = ground.rect.x + diff
                 ground.rect.x += diff - gap
                 platform.rect.x += diff - gap
-                mario.rect.x = l # arguably redundant
             else:
                 ground.rect.x += diff
                 platform.rect.x += diff
-                mario.rect.x = l         
+            mario.rect.x = l
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
