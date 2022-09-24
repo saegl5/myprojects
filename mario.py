@@ -24,6 +24,7 @@ y_inc = 0
 first = True # hopping
 halt = True # walking
 on = True # ground or platform
+l = canvas.SIZE[0]/2 # where world starts moving
 # Other constants and variables
 
 ground = Rectangle(canvas.SIZE[0], GH)
@@ -81,6 +82,22 @@ while True:
             mario.rect.left = platform.rect.right
         if halt == True:
             x_inc = 0
+    diff = abs(mario.rect.x - l) # not interested in sign
+    if mario.rect.x >= l: # move world leftward
+        ground.rect.x -= diff
+        platform.rect.x -= diff
+        mario.rect.x = l # keep mario still
+    elif mario.rect.x < l: # move world back
+        if ground.rect.x < 0: # resets initial positions
+            if ground.rect.x + diff > 0: # check gap
+                gap = ground.rect.x + diff
+                ground.rect.x += diff - gap
+                platform.rect.x += diff - gap
+                mario.rect.x = l # arguably redundant
+            else:
+                ground.rect.x += diff
+                platform.rect.x += diff
+                mario.rect.x = l         
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
