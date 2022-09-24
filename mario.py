@@ -114,8 +114,8 @@ while True:
         for platform in platforms:
             platform.rect.x -= diff
         mario.rect.x = l # keep mario still
-    elif mario.rect.x < l: # move world leftward
-        if grounds.sprites()[0].rect.x <= left_wall().rect.x: # resets initial positions because only true if world had already been moved rightward, , ground sprites were not randomly assigned
+    elif mario.rect.x < l: # move world back
+        if grounds.sprites()[0].rect.x <= left_wall().rect.x: # resets initial positions, ground sprites were not randomly assigned
             if grounds.sprites()[0].rect.x + diff > 0: # check gap
                 gap = grounds.sprites()[0].rect.x + diff
                 for ground in grounds:
