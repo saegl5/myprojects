@@ -85,10 +85,7 @@ def flip_horizontal(sprite, Bool):
 # ---------------------
 
 # outer walls
-walls.add(left_wall())
-walls.add(right_wall())
-walls.add(top_wall())
-walls.add(bottom_wall())
+walls.add(left_wall(), right_wall(), top_wall(), bottom_wall())
 
 # inner top wall
 wall = Rectangle(canvas.SIZE[0]-200, 10) # leave room around walls
