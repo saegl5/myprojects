@@ -7,7 +7,8 @@
 <img src="screenshots/billiards.gif" alt="screenshot of billiards animation" width="700">
 
 ## Snowfall Animation
-<img src="screenshots/snowfall.gif" alt="screenshot of snowfall animation" width="700">
+<img src="screenshots/snowfall.gif" alt="screenshot of snowfall animation" width="700"><br>
+(background music muted)
 
 ## "Pictionary" Game
 <img src="screenshots/pictionary.gif" alt="screenshot of pictionary game" width="700">

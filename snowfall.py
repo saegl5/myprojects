@@ -13,6 +13,7 @@ Y_INC = 1 # initialize increment
 R = 4 # circle radius
 background_picture = pygame.image.load('images/north_pole.jpeg')
 background_picture = pygame.transform.scale(background_picture, canvas.SIZE)
+background_music = pygame.mixer.Sound('sounds/concerto.ogg')
 snowflakes = [] # empty list
 
 for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50)
@@ -20,6 +21,8 @@ for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but 
     y = random.randrange(0, canvas.SIZE[1]+1) # random number between 0 and, including, SIZE[1]
     snowflakes.append((x, y)) # populate the list with random center points
     snowflakes[i] = list(snowflakes[i]) # each center point is a tuple, but tuples are immutable, so convert them to a list
+
+background_music.play()
 
 while True: # keeps screen open
     for event in pygame.event.get(): # check for user input when open screen
