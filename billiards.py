@@ -10,6 +10,8 @@ pygame.display.set_caption("QUESTABOX's Billiards Animation")
 
 ball_picture = pygame.image.load('images/ball_blue_large.png')
 background_picture = pygame.image.load('images/background_green.png')
+sound = pygame.mixer.Sound('sounds/bump.ogg')
+sound.set_volume(0.125)
 y = 0 # initialize position
 x = 0
 y_inc = 8 # initialize increment
