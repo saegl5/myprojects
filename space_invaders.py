@@ -77,8 +77,7 @@ def return_fire(sprite, index):
 # ---------------------
 
 # outer walls
-walls.add(left_wall())
-walls.add(right_wall())
+walls.add(left_wall(), right_wall())
 
 # left barrier
 for i in range(0, P):
