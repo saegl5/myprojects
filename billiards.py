@@ -10,6 +10,8 @@ pygame.display.set_caption("QUESTABOX's Billiards Animation")
 
 ball_picture = pygame.image.load('images/ball_blue_large.png')
 background_picture = pygame.image.load('images/background_green.png')
+sound = pygame.mixer.Sound('sounds/bump.ogg')
+sound.set_volume(0.125)
 y = 0 # initialize position
 x = 0
 y_inc = 8 # initialize increment
@@ -26,15 +28,19 @@ while True: # keeps screen open
     if y + 64 > canvas.SIZE[1]: # if rectangle would breach bottom edge
         y = canvas.SIZE[1] - 64 # prevent rectangle from breaching edge
         y_inc *= -1 # y_inc = y_inc*-1, that is change the increment's sign
+        sound.play()
     elif y < 0: # else if rectangle would breach top edge
         y = 0
         y_inc *= -1 # change the increment's sign back
+        sound.play()
     if x + 64 > canvas.SIZE[0]: # if rectangle would breach right edge
         x = canvas.SIZE[0] - 64
         x_inc *= -1
+        sound.play()
     elif x < 0: # else if rectangle would breach left edge
         x = 0
         x_inc *= -1
+        sound.play()
     # --------------
     canvas.clean() # redundant
     # --- Drawing code
