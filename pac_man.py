@@ -143,8 +143,8 @@ while True:
 
 while PELLET_COUNT-len(pellets) > 0: # create and add fifty "pellet" sprites
     pellet = Rectangle(W/2, H/2)
-    pellet.rect.x = random.randrange(0, canvas.SIZE[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
-    pellet.rect.y = random.randrange(0, canvas.SIZE[1]+1-H/2, H/2)
+    pellet.rect.x = random.randrange(0, canvas.SIZE[0], W/2) # allow sprite to touch edge but not breach it
+    pellet.rect.y = random.randrange(0, canvas.SIZE[1], H/2)
     pellet.image.blit(pellet_picture, (0, 0))
     pygame.sprite.spritecollide(pellet, pellets, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     pellets.add(pellet)

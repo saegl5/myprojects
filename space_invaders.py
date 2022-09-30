@@ -105,8 +105,8 @@ for i in range(0, retries):
 
 while INVADER_COUNT-len(invaders) > 0: # create and add fifty "invader" sprites
     invader = Rectangle(W/2, H/2)
-    invader.rect.x = random.randrange(0, canvas.SIZE[0]+1-W/2, W/2) # allow sprite to touch edge but not breach it
-    invader.rect.y = random.randrange(0, canvas.SIZE[1]+1-H/2-196, H/2) # 196px space at canvas bottom
+    invader.rect.x = random.randrange(0, canvas.SIZE[0], W/2) # allow sprite to touch edge but not breach it
+    invader.rect.y = random.randrange(0, canvas.SIZE[1]-196, H/2) # 196px space at canvas bottom
     invader.image.blit(invader_picture, (0, 0))
     pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
     invaders.add(invader)
