@@ -24,7 +24,7 @@ y_inc = 0
 first = True # hopping
 halt = True # walking
 on = True # ground or platform
-l = canvas.SIZE[0]/2 # where world starts moving
+l = canvas.SIZE[0] # where world starts moving
 # Other constants and variables
 
 ground = Rectangle(canvas.SIZE[0], GH)
