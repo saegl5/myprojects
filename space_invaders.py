@@ -51,6 +51,7 @@ INVADER_COUNT = 50
 timer = 30 # 30 seconds (multiple of modulo for invaders.update())
 score = 0
 first = True # for spaceship laser
+px = 10 # for spaceship laser too
 count = 0 # for lunging picture
 retries = 2
 retry_boxes = []
@@ -152,7 +153,7 @@ while True: # keeps screen open
                 if event.key == pygame.K_SPACE: # fire laser
                     laser = Rectangle(10, 20)
                     laser.rect.centerx = spaceship.rect.centerx
-                    laser.rect.bottom = spaceship.rect.top + 10 # "+ 10" because update() is called before "laser" sprites are drawn
+                    laser.rect.bottom = spaceship.rect.top + px # update() is called before "laser" sprites are drawn
                     laser.image.fill(YELLOW)
                     if first == True:
                         lasers.add(laser)
@@ -241,7 +242,7 @@ while True: # keeps screen open
             lasers_alt.remove(laser)
 
     if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
-        lasers.update(-10)
+        lasers.update(-px)
         lasers_alt.update(2)
     else: # stops lasers from moving when game over or win game
         lasers.update(0)
