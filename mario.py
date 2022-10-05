@@ -30,8 +30,8 @@ l = canvas.SIZE[0]/2 # where world starts moving
 
 blocks1 = [ (canvas.SIZE[0], GH, 0,                  canvas.SIZE[1]-GH),
             (300,            GH, canvas.SIZE[0]+100, canvas.SIZE[1]-GH),
-            (500,            GH, canvas.SIZE[0]+500, canvas.SIZE[1]-GH)
-          ] # three blocks, again (w, h, x, y) each, w varies
+            (500,            GH, canvas.SIZE[0]+500, canvas.SIZE[1]-GH) ]
+            # three blocks, again (w, h, x, y) each, w varies
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
     ground = Rectangle(block[0], block[1])
@@ -47,8 +47,8 @@ mario.image.fill(WHITE) # example
 
 blocks2 = [ (200, 50, 400, 300),
             (200, 50, 800, 250),
-            (200, 50, 1300, 100)
-         ] # three blocks, (w, h, x, y) each, can also vary w and h
+            (200, 50, 1300, 100) ] 
+            # three blocks, (w, h, x, y) each, can also vary w and h
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[0], block[1])
