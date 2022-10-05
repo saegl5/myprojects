@@ -92,7 +92,6 @@ while True:
     mario.rect.x += x_inc
     hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
-    # could also check if hit_ground, but this is redundant
     if hit_ground_x != []:
         for ground in hit_ground_x:
             if x_inc > 0: # mario moving rightward
