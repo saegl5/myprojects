@@ -48,7 +48,7 @@ invader_picture = pygame.image.load('images/alien.png').convert()
 invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
 
 INVADER_COUNT = 50
-timer = 30 # 30 seconds (multiple of modulo for invaders.update())
+repeat = 30 # times (multiple of modulo for invaders.update())
 score = 0
 first = True # for spaceship laser
 px = 10 # for spaceship laser too
@@ -120,32 +120,32 @@ while True: # keeps screen open
             canvas.close()
 
         elif event.type == pygame.USEREVENT: # for timer, "elif" means else if
-            if timer == 0 or len(spaceships) == 0:
+            if repeat == 0 or len(spaceships) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
             elif len(invaders) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
             else: # after one second
-                timer -= 1
+                repeat -= 1
                 for invader in invaders:
                     lunge(invader) # all "invader" sprites lunge
                 count += 1
-                if timer % 5 == 0: # every 5 seconds
+                if repeat % 5 == 0: # every 5 seconds
                     invaders.update(32) # move "invader" sprites downward
-                if timer % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
+                if repeat % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
                     laser = Rectangle(6, 40)
                     return_fire(laser, 0)
-                if timer % 7 == 0 and len(invaders) > 1:
+                if repeat % 7 == 0 and len(invaders) > 1:
                     laser = Rectangle(6, 40)
                     return_fire(laser, 1)
-                if timer % 11 == 0 and len(invaders) > 2:
+                if repeat % 11 == 0 and len(invaders) > 2:
                     laser = Rectangle(6, 40)
                     return_fire(laser, 2)
 
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN:
-            if timer != 0 and len(invaders) != 0 and len(spaceships) != 0: # game still in play
+            if repeat != 0 and len(invaders) != 0 and len(spaceships) != 0: # game still in play
                 if event.key == pygame.K_RIGHT:
                     x_inc = 5
                 if event.key == pygame.K_LEFT:
@@ -241,7 +241,7 @@ while True: # keeps screen open
         if barrier_removed != []:
             lasers_alt.remove(laser)
 
-    if timer != 0 and len(spaceships) != 0 and len(invaders) != 0:
+    if repeat != 0 and len(spaceships) != 0 and len(invaders) != 0:
         lasers.update(-px)
         lasers_alt.update(2)
     else: # stops lasers from moving when game over or win game
@@ -252,13 +252,13 @@ while True: # keeps screen open
     # --------------
 
     canvas.clean()
-    timer_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
-    timer_text = style.render(str(timer), False, RED)
+    remaining_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
+    remaining_text = style.render(str(repeat), False, RED)
     score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
-    if timer == 0 or len(spaceships) == 0:
+    if repeat == 0 or len(spaceships) == 0:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
@@ -268,8 +268,8 @@ while True: # keeps screen open
     # --- Drawing code
     sprites.draw(canvas.screen)
     canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see it, even if game over
-    canvas.screen.blit(timer_header, (10, 10))
-    canvas.screen.blit(timer_text, (10, 30))
+    canvas.screen.blit(remaining_header, (10, 10))
+    canvas.screen.blit(remaining_text, (10, 30))
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10)) # to right of timer
         retry_boxes[i].set_colorkey(BLACK)

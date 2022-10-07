@@ -53,7 +53,7 @@ green_ghost_picture = pygame.image.load('images/green_ghost.png').convert()
 pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 
 PELLET_COUNT = 50
-timer = 30 # 30 seconds (multiple of modulo for random walks)
+repeat = 30 # times (multiple of modulo for random walks)
 score = 0
 count = 0 # for chomp picture
 retries = 2
@@ -157,21 +157,21 @@ while True: # keeps screen open
             canvas.close()
 
         elif event.type == pygame.USEREVENT: # for timer, "elif" means else if
-            if timer == 0 or len(pacmen) == 0:
+            if repeat == 0 or len(pacmen) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
                 game_over_sound.play()
             elif len(pellets) == 0:
                 pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
             else: # after one second
-                timer -= 1
-                if timer % 10 == 0: # every 10 seconds
+                repeat -= 1
+                if repeat % 10 == 0: # every 10 seconds
                     y_inc_green_ghost = random.choice([-1, 0, 1])
                     if y_inc_green_ghost == 0:
                         x_inc_green_ghost = random.choice([-1, 1])
                     else: # when y_inc_green_ghost = -1 or 1
                         x_inc_green_ghost = 0 # always moving
-                elif timer % 5 == 0:
+                elif repeat % 5 == 0:
                     x_inc_red_ghost = random.choice([-1, 0, 1])
                     if x_inc_red_ghost == 0:
                         y_inc_red_ghost = random.choice([-1, 1])
@@ -180,7 +180,7 @@ while True: # keeps screen open
 
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN:
-            if timer != 0 and len(pellets) != 0 and len(pacmen) != 0: # game still in play
+            if repeat != 0 and len(pellets) != 0 and len(pacmen) != 0: # game still in play
                 if event.key == pygame.K_RIGHT:
                     x_inc = 5
                     angle = 0
@@ -313,15 +313,15 @@ while True: # keeps screen open
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
         if x_inc_red_ghost < 0 or y_inc_red_ghost < 0: # ghost moving leftward or upward
             flip_horizontal(ghost, True)
-        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+        elif repeat != 0 and len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
     for ghost in green_ghosts:
         if x_inc_green_ghost < 0 or y_inc_green_ghost < 0:
             flip_horizontal(ghost, True)
-        elif timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+        elif repeat != 0 and len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
 
-    if timer != 0 and len(pacmen) != 0 and len(pellets) != 0:
+    if repeat != 0 and len(pacmen) != 0 and len(pellets) != 0:
         pass
     else: # stops ghosts from moving when game over or win game
         x_inc_red_ghost = 0
@@ -333,13 +333,13 @@ while True: # keeps screen open
     # --------------
 
     canvas.clean()
-    timer_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
-    timer_text = style.render(str(timer), False, RED)
+    remaining_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
+    remaining_text = style.render(str(repeat), False, RED)
     score_header = style_header.render("Score", False, GREEN)
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
-    if timer == 0 or len(pacmen) == 0:
+    if repeat == 0 or len(pacmen) == 0:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
@@ -349,8 +349,8 @@ while True: # keeps screen open
     # --- Drawing code
     sprites.draw(canvas.screen)
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see it, even if game over
-    canvas.screen.blit(timer_header, (10, 10))
-    canvas.screen.blit(timer_text, (10, 30))
+    canvas.screen.blit(remaining_header, (10, 10))
+    canvas.screen.blit(remaining_text, (10, 30))
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10)) # to right of timer
         retry_boxes[i].set_colorkey(BLACK)
