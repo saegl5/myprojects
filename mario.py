@@ -98,7 +98,7 @@ while True:
             platform.rect.x -= diff
         mario.rect.x = l # keep mario still
     elif mario.rect.x < l: # move world back
-        if ground.rect.x < 0: # resets initial positions
+        if ground.rect.x < 0: # retains initial positions
             if ground.rect.x + diff > 0: # check gap
                 gap = ground.rect.x + diff
                 ground.rect.x += diff - gap
@@ -108,6 +108,8 @@ while True:
                 for platform in platforms:
                     platform.rect.x += diff
             mario.rect.x = l
+        if mario.rect.x < 0: # left boundary
+            mario.rect.x = 0
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
