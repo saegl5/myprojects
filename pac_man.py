@@ -24,15 +24,12 @@ x_inc = 0 # speed
 y_inc = 0
 x_inc_red_ghost = 1 # moving rightward at launch
 y_inc_red_ghost = 0
-x_inc_green_ghost = 0
-y_inc_green_ghost = 1
 
 pellets = pygame.sprite.Group() # not pellets = []
 collisions = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 pacmen = pygame.sprite.Group()
 red_ghosts = pygame.sprite.Group()
-green_ghosts = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
 
 style = pygame.font.Font(None, 100) # faster than SysFont(), "None" utilizes default font (i.e., freesansbold.ttf)
@@ -49,17 +46,15 @@ pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert()
 pellet_picture = pygame.image.load('images/dot.png').convert()
 pellet_picture = pygame.transform.scale(pellet_picture, (int(W/2), int(H/2))) # int() addresses "TypeError: integer argument expected, got float"
 red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
-green_ghost_picture = pygame.image.load('images/green_ghost.png').convert()
 pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 
 PELLET_COUNT = 50
-repeat = 30 # times (multiple of modulo for random walks)
+repeated = 0 # times
 score = 0
 count = 0 # for chomp picture
 retries = 2
 retry_boxes = []
-wait1 = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
-wait2 = wait1 # if pacman hit by green ghost
+wait = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 waiting = False # if pacman hit by either
 
 # --- Functions
@@ -80,7 +75,7 @@ def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
     else:
-        sprite.image = pygame.transform.flip(green_ghost_picture, flip_x=Bool, flip_y=False)
+        None
     sprite.image.set_colorkey(BLACK)
 # ---------------------
 
@@ -115,19 +110,6 @@ pacmen.add(pacman)
 for i in range(0, retries):
     retry_boxes.append(pacman_picture_retry)
 
-while True: # put green "ghost" sprite first, else when try to get ghost moving it will move prematurely
-    ghost = Rectangle(W, H)
-    ghost.rect.x = random.randrange(0, canvas.SIZE[0]+1-W) # don't need step size
-    ghost.rect.y = random.randrange(0, canvas.SIZE[1]+1-H)
-    ghost.image.blit(green_ghost_picture, (0, 0))
-    green_ghosts.add(ghost)
-    stuck = pygame.sprite.spritecollide(ghost, walls, False)
-    obstruct = pygame.sprite.spritecollide(ghost, pacmen, False)
-    if stuck != [] or obstruct != []:
-        green_ghosts.remove(ghost)
-    else:
-        break
-
 while True:
     ghost = Rectangle(W, H)
     ghost.rect.x = random.randrange(0, canvas.SIZE[0]+1-W)
@@ -156,31 +138,23 @@ while True: # keeps screen open
         if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
 
-        elif event.type == pygame.USEREVENT: # for timer, "elif" means else if
-            if repeat == 0 or len(pacmen) == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0) # disable timer
+        elif event.type == pygame.USEREVENT: # timer goes off
+            if len(pacmen) == 0:
                 game_over_sound.play()
             elif len(pellets) == 0:
-                pygame.time.set_timer(pygame.USEREVENT, 0)
                 you_win_sound.play()
-            else: # after one second
-                repeat -= 1
-                if repeat % 10 == 0: # every 10 seconds
-                    y_inc_green_ghost = random.choice([-1, 0, 1])
-                    if y_inc_green_ghost == 0:
-                        x_inc_green_ghost = random.choice([-1, 1])
-                    else: # when y_inc_green_ghost = -1 or 1
-                        x_inc_green_ghost = 0 # always moving
-                elif repeat % 5 == 0:
+            else:
+                repeated += 1
+                if repeated % 5 == 0: # every 5 seconds
                     x_inc_red_ghost = random.choice([-1, 0, 1])
                     if x_inc_red_ghost == 0:
                         y_inc_red_ghost = random.choice([-1, 1])
-                    else:
-                        y_inc_red_ghost = 0
+                    else: # when y_inc_red_ghost = -1 or 1
+                        y_inc_red_ghost = 0 # always moving
 
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN:
-            if repeat != 0 and len(pellets) != 0 and len(pacmen) != 0: # game still in play
+            if len(pellets) != 0 and len(pacmen) != 0: # game still in play
                 if event.key == pygame.K_RIGHT:
                     x_inc = 5
                     angle = 0
@@ -255,27 +229,16 @@ while True: # keeps screen open
             y_inc_red_ghost *= -1
         ghost.rect.y += y_inc_red_ghost
 
-    for ghost in green_ghosts:
-        wall_ghost_hit_x = pygame.sprite.spritecollide(ghost, walls, False)
-        if wall_ghost_hit_x != []:
-            x_inc_green_ghost *= -1
-        ghost.rect.x += x_inc_green_ghost
-
-        wall_ghost_hit_y = pygame.sprite.spritecollide(ghost, walls, False)
-        if wall_ghost_hit_y != []:
-            y_inc_green_ghost *= -1
-        ghost.rect.y += y_inc_green_ghost
-
     for ghost in red_ghosts:
-        if wait1 == canvas.fps*2 and waiting == False:
+        if wait == canvas.fps*2 and waiting == False:
             pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-        elif wait1 == canvas.fps*2 and waiting == True:
+        elif wait == canvas.fps*2 and waiting == True:
             break        
         else:
             pacman_removed = [] # we will wait to check for collision
-            wait1 -= 1
-            if wait1 == 0:
-                wait1 = canvas.fps*2
+            wait -= 1
+            if wait == 0:
+                wait = canvas.fps*2
                 waiting = False
             break
         if pacman_removed != []:
@@ -284,75 +247,42 @@ while True: # keeps screen open
             pacmen.add(pacman_removed) # will reposition pac-man
             retry(pacman)
             retries -= 1
-            wait1 -= 1
+            wait -= 1
             waiting = True
             break # makes timing extra precise
-
-    for ghost in green_ghosts:
-        if wait2 == canvas.fps*2 and waiting == False:
-            pacman_removed = pygame.sprite.spritecollide(ghost, pacmen, True)
-        elif wait2 == canvas.fps*2 and waiting == True:
-            break        
-        else:
-            pacman_removed = []
-            wait2 -= 1
-            if wait2 == 0:
-                wait2 = canvas.fps*2
-                waiting = False
-            break
-        if pacman_removed != []:
-            ghost_hit_sound.play()
-        if pacman_removed != [] and retries > 0:
-            pacmen.add(pacman_removed)
-            retry(pacman)
-            retries -= 1
-            wait2 -= 1
-            waiting = True
-            break
 
     for ghost in red_ghosts: # put down here, since there are two ways increment changes sign: choice() and collisions
         if x_inc_red_ghost < 0 or y_inc_red_ghost < 0: # ghost moving leftward or upward
             flip_horizontal(ghost, True)
-        elif repeat != 0 and len(pacmen) != 0 and len(pellets) != 0:
-            flip_horizontal(ghost, False)
-    for ghost in green_ghosts:
-        if x_inc_green_ghost < 0 or y_inc_green_ghost < 0:
-            flip_horizontal(ghost, True)
-        elif repeat != 0 and len(pacmen) != 0 and len(pellets) != 0:
+        elif len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
 
-    if repeat != 0 and len(pacmen) != 0 and len(pellets) != 0:
+    if len(pacmen) != 0 and len(pellets) != 0:
         pass
     else: # stops ghosts from moving when game over or win game
         x_inc_red_ghost = 0
         y_inc_red_ghost = 0
-        x_inc_green_ghost = 0
-        y_inc_green_ghost = 0
     score = len(collisions)
 
     # --------------
 
     canvas.clean()
-    remaining_header = style_header.render("Time Left", False, RED) # "False" for anti-aliased
-    remaining_text = style.render(str(repeat), False, RED)
-    score_header = style_header.render("Score", False, GREEN)
+    score_header = style_header.render("Score", False, GREEN) # "False" for anti-aliased
     score_text = style.render(str(score), False, GREEN)
     game_over_text = style.render(None, False, BLACK)
     you_win_text = style.render(None, False, GREEN)
-    if repeat == 0 or len(pacmen) == 0:
+    if len(pacmen) == 0:
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
     sprites.empty()
-    sprites.add(walls, pellets, red_ghosts, green_ghosts, pacmen) # pacmen is redundant
+    sprites.add(walls, pellets, red_ghosts, pacmen) # pacmen is redundant
 
     # --- Drawing code
     sprites.draw(canvas.screen)
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see it, even if game over
-    canvas.screen.blit(remaining_header, (10, 10))
-    canvas.screen.blit(remaining_text, (10, 30))
     for i in range(0, retries):
-        canvas.screen.blit(retry_boxes[i], (100+i*W/2, 10)) # to right of timer
+        canvas.screen.blit(retry_boxes[i], (10+i*W/2, 10)) # to right of timer
         retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
