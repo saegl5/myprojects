@@ -24,27 +24,35 @@ y_inc = 0
 first = True # hopping
 halt = True # walking
 on = True # ground or platform
-l = canvas.SIZE[0] # where world starts moving
+l = canvas.SIZE[0]/2 # where world starts moving
 # Other constants and variables
 
 ground = Rectangle(canvas.SIZE[0], GH)
 ground.rect.left = canvas.screen.get_rect().left
 ground.rect.bottom = canvas.screen.get_rect().bottom
 ground.image.fill(BROWN)
+
 mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
 mario.rect.bottom = ground.rect.top
 mario.image.fill(WHITE) # example
-platform = Rectangle(200, 50)
-platform.rect.right = canvas.screen.get_rect().right
-platform.rect.y = 300 # low enough for mario to jump over
-platform.image.fill(YELLOW)
-grounds = pygame.sprite.Group()
+
+blocks = [  (200, 50, 400, 300),
+            (200, 50, 800, 250),
+            (200, 50, 1300, 100) ]
+# three blocks, "400" overwrites what had before, (w, h, x, y) each, can tidy up
 platforms = pygame.sprite.Group()
+for block in blocks:
+    platform = Rectangle(block[0], block[1])
+    platform.rect.x = block[2] # reverted to x
+    platform.rect.y = block[3] # low enough for mario to jump over
+    platform.image.fill(YELLOW)
+    platforms.add(platform) # brought up
+
+grounds = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
 grounds.add(ground)
-platforms.add(platform)
-sprites.add(ground, platform, mario) # displays mario in front of ground and platform (order matters)
+sprites.add(grounds, platforms, mario) # displays mario in front of ground and platform (order matters)
 # Other sprites
 
 while True:
@@ -76,16 +84,18 @@ while True:
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
     # could also check if hit_ground, but this is redundant
     if hit_platform_x != []:
-        if x_inc > 0: # mario moving rightward
-            mario.rect.right = platform.rect.left
-        else:
-            mario.rect.left = platform.rect.right
-        if halt == True:
-            x_inc = 0
+        for platform in hit_platform_x:
+            if x_inc > 0: # mario moving rightward
+                mario.rect.right = platform.rect.left
+            else:
+                mario.rect.left = platform.rect.right
+            if halt == True:
+                x_inc = 0
     diff = abs(mario.rect.x - l) # not interested in sign
     if mario.rect.x >= l: # move world leftward
         ground.rect.x -= diff
-        platform.rect.x -= diff
+        for platform in platforms:
+            platform.rect.x -= diff
         mario.rect.x = l # keep mario still
     elif mario.rect.x < l: # move world back
         if ground.rect.x < 0: # resets initial positions
@@ -95,7 +105,8 @@ while True:
                 platform.rect.x += diff - gap
             else:
                 ground.rect.x += diff
-                platform.rect.x += diff
+                for platform in platforms:
+                    platform.rect.x += diff
             mario.rect.x = l
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
@@ -108,14 +119,15 @@ while True:
         if halt == True:
             x_inc = 0
     elif hit_platform_y != []:
-        if y_inc < 0: # in jump
-            mario.rect.top = platform.rect.bottom # hits his head
-        else: # falling or plateaued
-            mario.rect.bottom = platform.rect.top
-            on = True
-        y_inc = 0 # unsticks mario from below, and in case mario walks off platform
-        if halt == True:
-            x_inc = 0
+        for platform in hit_platform_y:
+            if y_inc < 0: # in jump
+                mario.rect.top = platform.rect.bottom # hits his head
+            else: # falling or plateaued
+                mario.rect.bottom = platform.rect.top
+                on = True
+            y_inc = 0 # unsticks mario from below, and in case mario walks off platform
+            if halt == True:
+                x_inc = 0
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
