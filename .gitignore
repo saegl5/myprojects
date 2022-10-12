@@ -4,3 +4,4 @@ __pycache__
 *.afdesign
 Thumbs.db
 .vscode
+pyrightconfig.json
