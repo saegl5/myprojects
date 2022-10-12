@@ -102,7 +102,8 @@ while True:
             if ground.rect.x + diff > 0: # check gap
                 gap = ground.rect.x + diff
                 ground.rect.x += diff - gap
-                platform.rect.x += diff - gap
+                for platform in platforms:
+                    platform.rect.x += diff - gap
             else:
                 ground.rect.x += diff
                 for platform in platforms:
