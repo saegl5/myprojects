@@ -14,7 +14,7 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
-YELLOW = pygame.Color("yellow") # platform
+YELLOW = pygame.Color("yellow3") # platforms
 W = 48
 H = 64
 GH = 50 # ground height
@@ -27,38 +27,38 @@ on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
 # Other constants and variables
 
-blocks1 = [ (canvas.SIZE[0], GH, 0,                     canvas.SIZE[1]-GH),
-            (300,            GH, canvas.SIZE[0]+100,    canvas.SIZE[1]-GH),
-            (500,            GH, canvas.SIZE[0]+500,    canvas.SIZE[1]-GH)  ]
-# second ground sprite: x = canvas.SIZE[0]+100, w = 300
-# third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
+blocks1 = [ (canvas.SIZE[0], GH, 0,                  canvas.SIZE[1]-GH),
+            (300,            GH, canvas.SIZE[0]+100, canvas.SIZE[1]-GH),
+            (500,            GH, canvas.SIZE[0]+500, canvas.SIZE[1]-GH) ]
+            # three blocks, again (w, h, x, y) each, second and third block to right of screen
+            # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
-for block in blocks1:
+for block in blocks1: # each block
     ground = Rectangle(block[0], block[1])
     ground.rect.x = block[2]
     ground.rect.y = block[3]
     ground.image.fill(BROWN)
-    grounds.add(ground) # brought up
+    grounds.add(ground)
 
 mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
 mario.image.fill(WHITE) # example
 
-blocks2 = [  (200, 50, 400, 300),
-             (200, 50, 800, 250),
-             (200, 50, 1300, 100)  ]
-# three blocks, "400" overwrites what had before, (w, h, x, y) each, can tidy up
+blocks2 = [ (200, 50, 400, 300),
+            (200, 50, 800, 250),
+            (200, 50, 1300, 100) ]
+            # three blocks, (w, h, x, y) each
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[0], block[1])
     platform.rect.x = block[2] # reverted to x
     platform.rect.y = block[3] # low enough for mario to jump over
     platform.image.fill(YELLOW)
-    platforms.add(platform) # brought up
+    platforms.add(platform)
 
 sprites = pygame.sprite.Group() # all sprites
-sprites.add(grounds, platforms, mario) # displays mario in front of ground and platform (order matters)
+sprites.add(grounds, platforms, mario) # displays mario in front of grounds and platforms (order matters)
 # Other sprites
 
 while True:
@@ -95,7 +95,7 @@ while True:
                 mario.rect.right = ground.rect.left
             else:
                 mario.rect.left = ground.rect.right
-    if hit_platform_x != []:
+    elif hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc > 0:
                 mario.rect.right = platform.rect.left
@@ -111,7 +111,7 @@ while True:
             platform.rect.x -= diff
         mario.rect.x = l # keep mario still
     elif mario.rect.x < l: # move world back
-        if grounds.sprites()[0].rect.x < 0: # retains initial positions
+        if grounds.sprites()[0].rect.x < 0: # retains initial positions, ground sprites were not randomly positioned
             if grounds.sprites()[0].rect.x + diff > 0: # check gap
                 gap = grounds.sprites()[0].rect.x + diff
                 for ground in grounds:
