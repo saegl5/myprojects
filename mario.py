@@ -27,31 +27,37 @@ on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
 # Other constants and variables
 
-ground = Rectangle(canvas.SIZE[0], GH)
-ground.rect.left = canvas.screen.get_rect().left
-ground.rect.bottom = canvas.screen.get_rect().bottom
-ground.image.fill(BROWN)
+blocks1 = [ (canvas.SIZE[0], GH, 0,                     canvas.SIZE[1]-GH),
+            (300,            GH, canvas.SIZE[0]+100,    canvas.SIZE[1]-GH),
+            (500,            GH, canvas.SIZE[0]+500,    canvas.SIZE[1]-GH)  ]
+# second ground sprite: x = canvas.SIZE[0]+100, w = 300
+# third ground sprite: x = canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
+grounds = pygame.sprite.Group()
+for block in blocks1:
+    ground = Rectangle(block[0], block[1])
+    ground.rect.x = block[2]
+    ground.rect.y = block[3]
+    ground.image.fill(BROWN)
+    grounds.add(ground) # brought up
 
 mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
-mario.rect.bottom = ground.rect.top
+mario.rect.y = canvas.SIZE[1]-GH-H
 mario.image.fill(WHITE) # example
 
-blocks = [  (200, 50, 400, 300),
-            (200, 50, 800, 250),
-            (200, 50, 1300, 100) ]
+blocks2 = [  (200, 50, 400, 300),
+             (200, 50, 800, 250),
+             (200, 50, 1300, 100)  ]
 # three blocks, "400" overwrites what had before, (w, h, x, y) each, can tidy up
 platforms = pygame.sprite.Group()
-for block in blocks:
+for block in blocks2:
     platform = Rectangle(block[0], block[1])
     platform.rect.x = block[2] # reverted to x
     platform.rect.y = block[3] # low enough for mario to jump over
     platform.image.fill(YELLOW)
     platforms.add(platform) # brought up
 
-grounds = pygame.sprite.Group()
 sprites = pygame.sprite.Group() # all sprites
-grounds.add(ground)
 sprites.add(grounds, platforms, mario) # displays mario in front of ground and platform (order matters)
 # Other sprites
 
@@ -93,19 +99,22 @@ while True:
                 x_inc = 0
     diff = abs(mario.rect.x - l) # not interested in sign
     if mario.rect.x >= l: # move world leftward
-        ground.rect.x -= diff
+        for ground in grounds:
+            ground.rect.x -= diff
         for platform in platforms:
             platform.rect.x -= diff
         mario.rect.x = l # keep mario still
     elif mario.rect.x < l: # move world back
-        if ground.rect.x < 0: # retains initial positions
-            if ground.rect.x + diff > 0: # check gap
-                gap = ground.rect.x + diff
-                ground.rect.x += diff - gap
+        if grounds.sprites()[0].rect.x < 0: # retains initial positions
+            if grounds.sprites()[0].rect.x + diff > 0: # check gap
+                gap = grounds.sprites()[0].rect.x + diff
+                for ground in grounds:
+                    ground.rect.x += diff - gap
                 for platform in platforms:
                     platform.rect.x += diff - gap
             else:
-                ground.rect.x += diff
+                for ground in grounds:
+                    ground.rect.x += diff
                 for platform in platforms:
                     platform.rect.x += diff
             mario.rect.x = l
@@ -116,7 +125,8 @@ while True:
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground != []:
-        mario.rect.bottom = ground.rect.top
+        for ground in hit_ground:
+            mario.rect.bottom = ground.rect.top
         y_inc = 0 # logical
         on = True
         if halt == True:
