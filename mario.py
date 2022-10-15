@@ -31,7 +31,7 @@ blocks1 = [ (canvas.SIZE[0], GH, 0,                     canvas.SIZE[1]-GH),
             (300,            GH, canvas.SIZE[0]+100,    canvas.SIZE[1]-GH),
             (500,            GH, canvas.SIZE[0]+500,    canvas.SIZE[1]-GH)  ]
 # second ground sprite: x = canvas.SIZE[0]+100, w = 300
-# third ground sprite: x = canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
+# third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
 for block in blocks1:
     ground = Rectangle(block[0], block[1])
