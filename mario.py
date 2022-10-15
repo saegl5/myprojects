@@ -14,7 +14,7 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
-YELLOW = pygame.Color("yellow3") # platforms
+YELLOW = pygame.Color("yellow") # platforms
 W = 48
 H = 64
 GH = 50 # ground height
