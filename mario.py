@@ -42,7 +42,7 @@ for block in blocks1: # each block
 
 mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
-mario.rect.y = canvas.SIZE[1]-H-GH
+mario.rect.y = canvas.SIZE[1]-GH-H
 mario.image.fill(WHITE) # example
 
 blocks2 = [ (200, 50, 400, 300),
