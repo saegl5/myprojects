@@ -97,7 +97,7 @@ while True:
                 mario.rect.left = ground.rect.right
     if hit_platform_x != []:
         for platform in hit_platform_x:
-            if x_inc > 0: # mario moving rightward
+            if x_inc > 0:
                 mario.rect.right = platform.rect.left
             else:
                 mario.rect.left = platform.rect.right
