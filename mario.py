@@ -87,8 +87,14 @@ while True:
         time_stamp(event)
 
     mario.rect.x += x_inc
+    hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
-    # could also check if hit_ground, but this is redundant
+    if hit_ground_x != []:
+        for ground in hit_ground_x:
+            if x_inc > 0: # mario moving rightward
+                mario.rect.right = ground.rect.left
+            else:
+                mario.rect.left = ground.rect.right
     if hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc > 0: # mario moving rightward
@@ -122,10 +128,10 @@ while True:
             mario.rect.x = 0
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
-    hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
+    hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
-    if hit_ground != []:
-        for ground in hit_ground:
+    if hit_ground_y != []:
+        for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
         y_inc = 0 # logical
         on = True
