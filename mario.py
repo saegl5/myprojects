@@ -38,7 +38,7 @@ mario.rect.bottom = ground.rect.top
 mario.image.fill(WHITE) # example
 
 blocks = [  (200, 50, 400, 300),
-            (200, 50, 800, 250)
+            (200, 50, 800, 250),
             (200, 50, 1300, 100) ]
 # three blocks, "400" overwrites what had before, (w, h, x, y) each, can tidy up
 platforms = pygame.sprite.Group()
