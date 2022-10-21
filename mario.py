@@ -14,10 +14,10 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 # Other settings
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
-WHITE = pygame.Color("white") # mario
 YELLOW = pygame.Color("yellow3") # platforms
-W = 48
-H = 64
+BLACK = pygame.Color("black") # mario
+W = 75
+H = 100
 GH = 50 # ground height
 V = 5 # example
 x_inc = 0 # short for "increment"
@@ -26,6 +26,8 @@ first = True # hopping
 halt = True # walking
 on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
+mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
+mario_frames = pygame.transform.scale(mario_frames, ((W+10)*9, (H+13)*3))
 # Other constants and variables
 
 blocks1 = [ (canvas.SIZE[0], GH, 0,                  canvas.SIZE[1]-GH),
@@ -41,10 +43,13 @@ for block in blocks1: # each block
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-mario = Rectangle(W, H) # see classes.py
+mario = Rectangle(W-8, H-2) # see classes.py
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
-mario.image.fill(WHITE) # example
+# mario.image.fill(WHITE) # example
+mario.image.blit(mario_frames, (0, 0), (10, 15, W, H))
+mario.image.set_colorkey(BLACK)
+#  = Grab(mario_frames, W, H, 0, 0)
 
 blocks2 = [ (200, 50, 400, 300),
             (200, 50, 800, 250),
