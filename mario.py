@@ -25,6 +25,7 @@ first = True # hopping
 halt = True # walking
 on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
+mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 # Other constants and variables
 
 blocks1 = [ (canvas.SIZE[0], GH, 0,                  canvas.SIZE[1]-GH),
@@ -43,7 +44,9 @@ for block in blocks1: # each block
 mario = Rectangle(W, H) # see classes.py
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
-mario.image.fill(WHITE) # example
+# mario.image.fill(WHITE) # example
+mario.image.blit(mario_frames, (0, 0), (0, 0, W, H))
+# for (0, 0, W, H), it's x, y, width and height of frame
 
 blocks2 = [ (200, 50, 400, 300),
             (200, 50, 800, 250),
