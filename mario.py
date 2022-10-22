@@ -29,7 +29,7 @@ l = canvas.SIZE[0]/2 # where world starts moving
 
 blocks1 = [ (canvas.SIZE[0], GH, 0,                  canvas.SIZE[1]-GH),
             (300,            GH, canvas.SIZE[0]+100, canvas.SIZE[1]-GH),
-            (500,            GH, canvas.SIZE[0]+500, canvas.SIZE[1]-GH) ]
+            (600,            GH, canvas.SIZE[0]+500, canvas.SIZE[1]-GH) ]
             # three blocks, again (w, h, x, y) each, second and third block to right of screen
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
