@@ -35,9 +35,9 @@ blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
-    ground = Rectangle(block[0], block[1])
-    ground.rect.x = block[2]
-    ground.rect.y = block[3]
+    ground = Rectangle(block[2], block[3])
+    ground.rect.x = block[0]
+    ground.rect.y = block[1]
     ground.image.fill(BROWN)
     grounds.add(ground)
 
@@ -54,9 +54,9 @@ blocks2 = [ ( 400, 300, 200, 50),
             # three blocks, (x, y, w, h) each
 platforms = pygame.sprite.Group()
 for block in blocks2:
-    platform = Rectangle(block[0], block[1])
-    platform.rect.x = block[2] # reverted to x
-    platform.rect.y = block[3] # low enough for mario to jump over
+    platform = Rectangle(block[2], block[3])
+    platform.rect.x = block[0] # reverted to x
+    platform.rect.y = block[1] # low enough for mario to jump over
     platform.image.fill(YELLOW)
     platforms.add(platform)
 
