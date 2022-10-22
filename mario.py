@@ -13,7 +13,7 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 # Other settings
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
-WHITE = pygame.Color("white") # mario
+# WHITE = pygame.Color("white") # mario
 YELLOW = pygame.Color("yellow") # platforms
 W = 48
 H = 64
@@ -48,8 +48,8 @@ mario.rect.y = canvas.SIZE[1]-GH-H
 mario.image.blit(mario_frames, (0, 0), (0, 0, W, H))
 # for (0, 0, W, H), it's x, y, width and height of frame
 
-blocks2 = [ ( 400, 300, 200, 50),
-            ( 800, 250, 200, 50),
+blocks2 = [ (400,  300, 200, 50),
+            (800,  250, 200, 50),
             (1300, 100, 200, 50) ]
             # three blocks, (x, y, w, h) each
 platforms = pygame.sprite.Group()
