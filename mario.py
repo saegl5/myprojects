@@ -30,10 +30,10 @@ mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, ((W+10)*9, (H+13)*3))
 # Other constants and variables
 
-blocks1 = [ (canvas.SIZE[0], GH, 0,                  canvas.SIZE[1]-GH),
-            (300,            GH, canvas.SIZE[0]+100, canvas.SIZE[1]-GH),
-            (500,            GH, canvas.SIZE[0]+500, canvas.SIZE[1]-GH) ]
-            # three blocks, again (w, h, x, y) each, second and third block to right of screen
+blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
+            (canvas.SIZE[0]+100, canvas.SIZE[1]-GH, 300,            GH),
+            (canvas.SIZE[0]+500, canvas.SIZE[1]-GH, 500,            GH) ]
+            # three blocks, again (x, y, w, h) each, second and third block to right of screen
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
@@ -51,10 +51,10 @@ mario.image.blit(mario_frames, (0, 0), (10, 15, W, H))
 mario.image.set_colorkey(BLACK)
 #  = Grab(mario_frames, W, H, 0, 0)
 
-blocks2 = [ (200, 50, 400, 300),
-            (200, 50, 800, 250),
-            (200, 50, 1300, 100) ] 
-            # three blocks, (w, h, x, y) each
+blocks2 = [ (400, 300, 200, 50),
+            (800, 250, 200, 50),
+            (1300, 100, 200, 50) ] 
+            # three blocks, (x, y, w, h) each
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[0], block[1])
