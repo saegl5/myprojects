@@ -27,7 +27,7 @@ halt = True # walking
 on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
-mario_frames = pygame.transform.scale(mario_frames, ((W+10)*9, (H+13)*3))
+mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet has 9 columns, 3 rows
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -43,11 +43,11 @@ for block in blocks1: # each block
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-mario = Rectangle(W-8, H-2) # see classes.py
+mario = Rectangle(W-17, H-13) # see classes.py
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
 # mario.image.fill(WHITE) # example
-mario.image.blit(mario_frames, (0, 0), (10, 15, W, H))
+mario.image.blit(mario_frames, (0, 0), (10, 13, W, H))
 mario.image.set_colorkey(BLACK)
 # for (0, 0, W, H), it's x, y, width and height of frame
 #  = Grab(mario_frames, W, H, 0, 0)
