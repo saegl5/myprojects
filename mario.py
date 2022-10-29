@@ -16,8 +16,8 @@ BROWN = pygame.Color("burlywood4") # optional color, ground
 # WHITE = pygame.Color("white") # mario
 BLACK = pygame.Color("black") # mario
 YELLOW = pygame.Color("yellow") # platforms
-W = 75 # used ratio 3:4 x 16 = 48/64, ratio 3:4 x 25 = 75/100, ratio 3:4 x 10 = 30/40
-H = 100
+W = 75 # default, used ratio 3:4 x 16 = 48/64, ratio 3:4 x 25 = 75/100, ratio 3:4 x 10 = 30/40
+H = 100 # default
 GH = 50 # ground height
 V = 5 # example
 x_inc = 0 # short for "increment"
