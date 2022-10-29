@@ -21,8 +21,7 @@
 <img src="screenshots/space_invaders.gif" alt="screenshot of space invaders game" width="700">
 
 ## "Mario" Game
-<img src="screenshots/mario.png" alt="screenshot of mario game" width="700">
-<!-- change back to gif later -->
+<img src="screenshots/mario.gif" alt="screenshot of mario game" width="700">
 
 # Known Issues
 * drawing a heart manually is difficult
