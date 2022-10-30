@@ -13,10 +13,9 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 # Other settings
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
-# WHITE = pygame.Color("white") # mario
 BLACK = pygame.Color("black") # mario
 YELLOW = pygame.Color("yellow") # platforms
-W = 75 # default, used ratio 3:4 x 16 = 48/64, ratio 3:4 x 25 = 75/100, ratio 3:4 x 10 = 30/40
+W = 75 # default, used ratio 3:4
 H = 100 # default
 GH = 50 # ground height
 V = 5 # example
@@ -37,21 +36,20 @@ blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
-    ground = Rectangle(block[2], block[3])
+    ground = Rectangle(block[2], block[3]) # see classes.py
     ground.rect.x = block[0]
     ground.rect.y = block[1]
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-mario = Rectangle(W-17, H-13) # change W to align mario's right, change H to align mario's bottom
+mario = Rectangle(W-17, H-13)
+# change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
-# mario.image.fill(WHITE) # example
 mario.image.blit(mario_frames, (0, 0), (10, 13, W, H))
+# for (10, 13, W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
-# x = 10, y = 13, move inward in sprite sheet, meaning sprite sheet shift outward
 mario.image.set_colorkey(BLACK)
-# for (0, 0, W, H), it's x, y, width and height of frame
 
 blocks2 = [ (400,  300, 200, 50),
             (800,  250, 200, 50),
