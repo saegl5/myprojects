@@ -6,7 +6,7 @@ import pygame
 import src.canvas as canvas # still processes pygame.init()
 from custom.classes import Rectangle
 from custom.energy import time_stamp, save_energy
-from custom.functions import left_wall
+from custom.functions import left_wall, frame
 # Other modules to import
 
 pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
@@ -14,10 +14,10 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 # Other settings
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
-YELLOW = pygame.Color("yellow3") # platforms
 BLACK = pygame.Color("black") # mario
-W = 75
-H = 100
+YELLOW = pygame.Color("yellow3") # platforms
+W = 75 # default, used ratio 3:4
+H = 100 # default
 GH = 50 # ground height
 V = 5 # example
 x_inc = 0 # short for "increment"
@@ -37,20 +37,35 @@ blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
-    ground = Rectangle(block[2], block[3])
+    ground = Rectangle(block[2], block[3]) # see classes.py
     ground.rect.x = block[0]
     ground.rect.y = block[1]
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-mario = Rectangle(W-17, H-13) # see classes.py
+selected_frames = [  (10, 13, W-17, H-13),
+                     (3, 12+H, W-7, H-12),
+                     (13+W, 11+H, W-24, H-11),
+                     (4+W, 9, W-8, H-9) ] # list of each frame's x and y and associated Rectangle dimensions 
+# first mario is for standing still, second and third for walking, and fourth for jumping
+# marios = pygame.sprite.Group()
+# for frame in selected_frames:
+    # mario = Rectangle(frame[2], frame[3]) # see classes.py
+    # mario.rect.x = 50
+    # mario.rect.y = canvas.SIZE[1]-GH-H
+    # mario.image.blit(mario_frames, (0, 0), (frame[0], frame[1], W, H)) # for (frame[0], frame[1], W, H), it's x, y, width and height of frame
+    # mario.image.set_colorkey(BLACK)
+    # marios.add(mario)    
+#  = Grab(mario_frames, W, H, 0, 0)
+# mario = marios.sprites()[0]
+mario = Rectangle(selected_frames[0][2], selected_frames[0][3])
+# change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
-# mario.image.fill(WHITE) # example
-mario.image.blit(mario_frames, (0, 0), (10, 13, W, H))
+mario.image.blit(mario_frames, (0, 0), (selected_frames[0][0], selected_frames[0][1], W, H))
+# for (selected_frames[0][0], selected_frames[0][1], W, H), it's x, y, width and height of frame
+# change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(BLACK)
-# for (0, 0, W, H), it's x, y, width and height of frame
-#  = Grab(mario_frames, W, H, 0, 0)
 
 blocks2 = [ (400,  300, 200, 50),
             (800,  250, 200, 50),
@@ -87,56 +102,74 @@ while True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
+                x = mario.rect.x
+                y = mario.rect.y
+                mario.kill()
+                mario = Rectangle(selected_frames[3][2], selected_frames[3][3])
+                mario.rect.x = x
+                mario.rect.y = y
+                mario.image.blit(mario_frames, (0, 0), (selected_frames[3][0], selected_frames[3][1], W, H))
+                mario.image.set_colorkey(BLACK)
+                sprites.add(mario)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
+            x = mario.rect.x
+            y = mario.rect.y
+            mario.kill()
+            mario = Rectangle(selected_frames[0][2], selected_frames[0][3])
+            mario.rect.x = x
+            mario.rect.y = y
+            mario.image.blit(mario_frames, (0, 0), (selected_frames[0][0], selected_frames[0][1], W, H))
+            mario.image.set_colorkey(BLACK)
+            sprites.add(mario)
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
 
     mario.rect.x += x_inc
-    hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
+    # hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
-    if hit_ground_x != []:
-        for ground in hit_ground_x:
-            if x_inc > 0: # mario moving rightward
-                mario.rect.right = ground.rect.left
-            else:
-                mario.rect.left = ground.rect.right
-    elif hit_platform_x != []:
+    # if hit_ground_x != []:
+    #     for ground in hit_ground_x:
+    #         if x_inc > 0: # mario moving rightward
+    #             mario.rect.right = ground.rect.left
+    #         elif x_inc < 0: # discovered quirk
+    #             mario.rect.left = ground.rect.right
+    if hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc > 0:
                 mario.rect.right = platform.rect.left
-            else:
+            elif x_inc < 0: # discovered quirk, plus another when jump at right edge, maybe because dropped at beginning?
                 mario.rect.left = platform.rect.right
         if halt == True:
             x_inc = 0
-    diff = abs(mario.rect.x - l) # not interested in sign
-    if mario.rect.x >= l: # move world leftward
-        for ground in grounds:
-            ground.rect.x -= diff
-        for platform in platforms:
-            platform.rect.x -= diff
-        mario.rect.x = l # keep mario still
-    elif mario.rect.x < l: # move world back
-        if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
-            if grounds.sprites()[0].rect.x + diff > 0: # check gap
-                gap = grounds.sprites()[0].rect.x + diff
-                for ground in grounds:
-                    ground.rect.x += diff - gap
-                for platform in platforms:
-                    platform.rect.x += diff - gap
-            else:
-                for ground in grounds:
-                    ground.rect.x += diff
-                for platform in platforms:
-                    platform.rect.x += diff
-            mario.rect.x = l
-        hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
-        for wall in hit_wall:
-            mario.rect.left = wall.rect.right # currently only one wall
+    # diff = abs(mario.rect.x - l) # not interested in sign
+    # if mario.rect.x >= l: # move world leftward
+    #     for ground in grounds:
+    #         ground.rect.x -= diff
+    #     for platform in platforms:
+    #         platform.rect.x -= diff
+    #     mario.rect.x = l # keep mario still
+    # elif mario.rect.x < l: # move world back
+    #     if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
+    #         if grounds.sprites()[0].rect.x + diff > 0: # check gap
+    #             gap = grounds.sprites()[0].rect.x + diff
+    #             for ground in grounds:
+    #                 ground.rect.x += diff - gap
+    #             for platform in platforms:
+    #                 platform.rect.x += diff - gap
+    #         else:
+    #             for ground in grounds:
+    #                 ground.rect.x += diff
+    #             for platform in platforms:
+    #                 platform.rect.x += diff
+    #         mario.rect.x = l
+    #     hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
+    #     for wall in hit_wall:
+    #         mario.rect.left = wall.rect.right # currently only one wall
 
     mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
