@@ -50,3 +50,17 @@ class Draw(pygame.sprite.Sprite):
         self.image = pygame.Surface(size)
         self.image.fill(color)
         self.rect = self.image.get_rect()
+
+# """
+# Grabs Frames from Spritesheet
+# """
+
+# BLACK = pygame.Color("black")
+
+# class Grab(object): # not sprites
+#     def __init__(self, frames, w, h, x, y):
+#         size = (w, h) # size of frame's image, local variable
+#         self.image = pygame.Surface(size)
+#         self.image.blit(frames, (0, 0), (x, y, w, h))
+#         self.image.set_colorkey(BLACK)
+#         # return self.image

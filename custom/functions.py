@@ -52,3 +52,41 @@ def bottom_wall():
     wall.rect.x = 1
     wall.rect.y = canvas.SIZE[1]
     return wall
+
+"""
+Walk Mario
+"""
+
+import pygame
+BLACK = pygame.Color("black")
+
+def walk(count, sprite, spritesheet, frame_list, W, H, facing_left):
+    if count == 1: # in case there is a quick KEYDOWN and KEYUP event
+        sprite.image = pygame.Surface([frame_list[1][2], frame_list[1][3]])
+        sprite.image.blit(spritesheet, (0, 0), (frame_list[1][0], frame_list[1][1], W, H)) # just change first index
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    if count == 5: # else mario appears to hover
+        if facing_left == True:
+            sprite.image = pygame.Surface([frame_list[2][2]+10, frame_list[2][3]])
+            sprite.image.blit(spritesheet, (-10, 0), (frame_list[2][0]-10, frame_list[2][1], W, H)) # just change first index
+        else:
+            sprite.image = pygame.Surface([frame_list[2][2]+15, frame_list[2][3]])
+            sprite.image.blit(spritesheet, (7, 0), (frame_list[2][0]-7, frame_list[2][1], W, H)) # just change first index
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    if count % 10 == 0: # on count of 10
+        sprite.image = pygame.Surface([frame_list[1][2], frame_list[1][3]])
+        sprite.image.blit(spritesheet, (0, 0), (frame_list[1][0], frame_list[1][1], W, H)) # just change first index
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    if count % 20 == 0:
+        if facing_left == True:
+            sprite.image = pygame.Surface([frame_list[2][2]+10, frame_list[2][3]])
+            sprite.image.blit(spritesheet, (-10, 0), (frame_list[2][0]-10, frame_list[2][1], W, H)) # just change first index
+        else:
+            sprite.image = pygame.Surface([frame_list[2][2]+15, frame_list[2][3]])
+            sprite.image.blit(spritesheet, (7, 0), (frame_list[2][0]-7, frame_list[2][1], W, H)) # just change first index
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    sprite.image.set_colorkey(BLACK)
+
+    # change first tuple for width of sprite
+    # change second tuple for moving image in sprite
+    # change third tuple for moving frame in sprite sheet
