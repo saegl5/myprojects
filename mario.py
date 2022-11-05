@@ -42,11 +42,15 @@ for block in blocks1: # each block
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-mario = Rectangle(W-17, H-13)
+frame = [ (10, 13, W-17, H-13), 
+          (4*W+2, H+9, W-10, H-9), 
+          (5*W, H+15, W, H-15) ]
+
+mario = Rectangle(W, H-15)
 # change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
-mario.image.blit(mario_frames, (0, 0), (10, 13, W, H))
+mario.image.blit(mario_frames, (0, 0), (5*W, H+15, W, H))
 # for (10, 13, W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(BLACK)
