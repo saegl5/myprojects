@@ -45,6 +45,7 @@ for block in blocks1: # each block
 frame = [ (10, 13, W-17, H-13), 
           (4*W+2, H+9, W-10, H-9), 
           (5*W, H+15, W, H-15) ]
+# walking/chopping frames
 
 mario = Rectangle(W, H-15)
 # change W to align mario's right, change H to align mario's bottom
