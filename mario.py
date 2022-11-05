@@ -54,7 +54,7 @@ mario.rect.y = canvas.SIZE[1]-GH-H
 mario.image.blit(mario_frames, (0, 0), (5*W, H+15, W, H))
 # for (10, 13, W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
-mario.image.set_colorkey(BLACK)
+mario.image.set_colorkey(YELLOW) # make background visible temporarily
 
 blocks2 = [ (400,  300, 200, 50),
             (800,  250, 200, 50),
