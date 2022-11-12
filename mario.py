@@ -45,43 +45,30 @@ for block in blocks1: # each block
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-# list of each frame's x and y and associated Rectangle dimensions 
-# first mario is for standing still, second and third for walking, and fourth for jumping
-
-# marios = pygame.sprite.Group()
-# for frame in selected_frames:
-    # mario = Rectangle(frame[2], frame[3]) # see classes.py
-    # mario.rect.x = 50
-    # mario.rect.y = canvas.SIZE[1]-GH-H
-    # mario.image.blit(mario_frames, (0, 0), (frame[0], frame[1], W, H)) # for (frame[0], frame[1], W, H), it's x, y, width and height of frame
-    # mario.image.set_colorkey(BLACK)
-    # marios.add(mario)    
-#  = Grab(mario_frames, W, H, 0, 0)
-# mario = marios.sprites()[0]
-
 frame = [  (10, 13, W-17, H-13), 
            (3, H+12, W-7, H-12),
            (W+12, H+10, W-23, H-10) ]
-                    #  (W+4, 9, W-8, H-9) ]
+           # (W+4, 9, W-8, H-9) ]
+# first mario frame is for standing still, second and third for walking, and fourth for jumping
 # will not loop frame list, so to call any parameter use two indices
 mario = Rectangle(frame[0][2], frame[0][3])
 # change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
 mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
-# for (sel_frames[0][0], sel_frames[0][1], W, H), it's x, y, width and height of frame
+# for (frame[0][0], frame[0][1], W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
-mario.image.set_colorkey(YELLOW) # make background visible temporarily
+mario.image.set_colorkey(BLACK) # make background visible temporarily
 
 blocks2 = [ (400,  300, 200, 50),
             (800,  250, 200, 50),
-            (1300, 100, 200, 50) ] 
+            (1300, 100, 200, 50) ]
             # three blocks, (x, y, w, h) each
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[2], block[3])
     platform.rect.x = block[0] # reverted to x
-    platform.rect.y = block[1] # low enough for mario to jump over 
+    platform.rect.y = block[1] # low enough for mario to jump over
     platform.image.fill(YELLOW)
     platforms.add(platform)
 
@@ -119,12 +106,12 @@ while True:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
-                mario.image = pygame.Surface([frame[0][2], frame[0][3]])
+                # mario.image = pygame.Surface([frame[0][2], frame[0][3]])
                 mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
-                mario.image.set_colorkey(BLACK)
                 if facing_left == True:
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-                count = 0
+                count = 0 # display walking frames evenly
+                mario.image.set_colorkey(BLACK)
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
@@ -136,13 +123,13 @@ while True:
         for ground in hit_ground_x:
             if x_inc > 0: # mario moving rightward
                 mario.rect.right = ground.rect.left
-            elif x_inc < 0: # discovered quirk
+            else: # if x_inc < 0: # discovered quirk?
                 mario.rect.left = ground.rect.right
-    if hit_platform_x != []:
+    elif hit_platform_x != []: # had tried "if"
         for platform in hit_platform_x:
             if x_inc > 0:
                 mario.rect.right = platform.rect.left
-            elif x_inc < 0: # discovered quirk, plus another when jump at right edge, maybe because dropped at beginning?
+            else: # if x_inc < 0: # discovered quirk? plus another when jump at right edge, maybe because dropped at beginning?
                 mario.rect.left = platform.rect.right
         if halt == True:
             x_inc = 0
