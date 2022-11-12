@@ -14,7 +14,7 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
 BLACK = pygame.Color("black") # mario
-YELLOW = pygame.Color("yellow") # platforms
+YELLOW = pygame.Color("yellow3") # platforms
 W = 75 # default, used ratio 3:4
 H = 100 # default
 GH = 50 # ground height
@@ -46,14 +46,13 @@ for block in blocks1: # each block
 frame = [ (10, 13, W-17, H-13), 
           (4*W+2, H+9, W-10, H-9), 
           (5*W, H+15, W, H-15) ]
-# walking/chopping frames
-
+# first mario frame is for standing still, and second and third for walking/chopping
 mario = Rectangle(frame[0][2], frame[0][3])
 # change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
 mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
-# for (10, 13, W, H), it's x, y, width and height of frame
+# for (frame[0][0], frame[0][1], W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(YELLOW) # make background visible temporarily
 
@@ -87,7 +86,7 @@ while True:
                     mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
                 if count == 5: # else mario appears to hover
                     mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
-                if count % 10 == 0:
+                if count % 10 == 0: # on count of 10
                     mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
                 if count % 20 == 0:
                     mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
@@ -136,8 +135,8 @@ while True:
                 mario.rect.right = platform.rect.left
             else:
                 mario.rect.left = platform.rect.right
-            if halt == True:
-                x_inc = 0
+        if halt == True:
+            x_inc = 0
     diff = abs(mario.rect.x - l) # not interested in sign
     if mario.rect.x >= l: # move world leftward
         for ground in grounds:
@@ -179,9 +178,9 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
-            y_inc = 0 # unsticks mario from below, and in case mario walks off platform
-            if halt == True:
-                x_inc = 0
+        y_inc = 0 # unsticks mario from below, and in case mario walks off platform
+        if halt == True:
+            x_inc = 0
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
