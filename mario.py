@@ -27,6 +27,7 @@ on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet has 9 columns, 3 rows
+count = 0
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -47,11 +48,11 @@ frame = [ (10, 13, W-17, H-13),
           (5*W, H+15, W, H-15) ]
 # walking/chopping frames
 
-mario = Rectangle(W, H-15)
+mario = Rectangle(frame[0][2], frame[0][3])
 # change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H
-mario.image.blit(mario_frames, (0, 0), (5*W, H+15, W, H))
+mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
 # for (10, 13, W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(YELLOW) # make background visible temporarily
@@ -81,9 +82,31 @@ while True:
             if event.key == pygame.K_RIGHT:
                 x_inc = V
                 halt = False
+                count += 1
+                if count == 1: # in case there is a quick KEYDOWN and KEYUP event
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                if count == 5: # else mario appears to hover
+                    mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
+                if count % 10 == 0:
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                if count % 20 == 0:
+                    mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
             if event.key == pygame.K_LEFT:
                 x_inc = -V
                 halt = False
+                count += 1
+                if count == 1:
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+                if count == 5:
+                    mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
+                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+                if count % 10 == 0:
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+                if count % 20 == 0:
+                    mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
+                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
@@ -93,6 +116,7 @@ while True:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
+                count = 0 # display walking frames evenly
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
