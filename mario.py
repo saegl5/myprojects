@@ -47,8 +47,8 @@ for block in blocks1: # each block
 
 frame = [  (10, 13, W-17, H-13), 
            (3, H+12, W-7, H-12),
-           (W+12, H+10, W-23, H-10) ]
-           # (W+4, 9, W-8, H-9) ]
+           (W+12, H+10, W-23, H-10),
+           (W+4, 9, W-8, H-9) ]
 # first mario frame is for standing still, second and third for walking, and fourth for jumping
 # will not loop frame list, so to call any parameter use two indices
 mario = Rectangle(frame[0][2], frame[0][3])
@@ -101,12 +101,18 @@ while True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
+                mario.image = pygame.Surface([frame[3][2], frame[3][3]])
+                mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
+                if facing_left == True:
+                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+                count = 0 # display walking frames evenly
+                mario.image.set_colorkey(BLACK)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
-                # mario.image = pygame.Surface([frame[0][2], frame[0][3]])
+                mario.image = pygame.Surface([frame[0][2], frame[0][3]])
                 mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
                 if facing_left == True:
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
