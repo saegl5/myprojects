@@ -6,7 +6,7 @@ import pygame
 import src.canvas as canvas # still processes pygame.init()
 from custom.classes import Rectangle
 from custom.energy import time_stamp, save_energy
-from custom.functions import left_wall, walk#, frame
+from custom.functions import left_wall, walk, stand#, frame
 # Other modules to import
 
 pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
@@ -112,12 +112,13 @@ while True:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
-                mario.image = pygame.Surface([frame[0][2], frame[0][3]])
-                mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
-                if facing_left == True:
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 count = 0 # display walking frames evenly
-                mario.image.set_colorkey(BLACK)
+                # mario.rect.w = frame[0][2]
+                # mario.image = pygame.Surface([frame[0][2], frame[0][3]])
+                # mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
+                # if facing_left == True:
+                #     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+                # mario.image.set_colorkey(BLACK)
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
@@ -174,6 +175,7 @@ while True:
         on = True
         if halt == True:
             x_inc = 0
+            stand(mario, mario_frames, frame, W, H, facing_left)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
             if y_inc < 0: # in jump
@@ -184,6 +186,7 @@ while True:
         y_inc = 0 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc = 0
+            stand(mario, mario_frames, frame, W, H, facing_left)
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
