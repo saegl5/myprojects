@@ -82,3 +82,10 @@ def walk(count, sprite, spritesheet, frame_list, W, H, facing_left):
         sprite.image.blit(spritesheet, (0, 0), (frame_list[2][0], frame_list[2][1], frame_list[2][2], H)) # crop
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     sprite.image.set_colorkey(BLACK)
+
+def stand(sprite, spritesheet, frame_list, W, H, facing_left):
+    sprite.rect.w = frame_list[0][2]
+    sprite.image = pygame.Surface([frame_list[0][2], frame_list[0][3]])
+    sprite.image.blit(spritesheet, (0, 0), (frame_list[0][0], frame_list[0][1], W, H))
+    sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    sprite.image.set_colorkey(BLACK)
