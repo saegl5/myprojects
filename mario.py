@@ -102,7 +102,7 @@ while True:
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count % 10 == 0:
                     mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=True)
+                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count % 20 == 0:
                     mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
