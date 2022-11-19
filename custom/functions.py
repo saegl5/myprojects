@@ -68,7 +68,7 @@ def walk(count, sprite, spritesheet, frame_list, W, H, facing_left):
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     if count == 5: # else mario appears to hover
         sprite.rect.w = frame_list[1][2] # align right edge to other sprites
-        sprite.image = pygame.Surface((frame_list[1][2], frame_list[2][3])) # equally wide
+        sprite.image = pygame.Surface((frame_list[1][2], frame_list[2][3])) # widest, equally
         sprite.image.blit(spritesheet, (0, 0), (frame_list[2][0], frame_list[2][1], frame_list[2][2], H)) # crop
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     if count % 10 == 0: # on count of 10
@@ -78,7 +78,7 @@ def walk(count, sprite, spritesheet, frame_list, W, H, facing_left):
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     if count % 20 == 0:
         sprite.rect.w = frame_list[1][2] # align right edge to other sprites
-        sprite.image = pygame.Surface((frame_list[1][2], frame_list[2][3])) # equally wide
+        sprite.image = pygame.Surface((frame_list[1][2], frame_list[2][3])) # widest, equally
         sprite.image.blit(spritesheet, (0, 0), (frame_list[2][0], frame_list[2][1], frame_list[2][2], H)) # crop
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     sprite.image.set_colorkey(BLACK)
