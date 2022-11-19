@@ -101,7 +101,7 @@ while True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
-                mario.image = pygame.Surface([frame[3][2], frame[3][3]])
+                mario.image = pygame.Surface((frame[3][2], frame[3][3]))
                 mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
                 if facing_left == True:
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
@@ -114,7 +114,7 @@ while True:
                 halt = True
                 count = 0 # display walking frames evenly
                 # mario.rect.w = frame[0][2]
-                # mario.image = pygame.Surface([frame[0][2], frame[0][3]])
+                # mario.image = pygame.Surface((frame[0][2], frame[0][3]))
                 # mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
                 # if facing_left == True:
                 #     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
