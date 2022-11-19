@@ -84,15 +84,19 @@ while True:
                 halt = False
                 count += 1
                 if count == 1: # in case there is a quick KEYDOWN and KEYUP event
-                    mario.image = pygame.Surface((frame[1][2], frame[1][3]))
-                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                    mario.rect.w = frame[2][2]
+                    mario.image = pygame.Surface((frame[2][2], frame[1][3]))
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], frame[1][2], H))
                 if count == 5: # else mario appears to hover
+                    mario.rect.w = frame[2][2]
                     mario.image = pygame.Surface((frame[2][2], frame[2][3]))
                     mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
                 if count % 10 == 0: # on count of 10
-                    mario.image = pygame.Surface((frame[1][2], frame[1][3]))
-                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                    mario.rect.w = frame[2][2]
+                    mario.image = pygame.Surface((frame[2][2], frame[1][3]))
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], frame[1][2], H))
                 if count % 20 == 0:
+                    mario.rect.w = frame[2][2]
                     mario.image = pygame.Surface((frame[2][2], frame[2][3]))
                     mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
             if event.key == pygame.K_LEFT:
@@ -100,16 +104,16 @@ while True:
                 halt = False
                 count += 1
                 if count == 1:
-                    mario.image = pygame.Surface((frame[1][2], frame[1][3]))
-                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                    mario.image = pygame.Surface((frame[2][2], frame[1][3]))
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], frame[1][2], H))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count == 5:
                     mario.image = pygame.Surface((frame[2][2], frame[2][3]))
                     mario.image.blit(mario_frames, (0, 0), (frame[2][0], frame[2][1], W, H))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count % 10 == 0:
-                    mario.image = pygame.Surface((frame[1][2], frame[1][3]))
-                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], W, H))
+                    mario.image = pygame.Surface((frame[2][2], frame[1][3]))
+                    mario.image.blit(mario_frames, (0, 0), (frame[1][0], frame[1][1], frame[1][2], H))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count % 20 == 0:
                     mario.image = pygame.Surface((frame[2][2], frame[2][3]))
@@ -125,6 +129,7 @@ while True:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
                 count = 0 # display walking frames evenly
+                mario.rect.w = frame[0][2]
                 mario.image = pygame.Surface((frame[0][2], frame[0][3]))
                 mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
                 if event.key == pygame.K_LEFT:
