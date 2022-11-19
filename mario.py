@@ -48,6 +48,7 @@ frame = [ (10, 13, W-17, H-13),
           (5*W, H+15, W, H-15),
           (3*W+10, 2*H+14, W-12, H-14) ]
 # first mario frame is for standing still, and second and third for walking/chopping
+# will not loop frame list, so to call any parameter use two indices
 mario = Rectangle(frame[0][2], frame[0][3])
 # change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
