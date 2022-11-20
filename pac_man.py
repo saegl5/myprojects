@@ -56,6 +56,7 @@ retry_boxes = []
 wait = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 waiting = False # if pacman hit by either
 played = False
+# angle = 0
 
 # --- Functions
 def turn(sprite, angle):
@@ -177,7 +178,8 @@ while True: # keeps screen open
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_inc = 0
             count = 0
-            turn(pacman, angle)
+            pacman.image = pygame.transform.rotate(pacman_picture, angle)
+            pacman.image.set_colorkey(BLACK)
 
         time_stamp(event)
         # -------------------
@@ -242,9 +244,13 @@ while True: # keeps screen open
             flip_horizontal(ghost, False)
 
     if len(pacmen) == 0 and played == False:
+        pacman.image = pygame.transform.rotate(pacman_picture, angle)
+        pacman.image.set_colorkey(BLACK)
         game_over_sound.play()
         played = True
     elif len(pellets) == 0 and played == False:
+        pacman.image = pygame.transform.rotate(pacman_picture, angle)
+        pacman.image.set_colorkey(BLACK)
         you_win_sound.play()
         played = True
     else:
