@@ -56,7 +56,7 @@ retry_boxes = []
 wait = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 waiting = False # if pacman hit by either
 played = False
-# angle = 0
+angle = 0
 
 # --- Functions
 def turn(sprite, angle):
