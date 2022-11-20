@@ -74,8 +74,6 @@ def retry(sprite):
 def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
-    else:
-        None
     sprite.image.set_colorkey(BLACK)
 # ---------------------
 
