@@ -10,7 +10,6 @@ from custom.functions import left_wall, right_wall
 
 pygame.display.set_caption("QUESTABOX's \"Space Invaders\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with time_stamp
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
@@ -59,12 +58,13 @@ P = 5 # chop up each barrier into 5 pieces
 wait1 = canvas.fps*2 # if spaceship hit by invader, 60 fps x 2 seconds
 wait2 = wait1 # if spaceship hit by return fire
 waiting = False # if spaceship hit by either
+played = False
 
 # --- Functions
 def lunge(sprite):
-    if count % 2 == 0: # could also have used timer
+    if count % (canvas.fps*1) == 0: # could also have used timer
         sprite.image.blit(invader_picture_alt, (0, 0)) # change picture
-    else:
+    if count % (canvas.fps*2) == 0:
         sprite.image.blit(invader_picture, (0, 0)) # revert
 def retry(sprite):
     sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen
@@ -118,28 +118,6 @@ while True: # keeps screen open
     for event in pygame.event.get(): # check for user input when open screen
         if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
-
-        elif event.type == pygame.USEREVENT: # timer goes off
-            if len(spaceships) == 0:
-                game_over_sound.play()
-            elif len(invaders) == 0:
-                you_win_sound.play()
-            else:                
-                repeated += 1
-                for invader in invaders:
-                    lunge(invader) # all "invader" sprites lunge
-                count += 1
-                if repeated % 5 == 0: # every 5 seconds
-                    invaders.update(32) # move "invader" sprites downward
-                if repeated % 4 == 0 and len(invaders) > 0: # some number not multiple of 5
-                    laser = Rectangle(6, 40)
-                    return_fire(laser, 0)
-                if repeated % 7 == 0 and len(invaders) > 1:
-                    laser = Rectangle(6, 40)
-                    return_fire(laser, 1)
-                if repeated % 11 == 0 and len(invaders) > 2:
-                    laser = Rectangle(6, 40)
-                    return_fire(laser, 2)
 
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN:
@@ -238,6 +216,29 @@ while True: # keeps screen open
         barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
         if barrier_removed != []:
             lasers_alt.remove(laser)
+
+    if len(spaceships) == 0 and played == False:
+        game_over_sound.play()
+        played = True
+    elif len(invaders) == 0 and played == False:
+        you_win_sound.play()
+        played = True
+    else:        
+        count += 1        
+        for invader in invaders:
+            lunge(invader) # all "invader" sprites lunge
+        repeated += 1
+        if repeated % (canvas.fps*5) == 0: # every 5 seconds
+            invaders.update(32) # move "invader" sprites downward
+        if repeated % (canvas.fps*4) == 0 and len(invaders) > 0: # some number not multiple of 5
+            laser = Rectangle(6, 40)
+            return_fire(laser, 0)
+        if repeated % (canvas.fps*7) == 0 and len(invaders) > 1:
+            laser = Rectangle(6, 40)
+            return_fire(laser, 1)
+        if repeated % (canvas.fps*11) == 0 and len(invaders) > 2:
+            laser = Rectangle(6, 40)
+            return_fire(laser, 2)
 
     if len(spaceships) != 0 and len(invaders) != 0:
         lasers.update(-px)
