@@ -10,7 +10,6 @@ from custom.functions import left_wall, right_wall, top_wall, bottom_wall
 
 pygame.display.set_caption("QUESTABOX's \"Pac-Man\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeats, optional
-pygame.time.set_timer(pygame.USEREVENT, 1000) # count every 1000 milliseconds (i.e., 1 second), plays with time_stamp
 
 WHITE = pygame.Color("white")
 BLACK = pygame.Color("black")
@@ -56,6 +55,7 @@ retries = 2
 retry_boxes = []
 wait = canvas.fps*2 # if pacman hit by red ghost, 60 fps x 2 seconds
 waiting = False # if pacman hit by either
+played = False
 
 # --- Functions
 def turn(sprite, angle):
@@ -137,20 +137,6 @@ while True: # keeps screen open
     for event in pygame.event.get(): # check for user input when open screen
         if event.type == pygame.QUIT: # user clicked close button
             canvas.close()
-
-        elif event.type == pygame.USEREVENT: # timer goes off
-            if len(pacmen) == 0:
-                game_over_sound.play()
-            elif len(pellets) == 0:
-                you_win_sound.play()
-            else:
-                repeated += 1
-                if repeated % 5 == 0: # every 5 seconds
-                    x_inc_red_ghost = random.choice([-1, 0, 1])
-                    if x_inc_red_ghost == 0:
-                        y_inc_red_ghost = random.choice([-1, 1])
-                    else: # when y_inc_red_ghost = -1 or 1
-                        y_inc_red_ghost = 0 # always moving
 
         # --- Keyboard events
         elif event.type == pygame.KEYDOWN:
@@ -256,6 +242,21 @@ while True: # keeps screen open
             flip_horizontal(ghost, True)
         elif len(pacmen) != 0 and len(pellets) != 0:
             flip_horizontal(ghost, False)
+
+    if len(pacmen) == 0 and played == False:
+        game_over_sound.play()
+        played = True
+    elif len(pellets) == 0 and played == False:
+        you_win_sound.play()
+        played = True
+    else:
+        repeated += 1
+        if repeated % (canvas.fps*5) == 0: # every 5 seconds
+            x_inc_red_ghost = random.choice([-1, 0, 1])
+            if x_inc_red_ghost == 0:
+                y_inc_red_ghost = random.choice([-1, 1])
+            else: # when y_inc_red_ghost = -1 or 1
+                y_inc_red_ghost = 0 # always moving
 
     if len(pacmen) != 0 and len(pellets) != 0:
         pass
