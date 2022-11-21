@@ -11,22 +11,21 @@ from custom.functions import fill
 pygame.display.set_caption("QUESTABOX's \"Pictionary\" Game")
 pygame.mouse.set_visible(False)  # hide the mouse cursor, will replace it with picture of chalk later
 
-BLUE = pygame.Color("blue")
-WHITE = pygame.Color("white")
-LIGHTBLUE = pygame.Color(50, 50, 255)
+BLUE = pygame.Color("blue") # chalkboard color
+WHITE = pygame.Color("white") # chalk mark color
+LIGHTBLUE = pygame.Color(50, 50, 255) # eraser mark color
+color = WHITE # default mark color
 draw = False # don't draw unless press mouse/trackpad button and move
 previous_x = None
 previous_y = None
 drawn = pygame.sprite.Group()
-cursor_picture_draw = pygame.image.load('images/toolPencil.png')
-cursor_picture_erase = pygame.image.load('images/toolEraser.png')
-cursor_picture = cursor_picture_draw
-# cursor_picture.set_colorkey(BLUE)
-color = WHITE
-w = 2
+cursor_picture_draw = pygame.image.load('images/chalk.png')
+cursor_picture_erase = pygame.image.load('images/eraser.png')
+cursor_picture = cursor_picture_draw # default cursor picture
+w = 2 # default mark size
 h = 2
-x_offset_more = 0
-y_offset_more = 0
+x_offset = 0
+y_offset = 0
 style = pygame.font.Font(None, 18)
 tip = style.render("To erase, hold down CTRL key", True, WHITE)
 
@@ -45,26 +44,24 @@ while True: # keeps screen open
                 color = LIGHTBLUE
                 w = 12 # bigger mark
                 h = 12
-                x_offset_more = 5
-                y_offset_more = 5
+                x_offset = 5
+                y_offset = 5
         elif event.type == pygame.KEYUP:
             cursor_picture = cursor_picture_draw
             color = WHITE # revert
             w = 2
             h = 2
-            x_offset_more = 0
-            y_offset_more = 0
+            x_offset = 0
+            y_offset = 0
 
         time_stamp(event)
 
     # --- Game logic
     pos = pygame.mouse.get_pos()
-    x_offset = pos[0]-canvas.SIZE[0]/2
-    y_offset = pos[1]-canvas.SIZE[1]/2
     if draw == True: # IF mouse/trackpad button pressed
         mark = Draw(color, w, h)
-        mark.rect.x = canvas.SIZE[0]/2+x_offset-x_offset_more
-        mark.rect.y = canvas.SIZE[1]/2+y_offset-y_offset_more
+        mark.rect.x = pos[0]-x_offset
+        mark.rect.y = pos[1]-y_offset
         drawn.add(mark) # preserves marks from being cleared
         fill(previous_x, previous_y, mark, color, drawn, w, h) # fill gaps between marks
         previous_x = mark.rect.x
@@ -76,7 +73,7 @@ while True: # keeps screen open
     canvas.clean()
     # --- Drawing code    
     drawn.draw(canvas.screen)
-    canvas.screen.blit(cursor_picture, (pos[0]-8+1-1.5*x_offset_more, pos[1]-cursor_picture.get_height()+8+1.5*y_offset_more)) # copy picture of chalk onto screen where cursor would be, shift it slightly to align chalk with drawing mark
+    canvas.screen.blit(cursor_picture, (pos[0]-1.5*x_offset-7, pos[1]-cursor_picture.get_height()+1.5*y_offset+8)) # copy picture of chalk/eraser onto screen where cursor would be, shift it slightly to align chalk/eraser with drawing mark
     canvas.screen.blit(tip, (10, 10))
     # ----------------
     canvas.show()
