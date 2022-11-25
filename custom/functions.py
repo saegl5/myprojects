@@ -20,8 +20,6 @@ def fill(previous_x, previous_y, sprite, color, drawn, w, h):
                 mark.rect.y = previous_y
                 drawn.add(mark) # preserves marks from being cleared
 
-
-
 """
 Construct Outer Walls
 """
