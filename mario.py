@@ -30,6 +30,8 @@ mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet has 9 columns, 3 rows
 count = 0
 facing_left = False
+jump_sound = pygame.mixer.Sound('sounds/jump.wav')
+jump_sound.set_volume(0.125) # reduce volume
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -107,6 +109,7 @@ while True:
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 count = 0 # display walking frames evenly
                 mario.image.set_colorkey(BLACK)
+                jump_sound.play()
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
