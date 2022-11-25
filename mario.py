@@ -21,7 +21,7 @@ H = 100 # default
 GH = 50 # ground height
 V = 5 # example
 x_inc = 0 # short for "increment"
-y_inc = 0
+y_inc = 0.5
 first = True # hopping
 halt = True # walking
 on = True # ground or platform
@@ -93,22 +93,34 @@ while True:
                 count += 1
                 facing_left = False
                 walk(count, mario, mario_frames, frame, W, H, facing_left)
+                if on == False:
+                    mario.rect.w = frame[3][2]
+                    mario.image = pygame.Surface((frame[3][2], frame[3][3]))
+                    mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
+                    mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
+                    mario.image.set_colorkey(BLACK)
             if event.key == pygame.K_LEFT:
                 x_inc = -V
                 halt = False
                 count += 1
                 facing_left = True
                 walk(count, mario, mario_frames, frame, W, H, facing_left)
+                if on == False:
+                    mario.rect.w = frame[3][2]
+                    mario.image = pygame.Surface((frame[3][2], frame[3][3]))
+                    mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
+                    mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
+                    mario.image.set_colorkey(BLACK)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
+                mario.rect.w = frame[3][2]
                 mario.image = pygame.Surface((frame[3][2], frame[3][3]))
                 mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
-                if facing_left == True:
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-                count = 0 # display walking frames evenly
+                mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
                 mario.image.set_colorkey(BLACK)
+                count = 0 # display walking frames evenly
                 jump_sound.play()
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
@@ -116,12 +128,6 @@ while True:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
                 count = 0 # display walking frames evenly
-                # mario.rect.w = frame[0][2]
-                # mario.image = pygame.Surface((frame[0][2], frame[0][3]))
-                # mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
-                # if facing_left == True:
-                #     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-                # mario.image.set_colorkey(BLACK)
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
@@ -168,13 +174,14 @@ while True:
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
 
-    mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
+    # mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
+    mario.rect.y = round(mario.rect.y + y_inc) # remove delay
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
-        y_inc = 0 # logical
+        y_inc = 0.5 # logical
         on = True
         if halt == True:
             x_inc = 0
@@ -186,7 +193,7 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
-        y_inc = 0 # unsticks mario from below, and in case mario walks off platform
+        y_inc = 0.5 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc = 0
             stand(mario, mario_frames, frame, W, H, facing_left)
