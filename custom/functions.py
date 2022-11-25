@@ -20,8 +20,6 @@ def fill(previous_x, previous_y, sprite, color, drawn, w, h):
                 mark.rect.y = previous_y
                 drawn.add(mark) # preserves marks from being cleared
 
-
-
 """
 Construct Outer Walls
 """
@@ -54,7 +52,7 @@ def bottom_wall():
     return wall
 
 """
-Walk/Stand Mario
+Walk Mario
 """
 
 import pygame
@@ -82,6 +80,10 @@ def walk(count, sprite, spritesheet, frame_list, W, H, facing_left):
         sprite.image.blit(spritesheet, (0, 0), (frame_list[2][0], frame_list[2][1], frame_list[2][2], H)) # crop
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     sprite.image.set_colorkey(BLACK)
+
+"""
+Stand Mario
+"""
 
 def stand(sprite, spritesheet, frame_list, W, H, facing_left):
     sprite.rect.w = frame_list[0][2]
