@@ -16,12 +16,15 @@
 
 ## "Pac-Man" Game
 <img src="screenshots/pac_man.gif" alt="screenshot of pacman game" width="700">
+(sounds muted)
 
 ## "Space Invaders" Game
 <img src="screenshots/space_invaders.gif" alt="screenshot of space invaders game" width="700">
+(sounds muted)
 
 ## "Mario" Game
 <img src="screenshots/mario.gif" alt="screenshot of mario game" width="700">
+(sounds muted)
 
 # Known Issues
 * drawing a heart manually is difficult
