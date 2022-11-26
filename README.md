@@ -15,15 +15,15 @@
 <img src="screenshots/pictionary.gif" alt="screenshot of pictionary game" width="700">
 
 ## "Pac-Man" Game
-<img src="screenshots/pac_man.gif" alt="screenshot of pacman game" width="700">
+<img src="screenshots/pac_man.gif" alt="screenshot of pacman game" width="700"><br>
 (sounds muted)
 
 ## "Space Invaders" Game
-<img src="screenshots/space_invaders.gif" alt="screenshot of space invaders game" width="700">
+<img src="screenshots/space_invaders.gif" alt="screenshot of space invaders game" width="700"><br>
 (sounds muted)
 
 ## "Mario" Game
-<img src="screenshots/mario.gif" alt="screenshot of mario game" width="700">
+<img src="screenshots/mario.gif" alt="screenshot of mario game" width="700"><br>
 (sounds muted)
 
 # Known Issues
