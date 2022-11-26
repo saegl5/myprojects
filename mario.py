@@ -28,6 +28,7 @@ l = canvas.SIZE[0]/2 # where world starts moving
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet has 9 columns, 3 rows
 count = 0
+jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -124,6 +125,9 @@ while True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
+                mario.image = pygame.Surface((frame[3][2], frame[3][3]))
+                mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
+                jump_sound.play()
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
