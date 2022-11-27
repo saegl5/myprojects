@@ -31,7 +31,7 @@ mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet h
 count = 0
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
-jump_sound.set_volume(0.125) # reduce volume
+jump_sound.set_volume(0.125) # optional
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -139,13 +139,13 @@ while True:
         for ground in hit_ground_x:
             if x_inc > 0: # mario moving rightward
                 mario.rect.right = ground.rect.left
-            else: # if x_inc < 0: # discovered quirk?
+            else:
                 mario.rect.left = ground.rect.right
-    elif hit_platform_x != []: # had tried "if"
+    elif hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc > 0:
                 mario.rect.right = platform.rect.left
-            else: # if x_inc < 0: # discovered quirk? plus another when jump at right edge, maybe because dropped at beginning?
+            else:
                 mario.rect.left = platform.rect.right
         if halt == True:
             x_inc = 0
