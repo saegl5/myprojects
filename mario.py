@@ -29,6 +29,7 @@ mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet has 9 columns, 3 rows
 count = 0
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
+jump_sound.set_volume(0.125) # optional
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
