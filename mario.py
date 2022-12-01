@@ -92,25 +92,13 @@ while True:
                 halt = False
                 count += 1
                 facing_left = False
-                walk(count, mario, mario_frames, frame, W, H, facing_left)
-                if on == False:
-                    mario.rect.w = frame[3][2]
-                    mario.image = pygame.Surface((frame[3][2], frame[3][3]))
-                    mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
-                    mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
-                    mario.image.set_colorkey(BLACK)
+                walk(count, mario, mario_frames, frame, W, H, facing_left, on)
             if event.key == pygame.K_LEFT:
                 x_inc = -V
                 halt = False
                 count += 1
                 facing_left = True
-                walk(count, mario, mario_frames, frame, W, H, facing_left)
-                if on == False:
-                    mario.rect.w = frame[3][2]
-                    mario.image = pygame.Surface((frame[3][2], frame[3][3]))
-                    mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
-                    mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
-                    mario.image.set_colorkey(BLACK)
+                walk(count, mario, mario_frames, frame, W, H, facing_left, on)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
