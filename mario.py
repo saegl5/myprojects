@@ -28,9 +28,9 @@ l = canvas.SIZE[0]/2 # where world starts moving
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet has 9 columns, 3 rows
 count = 0
+facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
-facing_left = False
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -129,20 +129,18 @@ while True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
+                mario.rect.w = frame[3][2]
                 mario.image = pygame.Surface((frame[3][2], frame[3][3]))
                 mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
                 mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
+                count = 0 # display walking frames evenly
                 jump_sound.play()
-                count = 0
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
                 count = 0 # display walking frames evenly
-                # mario.image = pygame.Surface((frame[0][2], frame[0][3]))
-                # mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
-                # mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
