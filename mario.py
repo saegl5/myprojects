@@ -90,14 +90,14 @@ while True:
             if event.key == pygame.K_RIGHT:
                 x_inc = V
                 halt = False
-                count += 1
                 facing_left = False
+                count += 1
                 walk(count, mario, mario_frames, frame, W, H, facing_left, on)
             if event.key == pygame.K_LEFT:
                 x_inc = -V
                 halt = False
-                count += 1
                 facing_left = True
+                count += 1
                 walk(count, mario, mario_frames, frame, W, H, facing_left, on)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc = -2.5*V # y decreases going upward
