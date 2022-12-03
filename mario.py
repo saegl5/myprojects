@@ -30,6 +30,7 @@ mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet h
 count = 0
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
+facing_left = False
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -85,6 +86,7 @@ while True:
             if event.key == pygame.K_RIGHT:
                 x_inc = V
                 halt = False
+                facing_left = False
                 count += 1
                 if count == 1: # in case there is a quick KEYDOWN and KEYUP event
                     mario.rect.w = frame[2][2]
@@ -105,6 +107,7 @@ while True:
             if event.key == pygame.K_LEFT:
                 x_inc = -V
                 halt = False
+                facing_left = True
                 count += 1
                 if count == 1:
                     mario.image = pygame.Surface((frame[2][2], frame[1][3]))
@@ -128,18 +131,18 @@ while True:
                 on = False
                 mario.image = pygame.Surface((frame[3][2], frame[3][3]))
                 mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
+                mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
                 jump_sound.play()
+                count = 0
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
                 count = 0 # display walking frames evenly
-                mario.rect.w = frame[0][2]
-                mario.image = pygame.Surface((frame[0][2], frame[0][3]))
-                mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
-                if event.key == pygame.K_LEFT:
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+                # mario.image = pygame.Surface((frame[0][2], frame[0][3]))
+                # mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
+                # mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
@@ -195,6 +198,9 @@ while True:
         on = True
         if halt == True:
             x_inc = 0
+            mario.image = pygame.Surface((frame[0][2], frame[0][3]))
+            mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
+            mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
             if y_inc < 0: # in jump
@@ -205,6 +211,9 @@ while True:
         y_inc = 0 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc = 0
+            mario.image = pygame.Surface((frame[0][2], frame[0][3]))
+            mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
+            mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
