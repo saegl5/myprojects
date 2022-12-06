@@ -132,7 +132,7 @@ while True:
                 mario.rect.w = frame[3][2]
                 mario.image = pygame.Surface((frame[3][2], frame[3][3]))
                 mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
-                mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
+                mario.image = pygame.transform.flip(mario.image, flip_x!=facing_left, flip_y=False)
                 count = 0 # display walking frames evenly
                 jump_sound.play()
         elif event.type == pygame.KEYUP:
