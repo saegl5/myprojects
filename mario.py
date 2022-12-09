@@ -16,8 +16,10 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 BROWN = pygame.Color("burlywood4") # optional color, ground
 BLACK = pygame.Color("black") # mario
 YELLOW = pygame.Color("yellow3") # platforms
-W = 75 # default, used ratio 3:4
-H = 100 # default
+W_mario = 75 # default, used ratio 3:4
+W_goomba = 64
+H_mario = 100 # default
+H_goomba = 56
 GH = 50 # ground height
 V = 5 # example
 x_inc = 0 # short for "increment"
@@ -27,8 +29,10 @@ halt = True # walking
 on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
-mario_frames = pygame.transform.scale(mario_frames, (W*9, H*3)) # sprite sheet has 9 columns, 3 rows
-count = 0
+mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
+goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert()
+count1 = 0
+count2 = 0
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
@@ -47,20 +51,28 @@ for block in blocks1: # each block
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-frame = [  (10, 13, W-17, H-13), 
-           (3, H+12, W-7, H-12),
-           (W+12, H+10, W-23, H-10),
-           (W+4, 9, W-8, H-9) ]
+frame1 = [  (10, 13, W_mario-17, H_mario-13), 
+           (3, H_mario+12, W_mario-7, H_mario-12),
+           (W_mario+12, H_mario+10, W_mario-23, H_mario-10),
+           (W_mario+4, 9, W_mario-8, H_mario-9) ]
 # first mario frame is for standing still, second and third for walking, and fourth for jumping
 # will not loop frame list, so to call any parameter use two indices
-mario = Rectangle(frame[0][2], frame[0][3])
+mario = Rectangle(frame1[0][2], frame1[0][3])
 # change W to align mario's right, change H to align mario's bottom
 mario.rect.x = 50
-mario.rect.y = canvas.SIZE[1]-GH-H
-mario.image.blit(mario_frames, (0, 0), (frame[0][0], frame[0][1], W, H))
+mario.rect.y = canvas.SIZE[1]-GH-H_mario
+mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
 # for (frame[0][0], frame[0][1], W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(BLACK) # make background visible temporarily
+
+frame2 = [  (0, 0, W_goomba, H_goomba),
+            (W_goomba, 0, W_goomba, H_goomba)  ]
+goomba = Rectangle(frame2[0][2], frame2[0][3])
+goomba.rect.x = 600
+goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
+goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
+goomba.image.set_colorkey(BLACK)
 
 blocks2 = [ (400,  300, 200, 50),
             (800,  250, 200, 50),
@@ -78,7 +90,7 @@ walls = pygame.sprite.Group()
 walls.add(left_wall()) # outer wall
 
 sprites = pygame.sprite.Group() # all sprites
-sprites.add(walls, grounds, platforms, mario) # displays mario in front of grounds and platforms (order matters)
+sprites.add(walls, grounds, platforms, goomba, mario) # displays mario in front of grounds, platforms and goomba (order matters)
 # Other sprites
 
 while True:
@@ -91,31 +103,31 @@ while True:
                 x_inc = V
                 halt = False
                 facing_left = False
-                count += 1
-                walk(count, mario, mario_frames, frame, W, H, facing_left, on)
+                count1 += 1
+                walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_LEFT:
                 x_inc = -V
                 halt = False
                 facing_left = True
-                count += 1
-                walk(count, mario, mario_frames, frame, W, H, facing_left, on)
+                count1 += 1
+                walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc = -2.5*V # y decreases going upward
                 first = False
                 on = False
-                mario.rect.w = frame[3][2]
-                mario.image = pygame.Surface((frame[3][2], frame[3][3]))
-                mario.image.blit(mario_frames, (0, 0), (frame[3][0], frame[3][1], W, H))
+                mario.rect.w = frame1[3][2]
+                mario.image = pygame.Surface((frame1[3][2], frame1[3][3]))
+                mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
                 mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
                 mario.image.set_colorkey(BLACK)
-                count = 0 # display walking frames evenly
+                count1 = 0 # display walking frames evenly
                 jump_sound.play()
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                 halt = True
-                count = 0 # display walking frames evenly
+                count1 = 0 # display walking frames evenly
         # Other keyboard or mouse/trackpad events
 
         time_stamp(event)
@@ -143,6 +155,7 @@ while True:
             ground.rect.x -= diff
         for platform in platforms:
             platform.rect.x -= diff
+        goomba.rect.x -= diff
         mario.rect.x = l # keep mario still
     elif mario.rect.x < l: # move world back
         if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
@@ -152,11 +165,13 @@ while True:
                     ground.rect.x += diff - gap
                 for platform in platforms:
                     platform.rect.x += diff - gap
+                goomba.rect.x += diff - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
                 for platform in platforms:
                     platform.rect.x += diff
+                goomba.rect.x += diff
             mario.rect.x = l
         hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
         for wall in hit_wall:
@@ -173,7 +188,7 @@ while True:
         on = True
         if halt == True:
             x_inc = 0
-            stand(mario, mario_frames, frame, W, H, facing_left)
+            stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
             if y_inc < 0: # in jump
@@ -184,10 +199,17 @@ while True:
         y_inc = 0.5 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc = 0
-            stand(mario, mario_frames, frame, W, H, facing_left)
+            stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
+
+    goomba.rect.x -= 1
+    count2 += 1
+    if count2 % 20 == 0:
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
+    if count2 % 40 == 0:
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     # Other game logic
 
     canvas.clean()
