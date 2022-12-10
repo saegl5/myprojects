@@ -49,10 +49,10 @@ for block in blocks1: # each block
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-frame1 = [ (10, 13, W_mario-17, H_mario-13), 
-          (4*W_mario+2, H_mario+9, W_mario-10, H_mario-9), 
-          (5*W_mario, H_mario+15, W_mario, H_mario-15),
-          (3*W_mario+10, 2*H_mario+14, W_mario-12, H_mario-14) ]
+frame1 = [ (10,           13,           W_mario-17, H_mario-13), 
+           (4*W_mario+2,  H_mario+9,    W_mario-10, H_mario-9), 
+           (5*W_mario,    H_mario+15,   W_mario,    H_mario-15),
+           (3*W_mario+10, 2*H_mario+14, W_mario-12, H_mario-14) ]
 # first mario frame is for standing still, and second and third for walking/chopping
 # will not loop frame list, so to call any parameter use two indices
 mario = Rectangle(frame1[0][2], frame1[0][3])
@@ -64,9 +64,9 @@ mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_m
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(BLACK) # make background visible temporarily
 
-frame2 = [ (0, 0, W_goomba, H_goomba),
-           (W_goomba, 0, W_goomba, H_goomba), 
-           (2*W_goomba, 0, W_goomba, H_goomba)]
+frame2 = [ (0,          0, W_goomba, H_goomba),
+           (W_goomba,   0, W_goomba, H_goomba), 
+           (2*W_goomba, 0, W_goomba, H_goomba) ]
 goomba = Rectangle(frame2[0][2], frame2[0][3])
 goomba.rect.x = 600
 goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
