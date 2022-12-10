@@ -52,10 +52,10 @@ for block in blocks1: # each block
     ground.image.fill(BROWN)
     grounds.add(ground)
 
-frame1 = [  (10, 13, W_mario-17, H_mario-13), 
-           (3, H_mario+12, W_mario-7, H_mario-12),
-           (W_mario+12, H_mario+10, W_mario-23, H_mario-10),
-           (W_mario+4, 9, W_mario-8, H_mario-9) ]
+frame1 = [  (10,         13,         W_mario-17, H_mario-13), 
+            (3,          H_mario+12, W_mario-7,  H_mario-12),
+            (W_mario+12, H_mario+10, W_mario-23, H_mario-10),
+            (W_mario+4,  9,          W_mario-8,  H_mario-9)  ]
 # first mario frame is for standing still, second and third for walking, and fourth for jumping
 # will not loop frame list, so to call any parameter use two indices
 mario = Rectangle(frame1[0][2], frame1[0][3])
@@ -67,12 +67,12 @@ mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_m
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(BLACK) # make background visible temporarily
 
-frame2 = [  (0, 0, W_goomba, H_goomba),
-            (W_goomba, 0, W_goomba, H_goomba),
+frame2 = [  (0,          0, W_goomba, H_goomba),
+            (W_goomba,   0, W_goomba, H_goomba),
             (2*W_goomba, 0, W_goomba, H_goomba)  ]
 goombas = pygame.sprite.Group()
 goomba = Rectangle(frame2[0][2], frame2[0][3])
-goomba.rect.x = 600
+goomba.rect.x = 600 # starts near right edge of screen
 goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
 goomba.image.set_colorkey(BLACK)
@@ -94,7 +94,7 @@ walls = pygame.sprite.Group()
 walls.add(left_wall()) # outer wall
 
 sprites = pygame.sprite.Group() # all sprites
-sprites.add(walls, grounds, platforms, goombas, mario) # displays mario in front of grounds, platforms and goomba (order matters)
+sprites.add(walls, grounds, platforms, goombas, mario) # displays mario in front of grounds, platforms, and goomba (order matters)
 # Other sprites
 
 while True:
