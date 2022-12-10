@@ -68,7 +68,7 @@ frame2 = [ (0,          0, W_goomba, H_goomba),
            (W_goomba,   0, W_goomba, H_goomba), 
            (2*W_goomba, 0, W_goomba, H_goomba) ]
 goomba = Rectangle(frame2[0][2], frame2[0][3])
-goomba.rect.x = 600
+goomba.rect.x = 600 # starts near right edge of screen
 goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
 goomba.image.set_colorkey(BLACK)
@@ -86,7 +86,7 @@ for block in blocks2:
     platforms.add(platform)
 
 sprites = pygame.sprite.Group() # all sprites
-sprites.add(grounds, platforms, goomba, mario) # displays mario in front of grounds and platforms (order matters)
+sprites.add(grounds, platforms, goomba, mario) # displays mario in front of grounds, platforms, and goomba (order matters)
 # Other sprites
 
 while True:
