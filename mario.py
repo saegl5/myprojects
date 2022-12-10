@@ -29,11 +29,11 @@ on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
+goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert()
 count = 0
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
-goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert()
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -53,7 +53,7 @@ frame1 = [ (10,           13,           W_mario-17, H_mario-13),
            (4*W_mario+2,  H_mario+9,    W_mario-10, H_mario-9), 
            (5*W_mario,    H_mario+15,   W_mario,    H_mario-15),
            (3*W_mario+10, 2*H_mario+14, W_mario-12, H_mario-14) ]
-# first mario frame is for standing still, and second and third for walking/chopping
+# first mario frame is for standing still, second and third for walking/chopping, and fourth for jumping
 # will not loop frame list, so to call any parameter use two indices
 mario = Rectangle(frame1[0][2], frame1[0][3])
 # change W to align mario's right, change H to align mario's bottom
@@ -64,9 +64,9 @@ mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_m
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(BLACK) # make background visible temporarily
 
-frame2 = [ (0,          0, W_goomba, H_goomba),
-           (W_goomba,   0, W_goomba, H_goomba), 
-           (2*W_goomba, 0, W_goomba, H_goomba) ]
+frame2 = [  (0,          0, W_goomba, H_goomba),
+            (W_goomba,   0, W_goomba, H_goomba),
+            (2*W_goomba, 0, W_goomba, H_goomba)  ]
 goomba = Rectangle(frame2[0][2], frame2[0][3])
 goomba.rect.x = 600 # starts near right edge of screen
 goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
@@ -147,9 +147,9 @@ while True:
                 mario.image = pygame.Surface((frame1[3][2], frame1[3][3]))
                 mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
                 mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
+                mario.image.set_colorkey(BLACK)
                 count = 0 # display walking frames evenly
                 jump_sound.play()
-                mario.image.set_colorkey(BLACK)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 first = True
