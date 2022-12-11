@@ -210,7 +210,7 @@ while True:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba))
             goomba.image.set_colorkey(BLACK)
             stomped_on = True
-            goomba.rect.y += 1 # use y_inc_goomba?
+            # goomba.rect.y += 1 # use y_inc_goomba?
             y_inc = -1.5*V # short hop
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
@@ -224,10 +224,12 @@ while True:
         if count2 % 40 == 0:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     else:
-        goomba.rect.y += 2 # use y_inc_goomba?
+        # goomba.rect.y += 2 # use y_inc_goomba?
         # stomped_on = False # if put here then can keep hopping on
-        if goomba.rect.top > canvas.screen.get_rect().bottom:
-            goombas.remove(goomba)
+        # if goomba.rect.top > canvas.screen.get_rect().bottom:
+            # goombas.remove(goomba)
+        if on == True: # pause
+            goomba.kill() # should i have done this before?
             stomped_on = False
     # Other game logic
 
