@@ -22,8 +22,9 @@ H_mario = 100 # default
 H_goomba = 56
 GH = 50 # ground height
 V = 5 # example
-x_inc = 0 # short for "increment"
-y_inc = 0.5
+x_inc_mario = 0 # short for "increment"
+x_inc_goomba = 1
+y_inc_mario = 0.5
 first = True # hopping
 halt = True # walking
 on = True # ground or platform
@@ -104,19 +105,19 @@ while True:
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                x_inc = V
+                x_inc_mario = V
                 halt = False
                 facing_left = False
                 count1 += 1
                 walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_LEFT:
-                x_inc = -V
+                x_inc_mario = -V
                 halt = False
                 facing_left = True
                 count1 += 1
                 walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_SPACE and first == True and (on == True or stomped_on == True):
-                y_inc = -2.5*V # y decreases going upward
+                y_inc_mario = -2.5*V # y decreases going upward
                 first = False
                 on = False
                 mario.rect.w = frame1[3][2]
@@ -136,23 +137,23 @@ while True:
 
         time_stamp(event)
 
-    mario.rect.x += x_inc
+    mario.rect.x += x_inc_mario
     hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground_x != []:
         for ground in hit_ground_x:
-            if x_inc > 0: # mario moving rightward
+            if x_inc_mario > 0: # mario moving rightward
                 mario.rect.right = ground.rect.left
             else:
                 mario.rect.left = ground.rect.right
     elif hit_platform_x != []:
         for platform in hit_platform_x:
-            if x_inc > 0:
+            if x_inc_mario > 0:
                 mario.rect.right = platform.rect.left
             else:
                 mario.rect.left = platform.rect.right
         if halt == True:
-            x_inc = 0
+            x_inc_mario = 0
     diff = abs(mario.rect.x - l) # not interested in sign
     if mario.rect.x >= l: # move world leftward
         for ground in grounds:
@@ -182,28 +183,28 @@ while True:
             mario.rect.left = wall.rect.right # currently only one wall
 
     # mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
-    mario.rect.y = round(mario.rect.y + y_inc) # remove delay
+    mario.rect.y = round(mario.rect.y + y_inc_mario) # remove delay
     hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False)
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
-        y_inc = 0.5 # logical
+        y_inc_mario = 0.5 # logical
         on = True
         if halt == True:
-            x_inc = 0
+            x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
-            if y_inc < 0: # in jump
+            if y_inc_mario < 0: # in jump
                 mario.rect.top = platform.rect.bottom # hits his head
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
-        y_inc = 0.5 # unsticks mario from below, and in case mario walks off platform
+        y_inc_mario = 0.5 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
-            x_inc = 0
+            x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
         for goomba in hit_goomba_y:
@@ -211,13 +212,13 @@ while True:
             goomba.image.set_colorkey(BLACK)
             stomped_on = True
             # goomba.rect.y += 1 # use y_inc_goomba?
-            y_inc = -1.5*V # short hop
+            y_inc_mario = -1.5*V # short hop
     else: # cycles, fewer for higher values of gravity
-        y_inc += 0.5 # gravity, place here otherwise increment will keep running
+        y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
 
     if stomped_on == False:
-        goomba.rect.x -= 1 # use x_inc_goomba?
+        goomba.rect.x -= x_inc_goomba
         count2 += 1
         if count2 % 20 == 0:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
