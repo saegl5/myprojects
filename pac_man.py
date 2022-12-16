@@ -118,7 +118,7 @@ while True:
     stuck = pygame.sprite.spritecollide(ghost, walls, False)
     obstruct = pygame.sprite.spritecollide(ghost, pacmen, False)
     if stuck != [] or obstruct != []:
-        ghost.kill()
+        red_ghosts.remove(ghost)
     else:
         break
 
