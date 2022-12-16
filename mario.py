@@ -116,7 +116,7 @@ while True:
                 facing_left = True
                 count1 += 1
                 walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
-            if event.key == pygame.K_SPACE and first == True and (on == True or stomp == True):
+            if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc_mario = -2.5*V # y decreases going upward
                 first = False
                 on = False
@@ -182,11 +182,11 @@ while True:
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
 
-    # mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
+    # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal point, but okay, simply causes delay
     mario.rect.y = round(mario.rect.y + y_inc_mario) # remove delay
-    hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False)
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
+    hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False) # don't want to remove goomba until after showing him squeezed
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
@@ -207,31 +207,28 @@ while True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
-        for goomba in hit_goomba_y:
-            goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba))
-            goomba.image.set_colorkey(BLACK)
-            stomp = True
-            # goomba.rect.y += 1 # use y_inc_goomba?
-            y_inc_mario = -1.5*V # short hop
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba))
+        goomba.image.set_colorkey(BLACK)
+        stomp = True
+        count2 = 0 # reset to add pause
+        y_inc_mario = -1.5*V # short hop
+        goombas.remove(goomba) # let goomba rest
+        on = True
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
 
+    count2 += 1
     if stomp == False:
         goomba.rect.x -= x_inc_goomba
-        count2 += 1
         if count2 % 20 == 0:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
         if count2 % 40 == 0:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     else:
-        # goomba.rect.y += 2 # use y_inc_goomba?
-        # stomped_on = False # if put here then can keep hopping on
-        # if goomba.rect.top > canvas.screen.get_rect().bottom:
-            # goombas.remove(goomba)
-        if on == True: # pause
-            goomba.kill() # should i have done this before?
-            stomp = False
+        # still need to wait to remove goomba
+        if count2 % 120 == 0: # pause
+            goomba.kill()
     # Other game logic
 
     canvas.clean()
