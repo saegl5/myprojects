@@ -228,7 +228,7 @@ while True:
     else:
         # still need to wait to remove goomba
         if count2 % 120 == 0: # pause
-            goomba.kill()
+            sprites.remove(goomba)
     # Other game logic
 
     canvas.clean()
