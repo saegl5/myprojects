@@ -160,10 +160,10 @@ while True: # keeps screen open
         invader_removed = pygame.sprite.spritecollide(laser, invaders, True) # remove invader
         collisions.add(invader_removed) # when invader is removed, add it to collisions group
         if invader_removed != []: # OR for invader in invader_removed:
-            lasers.remove(laser) # remove laser, too
+            laser.kill() # remove laser, too
             invader_explosion_sound.play()
         elif laser.rect.bottom < 0: # lasers leave canvas
-            lasers.remove(laser)
+            laser.kill()
 
     for invader in invaders:
         if wait1 == canvas.fps*2 and waiting == False:
@@ -204,18 +204,18 @@ while True: # keeps screen open
         if spaceship_removed != [] and retries > 0:
             spaceships.add(spaceship_removed)
             retry(spaceship)
-            lasers_alt.remove(laser)
+            laser.kill()
             retries -= 1
             wait2 -= 1
             waiting = True
             break            
         elif laser.rect.top > canvas.SIZE[1]:
-            lasers_alt.remove(laser)
+            laser.kill()
 
     for laser in lasers_alt:
         barrier_removed = pygame.sprite.spritecollide(laser, barriers, True)
         if barrier_removed != []:
-            lasers_alt.remove(laser)
+            laser.kill()
 
     if len(spaceships) == 0 and played == False:
         game_over_sound.play()
