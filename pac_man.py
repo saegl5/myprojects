@@ -280,7 +280,7 @@ while True: # keeps screen open
         game_over_text = style.render("Game Over", False, BLACK)
     if len(pellets) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
-    sprites.empty()
+    sprites.empty() # redundant
     sprites.add(walls, pellets, red_ghosts, pacmen) # pacmen is redundant
 
     # --- Drawing code
