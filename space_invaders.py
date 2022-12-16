@@ -259,7 +259,7 @@ while True: # keeps screen open
         game_over_text = style.render("Game Over", False, BLACK)
     if len(invaders) == 0:
         you_win_text = style.render("WINNER!", False, GREEN)
-    sprites.empty()
+    sprites.empty() # could instead have done sprites.remove(laser) multiple times above
     sprites.add(walls, barriers, invaders, lasers_alt, spaceships, lasers) # spaceships is redundant
 
     # --- Drawing code
