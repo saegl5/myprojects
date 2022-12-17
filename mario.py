@@ -23,7 +23,7 @@ H_goomba = 56
 GH = 50 # ground height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
-x_inc_goomba = 1
+x_inc_goomba = V/5
 y_inc_mario = 0.5
 first = True # hopping
 halt = True # walking
@@ -32,8 +32,8 @@ l = canvas.SIZE[0]/2 # where world starts moving
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert()
-count1 = 0
-count2 = 0
+count1 = 0 # mario walk
+count2 = 0 # goomba walk
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
@@ -68,9 +68,9 @@ mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_m
 # change x to align mario's left, change y to align mario's top
 mario.image.set_colorkey(BLACK) # make background visible temporarily
 
-frame2 = [  (0,          0, W_goomba, H_goomba),
-            (W_goomba,   0, W_goomba, H_goomba),
-            (2*W_goomba, 0, W_goomba, H_goomba)  ]
+frame2 = [  (0,          0,          W_goomba, H_goomba),
+            (W_goomba,   0,          W_goomba, H_goomba),
+            (2*W_goomba, H_goomba/2, W_goomba, H_goomba/2)  ]
 goombas = pygame.sprite.Group()
 goomba = Rectangle(frame2[0][2], frame2[0][3])
 goomba.rect.x = 600 # starts near right edge of screen
@@ -207,7 +207,9 @@ while True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
-        goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba))
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
+        goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
+        goomba.image = pygame.Surface((frame2[2][2], frame2[2][3]))
         goomba.image.set_colorkey(BLACK)
         stomp = True
         count2 = 0 # reset to add pause
@@ -223,6 +225,7 @@ while True:
         goomba.rect.x -= x_inc_goomba
         if count2 % 20 == 0:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
+            # didn't start with first index 0 because first frame is already displayed
         if count2 % 40 == 0:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     else:
