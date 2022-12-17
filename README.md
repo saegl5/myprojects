@@ -23,7 +23,7 @@
 (sounds muted)
 
 ## "Mario" Game
-<img src="screenshots/mario.png" alt="screenshot of mario game" width="700"><br>
+<img src="screenshots/mario.gif" alt="screenshot of mario game" width="700"><br>
 (sounds muted)
 
 # Known Issues
