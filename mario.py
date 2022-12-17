@@ -21,7 +21,8 @@ H_mario = 100 # default
 H_goomba = 56
 GH = 50 # ground height
 V = 5 # example
-x_inc = 0 # short for "increment"
+x_inc = 0 # short for "increment", mario
+x_inc_goomba = 1
 y_inc = 0
 first = True # hopping
 halt = True # walking
@@ -31,6 +32,7 @@ mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert()
 count = 0
+count2 = 0 # goomba walk
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
@@ -68,7 +70,7 @@ frame2 = [  (0,          0, W_goomba, H_goomba),
             (W_goomba,   0, W_goomba, H_goomba),
             (2*W_goomba, 0, W_goomba, H_goomba)  ]
 goomba = Rectangle(frame2[0][2], frame2[0][3])
-goomba.rect.x = 800 # starts near right edge of screen
+goomba.rect.x = 600 # starts near right edge of screen
 goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
 goomba.image.set_colorkey(BLACK)
@@ -183,6 +185,7 @@ while True:
             ground.rect.x -= diff
         for platform in platforms:
             platform.rect.x -= diff
+        goomba.rect.x -= diff
         mario.rect.x = l # keep mario still
     elif mario.rect.x < l: # move world back
         if grounds.sprites()[0].rect.x < 0: # retains initial positions, ground sprites were not randomly positioned
@@ -192,11 +195,13 @@ while True:
                     ground.rect.x += diff - gap
                 for platform in platforms:
                     platform.rect.x += diff - gap
+                goomba.rect.x += diff - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
                 for platform in platforms:
                     platform.rect.x += diff
+                goomba.rect.x += diff
             mario.rect.x = l
         if mario.rect.x < 0: # left boundary
             mario.rect.x = 0
@@ -232,6 +237,14 @@ while True:
     else: # cycles, fewer for higher values of gravity
         y_inc += 0.5 # gravity, place here otherwise increment will keep running
         on = False
+
+    goomba.rect.x -= x_inc_goomba
+    count2 += 1
+    if count2 % 20 == 0:
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
+         # didn't start with first index 0 because first frame is already displayed
+    if count2 % 40 == 0:
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     # Other game logic
 
     canvas.clean()
