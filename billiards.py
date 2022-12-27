@@ -14,8 +14,8 @@ sound = pygame.mixer.Sound('sounds/bump.ogg')
 sound.set_volume(0.125)
 y = 0 # initialize position
 x = 0
-y_inc = 8 # initialize increment
-x_inc = 10
+y_inc = 20 # initialize increment
+x_inc = 20
 
 while True: # keeps screen open
     for event in pygame.event.get(): # check for user input when open screen
@@ -41,6 +41,18 @@ while True: # keeps screen open
         x = 0
         x_inc *= -1
         sound.play()
+    if round(y_inc, 3) < 0:
+        y_inc += 0.1 # friction
+    elif round(y_inc, 3) > 0:
+        y_inc -= 0.1 # friction
+    else:
+        y_inc = 0 # rounding and making zero, so ball doesn't roll in reverse
+    if round(x_inc, 3) < 0:
+        x_inc += 0.1 # friction
+    elif round(x_inc, 3) > 0:
+        x_inc -= 0.1 # friction
+    else:
+        x_inc = 0 # rounding and making zero, so ball doesn't roll in reverse
     # --------------
     canvas.clean() # redundant
     # --- Drawing code
