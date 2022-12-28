@@ -2,7 +2,7 @@
 "Pac-Man" Game
 """
 
-import pygame, random
+import pygame
 import src.canvas as canvas
 from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
@@ -16,7 +16,7 @@ BLACK = pygame.Color("black")
 RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 X_OFFSET = 50 # don't start on wall
-Y_OFFSET = 0
+Y_OFFSET = 50 # don't start on pellet
 W = 64 # "pacman" sprite width reference
 H = 64 # "pacman" sprite height reference
 x_inc = 0 # speed
@@ -47,7 +47,6 @@ pellet_picture = pygame.transform.scale(pellet_picture, (int(W/2), int(H/2))) # 
 red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
 pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 
-PELLET_COUNT = 50
 repeated = 0 # times
 score = 0
 count = 0 # for chomp picture
@@ -76,6 +75,11 @@ def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
     sprite.image.set_colorkey(BLACK)
+def pellets_add(x, y):
+    pellet = Rectangle(W/2, H/2)
+    pellet.rect.x, pellet.rect.y = x, y
+    pellet.image.blit(pellet_picture, (0, 0))
+    pellets.add(pellet)
 # ---------------------
 
 # outer walls
@@ -109,28 +113,22 @@ pacmen.add(pacman)
 for i in range(0, retries):
     retry_boxes.append(pacman_picture_retry)
 
-while True:
-    ghost = Rectangle(W, H)
-    ghost.rect.x = random.randrange(0, canvas.SIZE[0]+1-W)
-    ghost.rect.y = random.randrange(0, canvas.SIZE[1]+1-H)
-    ghost.image.blit(red_ghost_picture, (0, 0))
-    red_ghosts.add(ghost)
-    stuck = pygame.sprite.spritecollide(ghost, walls, False)
-    obstruct = pygame.sprite.spritecollide(ghost, pacmen, False)
-    if stuck != [] or obstruct != []:
-        red_ghosts.remove(ghost)
-    else:
-        break
+ghost = Rectangle(W, H)
+ghost.rect.x = 500
+ghost.rect.y = 150
+ghost.image.blit(red_ghost_picture, (0, 0))
+red_ghosts.add(ghost)
 
-while PELLET_COUNT-len(pellets) > 0: # create and add fifty "pellet" sprites
-    pellet = Rectangle(W/2, H/2)
-    pellet.rect.x = random.randrange(0, canvas.SIZE[0], W/2) # allow sprite to touch edge but not breach it
-    pellet.rect.y = random.randrange(0, canvas.SIZE[1], H/2)
-    pellet.image.blit(pellet_picture, (0, 0))
-    pygame.sprite.spritecollide(pellet, pellets, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
-    pellets.add(pellet)
-    for wall in walls:
-        pygame.sprite.spritecollide(wall, pellets, True)
+pellets_add(W/2, H/2) # (32, 32)
+pellets_add(canvas.SIZE[0]-W, canvas.SIZE[1]-H) # (672, 480)
+pellets_add(canvas.SIZE[0]-W, H/2) # (672, 0)
+pellets_add(W/2, canvas.SIZE[1]-H) # (0, 480)
+pellets_add(W/2, 240)
+pellets_add(canvas.SIZE[0]-W, 240) # (672, 240)
+pellets_add(336, H/2)
+pellets_add(336, canvas.SIZE[1]-H) # (336, 480)
+pellets_add(256, 240)
+pellets_add(416, 240)
 
 while True: # keeps screen open
     for event in pygame.event.get(): # check for user input when open screen
@@ -255,12 +253,6 @@ while True: # keeps screen open
         played = True
     else:
         repeated += 1
-        if repeated % (canvas.fps*5) == 0: # every 5 seconds
-            x_inc_red_ghost = random.choice([-1, 0, 1])
-            if x_inc_red_ghost == 0:
-                y_inc_red_ghost = random.choice([-1, 1])
-            else: # when y_inc_red_ghost = -1 or 1
-                y_inc_red_ghost = 0 # always moving
 
     if len(pacmen) != 0 and len(pellets) != 0:
         pass

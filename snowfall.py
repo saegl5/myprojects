@@ -2,7 +2,7 @@
 Snowfall Animation
 """
 
-import pygame, random
+import pygame
 import src.canvas as canvas
 from custom.energy import time_stamp, save_energy
 
@@ -11,18 +11,26 @@ pygame.display.set_caption("QUESTABOX's Snowfall Animation")
 WHITE = pygame.Color("white") # example
 Y_INC = 1 # initialize increment
 R = 4 # circle radius
-background_picture = pygame.image.load('images/north_pole.jpeg')
+background_picture = pygame.image.load('images/north_pole.jpeg').convert()
 background_picture = pygame.transform.scale(background_picture, canvas.SIZE)
 background_music = pygame.mixer.Sound('sounds/concerto.ogg')
 snowflakes = [] # empty list
 
-for i in range(0, 50): # FOR fifty indices (i.e., each index between 0 and, but not including, 50)
-    x = random.randrange(0, canvas.SIZE[0]+1) # random number between 0 and, including, SIZE[0]
-    y = random.randrange(0, canvas.SIZE[1]+1) # random number between 0 and, including, SIZE[1]
-    snowflakes.append((x, y)) # populate the list with random center points
+snowflakes.append((0, 0)) # populate the list with center points, (x, y)
+snowflakes.append((100, 200))
+snowflakes.append((400, 100))
+snowflakes.append((canvas.SIZE[0], canvas.SIZE[1])) # (704, 512)
+snowflakes.append((100, 400))
+snowflakes.append((300, 10))
+snowflakes.append((500, 300))
+snowflakes.append((600, 0))
+snowflakes.append((605, 120))
+snowflakes.append((352, 256))
+
+for i in range(0, len(snowflakes)): # FOR all indices (i.e., each index between 0 and, but not including, len(snowflakes))
     snowflakes[i] = list(snowflakes[i]) # each center point is a tuple, but tuples are immutable, so convert them to a list
 
-background_music.play()
+# background_music.play()
 
 while True: # keeps screen open
     for event in pygame.event.get(): # check for user input when open screen
@@ -34,9 +42,7 @@ while True: # keeps screen open
         snowflakes[i][1] += Y_INC # increase y by 1 pixel for each point
         if snowflakes[i][1] > canvas.SIZE[1]+R: # IF snowflake has left the screen
             # Recreate it above the screen
-            snowflakes[i][1] = random.randrange(-50, -R) # -50 is optional
-            # More randomness
-            snowflakes[i][0] = random.randrange(0, canvas.SIZE[0]+1)
+            snowflakes[i][1] = -R
     # --------------
     canvas.clean() # redundant
     # --- Drawing code

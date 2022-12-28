@@ -2,7 +2,7 @@
 "Space Invaders" Game
 """
 
-import pygame, random
+import pygame
 import src.canvas as canvas
 from custom.energy import time_stamp, save_energy
 from custom.classes import Rectangle
@@ -46,7 +46,6 @@ spaceship_picture_retry = pygame.transform.scale(spaceship_picture, (W/2, H/2))
 invader_picture = pygame.image.load('images/alien.png').convert()
 invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
 
-INVADER_COUNT = 50
 repeated = 0 # times
 score = 0
 first = True # for spaceship laser
@@ -75,6 +74,11 @@ def return_fire(sprite, index):
     sprite.rect.top = invaders.sprites()[index].rect.bottom
     lasers_alt.add(sprite)
     invader_laser_sound.play()
+def invaders_add(x, y):
+    invader = Rectangle(W/2, H/2)
+    invader.rect.x, invader.rect.y = x, y
+    invader.image.blit(invader_picture, (0, 0))
+    invaders.add(invader)
 # ---------------------
 
 # outer walls
@@ -104,13 +108,17 @@ spaceships.add(spaceship)
 for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)
 
-while INVADER_COUNT-len(invaders) > 0: # create and add fifty "invader" sprites
-    invader = Rectangle(W/2, H/2)
-    invader.rect.x = random.randrange(0, canvas.SIZE[0], W/2) # allow sprite to touch edge but not breach it
-    invader.rect.y = random.randrange(0, canvas.SIZE[1]-196, H/2) # 196px space at canvas bottom
-    invader.image.blit(invader_picture, (0, 0))
-    pygame.sprite.spritecollide(invader, invaders, True) # remove any sprite in same position, you cannot check if sprite is already in group or already belongs to group since each sprite is unique
-    invaders.add(invader)
+invaders_add(W/2*1, H/2) # (32, 32)
+invaders_add(W/2*3, H) # (96, 64)
+invaders_add(W/2*5, H/2) # (160, 32)
+invaders_add(W/2*7, H) # (224, 64)
+invaders_add(W/2*9, H/2) # (288, 32)
+invaders_add(W/2*11, H) # (352, 64)
+invaders_add(W/2*13, H/2) # (416, 32)
+invaders_add(W/2*15, H) # (480, 64)
+invaders_add(W/2*17, H/2) # (544, 32)
+invaders_add(W/2*19, H) # (608, 64)
+# make sure to leave space at canvas bottom
 
 # we will create "laser" sprites later
 
