@@ -38,7 +38,6 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
         # If it is ok to jump, set our speed upwards
         # if len(platform_hit_list) > 0 or self.rect.bottom >= canvas.SIZE[1]:
 
-
 """
 Draws Mark
 """
