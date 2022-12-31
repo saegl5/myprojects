@@ -40,11 +40,11 @@ you_win_sound = pygame.mixer.Sound('sounds/you_win.ogg')
 pacman_walk_sound = pygame.mixer.Sound('sounds/footstep.ogg')
 ghost_hit_sound = pygame.mixer.Sound('sounds/hit.ogg')
 
-pacman_picture = pygame.image.load('images/pac.png').convert()
-pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert()
-pellet_picture = pygame.image.load('images/dot.png').convert()
+pacman_picture = pygame.image.load('images/pac.png').convert_alpha()
+pacman_picture_alt = pygame.image.load('images/pac_chomp.png').convert_alpha()
+pellet_picture = pygame.image.load('images/dot.png').convert_alpha()
 pellet_picture = pygame.transform.scale(pellet_picture, (int(W/2), int(H/2))) # int() addresses "TypeError: integer argument expected, got float"
-red_ghost_picture = pygame.image.load('images/red_ghost.png').convert()
+red_ghost_picture = pygame.image.load('images/red_ghost.png').convert_alpha()
 pacman_picture_retry = pygame.transform.scale(pacman_picture, (int(W/2), int(H/2)))
 
 repeated = 0 # times
@@ -60,21 +60,21 @@ angle = 0
 # --- Functions
 def turn(sprite, angle):
     if count == 1: # in case there is a quick KEYDOWN and KEYUP event
+        # effectively redundant: sprite.image = pygame.Surface((W, H)).convert_alpha()
         sprite.image.blit(pacman_picture_alt, (0, 0))
     if count == 5: # else appears to chomp too long
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
     if count % 10 == 0:
+        # effectively redundant: sprite.image = pygame.Surface((W, H)).convert_alpha()
         sprite.image.blit(pacman_picture_alt, (0, 0))
     if count % 20 == 0:
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
-    sprite.image.set_colorkey(BLACK)
 def retry(sprite):
     sprite.rect.x = canvas.SIZE[0]/2+X_OFFSET
     sprite.rect.y = canvas.SIZE[1]/2+Y_OFFSET
 def flip_horizontal(sprite, Bool):
     if sprite in red_ghosts:
         sprite.image = pygame.transform.flip(red_ghost_picture, flip_x=Bool, flip_y=False)
-    sprite.image.set_colorkey(BLACK)
 def pellets_add(x, y):
     pellet = Rectangle(W/2, H/2)
     pellet.rect.x, pellet.rect.y = x, y
@@ -177,7 +177,6 @@ while True: # keeps screen open
                 y_inc = 0
             count = 0
             pacman.image = pygame.transform.rotate(pacman_picture, angle)
-            pacman.image.set_colorkey(BLACK)
 
         time_stamp(event)
         # -------------------
@@ -243,12 +242,10 @@ while True: # keeps screen open
 
     if len(pacmen) == 0 and played == False:
         pacman.image = pygame.transform.rotate(pacman_picture, angle)
-        pacman.image.set_colorkey(BLACK)
         game_over_sound.play()
         played = True
     elif len(pellets) == 0 and played == False:
         pacman.image = pygame.transform.rotate(pacman_picture, angle)
-        pacman.image.set_colorkey(BLACK)
         you_win_sound.play()
         played = True
     else:
@@ -280,7 +277,6 @@ while True: # keeps screen open
     canvas.screen.blit(pacman.image, (pacman.rect.x, pacman.rect.y)) # so you can see it, even if game over
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (10+i*W/2, 10)) # to right of timer
-        retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))

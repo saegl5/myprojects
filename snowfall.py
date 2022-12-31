@@ -11,7 +11,7 @@ pygame.display.set_caption("QUESTABOX's Snowfall Animation")
 WHITE = pygame.Color("white") # example
 Y_INC = 1 # initialize increment
 R = 4 # circle radius
-background_picture = pygame.image.load('images/north_pole.jpeg').convert()
+background_picture = pygame.image.load('images/north_pole.jpeg').convert_alpha()
 background_picture = pygame.transform.scale(background_picture, canvas.SIZE)
 background_music = pygame.mixer.Sound('sounds/concerto.ogg')
 snowflakes = [] # empty list
@@ -30,7 +30,7 @@ snowflakes.append((352, 256))
 for i in range(0, len(snowflakes)): # FOR all indices (i.e., each index between 0 and, but not including, len(snowflakes))
     snowflakes[i] = list(snowflakes[i]) # each center point is a tuple, but tuples are immutable, so convert them to a list
 
-# background_music.play()
+background_music.play()
 
 while True: # keeps screen open
     for event in pygame.event.get(): # check for user input when open screen
