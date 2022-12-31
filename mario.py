@@ -28,9 +28,9 @@ first = True # hopping
 halt = True # walking
 on = True # ground or platform
 l = canvas.SIZE[0]/2 # where world starts moving
-mario_frames = pygame.image.load('images/mario_spritesheet.png').convert()
+mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
-goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert()
+goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
 count1 = 0 # mario walk
 count2 = 0 # goomba walk
 facing_left = False
@@ -64,7 +64,7 @@ mario.rect.y = canvas.SIZE[1]-GH-H_mario
 mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
 # for (frame[0][0], frame[0][1], W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
-mario.image.set_colorkey(BLACK) # make background visible temporarily
+# mario.image.set_colorkey(YELLOW) # make background visible temporarily
 
 frame2 = [  (0,          0,          W_goomba, H_goomba),
             (W_goomba,   0,          W_goomba, H_goomba),
@@ -73,7 +73,6 @@ goomba = Rectangle(frame2[0][2], frame2[0][3])
 goomba.rect.x = 600 # starts near right edge of screen
 goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-goomba.image.set_colorkey(BLACK)
 
 blocks2 = [ (400,  300, 200, 50),
             (800,  250, 200, 50),
@@ -104,52 +103,49 @@ while True:
                 count1 += 1
                 if count1 == 1: # in case there is a quick KEYDOWN and KEYUP event
                     mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
                 if count1 == 5: # else mario appears to hover
                     mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
                 if count1 % 10 == 0: # on count of 10
                     mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
                 if count1 % 20 == 0:
                     mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
-                mario.image.set_colorkey(BLACK)
             if event.key == pygame.K_LEFT:
                 x_inc_mario = -V
                 halt = False
                 facing_left = True
                 count1 += 1
                 if count1 == 1:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count1 == 5:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count1 % 10 == 0:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
                 if count1 % 20 == 0:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3]))
+                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
                     mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
                     mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-                mario.image.set_colorkey(BLACK)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc_mario = -2.5*V # y decreases going upward
                 first = False
                 on = False
                 mario.rect.w = frame1[3][2]
-                mario.image = pygame.Surface((frame1[3][2], frame1[3][3]))
+                mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
                 mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
                 mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
-                mario.image.set_colorkey(BLACK)
                 count1 = 0 # display walking frames evenly
                 jump_sound.play()
         elif event.type == pygame.KEYUP:
@@ -216,10 +212,9 @@ while True:
         on = True
         if halt == True:
             x_inc_mario = 0
-            mario.image = pygame.Surface((frame1[0][2], frame1[0][3]))
+            mario.image = pygame.Surface((frame1[0][2], frame1[0][3])).convert_alpha()
             mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
             mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
-            mario.image.set_colorkey(BLACK)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
             if y_inc_mario < 0: # in jump
@@ -230,10 +225,9 @@ while True:
         y_inc_mario = 0 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
-            mario.image = pygame.Surface((frame1[0][2], frame1[0][3]))
+            mario.image = pygame.Surface((frame1[0][2], frame1[0][3])).convert_alpha()
             mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
             mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
-            mario.image.set_colorkey(BLACK)
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
@@ -241,9 +235,11 @@ while True:
     goomba.rect.x -= x_inc_goomba
     count2 += 1
     if count2 % 20 == 0:
+        goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
         goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
          # didn't start with first index 0 because first frame is already displayed
     if count2 % 40 == 0:
+        goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
         goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     # Other game logic
 

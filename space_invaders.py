@@ -40,11 +40,11 @@ spaceship_explosion_sound = pygame.mixer.Sound('sounds/explosionCrunch.ogg')
 invader_laser_sound = pygame.mixer.Sound('sounds/laserSmall.ogg')
 invader_explosion_sound = pygame.mixer.Sound('sounds/lowFrequency_explosion.ogg')
 
-spaceship_picture = pygame.image.load('images/ship.png').convert()
+spaceship_picture = pygame.image.load('images/ship.png').convert_alpha()
 spaceship_picture = pygame.transform.scale(spaceship_picture, (W, H))
 spaceship_picture_retry = pygame.transform.scale(spaceship_picture, (W/2, H/2))
-invader_picture = pygame.image.load('images/alien.png').convert()
-invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert()
+invader_picture = pygame.image.load('images/alien.png').convert_alpha()
+invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert_alpha()
 
 repeated = 0 # times
 score = 0
@@ -62,8 +62,10 @@ played = False
 # --- Functions
 def lunge(sprite):
     if count % (canvas.fps*1) == 0: # could also have used timer
+        sprite.image = pygame.Surface((W, H)).convert_alpha() # otherwise blitting on same surface
         sprite.image.blit(invader_picture_alt, (0, 0)) # change picture
     if count % (canvas.fps*2) == 0:
+        sprite.image = pygame.Surface((W, H)).convert_alpha()
         sprite.image.blit(invader_picture, (0, 0)) # revert
 def retry(sprite):
     sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen
@@ -275,7 +277,6 @@ while True: # keeps screen open
     canvas.screen.blit(spaceship.image, (spaceship.rect.x, spaceship.rect.y)) # so you can see it, even if game over
     for i in range(0, retries):
         canvas.screen.blit(retry_boxes[i], (10+i*W/2, 10)) # to right of timer
-        retry_boxes[i].set_colorkey(BLACK)
     canvas.screen.blit(score_header, (canvas.SIZE[0]-score_header.get_width()-10, 10)) # near top-right corner
     canvas.screen.blit(score_text, (canvas.SIZE[0]-score_text.get_width()-10, 30))
     canvas.screen.blit(game_over_text, game_over_text.get_rect(center = canvas.screen.get_rect().center))
