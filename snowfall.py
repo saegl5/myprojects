@@ -11,7 +11,7 @@ pygame.display.set_caption("QUESTABOX's Snowfall Animation")
 WHITE = pygame.Color("white") # example
 Y_INC = 1 # initialize increment
 R = 4 # circle radius
-background_picture = pygame.image.load('images/north_pole.jpeg').convert_alpha()
+background_picture = pygame.image.load('images/north_pole.jpeg').convert_alpha() # could also simply use convert()
 background_picture = pygame.transform.scale(background_picture, canvas.SIZE)
 background_music = pygame.mixer.Sound('sounds/concerto.ogg')
 snowflakes = [] # empty list
