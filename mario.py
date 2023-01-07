@@ -232,7 +232,7 @@ while True:
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
 
-    goomba.rect.x += x_inc_goomba
+    goomba.rect.x -= x_inc_goomba
     count2 += 1
     if count2 % 20 == 0:
         goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
