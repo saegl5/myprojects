@@ -69,10 +69,12 @@ mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_m
 frame2 = [  (0,          0,          W_goomba, H_goomba),
             (W_goomba,   0,          W_goomba, H_goomba),
             (2*W_goomba, H_goomba/2, W_goomba, H_goomba/2)  ]
+goombas = pygame.sprite.Group()
 goomba = Rectangle(frame2[0][2], frame2[0][3])
 goomba.rect.x = 600 # starts near right edge of screen
 goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
+goombas.add(goomba)
 
 blocks2 = [ (400,  300, 200, 50),
             (800,  250, 200, 50),
@@ -87,7 +89,7 @@ for block in blocks2:
     platforms.add(platform)
 
 sprites = pygame.sprite.Group() # all sprites
-sprites.add(grounds, platforms, goomba, mario) # displays mario in front of grounds, platforms, and goomba (order matters)
+sprites.add(grounds, platforms, goombas, mario) # displays mario in front of grounds, platforms, and goomba (order matters)
 # Other sprites
 
 while True:
@@ -205,6 +207,7 @@ while True:
     mario.rect.y += y_inc_mario # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
+    hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False)
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
@@ -228,6 +231,9 @@ while True:
             mario.image = pygame.Surface((frame1[0][2], frame1[0][3])).convert_alpha()
             mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
             mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
+    elif hit_goomba_y != []:
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba))
+        goomba.image.set_colorkey(BLACK)
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
