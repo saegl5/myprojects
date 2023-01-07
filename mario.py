@@ -232,8 +232,10 @@ while True:
             mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
             mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
     elif hit_goomba_y != []:
-        goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba))
-        goomba.image.set_colorkey(BLACK)
+        goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2 # just me
+        goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha() # just me
+        goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
+        # goomba.image.set_colorkey(BLACK) # just me
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
@@ -241,10 +243,12 @@ while True:
     goomba.rect.x -= x_inc_goomba
     count2 += 1
     if count2 % 20 == 0:
+        goomba.rect.y = canvas.SIZE[1]-GH-H_goomba # temporary, just me
         goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
         goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
          # didn't start with first index 0 because first frame is already displayed
     if count2 % 40 == 0:
+        goomba.rect.y = canvas.SIZE[1]-GH-H_goomba # temporary, just me
         goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
         goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     # Other game logic
