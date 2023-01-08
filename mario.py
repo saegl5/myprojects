@@ -207,7 +207,7 @@ while True:
     mario.rect.y += y_inc_mario # mario.rect.y truncates decimal point, but okay, simply causes delay
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
-    hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False)
+    hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False) # don't want to remove goomba until after showing him squeezed
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
