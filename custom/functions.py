@@ -50,3 +50,38 @@ def bottom_wall():
     wall.rect.x = 1
     wall.rect.y = canvas.SIZE[1]
     return wall
+
+def walk(): # next time add inputs
+    if count1 == 1: # in case there is a quick KEYDOWN and KEYUP event
+        mario.rect.w = frame1[2][2]
+        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
+    if count1 == 5: # else mario appears to hover
+        mario.rect.w = frame1[2][2]
+        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
+    if count1 % 10 == 0: # on count of 10
+        mario.rect.w = frame1[2][2]
+        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
+    if count1 % 20 == 0:
+        mario.rect.w = frame1[2][2]
+        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
+
+    if count1 == 1:
+        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
+        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+    if count1 == 5:
+        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
+        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+    if count1 % 10 == 0:
+        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
+        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+    if count1 % 20 == 0:
+        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
+        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
+        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)

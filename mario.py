@@ -6,6 +6,7 @@ import pygame
 import src.canvas as canvas # still processes pygame.init()
 from custom.classes import Rectangle
 from custom.energy import time_stamp, save_energy
+from custom.functions import walk
 # Other modules to import
 
 pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
@@ -36,6 +37,7 @@ count2 = 0 # goomba walk
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
+stomp = False
 # Other constants and variables
 
 blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
@@ -103,43 +105,13 @@ while True:
                 halt = False
                 facing_left = False
                 count1 += 1
-                if count1 == 1: # in case there is a quick KEYDOWN and KEYUP event
-                    mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-                if count1 == 5: # else mario appears to hover
-                    mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
-                if count1 % 10 == 0: # on count of 10
-                    mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-                if count1 % 20 == 0:
-                    mario.rect.w = frame1[2][2]
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
+                walk() # next time add inputs
             if event.key == pygame.K_LEFT:
                 x_inc_mario = -V
                 halt = False
                 facing_left = True
                 count1 += 1
-                if count1 == 1:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-                if count1 == 5:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-                if count1 % 10 == 0:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-                if count1 % 20 == 0:
-                    mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-                    mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
-                    mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+                walk() # next time add inputs
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc_mario = -2.5*V # y decreases going upward
                 first = False
@@ -236,21 +208,23 @@ while True:
         goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha() # just me
         goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
         # goomba.image.set_colorkey(BLACK) # just me
+        stomp = True
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
 
-    goomba.rect.x -= x_inc_goomba
-    count2 += 1
-    if count2 % 20 == 0:
-        goomba.rect.y = canvas.SIZE[1]-GH-H_goomba # temporary, just me
-        goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
-        goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
-         # didn't start with first index 0 because first frame is already displayed
-    if count2 % 40 == 0:
-        goomba.rect.y = canvas.SIZE[1]-GH-H_goomba # temporary, just me
-        goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
-        goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
+    if stomp == False:
+        goomba.rect.x -= x_inc_goomba
+        count2 += 1
+        if count2 % 20 == 0:
+            goomba.rect.y = canvas.SIZE[1]-GH-H_goomba # temporary, just me
+            goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
+            goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
+            # didn't start with first index 0 because first frame is already displayed
+        if count2 % 40 == 0:
+            goomba.rect.y = canvas.SIZE[1]-GH-H_goomba # temporary, just me
+            goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
+            goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     # Other game logic
 
     canvas.clean()
