@@ -51,6 +51,10 @@ def bottom_wall():
     wall.rect.y = canvas.SIZE[1]
     return wall
 
+"""
+Walk Mario
+"""
+
 def walk(): # next time add inputs
     if count1 == 1: # in case there is a quick KEYDOWN and KEYUP event
         mario.rect.w = frame1[2][2]
