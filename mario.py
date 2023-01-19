@@ -228,7 +228,7 @@ while True:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     else: # skipped
         count2 += 1
-        if count2 % 120 == 0:
+        if count2 % 120 == 0: # pause
             sprites.remove(goomba)
     # Other game logic
 
