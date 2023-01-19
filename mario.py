@@ -209,6 +209,7 @@ while True:
         goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
         # goomba.image.set_colorkey(BLACK) # just me
         stomp = True
+        count2 = 0 # might still be useful
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
@@ -225,6 +226,10 @@ while True:
             goomba.rect.y = canvas.SIZE[1]-GH-H_goomba # temporary, just me
             goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
+    else: # skipped
+        count2 += 1
+        if count2 % 120 == 0:
+            sprites.remove(goomba)
     # Other game logic
 
     canvas.clean()
