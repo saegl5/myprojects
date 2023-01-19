@@ -209,7 +209,7 @@ while True:
         goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
         goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
         stomp = True
-        count2 = 0 # reset to add pause
+        count2 = 0 # reset for consistent pause
         y_inc_mario = -1.5*V # short hop
         goombas.remove(goomba) # let goomba rest
         on = True
@@ -228,7 +228,6 @@ while True:
             goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     else:
-        # still need to wait to remove goomba
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
     # Other game logic
