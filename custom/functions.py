@@ -55,37 +55,26 @@ def bottom_wall():
 Walk Mario
 """
 
-def walk(): # next time add inputs
-    if count1 == 1: # in case there is a quick KEYDOWN and KEYUP event
-        mario.rect.w = frame1[2][2]
-        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-    if count1 == 5: # else mario appears to hover
-        mario.rect.w = frame1[2][2]
-        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
-    if count1 % 10 == 0: # on count of 10
-        mario.rect.w = frame1[2][2]
-        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-    if count1 % 20 == 0:
-        mario.rect.w = frame1[2][2]
-        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
+import pygame
 
-    if count1 == 1:
-        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-    if count1 == 5:
-        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
-        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-    if count1 % 10 == 0:
-        mario.image = pygame.Surface((frame1[2][2], frame1[1][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[1][0], frame1[1][1], frame1[1][2], H_mario))
-        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
-    if count1 % 20 == 0:
-        mario.image = pygame.Surface((frame1[2][2], frame1[2][3])).convert_alpha()
-        mario.image.blit(mario_frames, (0, 0), (frame1[2][0], frame1[2][1], W_mario, H_mario))
-        mario.image = pygame.transform.flip(mario.image, flip_x=True, flip_y=False)
+def walk(count, sprite, sprite_sheet, frame_list, width, height, facing_left):
+    if count == 1: # in case there is a quick KEYDOWN and KEYUP event
+        sprite.rect.w = frame_list[2][2]
+        sprite.image = pygame.Surface((frame_list[2][2], frame_list[1][3])).convert_alpha()
+        sprite.image.blit(sprite_sheet, (0, 0), (frame_list[1][0], frame_list[1][1], frame_list[1][2], height))
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    if count == 5: # else mario appears to hover
+        sprite.rect.w = frame_list[2][2]
+        sprite.image = pygame.Surface((frame_list[2][2], frame_list[2][3])).convert_alpha()
+        sprite.image.blit(sprite_sheet, (0, 0), (frame_list[2][0], frame_list[2][1], width, height))
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    if count % 10 == 0: # on count of 10
+        sprite.rect.w = frame_list[2][2]
+        sprite.image = pygame.Surface((frame_list[2][2], frame_list[1][3])).convert_alpha()
+        sprite.image.blit(sprite_sheet, (0, 0), (frame_list[1][0], frame_list[1][1], frame_list[1][2], height))
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    if count % 20 == 0:
+        sprite.rect.w = frame_list[2][2]
+        sprite.image = pygame.Surface((frame_list[2][2], frame_list[2][3])).convert_alpha()
+        sprite.image.blit(sprite_sheet, (0, 0), (frame_list[2][0], frame_list[2][1], width, height))
+        sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)

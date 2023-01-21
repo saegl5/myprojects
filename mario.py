@@ -105,13 +105,13 @@ while True:
                 halt = False
                 facing_left = False
                 count1 += 1
-                walk() # next time add inputs
+                walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
             if event.key == pygame.K_LEFT:
                 x_inc_mario = -V
                 halt = False
                 facing_left = True
                 count1 += 1
-                walk() # next time add inputs
+                walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc_mario = -2.5*V # y decreases going upward
                 first = False
@@ -210,6 +210,9 @@ while True:
         # goomba.image.set_colorkey(BLACK) # just me
         stomp = True
         count2 = 0 # might still be useful
+        y_inc_mario = -1.5*V # short hop
+        goombas.remove(goomba) # let goomba rest, skipped
+        on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
