@@ -212,7 +212,7 @@ while True:
         count2 = 0 # reset for consistent pause
         y_inc_mario = -1.5*V # short hop
         goombas.remove(goomba) # let goomba rest
-        on = True
+        on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
