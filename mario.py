@@ -216,9 +216,9 @@ while True:
         y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
         on = False
 
+    count2 += 1
     if stomp == False:
         goomba.rect.x -= x_inc_goomba
-        count2 += 1
         if count2 % 20 == 0:
             goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
@@ -227,7 +227,6 @@ while True:
             goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     else:
-        count2 += 1
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
     # Other game logic
