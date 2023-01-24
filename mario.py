@@ -209,7 +209,7 @@ while True:
         goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
         stomp = True
         count2 = 0 # might still be useful
-        y_inc_mario = -1.5*V # short hop
+        y_inc_mario = -10.5*V # short hop
         goombas.remove(goomba) # let goomba rest
         on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
