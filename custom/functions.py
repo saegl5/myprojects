@@ -59,22 +59,22 @@ import pygame
 
 def walk(count, sprite, sprite_sheet, frame_list, width, height, facing_left, on):
     if count == 1: # in case there is a quick KEYDOWN and KEYUP event
-        sprite.rect.w = frame_list[1][2] # align right edge to other sprites
+        sprite.rect.w = frame_list[1][2] # align right edge to other sprites, don't use if walk in midair
         sprite.image = pygame.Surface((frame_list[1][2], frame_list[1][3])).convert_alpha()
         sprite.image.blit(sprite_sheet, (0, 0), (frame_list[1][0], frame_list[1][1], width, height))
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     if count == 5: # else mario appears to hover
-        sprite.rect.w = frame_list[1][2] # align right edge to other sprites
+        sprite.rect.w = frame_list[1][2] # align right edge to other sprites, don't use if walk in midair
         sprite.image = pygame.Surface((frame_list[1][2], frame_list[2][3])).convert_alpha() # widest, equally
         sprite.image.blit(sprite_sheet, (0, 0), (frame_list[2][0], frame_list[2][1], frame_list[2][2], height)) # crop
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     if count % 10 == 0: # on count of 10
-        sprite.rect.w = frame_list[1][2] # align right edge to other sprites
+        sprite.rect.w = frame_list[1][2] # align right edge to other sprites, don't use if walk in midair
         sprite.image = pygame.Surface((frame_list[1][2], frame_list[1][3])).convert_alpha()
         sprite.image.blit(sprite_sheet, (0, 0), (frame_list[1][0], frame_list[1][1], width, height))
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
     if count % 20 == 0:
-        sprite.rect.w = frame_list[1][2] # align right edge to other sprites
+        sprite.rect.w = frame_list[1][2] # align right edge to other sprites, don't use if walk in midair
         sprite.image = pygame.Surface((frame_list[1][2], frame_list[2][3])).convert_alpha() # widest, equally
         sprite.image.blit(sprite_sheet, (0, 0), (frame_list[2][0], frame_list[2][1], frame_list[2][2], height)) # crop
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
