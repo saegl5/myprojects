@@ -6,7 +6,7 @@ import pygame
 import src.canvas as canvas # still processes pygame.init()
 from custom.classes import Rectangle
 from custom.energy import time_stamp, save_energy
-from custom.functions import walk
+from custom.functions import walk, stand
 # Other modules to import
 
 pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
@@ -187,9 +187,7 @@ while True:
         on = True
         if halt == True:
             x_inc_mario = 0
-            mario.image = pygame.Surface((frame1[0][2], frame1[0][3])).convert_alpha()
-            mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
-            mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
+            stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
             if y_inc_mario < 0: # in jump
@@ -200,9 +198,7 @@ while True:
         y_inc_mario = 0 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
-            mario.image = pygame.Surface((frame1[0][2], frame1[0][3])).convert_alpha()
-            mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
-            mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
+            stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
         goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
         goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
