@@ -107,22 +107,14 @@ while True:
                 x_inc_mario = V
                 halt = False
                 facing_left = False
-                # count1 += 1
-                # walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_LEFT:
                 x_inc_mario = -V
                 halt = False
                 facing_left = True
-                # count1 += 1
-                # walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc_mario = -2.5*V # y decreases going upward
                 first = False
                 on = False
-                # mario.rect.w = frame1[3][2]
-                # mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
-                # mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
-                # mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
                 count1 = 0 # display walking frames evenly
                 jump_sound.play()
         elif event.type == pygame.KEYUP:
