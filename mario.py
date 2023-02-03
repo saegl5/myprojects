@@ -24,6 +24,7 @@ GH = 50 # ground height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
+x_inc_platform = V/5
 y_inc_mario = 0.5
 first = True # hopping
 halt = True # walking
@@ -238,6 +239,8 @@ while True:
     else:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
+
+    platforms.sprites()[2].rect.x -= 1 # a start
     # Other game logic
 
     canvas.clean()
