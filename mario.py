@@ -107,14 +107,14 @@ while True:
                 x_inc_mario = V
                 halt = False
                 facing_left = False
-                count1 += 1
-                walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
+                # count1 += 1
+                # walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_LEFT:
                 x_inc_mario = -V
                 halt = False
                 facing_left = True
-                count1 += 1
-                walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
+                # count1 += 1
+                # walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
             if event.key == pygame.K_SPACE and first == True and on == True:
                 y_inc_mario = -2.5*V # y decreases going upward
                 first = False
@@ -193,6 +193,9 @@ while True:
         if halt == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
+        else:
+            count1 += 1
+            walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
             if y_inc_mario < 0: # in jump
@@ -204,6 +207,9 @@ while True:
         if halt == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
+        else:
+            count1 += 1
+            walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
     elif hit_goomba_y != []:
         goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
         goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
