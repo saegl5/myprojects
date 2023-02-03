@@ -40,10 +40,13 @@ jump_sound.set_volume(0.125) # optional
 stomp = False
 # Other constants and variables
 
-blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
-            (canvas.SIZE[0]+100, canvas.SIZE[1]-GH, 300,            GH),
-            (canvas.SIZE[0]+500, canvas.SIZE[1]-GH, 600,            GH) ]
-            # three blocks, (x, y, w, h) each, second and third block to right of screen
+blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
+            (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH), # 100 gap
+            (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH), # 100 gap
+            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH), # 400 gap
+            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH), # 100 gap
+            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH), ] # 75 gap
+            # six blocks, (x, y, w, h) each, additional blocks to right of screen
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
@@ -79,9 +82,12 @@ goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, 
 goombas.add(goomba)
 
 blocks2 = [ (400,  300, 200, 50),
-            (800,  250, 200, 50),
-            (1300, 100, 200, 50) ]
-            # three blocks, (x, y, w, h) each
+            (800,  250, 200, 50), # 200 gap, 50 higher
+            (1300, 100, 200, 50), # 300 gap, 150 higher
+            (1600, 100, 200, 50), # 100 gap, same height
+            (2300, 300, 200, 50), # 500 gap, 200 lower
+            (2700, 150, 200, 50) ] # 200 gap, 150 higher
+            # six blocks, (x, y, w, h) each
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[2], block[3])
