@@ -240,7 +240,7 @@ while True:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
 
-    platforms.sprites()[2].rect.x -= 1 # a start
+    platforms.sprites()[2].rect.x -= x_inc_platform # a start
     # Other game logic
 
     canvas.clean()
