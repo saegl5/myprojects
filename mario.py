@@ -40,12 +40,12 @@ jump_sound.set_volume(0.125) # optional
 stomp = False
 # Other constants and variables
 
-blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
-            (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH), # 100 gap (how 100? gap)
-            (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH), # 100 gap (how 500? 100 + 300 + gap)
-            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH), # 400 gap (how 1500? 500 + 600 + gap)
-            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH), # 100 gap
-            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH) ] # 75 gap
+blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH), # choose w,   want 100 gap,   x0 = 0, C0 = 100
+            (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH), # choose w,   want 100 gap,   x1 = x0 + w0 + C0
+            (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH), # choose w,   want 400 gap,   x2 = x1 + w1 + C1
+            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH), # choose w,   want 100 gap,   x3 = x2 + w2 + C2
+            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH), # choose w,   want 75 gap,    x4 = x3 + w3 + C3
+            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH) ] # choose w,  want no gap,    x5 = x4 + w4 + C4
             # three blocks, (x, y, w, h) each, second and third block to right of screen
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
