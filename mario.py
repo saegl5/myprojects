@@ -40,9 +40,12 @@ jump_sound.set_volume(0.125) # optional
 stomp = False
 # Other constants and variables
 
-blocks1 = [ (0,                  canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
-            (canvas.SIZE[0]+100, canvas.SIZE[1]-GH, 300,            GH),
-            (canvas.SIZE[0]+500, canvas.SIZE[1]-GH, 600,            GH) ]
+blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
+            (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH), # 100 gap (how 100? gap)
+            (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH), # 100 gap (how 500? 100 + 300 + gap)
+            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH), # 400 gap (how 1500? 500 + 600 + gap)
+            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH), # 100 gap
+            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH) ] # 75 gap
             # three blocks, (x, y, w, h) each, second and third block to right of screen
             # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
