@@ -17,7 +17,6 @@ http://programarcadegames.com/python_examples/f.php?file=platform_scroller.py
 http://programarcadegames.com/python_examples/f.php?file=platform_moving.py
 http://programarcadegames.com/python_examples/sprite_sheets/
 """
-
 import pygame
  
 # Global constants
@@ -225,6 +224,7 @@ class Level(object):
         Create a child class for each level with level-specific
         info. """
  
+ 
     def __init__(self, player):
         """ Constructor. Pass in a handle to player. Needed for when moving
             platforms collide with the player. """
@@ -234,7 +234,7 @@ class Level(object):
          
         # Background image
         self.background = None
-
+     
         # How far this world has been scrolled left/right
         self.world_shift = 0
         self.level_limit = -1000

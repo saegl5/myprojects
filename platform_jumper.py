@@ -9,35 +9,33 @@ from custom.energy import time_stamp, save_energy
 # Other modules to import
 
 pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
-pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
+# pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement, but mario may continually hop
 # Other settings
 
 BROWN = pygame.Color("burlywood4") # optional color, ground
 WHITE = pygame.Color("white") # mario
-YELLOW = pygame.Color("yellow3") # platforms
-w = 48
-h = 64
+# CYAN = pygame.Color("cyan") # platforms
+width = 48
+height = 64
 ground_height = 50
+
+ground = Rectangle(canvas.size[0], ground_height)
+ground.rect.left = canvas.screen.get_rect().left # could also use rect.x = 0
+ground.rect.bottom = canvas.screen.get_rect().bottom # could also use rect.y = canvas.size[1]
+ground.image.fill(BROWN)
+mario = Rectangle(width, height) # see classes.py
+mario.rect.x = 50
+mario.rect.bottom = ground.rect.top # could also use rect.y and subtract mario height
+mario.image.fill(WHITE) # example
+grounds = pygame.sprite.Group()
+sprites = pygame.sprite.Group()
+grounds.add(ground)
+sprites.add(ground, mario) # order matters
+
 speed = 5 # example
 x_inc = 0 # short for "increment"
 y_inc = 0
-first = True # hopping
-halt = True # walking
-# Other constants and variables
-
-ground = Rectangle(canvas.SIZE[0], ground_height)
-ground.rect.left = canvas.screen.get_rect().left
-ground.rect.bottom = canvas.screen.get_rect().bottom
-ground.image.fill(BROWN)
-mario = Rectangle(w, h) # see classes.py
-mario.rect.x = 50
-mario.rect.bottom = ground.rect.top
-mario.image.fill(WHITE) # example
-grounds = pygame.sprite.Group()
-sprites = pygame.sprite.Group() # all sprites
-grounds.add(ground)
-sprites.add(ground, mario) # order matters
-# Other sprites
+# Other variables and constants
 
 # class Platform(pygame.sprite.Sprite):
 #     """ Platform the user can jump on """
@@ -49,7 +47,7 @@ sprites.add(ground, mario) # order matters
 #         super().__init__()
  
 #         self.image = pygame.Surface([width, height])
-#         self.image.fill(YELLOW)
+#         self.image.fill(CYAN)
  
 #         self.rect = self.image.get_rect()
  
@@ -120,29 +118,25 @@ sprites.add(ground, mario) # order matters
 # mario.level = current_level
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for action in pygame.event.get():
+        if action.type == pygame.QUIT:
             canvas.close()
 
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
+        elif action.type == pygame.KEYDOWN:
+            if action.key == pygame.K_RIGHT:
                 x_inc = speed
-                halt = False
-            if event.key == pygame.K_LEFT:
+            if action.key == pygame.K_LEFT:
                 x_inc = -speed
-                halt = False
-            if event.key == pygame.K_SPACE and first == True:
-                if mario.rect.bottom == ground.rect.top:# or mario.rect.bottom == platform.rect.top:
-                    y_inc = -2.75*speed # y decreases going upward
-                    first = False
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                first = True
-            if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
-                halt = True
+            if action.key == pygame.K_SPACE and mario.rect.bottom == ground.rect.top:
+                y_inc = -2*speed # y decreases going upward
+        elif action.type == pygame.KEYUP:
+            if action.key == pygame.K_LEFT and x_inc < 0:
+                x_inc = 0
+            if action.key == pygame.K_RIGHT and x_inc > 0:
+                x_inc = 0
         # Other keyboard or mouse/trackpad events
 
-        time_stamp(event)
+        time_stamp(action)
 
     mario.rect.x += x_inc
     # block_hit_list = pygame.sprite.spritecollide(mario, mario.level.platform_list, False)
@@ -155,15 +149,12 @@ while True:
     #         # Otherwise if we are moving left, do the opposite.
     #         mario.rect.left = block.rect.right
 
-    mario.rect.y += y_inc # mario.rect.y truncates decimal point, but okay, simply causes delay
+    mario.rect.y += y_inc
     hit_ground = pygame.sprite.spritecollide(mario, grounds, False)
     if hit_ground != []:
         mario.rect.bottom = ground.rect.top
-        y_inc = 0 # logical
-        if halt == True:
-            x_inc = 0
-    else: # cycles, fewer for higher values of gravity
-        y_inc += 0.5 # gravity, place here otherwise increment will keep running
+    else: # proceed normally
+        y_inc += 0.35 # gravity, place here otherwise increment will keep running
 
 
 
@@ -183,6 +174,13 @@ while True:
     # Update items in the level
     # current_level.update()
 
+    # If mario gets near the right side, shift the world left (-x)
+    # if mario.rect.right > canvas.size[0]:
+        # mario.rect.right = canvas.size[0]
+
+    # If mario gets near the left side, shift the world right (+x)
+    # if mario.rect.left < 0:
+        # mario.rect.left = 0
     # Other game logic
 
     canvas.clean()

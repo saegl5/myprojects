@@ -1,6 +1,6 @@
 """
 "Mario" Game
-""" 
+"""
 
 import pygame
 import src.canvas as canvas # still processes pygame.init()
