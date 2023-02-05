@@ -41,14 +41,13 @@ jump_sound.set_volume(0.125) # optional
 stomp = False
 # Other constants and variables
 
-blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),
-            (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH), # 100 gap
-            (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH), # 100 gap
-            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH), # 400 gap
-            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH), # 100 gap
-            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH), ] # 75 gap
+blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH), #  x0 = 0,              choose w0,   want C0=100 (gap size)
+            (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH), #  x1 = x0 + w0 + C0,   choose w1,   want C1=100
+            (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH), #  x2 = x1 + w1 + C1,   choose w2,   want C2=400
+            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH), #  x3 = x2 + w2 + C2,   choose w3,   want C3=100
+            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH), #  x4 = x3 + w3 + C3,   choose w4,   want C4=75
+            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH) ] # x5 = x4 + w4 + C4,   choose w5,   want C5=0 (no gap)
             # six blocks, (x, y, w, h) each, additional blocks to right of screen
-            # third ground sprite: x > canvas.SIZE[0]+100+300 = canvas.SIZE[0]+400
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
@@ -82,12 +81,12 @@ goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
 goombas.add(goomba)
 
-blocks2 = [ (400,  300, 200, 50),
-            (800,  250, 200, 50), # 200 gap, 50 higher
-            (1300, 100, 200, 50), # 300 gap, 150 higher
-            (1600, 100, 200, 50), # 100 gap, same height
-            (2300, 300, 200, 50), # 500 gap, 200 lower
-            (2700, 150, 200, 50) ] # 200 gap, 150 higher
+blocks2 = [ (400,  300, 200, 50), #  x0 = 400,            choosing y0,   want C0=200 (gap size)
+            (800,  250, 200, 50), #  x1 = x0 + w0 + C0,   choosing y1,   want C1=300 gap
+            (1300, 100, 200, 50), #  x2 = x1 + w1 + C1,   choosing y2,   want C2=100 gap
+            (1600, 100, 200, 50), #  x3 = x2 + w2 + C2,   choosing y3,   want C3=500 gap
+            (2300, 300, 200, 50), #  x4 = x3 + w3 + C3,   choosing y4,   want C4=200 gap
+            (2700, 150, 200, 50) ] # x5 = x4 + w4 + C4,   choosing y5,   want C5=0 (no gap)
             # six blocks, (x, y, w, h) each
 platforms = pygame.sprite.Group()
 for block in blocks2:
@@ -193,7 +192,7 @@ while True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
         else:
-            count1 += 1
+            count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
@@ -207,7 +206,7 @@ while True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
         else:
-            count1 += 1
+            count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
     elif hit_goomba_y != []:
         goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
