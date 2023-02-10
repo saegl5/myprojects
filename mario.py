@@ -178,7 +178,7 @@ while True:
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
 
-    # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal point, but okay, simply causes delay
+    # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal part, but okay, simply causes delay
     mario.rect.y = round(mario.rect.y + y_inc_mario) # remove delay
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
