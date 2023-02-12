@@ -24,7 +24,7 @@
 
 ## "Mario" Game
 <img src="screenshots/mario.gif" alt="screenshot of mario game" width="700"><br>
-(sounds muted)
+(sounds muted, utilizes sprite sheets)
 
 # Known Issues
 * drawing a heart manually is difficult
