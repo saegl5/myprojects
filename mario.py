@@ -41,7 +41,7 @@ stomp = False
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
-# not changing y and h, changing x and w
+# not changing y and h, changing x and w, adding horizontal gaps
 blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),  # w0 = canvas.SIZE[0],   C0 = 100 (gap size),    x0 = 0
             (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH),  # w1 = 300,              C1 = 100,               x1 = 0 + canvas.SIZE[0] + 100
             (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH),  # w2 = 600,              C2 = 400,               x2 = canvas.SIZE[0]+100 + 300 + 100
@@ -83,7 +83,7 @@ goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, 
 goombas.add(goomba)
 
 # six blocks, (x, y, w, h) each
-# not changing w and h, changing x and y
+# not changing w and h, changing x and y, adding horizontal gaps
 blocks2 = [ (400,  300, 200, 50),  # y0 = 300,    C0 = 200 (gap size),   x0 = 400
             (800,  250, 200, 50),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 200
             (1300, 100, 200, 50),  # y2 = 100,    C2 = 100,              x2 = 800 + 200 + 300
