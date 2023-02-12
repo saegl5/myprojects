@@ -197,7 +197,7 @@ while True:
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
         else:
             count1 += 1 # don't just display first step
-            walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
+            walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
             if y_inc_mario < 0: # in jump
@@ -211,7 +211,7 @@ while True:
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
         else:
             count1 += 1 # don't just display first step
-            walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left, on)
+            walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
         goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
         goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
