@@ -40,6 +40,7 @@ jump_sound.set_volume(0.125) # optional
 stomp = False
 # Other constants and variables
 
+# six blocks, (x, y, w, h) each, additional blocks to right of screen
 blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),  # w0 = canvas.SIZE[0],   C0 = 100 (gap size),    x0 = 0
             (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH),  # w1 = 300,              C1 = 100,               x1 = 0 + canvas.SIZE[0] + 100
             (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH),  # w2 = 600,              C2 = 400,               x2 = canvas.SIZE[0]+100 + 300 + 100
@@ -47,7 +48,6 @@ blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),  # w0 
             (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH),  # w4 = 200,              C4 = 75,                x4 = canvas.SIZE[0]+1500 + 400 + 100
             (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH) ] # w5 = 700,              C5 = 0 (no gap),        x5 = canvas.SIZE[0]+2000 + 200 + 75
                                                                            #                                                xN = xN-1 + wN-1 + CN-1
-            # six blocks, (x, y, w, h) each, additional blocks to right of screen
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
@@ -81,6 +81,7 @@ goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
 goombas.add(goomba)
 
+# six blocks, (x, y, w, h) each            
 blocks2 = [ (400,  300, 200, 50),  # y0 = 300,    C0 = 200 (gap size),   x0 = 400
             (800,  250, 200, 50),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 200
             (1300, 100, 200, 50),  # y2 = 100,    C2 = 100,              x2 = 800 + 200 + 300
@@ -88,7 +89,6 @@ blocks2 = [ (400,  300, 200, 50),  # y0 = 300,    C0 = 200 (gap size),   x0 = 40
             (2300, 300, 200, 50),  # y4 = 300,    C4 = 200,              x4 = 1600 + 200 + 500
             (2700, 150, 200, 50) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2300 + 200 + 200
                                    #                                     xN = xN-1 + wN-1 + CN-1, same equation
-            # three blocks, (x, y, w, h) each            
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[2], block[3])
