@@ -1,4 +1,4 @@
-# My Projects (Another Test 2)
+# My Projects
 
 ## Suburb Drawing
 <img src="screenshots/suburb.png" alt="screenshot of suburb drawing" width="700">
