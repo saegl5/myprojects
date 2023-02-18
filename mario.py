@@ -24,7 +24,7 @@ GH = 50 # ground height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
-y_inc_mario = 0
+y_inc_mario = 0.5
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
@@ -177,14 +177,15 @@ while True:
         if mario.rect.x < 0: # left boundary
             mario.rect.x = 0
 
-    mario.rect.y += y_inc_mario # mario.rect.y truncates decimal part, but okay, simply causes delay
+    # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal part, but okay, simply causes delay
+    mario.rect.y = round(mario.rect.y + y_inc_mario) # example: round(213 + 0.5) = round(213.5) = 214
     hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False) # don't want to remove goomba until after showing him squeezed
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
-        y_inc_mario = 0 # logical
+        y_inc_mario = 0.5 # logical
         on = True
         if halt == True:
             x_inc_mario = 0
@@ -199,7 +200,7 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
-        y_inc_mario = 0 # unsticks mario from below, and in case mario walks off platform
+        y_inc_mario = 0.5 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
