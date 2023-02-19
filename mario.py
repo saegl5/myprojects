@@ -25,7 +25,7 @@ V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
 x_inc_platform = V/5
-y_inc_mario = 0.5
+y_inc_mario = V/10
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
@@ -190,7 +190,7 @@ while True:
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
-        y_inc_mario = 0.5 # logical
+        y_inc_mario = V/10 # logical
         on = True
         if halt == True:
             x_inc_mario = 0
@@ -205,7 +205,7 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
-        y_inc_mario = 0.5 # unsticks mario from below, and in case mario walks off platform
+        y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
@@ -222,7 +222,7 @@ while True:
         goombas.remove(goomba) # let goomba rest
         on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
-        y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
+        y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
         on = False
         mario.rect.w = frame1[3][2]
         mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
