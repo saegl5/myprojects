@@ -19,8 +19,8 @@ X_OFFSET = 50 # don't start on wall
 Y_OFFSET = 50 # don't start on pellet
 W = 64 # "pacman" sprite width reference
 H = 64 # "pacman" sprite height reference
-x_inc = 0 # speed
-y_inc = 0
+x_inc_pacman = 0 # speed
+y_inc_pacman = 0
 x_inc_red_ghost = 1 # moving rightward at launch
 y_inc_red_ghost = 0
 
@@ -139,42 +139,42 @@ while True: # keeps screen open
         elif event.type == pygame.KEYDOWN:
             if len(pellets) != 0 and len(pacmen) != 0: # game still in play
                 if event.key == pygame.K_RIGHT:
-                    x_inc = 5
+                    x_inc_pacman = 5
                     angle = 0
                     turn(pacman, angle) # placing here also helps with using keyboard combination to take screenshots
                     count += 1
                     if count % 15 == 0: # delay
                         pacman_walk_sound.play()
                 if event.key == pygame.K_UP: # recall that y increases going downward
-                    y_inc = -5
+                    y_inc_pacman = -5
                     angle = 90
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
                 if event.key == pygame.K_LEFT:
-                    x_inc = -5
+                    x_inc_pacman = -5
                     angle = 180
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
                 if event.key == pygame.K_DOWN:
-                    y_inc = 5
+                    y_inc_pacman = 5
                     angle = 270
                     turn(pacman, angle)
                     count += 1
                     if count % 15 == 0:
                         pacman_walk_sound.play()
             else:
-                x_inc = 0
-                y_inc = 0
+                x_inc_pacman = 0
+                y_inc_pacman = 0
                 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
-                x_inc = 0
+                x_inc_pacman = 0
             if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                y_inc = 0
+                y_inc_pacman = 0
             count = 0
             pacman.image = pygame.transform.rotate(pacman_picture, angle)
 
@@ -182,18 +182,18 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    pacman.rect.x += x_inc
+    pacman.rect.x += x_inc_pacman
     wall_pacman_hit_x = pygame.sprite.spritecollide(pacman, walls, False) # don't remove wall, returns a list
     for wall in wall_pacman_hit_x: # wall that pacman hit
-        if x_inc > 0:
+        if x_inc_pacman > 0:
             pacman.rect.right = wall.rect.left
         else: # x_inc = 0 not hitting a wall
             pacman.rect.left = wall.rect.right
     
-    pacman.rect.y += y_inc
+    pacman.rect.y += y_inc_pacman
     wall_pacman_hit_y = pygame.sprite.spritecollide(pacman, walls, False)
     for wall in wall_pacman_hit_y:
-        if y_inc > 0:
+        if y_inc_pacman > 0:
             pacman.rect.bottom = wall.rect.top
         else: # y_inc = 0 not hitting a wall
             pacman.rect.top = wall.rect.bottom
