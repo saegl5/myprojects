@@ -191,7 +191,7 @@ while True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
         else:
-            count1 += 1 # don't just display first step
+            # count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_platform_y != []:
         for platform in hit_platform_y:
