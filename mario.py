@@ -145,13 +145,13 @@ while True:
         for ground in hit_ground_x:
             if x_inc_mario > 0: # mario moving rightward
                 mario.rect.right = ground.rect.left
-            else:
+            elif x_inc_mario < 0:
                 mario.rect.left = ground.rect.right
     elif hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc_mario > 0:
                 mario.rect.right = platform.rect.left
-            else:
+            elif x_inc_mario < 0:
                 mario.rect.left = platform.rect.right
         if halt == True:
             x_inc_mario = 0
