@@ -29,7 +29,7 @@ y_inc_mario = V/10
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
-l = canvas.SIZE[0]/2 # where world starts moving
+l_mario = canvas.SIZE[0]/2 # where world starts moving, measured from left
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
@@ -154,15 +154,15 @@ while True:
                 mario.rect.left = platform.rect.right
         if halt == True:
             x_inc_mario = 0
-    diff = abs(mario.rect.x - l) # not interested in sign
-    if mario.rect.x >= l: # move world leftward
+    diff = abs(mario.rect.x - l_mario) # not interested in sign
+    if mario.rect.x >= l_mario: # move world leftward
         for ground in grounds:
             ground.rect.x -= diff
         for platform in platforms:
             platform.rect.x -= diff
         goomba.rect.x -= diff
-        mario.rect.x = l # keep mario still
-    elif mario.rect.x < l: # move world back
+        mario.rect.x = l_mario # keep mario still
+    elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
             if grounds.sprites()[0].rect.x + diff > 0: # check gap
                 gap = grounds.sprites()[0].rect.x + diff
@@ -177,7 +177,7 @@ while True:
                 for platform in platforms:
                     platform.rect.x += diff
                 goomba.rect.x += diff
-            mario.rect.x = l
+            mario.rect.x = l_mario
         hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
