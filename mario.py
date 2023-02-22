@@ -30,6 +30,7 @@ first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
 l_mario = canvas.SIZE[0]/2 # where world starts moving, measured from left
+l_platform = 400 # let third platform move only 200 pixels, will be in either direction
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
@@ -205,6 +206,8 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
+            if platform == platforms.sprites()[2]:
+                mario.rect.x -= x_inc_platform # takes into account sign
         y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
@@ -243,7 +246,12 @@ while True:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
 
-    platforms.sprites()[2].rect.x -= x_inc_platform # a start
+    if l_platform > 0:
+        platforms.sprites()[2].rect.x -= x_inc_platform
+        l_platform -= 1
+    else:
+        x_inc_platform *= -1 # last used for pac_man.py
+        l_platform = 400 # reset
     # Other game logic
 
     canvas.clean()
