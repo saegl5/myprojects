@@ -36,6 +36,7 @@ mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sp
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
 count1 = 0 # mario walk
 count2 = 0 # goomba walk
+move = 0 # third platform movement
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
@@ -246,12 +247,12 @@ while True:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
 
-    if l_platform > 0:
+    if move <= l_platform:
         platforms.sprites()[2].rect.x -= x_inc_platform
-        l_platform -= 1
+        move += abs(x_inc_platform)
     else:
         x_inc_platform *= -1 # last used for pac_man.py
-        l_platform = 400 # reset
+        move = 0 # reset
     # Other game logic
 
     canvas.clean()
