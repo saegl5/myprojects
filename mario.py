@@ -24,12 +24,12 @@ GH = 50 # ground height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
-y_inc_mario = 0.5
-x_inc_platform = 1
+x_inc_platform = V/5
+y_inc_mario = V/10
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
-l = canvas.SIZE[0]/2 # where world starts moving, measured from left
+l_mario = canvas.SIZE[0]/2 # where world starts moving, measured from left
 l_platform = 400 # let third platform move only 400 pixels, in either direction
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
@@ -142,27 +142,25 @@ while True:
         for ground in hit_ground_x:
             if x_inc_mario > 0: # mario moving rightward
                 mario.rect.right = ground.rect.left
-            # else:
             elif x_inc_mario < 0:
                 mario.rect.left = ground.rect.right
     elif hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc_mario > 0:
                 mario.rect.right = platform.rect.left
-            # else:
             elif x_inc_mario < 0:
                 mario.rect.left = platform.rect.right
         if halt == True:
             x_inc_mario = 0
-    diff = abs(mario.rect.x - l) # not interested in sign
-    if mario.rect.x >= l: # move world leftward
+    diff = abs(mario.rect.x - l_mario) # not interested in sign
+    if mario.rect.x >= l_mario: # move world leftward
         for ground in grounds:
             ground.rect.x -= diff
         for platform in platforms:
             platform.rect.x -= diff
         goomba.rect.x -= diff
-        mario.rect.x = l # keep mario still
-    elif mario.rect.x < l: # move world back
+        mario.rect.x = l_mario # keep mario still
+    elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x < 0: # retains initial positions, ground sprites were not randomly positioned
             if grounds.sprites()[0].rect.x + diff > 0: # check gap
                 gap = grounds.sprites()[0].rect.x + diff
@@ -177,7 +175,7 @@ while True:
                 for platform in platforms:
                     platform.rect.x += diff
                 goomba.rect.x += diff
-            mario.rect.x = l
+            mario.rect.x = l_mario
         if mario.rect.x < 0: # left boundary
             mario.rect.x = 0
 
@@ -189,7 +187,7 @@ while True:
     if hit_ground_y != []:
         for ground in hit_ground_y:
             mario.rect.bottom = ground.rect.top
-        y_inc_mario = 0.5 # logical
+        y_inc_mario = V/10 # logical
         on = True
         if halt == True:
             x_inc_mario = 0
@@ -205,9 +203,8 @@ while True:
                 mario.rect.bottom = platform.rect.top
                 on = True
             if platform == platforms.sprites()[2]:
-                mario.rect.x -= x_inc_platform # takes into sign
-
-        y_inc_mario = 0.5 # unsticks mario from below, and in case mario walks off platform
+                mario.rect.x -= x_inc_platform # takes into account sign
+        y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
@@ -219,12 +216,12 @@ while True:
         goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
         goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
         stomp = True
-        count2 = 0 # might still be useful
+        count2 = 0 # reset for consistent pause
         y_inc_mario = -1.5*V # short hop
         goombas.remove(goomba) # let goomba rest
         on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
-        y_inc_mario += 0.5 # gravity, place here otherwise increment will keep running
+        y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
         on = False
         mario.rect.w = frame1[3][2]
         mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
@@ -246,7 +243,7 @@ while True:
             sprites.remove(goomba)
 
     if l_platform > 0:
-        platforms.sprites()[2].rect.x -= x_inc_platform # recall we did something similar in space invaders
+        platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
         l_platform -= 1
     else:
         x_inc_platform *= -1 # recall pac-man ghosts
