@@ -25,10 +25,12 @@ V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
 y_inc_mario = 0.5
+x_inc_platform = 1
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
-l = canvas.SIZE[0]/2 # where world starts moving
+l = canvas.SIZE[0]/2 # where world starts moving, measured from left
+l_platform = 400 # let third platform move only 400 pixels, to either direction
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
@@ -140,13 +142,15 @@ while True:
         for ground in hit_ground_x:
             if x_inc_mario > 0: # mario moving rightward
                 mario.rect.right = ground.rect.left
-            else:
+            # else:
+            elif x_inc_mario < 0:
                 mario.rect.left = ground.rect.right
     elif hit_platform_x != []:
         for platform in hit_platform_x:
             if x_inc_mario > 0:
                 mario.rect.right = platform.rect.left
-            else:
+            # else:
+            elif x_inc_mario < 0:
                 mario.rect.left = platform.rect.right
         if halt == True:
             x_inc_mario = 0
@@ -200,6 +204,9 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
+            if platform == platforms.sprites()[2]:
+                mario.rect.x -= x_inc_platform # takes into sign
+
         y_inc_mario = 0.5 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
@@ -237,6 +244,13 @@ while True:
     else:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
+
+    if l_platform > 0:
+        platforms.sprites()[2].rect.x -= x_inc_platform # recall we did something similar in space invaders
+        l_platform -= 1
+    else:
+        x_inc_platform *= -1 # recall pac-man ghosts
+        l_platform = 400 # reset
     # Other game logic
 
     canvas.clean()
