@@ -30,7 +30,7 @@ first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
 l_mario = canvas.SIZE[0]/2 # where world starts moving, measured from left
-l_platform = 400 # let third platform move only 200 pixels, will be in either direction
+l_platform = 400 # let third platform move only 400 pixels, in either direction
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
@@ -248,10 +248,10 @@ while True:
             sprites.remove(goomba)
 
     if move <= l_platform:
-        platforms.sprites()[2].rect.x -= x_inc_platform
+        platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
         move += abs(x_inc_platform)
     else:
-        x_inc_platform *= -1 # last used for pac_man.py
+        x_inc_platform *= -1 # recall pac-man ghosts
         move = 0 # reset
     # Other game logic
 
