@@ -57,7 +57,7 @@ Walk Mario
 
 import pygame
 
-def walk(count, sprite, sprite_sheet, frame_list, width, height, facing_left, on):
+def walk(count, sprite, sprite_sheet, frame_list, width, height, facing_left):
     if count == 1: # in case there is a quick KEYDOWN and KEYUP event
         sprite.rect.w = frame_list[1][2] # align right edge to other sprites, don't use if walk in midair
         sprite.image = pygame.Surface((frame_list[1][2], frame_list[1][3])).convert_alpha()
