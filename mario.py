@@ -80,9 +80,10 @@ frame2 = [  (0,          0,          W_goomba, H_goomba),
             (W_goomba,   0,          W_goomba, H_goomba),
             (2*W_goomba, H_goomba/2, W_goomba, H_goomba/2)  ]
 clones = [  (600,                 canvas.SIZE[1]-GH-H_goomba, frame2[0][2], frame2[0][3]),
-            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH-H_goomba, frame2[0][2], frame2[0][3]),
-            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH-H_goomba, frame2[0][2], frame2[0][3])  ]
+            (canvas.SIZE[0]+1100, canvas.SIZE[1]-GH-H_goomba, frame2[0][2], frame2[0][3]),
+            (canvas.SIZE[0]+2975, canvas.SIZE[1]-GH-H_goomba, frame2[0][2], frame2[0][3])  ]
             # each goomba sprite starts out near end of ground sprite
+            # xN = xN-1 + wN-1
 goombas = pygame.sprite.Group()
 for clone in clones: # each clone
     goomba = Rectangle(clone[2], clone[3])
