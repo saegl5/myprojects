@@ -4,7 +4,7 @@
 <img src="screenshots/suburb.png" alt="screenshot of suburb drawing" width="700">
 
 ## Billiards Animation
-<video src="screenshots/billiards.mp4" alt="screenshot of billiards animation" width="700"></video><br>
+<video src="screenshots/billiards.mp4" alt="screenshot of billiards animation"></video><br>
 (bump sound muted)
 
 ## Snowfall Animation
