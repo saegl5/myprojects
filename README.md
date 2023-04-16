@@ -5,6 +5,7 @@
 
 ## Billiards Animation
 <video src="screenshots/billiards.mp4" alt="screenshot of billiards animation"></video><br>
+![screenshot of billiards animation](screenshots/billiards.mp4)<br>
 (bump sound muted)
 
 ## Snowfall Animation
