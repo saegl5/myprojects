@@ -77,12 +77,24 @@ mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_m
 frame2 = [  (0,          0,          W_goomba, H_goomba),
             (W_goomba,   0,          W_goomba, H_goomba),
             (2*W_goomba, H_goomba/2, W_goomba, H_goomba/2)  ]
+clones = [  (600,                 canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba),
+            (canvas.SIZE[0]+1100, canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba),
+            (canvas.SIZE[0]+2975, canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba)  ]
+            # keep y, width and height, only change x
+            # first goomba sprite starts out near end of first ground sprite            
+            
+            # canvas.SIZE[0]+1100 = canvas.SIZE[0]+500 + 600
+            # second goomba sprite will start out to right edge of third ground sprite
+            
+            # canvas.SIZE[0]+2975 = canvas.SIZE[0]+2275 + 700
+            # third goomba sprite will start out to right edge of last ground sprite
 goombas = pygame.sprite.Group()
-goomba = Rectangle(frame2[0][2], frame2[0][3])
-goomba.rect.x = 600 # starts near right edge of screen
-goomba.rect.y = canvas.SIZE[1]-GH-H_goomba
-goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-goombas.add(goomba)
+for clone in clones: # each clone
+    goomba = Rectangle(clone[2], clone[3])
+    goomba.rect.x = clone[0]
+    goomba.rect.y = clone[1]
+    goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
+    goombas.add(goomba)
 
 # six blocks, (x, y, w, h) each
 # not changing w and h, changing x and y, adding horizontal gaps
