@@ -4,11 +4,7 @@
 
 import pygame
 import src.canvas as canvas # still processes pygame.init()
-<<<<<<< HEAD
 from custom.classes import Rectangle
-=======
-from custom.Classes import Rectangle
->>>>>>> development/main
 from custom.energy import time_stamp, save_energy
 from custom.functions import walk, stand
 # Other modules to import
