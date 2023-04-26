@@ -79,9 +79,9 @@ mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_m
 frame2 = [  (0,          0,          W_goomba, H_goomba),
             (W_goomba,   0,          W_goomba, H_goomba),
             (2*W_goomba, H_goomba/2, W_goomba, H_goomba/2)  ]
-clones = [  (600,                 canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba),
-            (canvas.SIZE[0]+1100, canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba),
-            (canvas.SIZE[0]+2975, canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba)  ]
+clones = [  (600,                         canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba),
+            (blocks1[2][0]+blocks1[2][2], canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba),
+            (blocks1[5][0]+blocks1[5][2], canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba)  ]
             # keep y, width and height, only change x
             # first goomba sprite starts out near end of first ground sprite            
             
