@@ -40,7 +40,6 @@ move = 0 # third platform movement
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
-# stomp = False
 stomped = pygame.sprite.Group()
 # Other constants and variables
 
@@ -84,11 +83,7 @@ clones = [  (600,                         canvas.SIZE[1]-GH-H_goomba, W_goomba, 
             (blocks1[5][0]+blocks1[5][2], canvas.SIZE[1]-GH-H_goomba, W_goomba, H_goomba)  ]
             # keep y, width and height, only change x
             # first goomba sprite starts out near end of first ground sprite            
-            
-            # canvas.SIZE[0]+1100 = canvas.SIZE[0]+500 + 600
-            # second goomba sprite will start out to right edge of third ground sprite
-            
-            # canvas.SIZE[0]+2975 = canvas.SIZE[0]+2275 + 700
+            # second goomba sprite will start out to right edge of third ground sprite            
             # third goomba sprite will start out to right edge of last ground sprite
 goombas = pygame.sprite.Group()
 for clone in clones: # each clone
@@ -239,16 +234,15 @@ while True:
             count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
-        for goomba in hit_goomba_y:
+        for goomba in hit_goomba_y: # not for goomba in goombas
             goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
             goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
-            # stomp = True
             count2 = 0 # reset for consistent pause
             y_inc_mario = -1.5*V # short hop
             goombas.remove(goomba) # let goomba rest
-            on = True # if want to jump higher
             stomped.add(goomba)
+            on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
         on = False
@@ -258,8 +252,7 @@ while True:
         mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
 
     count2 += 1
-    for goomba in goombas:
-    # if stomp == False:
+    for goomba in goombas: # not stomped on
         if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
             goomba.rect.x -= x_inc_goomba
             if count2 % 20 == 0:
@@ -269,7 +262,6 @@ while True:
             if count2 % 40 == 0:
                 goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-    # # else:
     for goomba in stomped:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
