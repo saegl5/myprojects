@@ -39,7 +39,6 @@ count2 = 0 # goomba walk
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
-# stomp = False
 stomped = pygame.sprite.Group()
 # Other constants and variables
 
@@ -232,11 +231,10 @@ while True:
             goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
             goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
-            # stomp = True
-            stomped.add(goomba)
             count2 = 0 # reset for consistent pause
             y_inc_mario = -1.5*V # short hop
             goombas.remove(goomba) # let goomba rest
+            stomped.add(goomba)
             on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
@@ -247,8 +245,7 @@ while True:
         mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
 
     count2 += 1
-    for goomba in goombas:
-        # if stomp == False:
+    for goomba in goombas: # not stomped on
             goomba.rect.x -= x_inc_goomba
             if count2 % 20 == 0:
                 goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
@@ -257,7 +254,6 @@ while True:
             if count2 % 40 == 0:
                 goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-        # else:
     for goomba in stomped: # only me
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
