@@ -39,7 +39,8 @@ count2 = 0 # goomba walk
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
-stomp = False
+# stomp = False
+stomped = pygame.sprite.Group()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -170,7 +171,8 @@ while True:
             ground.rect.x -= diff
         for platform in platforms:
             platform.rect.x -= diff
-        goomba.rect.x -= diff
+        for goomba in goombas:
+            goomba.rect.x -= diff
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x < 0: # retains initial positions, ground sprites were not randomly positioned
@@ -180,13 +182,15 @@ while True:
                     ground.rect.x += diff - gap
                 for platform in platforms:
                     platform.rect.x += diff - gap
-                goomba.rect.x += diff - gap
+                for goomba in goombas:
+                    goomba.rect.x += diff - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
                 for platform in platforms:
                     platform.rect.x += diff
-                goomba.rect.x += diff
+                for goomba in goombas:
+                    goomba.rect.x += diff
             mario.rect.x = l_mario
         if mario.rect.x < 0: # left boundary
             mario.rect.x = 0
@@ -224,14 +228,16 @@ while True:
             count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
-        goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
-        goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
-        goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
-        stomp = True
-        count2 = 0 # reset for consistent pause
-        y_inc_mario = -1.5*V # short hop
-        goombas.remove(goomba) # let goomba rest
-        on = True # if want to jump higher
+        for goomba in hit_goomba_y: # not for goomba in goombas
+            goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
+            goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
+            goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
+            # stomp = True
+            stomped.add(goomba)
+            count2 = 0 # reset for consistent pause
+            y_inc_mario = -1.5*V # short hop
+            goombas.remove(goomba) # let goomba rest
+            on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
         on = False
@@ -241,16 +247,18 @@ while True:
         mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
 
     count2 += 1
-    if stomp == False:
-        goomba.rect.x -= x_inc_goomba
-        if count2 % 20 == 0:
-            goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
-            goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
-            # didn't start with first index 0 because first frame is already displayed
-        if count2 % 40 == 0:
-            goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
-            goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-    else:
+    for goomba in goombas:
+        # if stomp == False:
+            goomba.rect.x -= x_inc_goomba
+            if count2 % 20 == 0:
+                goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
+                goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
+                # didn't start with first index 0 because first frame is already displayed
+            if count2 % 40 == 0:
+                goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
+                goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
+        # else:
+    for goomba in stomped: # only me
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
 
