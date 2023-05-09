@@ -223,7 +223,7 @@ while True:
             count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
-        for goomba in hit_goomba_y: # not for goomba in goombas
+        for goomba in goombas: # not for goomba in goombas
             goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
             goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
