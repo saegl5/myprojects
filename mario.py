@@ -49,8 +49,8 @@ blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),  # w0 
             (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH),  # w1 = 300,              C1 = 100,               x1 = 0 + canvas.SIZE[0] + 100
             (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH),  # w2 = 600,              C2 = 400,               x2 = canvas.SIZE[0]+100 + 300 + 100
             (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH),  # w3 = 400,              C3 = 100,               x3 = canvas.SIZE[0]+500 + 600 + 400
-            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH),  # w4 = 200,              C4 = 75,                x4 = canvas.SIZE[0]+1500 + 400 + 100
-            (canvas.SIZE[0]+2275, canvas.SIZE[1]-GH, 700,            GH) ] # w5 = 700,              C5 = 0 (no gap),        x5 = canvas.SIZE[0]+2000 + 200 + 75
+            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH),  # w4 = 200,              C4 = 100,               x4 = canvas.SIZE[0]+1500 + 400 + 100
+            (canvas.SIZE[0]+2300, canvas.SIZE[1]-GH, 700,            GH) ] # w5 = 700,              C5 = 0 (no gap),        x5 = canvas.SIZE[0]+2000 + 200 + 100
                                                                            #                                                xN = xN-1 + wN-1 + CN-1
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
