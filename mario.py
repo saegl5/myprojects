@@ -26,18 +26,21 @@ x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
 y_inc_goomba = V/10
 x_inc_platform = V/5
+y_inc_platform = V/5
 y_inc_mario = V/10
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
 l_mario = canvas.SIZE[0]/2 # where world starts moving, measured from left
-l_platform = 400 # let third platform move only 400 pixels, in either direction
+l_third_platform = 400 # let third platform move only 400 pixels, in either direction
+l_sixth_platform = 100
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
 count1 = 0 # mario walk
 count2 = 0 # goomba walk
-move = 0 # third platform movement
+move_third = 0 # third platform movement
+move_sixth = 0 # sixth platform movement
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
@@ -159,10 +162,11 @@ while True:
                 mario.rect.left = ground.rect.right
     elif hit_platform_x != []:
         for platform in hit_platform_x:
-            if x_inc_mario > 0:
-                mario.rect.right = platform.rect.left
-            elif x_inc_mario < 0:
-                mario.rect.left = platform.rect.right
+            if platform != platforms.sprites()[5]:
+                if x_inc_mario > 0:
+                    mario.rect.right = platform.rect.left
+                elif x_inc_mario < 0:
+                    mario.rect.left = platform.rect.right
         if halt == True:
             x_inc_mario = 0
     diff = abs(mario.rect.x - l_mario) # not interested in sign
@@ -227,6 +231,8 @@ while True:
                 on = True
             if platform == platforms.sprites()[2]:
                 mario.rect.x -= x_inc_platform # takes into account sign
+            if platform == platforms.sprites()[5] and y_inc_platform > 0:
+                mario.rect.y += y_inc_platform*2 # takes into account sign, keep up with platform
         y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
         if halt == True:
             x_inc_mario = 0
@@ -281,12 +287,19 @@ while True:
             else:
                 y_inc_goomba += V/10 # gravity
 
-    if move <= l_platform:
+    if move_third <= l_third_platform:
         platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
-        move += abs(x_inc_platform)
+        move_third += abs(x_inc_platform)
     else:
         x_inc_platform *= -1 # recall pac-man ghosts
-        move = 0 # reset
+        move_third = 0 # reset
+
+    if move_sixth <= l_sixth_platform: # foot where should be if do earlier
+        platforms.sprites()[5].rect.y += y_inc_platform # recall space invaders return fire
+        move_sixth += abs(y_inc_platform)
+    else:
+        y_inc_platform *= -1
+        move_sixth = 0 # reset
     # Other game logic
 
     canvas.clean()
