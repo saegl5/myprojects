@@ -235,7 +235,7 @@ while True:
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
         on = False
-        mario.rect.w = frame1[3][2]
+        mario.rect.w = frame1[0][2]
         mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
         mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
         mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
