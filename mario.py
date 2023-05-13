@@ -261,7 +261,7 @@ while True:
     count2 += 1
     for goomba in goombas: # not stomped on
         if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
-            goomba.rect.x -= x_inc_goomba
+            goomba.rect.x -= x_inc_goomba # move if mario is close to goomba
             if count2 % 20 == 0:
                 goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
@@ -275,7 +275,7 @@ while True:
 
     for goomba in goombas:
         if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
-            goomba.rect.y += y_inc_goomba
+            goomba.rect.y += y_inc_goomba # this alone won't move goomba because goomba.rect.y truncates decimal
             goomba_hit_ground_y = pygame.sprite.spritecollide(goomba, grounds, False)
             if goomba_hit_ground_y != []:
                 for ground in goomba_hit_ground_y:
