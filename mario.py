@@ -24,6 +24,7 @@ GH = 50 # ground height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
+y_inc_goomba = V/10 # nicholas: 0.5
 x_inc_platform = V/5
 y_inc_mario = V/10
 first = True # hopping
@@ -168,6 +169,8 @@ while True:
             platform.rect.x -= diff
         for goomba in goombas:
             goomba.rect.x -= diff
+        for goomba in stomped:
+            goomba.rect.x -= diff
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x < 0: # retains initial positions, ground sprites were not randomly positioned
@@ -179,6 +182,8 @@ while True:
                     platform.rect.x += diff - gap
                 for goomba in goombas:
                     goomba.rect.x += diff - gap
+                for goomba in stomped:
+                    goomba.rect.x += diff - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
@@ -186,17 +191,19 @@ while True:
                     platform.rect.x += diff
                 for goomba in goombas:
                     goomba.rect.x += diff
+                for goomba in stomped:
+                    goomba.rect.x += diff
             mario.rect.x = l_mario
         if mario.rect.x < 0: # left boundary
             mario.rect.x = 0
 
     # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal part, but okay, simply causes delay
     mario.rect.y = round(mario.rect.y + y_inc_mario) # removes delay, example: round(213 + 0.5) = round(213.5) = 214
-    hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
+    mario_hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_y = pygame.sprite.spritecollide(mario, platforms, False)
     hit_goomba_y = pygame.sprite.spritecollide(mario, goombas, False) # don't want to remove goomba until after showing him squeezed
-    if hit_ground_y != []:
-        for ground in hit_ground_y:
+    if mario_hit_ground_y != []:
+        for ground in mario_hit_ground_y:
             mario.rect.bottom = ground.rect.top
         y_inc_mario = V/10 # logical
         on = True
@@ -242,7 +249,8 @@ while True:
 
     count2 += 1
     for goomba in goombas: # not stomped on
-            goomba.rect.x -= x_inc_goomba
+        if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
+            goomba.rect.x -= x_inc_goomba # move if mario is close to goomba
             if count2 % 20 == 0:
                 goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
@@ -253,6 +261,17 @@ while True:
     for goomba in stomped: # only me
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
+    
+    for goomba in goombas:
+        if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
+            goomba.rect.y += y_inc_goomba # this alone won't move goomba because goomba.rect.y truncates decimal
+        # y_inc_goomba += V/10 # gravity, nicholas: 0.5
+            goomba_hit_ground_y = pygame.sprite.spritecollide(goomba, grounds, False)
+            if goomba_hit_ground_y != []:
+                for ground in goomba_hit_ground_y:
+                    goomba.rect.bottom = ground.rect.top
+            else:
+                y_inc_goomba += V/10 # gravity, nicholas: 0.5
 
     if l_platform > 0:
         platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
