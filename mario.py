@@ -24,7 +24,7 @@ GH = 50 # ground height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
-y_inc_goomba = V/10 # nicholas: 0.5
+y_inc_goomba = V/10
 x_inc_platform = V/5
 y_inc_mario = V/10
 first = True # hopping
@@ -242,7 +242,7 @@ while True:
     else: # cycles, fewer for higher values of gravity
         y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
         on = False
-        mario.rect.w = frame1[0][2]
+        mario.rect.w = frame1[0][2] # using standing width to remove stutter step at left edge of platform sprites
         mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
         mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
         mario.image = pygame.transform.flip(mario.image, flip_x=not(facing_left), flip_y=False)
@@ -261,7 +261,7 @@ while True:
     for goomba in stomped: # only me
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
-    
+
     for goomba in goombas:
         if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
             goomba.rect.y += y_inc_goomba # this alone won't move goomba because goomba.rect.y truncates decimal
@@ -270,7 +270,7 @@ while True:
                 for ground in goomba_hit_ground_y:
                     goomba.rect.bottom = ground.rect.top
             else:
-                y_inc_goomba += V/10 # gravity, nicholas: 0.5
+                y_inc_goomba += V/10 # gravity
 
     if l_platform > 0:
         platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
