@@ -265,7 +265,6 @@ while True:
     for goomba in goombas:
         if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
             goomba.rect.y += y_inc_goomba # this alone won't move goomba because goomba.rect.y truncates decimal
-        # y_inc_goomba += V/10 # gravity, nicholas: 0.5
             goomba_hit_ground_y = pygame.sprite.spritecollide(goomba, grounds, False)
             if goomba_hit_ground_y != []:
                 for ground in goomba_hit_ground_y:
