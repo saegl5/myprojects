@@ -281,7 +281,7 @@ while True:
                 for ground in goomba_hit_ground_y:
                     goomba.rect.bottom = ground.rect.top
             elif goomba.rect.top > canvas.SIZE[1]:
-                y_inc_goomba = V/5
+                y_inc_goomba = V/10
                 goombas.remove(goomba)
                 sprites.remove(goomba)
             else:
