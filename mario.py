@@ -13,9 +13,7 @@ pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
 # Other settings
 
-BROWN = pygame.Color("burlywood4") # optional color, ground
-BLACK = pygame.Color("black") # mario
-YELLOW = pygame.Color("yellow3") # platforms
+YELLOW = pygame.Color("yellow3") # optional color, platforms
 W_mario = 75 # default, used ratio 3:4
 W_goomba = 64
 H_mario = 100 # default
@@ -45,6 +43,13 @@ facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
+ground_left = pygame.image.load('images/dirt_left.png').convert_alpha()
+ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
+ground_right = pygame.image.load('images/dirt_right.png').convert_alpha()
+W_scaled = round(ground_middle.get_width()/ground_middle.get_height()*GH)
+ground_left = pygame.transform.scale(ground_left, (W_scaled, GH))
+ground_middle = pygame.transform.scale(ground_middle, (W_scaled, GH))
+ground_right = pygame.transform.scale(ground_right, (W_scaled, GH))
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -61,7 +66,10 @@ for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
     ground.rect.x = block[0]
     ground.rect.y = block[1]
-    ground.image.fill(BROWN)
+    ground.image.blit(ground_left, (0, 0))
+    for i in range(W_scaled, block[2]-W_scaled, W_scaled):
+        ground.image.blit(ground_middle, (i, 0))
+    ground.image.blit(ground_right, (block[2]-W_scaled, 0))
     grounds.add(ground)
 
 frame1 = [  (10,         13,         W_mario-17, H_mario-13), 
