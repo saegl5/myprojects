@@ -249,7 +249,7 @@ while True:
 
     count2 += 1
     for goomba in goombas: # not stomped on
-        if mario.rect.x >= goomba.rect.x:
+        if mario.rect.x + canvas.SIZE[0]>= goomba.rect.x:
             goomba.rect.x -= x_inc_goomba # move if mario is close to goomba
             if count2 % 20 == 0:
                 goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
