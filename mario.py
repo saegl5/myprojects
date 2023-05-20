@@ -41,6 +41,7 @@ facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
+ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha() # yours convert()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -57,7 +58,10 @@ for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
     ground.rect.x = block[0]
     ground.rect.y = block[1]
-    ground.image.fill(BROWN)
+    # ground.image.fill(BROWN)
+    # fill the rectangle from left to right
+    for i in range(0, block[2], 70): # 70 pixels is step size, based on width of ground image
+        ground.image.blit(ground_middle, (i, 0)) 
     grounds.add(ground)
 
 frame1 = [ (10,           13,           W_mario-17, H_mario-13), 
@@ -236,7 +240,7 @@ while True:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
             count2 = 0 # reset for consistent pause
             y_inc_mario = -1.5*V # short hop
-            goombas.remove(goomba) # let goomba rest
+            goombas.remove(goomba) # let goomba rest # why not sprites.remove(goomba)
             stomped.add(goomba)
             on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
@@ -249,7 +253,7 @@ while True:
 
     count2 += 1
     for goomba in goombas: # not stomped on
-        if mario.rect.x + canvas.SIZE[0]>= goomba.rect.x:
+        if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
             goomba.rect.x -= x_inc_goomba # move if mario is close to goomba
             if count2 % 20 == 0:
                 goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
@@ -269,6 +273,10 @@ while True:
             if goomba_hit_ground_y != []:
                 for ground in goomba_hit_ground_y:
                     goomba.rect.bottom = ground.rect.top
+            elif goomba.rect.top > canvas.SIZE[1]:
+                y_inc_goomba = V/10 # yours 0.5, reset
+                goombas.remove(goomba) # otherwise increment will keep resetting
+                sprites.remove(goomba) # no sense in displaying goomba that is down pit
             else:
                 y_inc_goomba += V/10 # gravity
 
