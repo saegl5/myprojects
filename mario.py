@@ -13,9 +13,7 @@ pygame.display.set_caption("QUESTABOX's \"Mario\" Game")
 pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, smooths out movement
 # Other settings
 
-BROWN = pygame.Color("burlywood4") # optional color, ground
-BLACK = pygame.Color("black") # mario
-YELLOW = pygame.Color("yellow3") # platforms
+YELLOW = pygame.Color("yellow3") # optional color, platforms
 W_mario = 75 # default, used ratio 3:4
 W_goomba = 64
 H_mario = 100 # default
@@ -41,7 +39,7 @@ facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
-ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha() # yours convert()
+ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -58,10 +56,9 @@ for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
     ground.rect.x = block[0]
     ground.rect.y = block[1]
-    # ground.image.fill(BROWN)
-    # fill the rectangle from left to right
-    for i in range(0, block[2], 70): # 70 pixels is step size, based on width of ground image
-        ground.image.blit(ground_middle, (i, 0)) 
+    # fill each rectangle from left to right
+    for i in range(0, block[2], 70): # 70 pixels is step size, based on width of each image
+        ground.image.blit(ground_middle, (i, 0))
     grounds.add(ground)
 
 frame1 = [ (10,           13,           W_mario-17, H_mario-13), 
@@ -240,7 +237,7 @@ while True:
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
             count2 = 0 # reset for consistent pause
             y_inc_mario = -1.5*V # short hop
-            goombas.remove(goomba) # let goomba rest # why not sprites.remove(goomba)
+            goombas.remove(goomba) # let goomba rest
             stomped.add(goomba)
             on = True # if want to jump higher
     else: # cycles, fewer for higher values of gravity
@@ -262,7 +259,7 @@ while True:
             if count2 % 40 == 0:
                 goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-    for goomba in stomped: # only me
+    for goomba in stomped:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
 
@@ -274,7 +271,7 @@ while True:
                 for ground in goomba_hit_ground_y:
                     goomba.rect.bottom = ground.rect.top
             elif goomba.rect.top > canvas.SIZE[1]:
-                y_inc_goomba = V/10 # yours 0.5, reset
+                y_inc_goomba = V/10 # reset
                 goombas.remove(goomba) # otherwise increment will keep resetting
                 sprites.remove(goomba) # no sense in displaying goomba that is down pit
             else:
