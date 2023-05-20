@@ -289,9 +289,9 @@ while True:
                 for ground in goomba_hit_ground_y:
                     goomba.rect.bottom = ground.rect.top
             elif goomba.rect.top > canvas.SIZE[1]:
-                y_inc_goomba = V/10
-                goombas.remove(goomba)
-                sprites.remove(goomba)
+                y_inc_goomba = V/10 # reset
+                goombas.remove(goomba) # otherwise increment will keep resetting
+                sprites.remove(goomba) # no sense in displaying goomba that is down pit
             else:
                 y_inc_goomba += V/10 # gravity
 
