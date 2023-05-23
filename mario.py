@@ -50,6 +50,7 @@ W_scaled = round(ground_middle.get_width()/ground_middle.get_height()*GH)
 ground_left = pygame.transform.scale(ground_left, (W_scaled, GH))
 ground_middle = pygame.transform.scale(ground_middle, (W_scaled, GH))
 ground_right = pygame.transform.scale(ground_right, (W_scaled, GH))
+plant_picture = pygame.image.load('images/plant.png').convert_alpha()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -122,11 +123,26 @@ for block in blocks2:
     platform.image.fill(YELLOW)
     platforms.add(platform)
 
+plant_locations = [ (blocks1[0][0]),
+                    (blocks1[1][0]+200),
+                    (blocks1[2][0]+100),
+                    (blocks1[3][0]),
+                    (blocks1[4][0]+50),
+                    (blocks1[5][0]+400) ]
+
+plants = pygame.sprite.Group()
+for _ in range(0, len(plant_locations)):
+    plant = Rectangle(plant_picture.get_width(), plant_picture.get_height())
+    plant.rect.x = plant_locations[_]
+    plant.rect.y = canvas.SIZE[1]-GH-plant_picture.get_height()
+    plant.image.blit(plant_picture, (0, 0)) # should crop
+    plants.add(plant)
+
 walls = pygame.sprite.Group()
 walls.add(left_wall()) # outer wall
 
 sprites = pygame.sprite.Group() # all sprites
-sprites.add(walls, grounds, platforms, goombas, mario) # displays mario in front of grounds, platforms, and goomba (order matters)
+sprites.add(walls, plants, grounds, platforms, goombas, mario) # displays mario in front of grounds, platforms, and goomba (order matters)
 # Other sprites
 
 while True:
@@ -187,6 +203,8 @@ while True:
             goomba.rect.x -= diff
         for goomba in stomped:
             goomba.rect.x -= diff
+        for plant in plants:
+            plant.rect.x -= diff
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
@@ -200,6 +218,8 @@ while True:
                     goomba.rect.x += diff - gap
                 for goomba in stomped:
                     goomba.rect.x += diff - gap
+                for plant in plants:
+                    plant.rect.x += diff - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
@@ -209,6 +229,8 @@ while True:
                     goomba.rect.x += diff
                 for goomba in stomped:
                     goomba.rect.x += diff
+                for plant in plants:
+                    plant.rect.x += diff
             mario.rect.x = l_mario
         hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
         for wall in hit_wall:
