@@ -54,13 +54,13 @@ ground_right = pygame.transform.scale(ground_right, (W_scaled, GH))
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
 # not changing y and h, changing x and w, adding horizontal gaps
-blocks1 = [ (0,                   canvas.SIZE[1]-GH, canvas.SIZE[0], GH),  # w0 = canvas.SIZE[0],   C0 = 100 (gap size),    x0 = 0
-            (canvas.SIZE[0]+100,  canvas.SIZE[1]-GH, 300,            GH),  # w1 = 300,              C1 = 100,               x1 = 0 + canvas.SIZE[0] + 100
-            (canvas.SIZE[0]+500,  canvas.SIZE[1]-GH, 600,            GH),  # w2 = 600,              C2 = 400,               x2 = canvas.SIZE[0]+100 + 300 + 100
-            (canvas.SIZE[0]+1500, canvas.SIZE[1]-GH, 400,            GH),  # w3 = 400,              C3 = 100,               x3 = canvas.SIZE[0]+500 + 600 + 400
-            (canvas.SIZE[0]+2000, canvas.SIZE[1]-GH, 200,            GH),  # w4 = 200,              C4 = 100,               x4 = canvas.SIZE[0]+1500 + 400 + 100
-            (canvas.SIZE[0]+2300, canvas.SIZE[1]-GH, 700,            GH) ] # w5 = 700,              C5 = 0 (no gap),        x5 = canvas.SIZE[0]+2000 + 200 + 100
-                                                                           #                                                xN = xN-1 + wN-1 + CN-1
+blocks1 = [ (0,    canvas.SIZE[1]-GH, 693, GH),  # w0 = 693,   C0 = 100 (gap size),   x0 = 0
+            (793,  canvas.SIZE[1]-GH, 297, GH),  # w1 = 297,   C1 = 100,              x1 = 0 + 693 + 100
+            (1190, canvas.SIZE[1]-GH, 594, GH),  # w2 = 594,   C2 = 400,              x2 = 800 + 297 + 100
+            (2184, canvas.SIZE[1]-GH, 396, GH),  # w3 = 396,   C3 = 100,              x3 = 1180 + 594 + 400
+            (2680, canvas.SIZE[1]-GH, 198, GH),  # w4 = 198,   C4 = 100,              x4 = 2140 + 396 + 100
+            (2978, canvas.SIZE[1]-GH, 693, GH) ] # w5 = 693,   C5 = 0 (no gap),       x5 = 2590 + 198 + 100
+                                                 #                                    xN = xN-1 + wN-1 + CN-1
 grounds = pygame.sprite.Group()
 for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
@@ -107,12 +107,12 @@ for clone in clones: # each clone
 
 # six blocks, (x, y, w, h) each
 # not changing w and h, changing x and y, adding horizontal gaps
-blocks2 = [ (400,  300, 200, 50),  # y0 = 300,    C0 = 200 (gap size),   x0 = 400
-            (800,  250, 200, 50),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 200
-            (1300, 100, 200, 50),  # y2 = 100,    C2 = 100,              x2 = 800 + 200 + 300
-            (1600, 100, 200, 50),  # y3 = 100,    C3 = 500,              x3 = 1300 + 200 + 100
-            (2300, 300, 200, 50),  # y4 = 300,    C4 = 200,              x4 = 1600 + 200 + 500
-            (2700, 150, 200, 50) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2300 + 200 + 200
+blocks2 = [ (400,  300, 200, 50),  ## y0 = 300,    C0 = 193 (gap size),   x0 = 400
+            (793,  250, 200, 50),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 193
+            (1293, 100, 200, 50),  # y2 = 100,    C2 = 100,              x2 = 793 + 200 + 300
+            (1593, 100, 200, 50),  # y3 = 100,    C3 = 500,              x3 = 1293 + 200 + 100
+            (2293, 300, 200, 50),  # y4 = 300,    C4 = 187,              x4 = 1593 + 200 + 500
+            (2680, 150, 200, 50) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2293 + 200 + 187
                                    #                                     xN = xN-1 + wN-1 + CN-1, same equation
 platforms = pygame.sprite.Group()
 for block in blocks2:
