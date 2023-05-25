@@ -291,8 +291,8 @@ while True:
         mario.rect.w = frame1[0][2] # using standing width to remove stutter step at left edge of platform sprites
         mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
         mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
-        mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
         mario.image.set_colorkey(BLACK)
+        mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
 
     count2 += 1
     for goomba in goombas: # not stomped on
