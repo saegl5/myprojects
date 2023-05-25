@@ -26,7 +26,7 @@ pygame.init() # initialize any submodules (e.g., font and mixer) that require it
 
 BLUE = pygame.Color("blue") # optional color with which to wipe screen
 clock = pygame.time.Clock()
-fps = 60 # 60 frames per second (max)
+fps = 120 # 120 frames per second (max), higher fixes jitter
 
 def clean(): # wipe the screen
     screen.fill(BLUE)
