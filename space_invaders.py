@@ -64,9 +64,11 @@ def lunge(sprite):
     if count % (canvas.fps*1) == 0: # could also have used timer
         sprite.image = pygame.Surface((W, H)).convert_alpha() # otherwise blitting on same surface
         sprite.image.blit(invader_picture_alt, (0, 0)) # change picture
+        sprite.image.set_colorkey(BLACK)
     if count % (canvas.fps*2) == 0:
         sprite.image = pygame.Surface((W, H)).convert_alpha()
         sprite.image.blit(invader_picture, (0, 0)) # revert
+        sprite.image.set_colorkey(BLACK)
 def retry(sprite):
     sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen
     sprite.rect.y = canvas.SIZE[1]-H
@@ -80,6 +82,7 @@ def invaders_add(x, y):
     invader = Rectangle(W/2, H/2)
     invader.rect.x, invader.rect.y = x, y
     invader.image.blit(invader_picture, (0, 0))
+    invader.image.set_colorkey(BLACK)
     invaders.add(invader)
 # ---------------------
 
@@ -106,6 +109,7 @@ spaceship = Rectangle(W, H)
 spaceship.rect.centerx = canvas.screen.get_rect().centerx
 spaceship.rect.y = canvas.SIZE[1] - H
 spaceship.image.blit(spaceship_picture, (0, 0))
+spaceship.image.set_colorkey(BLACK)
 spaceships.add(spaceship)
 for i in range(0, retries):
     retry_boxes.append(spaceship_picture_retry)

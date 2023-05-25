@@ -62,11 +62,13 @@ def turn(sprite, angle):
     if count == 1: # in case there is a quick KEYDOWN and KEYUP event
         # effectively redundant: sprite.image = pygame.Surface((W, H)).convert_alpha()
         sprite.image.blit(pacman_picture_alt, (0, 0))
+        sprite.image.set_colorkey(BLACK)
     if count == 5: # else appears to chomp too long
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
     if count % 10 == 0:
         # effectively redundant: sprite.image = pygame.Surface((W, H)).convert_alpha()
         sprite.image.blit(pacman_picture_alt, (0, 0))
+        sprite.image.set_colorkey(BLACK)
     if count % 20 == 0:
         sprite.image = pygame.transform.rotate(pacman_picture, angle)
 def retry(sprite):
@@ -79,6 +81,7 @@ def pellets_add(x, y):
     pellet = Rectangle(W/2, H/2)
     pellet.rect.x, pellet.rect.y = x, y
     pellet.image.blit(pellet_picture, (0, 0))
+    pellet.image.set_colorkey(BLACK)
     pellets.add(pellet)
 # ---------------------
 
@@ -109,6 +112,7 @@ pacman = Rectangle(W, H)
 pacman.rect.x = canvas.SIZE[0]/2+X_OFFSET
 pacman.rect.y = canvas.SIZE[1]/2+Y_OFFSET
 pacman.image.blit(pacman_picture, (0, 0))
+pacman.image.set_colorkey(BLACK)
 pacmen.add(pacman)
 for i in range(0, retries):
     retry_boxes.append(pacman_picture_retry)
@@ -117,6 +121,7 @@ ghost = Rectangle(W, H)
 ghost.rect.x = 500
 ghost.rect.y = 150
 ghost.image.blit(red_ghost_picture, (0, 0))
+ghost.image.set_colorkey(BLACK)
 red_ghosts.add(ghost)
 
 pellets_add(W/2, H/2) # (32, 32)

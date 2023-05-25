@@ -7,7 +7,7 @@ Manages Screen
 import pygame, sys
 
 SIZE = (704, 512) # (width, height) in pixels, example
-screen = pygame.display.set_mode(SIZE) # set up screen
+screen = pygame.display.set_mode(SIZE, flags=pygame.SCALED, vsync=1) # set up screen
 
 # function
 def close(): # user clicked close button

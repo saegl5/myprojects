@@ -44,10 +44,11 @@ while True: # keeps screen open
     pygame.draw.polygon(canvas.screen, BLACK, [(400, 400), (380, 512), (460, 512), (440, 400)], width=0) # road
     pygame.draw.line(canvas.screen, WHITE, (405, 400), (385, 512), width=1) # left shoulder of road
     pygame.draw.line(canvas.screen, WHITE, (455, 512), (435, 400), width=1) # right shoulder of road
-    
-    while y_offset <= 112:
+
+    # while y_offset <= 112:
+    for y_offset in range(0, 112, 20): # potential software regression
         pygame.draw.line(canvas.screen, WHITE, (419, 400+y_offset), (419, 410+y_offset), width=4)
-        y_offset += 20
+        # y_offset += 20
 
     pygame.draw.ellipse(canvas.screen, WHITE, (400, 100, 200, 100), width=0) # bottom-left of cloud
     pygame.draw.ellipse(canvas.screen, WHITE, (450, 50, 200, 100), width=0) # top of cloud
@@ -65,9 +66,14 @@ while True: # keeps screen open
     pygame.draw.circle(canvas.screen, BLACK, (100, 100), radius=50, width=1) # outline of sun
 
     # HARD!
-    while angle_offset <= 360*pi/180:
+    def range_with_floats(start, stop, step): # source: https://www.edureka.co/community/93202/typeerror-float-object-cannot-be-interpreted-as-an-integer
+        while stop > start:
+            yield start
+            start += step
+    # while angle_offset <= 360*pi/180:
+    for angle_offset in range_with_floats(0, 360*pi/180, 20*pi/180): # another potential software regression
         pygame.draw.line(canvas.screen, YELLOW, (100, 100), (100+100*cos(angle_offset), 100-100*sin(angle_offset)), width=2)
-        angle_offset += 20*pi/180
+        # angle_offset += 20*pi/180
 
     heart(500, 300) # balloon (HARDER!!)
     pygame.draw.arc(canvas.screen, RED, (499, 298, 25, 50), 180*pi/180, 275*pi/180, width=2) # balloon string
