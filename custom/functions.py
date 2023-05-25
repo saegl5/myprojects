@@ -57,6 +57,8 @@ Walk Mario
 
 import pygame
 
+BLACK = pygame.Color("black") # transparent background
+
 def walk(count, sprite, sprite_sheet, frame_list, width, height, facing_left):
     if count == 1: # in case there is a quick KEYDOWN and KEYUP event
         sprite.rect.w = frame_list[1][2] # align right edge to other sprites, don't use if walk in midair
@@ -78,6 +80,7 @@ def walk(count, sprite, sprite_sheet, frame_list, width, height, facing_left):
         sprite.image = pygame.Surface((frame_list[1][2], frame_list[2][3])).convert_alpha() # widest, equally
         sprite.image.blit(sprite_sheet, (0, 0), (frame_list[2][0], frame_list[2][1], frame_list[2][2], height)) # crop
         sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    sprite.image.set_colorkey(BLACK)
 
 """
 Stand Mario
@@ -88,3 +91,4 @@ def stand(sprite, sprite_sheet, frame_list, width, height, facing_left):
     sprite.image = pygame.Surface((frame_list[0][2], frame_list[0][3])).convert_alpha()
     sprite.image.blit(sprite_sheet, (0, 0), (frame_list[0][0], frame_list[0][1], width, height))
     sprite.image = pygame.transform.flip(sprite.image, flip_x=facing_left, flip_y=False)
+    sprite.image.set_colorkey(BLACK)
