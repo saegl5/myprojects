@@ -7,7 +7,7 @@ Manages Screen
 import pygame, sys
 
 SIZE = (704, 512) # (width, height) in pixels, example
-screen = pygame.display.set_mode(SIZE, flags=pygame.SCALED, vsync=1) # set up screen
+screen = pygame.display.set_mode(SIZE, flags=pygame.SCALED, vsync=1) # set up screen, flag and vsync fixes screen tear
 
 # function
 def close(): # user clicked close button
@@ -26,7 +26,7 @@ pygame.init() # initialize any submodules (e.g., font and mixer) that require it
 
 BLUE = pygame.Color("blue") # optional color with which to wipe screen
 clock = pygame.time.Clock()
-fps = 120 # 120 frames per second (max), higher fixes jitter
+fps = 120 # 120 frames per second (max), higher fixes stutter
 
 def clean(): # wipe the screen
     screen.fill(BLUE)
