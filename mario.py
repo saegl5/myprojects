@@ -41,7 +41,7 @@ jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
 ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
-ground_middle = pygame.transform.scale(ground_middle, (round(70*GH/105), GH)) # find unknown
+ground_middle = pygame.transform.scale(ground_middle, (round(70*GH/105), GH))
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
