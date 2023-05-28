@@ -9,7 +9,7 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
     def __init__(self, w, h): # constructor, "self" is like an access key, class accepts width and height parameters
         super().__init__() # initialize your sprites
         size = (w, h) # size of sprite's image, local variable
-        self.image = pygame.Surface(size).convert_alpha() # blank transparent image
+        self.image = pygame.Surface(size, pygame.SRCALPHA).convert_alpha() # blank transparent image
         self.rect = self.image.get_rect() # pair image with rectangle object
 
         # List of sprites we can bump against
@@ -43,7 +43,7 @@ class Draw(pygame.sprite.Sprite):
     def __init__(self, color, w, h):
         super().__init__()
         size = (w, h) # thicker drawing marks
-        self.image = pygame.Surface(size)
+        self.image = pygame.Surface(size, pygame.SRCALPHA)
         self.image.fill(color)
         self.rect = self.image.get_rect()
 
