@@ -62,10 +62,10 @@ played = False
 # --- Functions
 def lunge(sprite):
     if count % (canvas.fps*1) == 0: # could also have used timer
-        sprite.image = pygame.Surface((W, H), pygame.SRCALPHA).convert_alpha() # otherwise blitting on same surface
+        sprite.image = pygame.Surface((W, H), pygame.SRCALPHA) # otherwise blitting on same surface
         sprite.image.blit(invader_picture_alt, (0, 0)) # change picture
     if count % (canvas.fps*2) == 0:
-        sprite.image = pygame.Surface((W, H), pygame.SRCALPHA).convert_alpha()
+        sprite.image = pygame.Surface((W, H), pygame.SRCALPHA)
         sprite.image.blit(invader_picture, (0, 0)) # revert
 def retry(sprite):
     sprite.rect.centerx = canvas.screen.get_rect().centerx # center along bottom of screen

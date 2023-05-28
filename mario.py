@@ -274,7 +274,7 @@ while True:
     elif hit_goomba_y != []:
         for goomba in hit_goomba_y: # not for goomba in goombas
             goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
-            goomba.image = pygame.Surface((frame2[2][2], frame2[2][3]), pygame.SRCALPHA).convert_alpha()
+            goomba.image = pygame.Surface((frame2[2][2], frame2[2][3]), pygame.SRCALPHA)
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
             count2 = 0 # reset for consistent pause
             y_inc_mario = -1.5*V # short hop
@@ -285,7 +285,7 @@ while True:
         y_inc_mario += V/10 # gravity, place here otherwise increment will keep running
         on = False
         mario.rect.w = frame1[0][2] # using standing width to remove stutter step at left edge of platform sprites
-        mario.image = pygame.Surface((frame1[3][2], frame1[3][3]), pygame.SRCALPHA).convert_alpha()
+        mario.image = pygame.Surface((frame1[3][2], frame1[3][3]), pygame.SRCALPHA)
         mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
         mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
 
@@ -294,11 +294,11 @@ while True:
         if mario.rect.x + canvas.SIZE[0] >= goomba.rect.x:
             goomba.rect.x -= x_inc_goomba # move if mario is close to goomba
             if count2 % 20 == 0:
-                goomba.image = pygame.Surface((frame2[1][2], frame2[1][3]), pygame.SRCALPHA).convert_alpha()
+                goomba.image = pygame.Surface((frame2[1][2], frame2[1][3]), pygame.SRCALPHA)
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
                 # didn't start with first index 0 because first frame is already displayed
             if count2 % 40 == 0:
-                goomba.image = pygame.Surface((frame2[0][2], frame2[0][3]), pygame.SRCALPHA).convert_alpha()
+                goomba.image = pygame.Surface((frame2[0][2], frame2[0][3]), pygame.SRCALPHA)
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
     for goomba in stomped:
         if count2 % 120 == 0: # pause
