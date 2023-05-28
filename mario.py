@@ -85,7 +85,6 @@ mario = Rectangle(frame1[0][2], frame1[0][3])
 mario.rect.x = 50
 mario.rect.y = canvas.SIZE[1]-GH-H_mario
 mario.image.blit(mario_frames, (0, 0), (frame1[0][0], frame1[0][1], W_mario, H_mario))
-mario.image.set_colorkey(BLACK)
 # for (frame[0][0], frame[0][1], W, H), it's x, y, width and height of frame
 # change x to align mario's left, change y to align mario's top
 # mario.image.set_colorkey(YELLOW) # make background visible temporarily
@@ -106,7 +105,6 @@ for clone in clones: # each clone
     goomba.rect.x = clone[0]
     goomba.rect.y = clone[1]
     goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-    goomba.image.set_colorkey(BLACK)
     goombas.add(goomba)
 
 # six blocks, (x, y, w, h) each
@@ -139,7 +137,6 @@ for _ in range(0, len(plant_locations)):
     plant.rect.x = plant_locations[_]
     plant.rect.y = canvas.SIZE[1]-GH-plant_picture.get_height()
     plant.image.blit(plant_picture, (0, 0)) # should crop
-    plant.image.set_colorkey(BLACK)
     plants.add(plant)
 
 walls = pygame.sprite.Group()
@@ -279,7 +276,6 @@ while True:
             goomba.rect.y = canvas.SIZE[1]-GH-H_goomba/2
             goomba.image = pygame.Surface((frame2[2][2], frame2[2][3])).convert_alpha()
             goomba.image.blit(goomba_frames, (0, 0), (frame2[2][0], frame2[2][1], W_goomba, H_goomba/2))
-            goomba.image.set_colorkey(BLACK)
             count2 = 0 # reset for consistent pause
             y_inc_mario = -1.5*V # short hop
             goombas.remove(goomba) # let goomba rest
@@ -292,7 +288,6 @@ while True:
         mario.image = pygame.Surface((frame1[3][2], frame1[3][3])).convert_alpha()
         mario.image.blit(mario_frames, (0, 0), (frame1[3][0], frame1[3][1], W_mario, H_mario))
         mario.image = pygame.transform.flip(mario.image, flip_x=facing_left, flip_y=False)
-        mario.image.set_colorkey(BLACK)
 
     count2 += 1
     for goomba in goombas: # not stomped on
@@ -301,12 +296,10 @@ while True:
             if count2 % 20 == 0:
                 goomba.image = pygame.Surface((frame2[1][2], frame2[1][3])).convert_alpha()
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[1][0], frame2[1][1], W_goomba, H_goomba))
-                goomba.image.set_colorkey(BLACK)
                 # didn't start with first index 0 because first frame is already displayed
             if count2 % 40 == 0:
                 goomba.image = pygame.Surface((frame2[0][2], frame2[0][3])).convert_alpha()
                 goomba.image.blit(goomba_frames, (0, 0), (frame2[0][0], frame2[0][1], W_goomba, H_goomba))
-                goomba.image.set_colorkey(BLACK)
     for goomba in stomped:
         if count2 % 120 == 0: # pause
             sprites.remove(goomba)
