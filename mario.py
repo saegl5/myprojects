@@ -20,6 +20,7 @@ W_goomba = 64
 H_mario = 100 # default
 H_goomba = 56
 GH = 50 # ground height
+PH = GH # platform height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
@@ -47,10 +48,18 @@ stomped = pygame.sprite.Group()
 ground_left = pygame.image.load('images/dirt_left.png').convert_alpha()
 ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
 ground_right = pygame.image.load('images/dirt_right.png').convert_alpha()
-W_scaled = round(ground_middle.get_width()*GH/ground_middle.get_height())
-ground_left = pygame.transform.scale(ground_left, (W_scaled, GH))
-ground_middle = pygame.transform.scale(ground_middle, (W_scaled, GH))
-ground_right = pygame.transform.scale(ground_right, (W_scaled, GH))
+W_scaled_ground = round(ground_middle.get_width()*GH/ground_middle.get_height())
+ground_left = pygame.transform.scale(ground_left, (W_scaled_ground, GH))
+ground_middle = pygame.transform.scale(ground_middle, (W_scaled_ground, GH))
+ground_right = pygame.transform.scale(ground_right, (W_scaled_ground, GH))
+plant_picture = pygame.image.load('images/plant.png').convert_alpha()
+platform_left = pygame.image.load('images/grass_left.png').convert_alpha()
+platform_middle = pygame.image.load('images/grass_middle.png').convert_alpha()
+platform_right = pygame.image.load('images/grass_right.png').convert_alpha()
+W_scaled_platform = round(platform_middle.get_width()*PH/platform_middle.get_height())
+platform_left = pygame.transform.scale(platform_left, (W_scaled_platform, PH))
+platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH))
+platform_right = pygame.transform.scale(platform_right, (W_scaled_platform, PH))
 plant_picture = pygame.image.load('images/plant.png').convert_alpha()
 # Other constants and variables
 
@@ -69,9 +78,9 @@ for block in blocks1: # each block
     ground.rect.x = block[0]
     ground.rect.y = block[1]
     ground.image.blit(ground_left, (0, 0))
-    for i in range(W_scaled, block[2]-W_scaled, W_scaled):
+    for i in range(W_scaled_ground, block[2]-W_scaled_ground, W_scaled_ground):
         ground.image.blit(ground_middle, (i, 0))
-    ground.image.blit(ground_right, (block[2]-W_scaled, 0))
+    ground.image.blit(ground_right, (block[2]-W_scaled_ground, 0))
     grounds.add(ground)
 
 frame1 = [  (10,         13,         W_mario-17, H_mario-13), 
@@ -109,19 +118,23 @@ for clone in clones: # each clone
 
 # six blocks, (x, y, w, h) each
 # not changing w and h, changing x and y, adding horizontal gaps
-blocks2 = [ (400,  300, 200, 50),  ## y0 = 300,    C0 = 193 (gap size),   x0 = 400
-            (793,  250, 200, 50),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 193
-            (1293, 100, 200, 50),  # y2 = 100,    C2 = 100,              x2 = 793 + 200 + 300
-            (1593, 100, 200, 50),  # y3 = 100,    C3 = 500,              x3 = 1293 + 200 + 100
-            (2293, 300, 200, 50),  # y4 = 300,    C4 = 187,              x4 = 1593 + 200 + 500
-            (2680, 150, 200, 50) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2293 + 200 + 187
+blocks2 = [ (400,  300, 200, PH),  # y0 = 300,    C0 = 193 (gap size),   x0 = 400
+            (793,  250, 200, PH),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 193
+            (1293, 100, 200, PH),  # y2 = 100,    C2 = 100,              x2 = 793 + 200 + 300
+            (1593, 100, 200, PH),  # y3 = 100,    C3 = 500,              x3 = 1293 + 200 + 100
+            (2293, 300, 200, PH),  # y4 = 300,    C4 = 187,              x4 = 1593 + 200 + 500
+            (2680, 150, 200, PH) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2293 + 200 + 187
                                    #                                     xN = xN-1 + wN-1 + CN-1, same equation
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[2], block[3])
     platform.rect.x = block[0] # reverted to x
     platform.rect.y = block[1] # low enough for mario to jump over
-    platform.image.fill(YELLOW)
+    # platform.image.fill(YELLOW)
+    platform.image.blit(platform_left, (0, 0))
+    for i in range(W_scaled_platform, block[2]-W_scaled_platform, W_scaled_platform):
+        platform.image.blit(platform_middle, (i, 0))
+    platform.image.blit(platform_right, (block[2]-W_scaled_platform, 0))
     platforms.add(platform)
 
 plant_locations = [ (blocks1[0][0]),
