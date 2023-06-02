@@ -132,8 +132,8 @@ for block in blocks2:
     platform.rect.y = block[1] # low enough for mario to jump over
     # platform.image.fill(YELLOW)
     platform.image.blit(platform_left, (0, 0))
-    for i in range(W_scaled_platform, block[2]-W_scaled_platform, W_scaled_platform):
-        platform.image.blit(platform_middle, (i, 0))
+    for j in range(W_scaled_platform, block[2]-W_scaled_platform, W_scaled_platform):
+        platform.image.blit(platform_middle, (j, 0))
     platform.image.blit(platform_right, (block[2]-W_scaled_platform, 0))
     platforms.add(platform)
 
