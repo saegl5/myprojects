@@ -14,7 +14,6 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 # Other settings
 
 BLACK = pygame.Color("black") # transparent background
-YELLOW = pygame.Color("yellow3") # optional color, platforms
 W_mario = 75 # default, used ratio 3:4
 W_goomba = 64
 H_mario = 100 # default
@@ -52,7 +51,6 @@ W_scaled_ground = round(ground_middle.get_width()*GH/ground_middle.get_height())
 ground_left = pygame.transform.scale(ground_left, (W_scaled_ground, GH))
 ground_middle = pygame.transform.scale(ground_middle, (W_scaled_ground, GH))
 ground_right = pygame.transform.scale(ground_right, (W_scaled_ground, GH))
-plant_picture = pygame.image.load('images/plant.png').convert_alpha()
 platform_left = pygame.image.load('images/grass_left.png').convert_alpha()
 platform_middle = pygame.image.load('images/grass_middle.png').convert_alpha()
 platform_right = pygame.image.load('images/grass_right.png').convert_alpha()
@@ -130,7 +128,6 @@ for block in blocks2:
     platform = Rectangle(block[2], block[3])
     platform.rect.x = block[0] # reverted to x
     platform.rect.y = block[1] # low enough for mario to jump over
-    # platform.image.fill(YELLOW)
     platform.image.blit(platform_left, (0, 0))
     for j in range(W_scaled_platform, block[2]-W_scaled_platform, W_scaled_platform):
         platform.image.blit(platform_middle, (j, 0))
