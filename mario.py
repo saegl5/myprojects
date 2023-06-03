@@ -20,6 +20,7 @@ W_goomba = 64
 H_mario = 100 # default
 H_goomba = 56
 GH = 50 # ground height
+PH = GH # platform height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
 x_inc_goomba = V/5
@@ -42,6 +43,8 @@ jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
 ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
 ground_middle = pygame.transform.scale(ground_middle, (round(70*GH/105), GH))
+platform_middle = pygame.image.load('images/grass_middle.png').convert_alpha()
+platform_middle = pygame.transform.scale(platform_middle, (round(70*PH/105), PH))
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -98,19 +101,22 @@ for clone in clones: # each clone
 
 # six blocks, (x, y, w, h) each
 # not changing w and h, changing x and y, adding horizontal gaps
-blocks2 = [ (400,  300, 200, 50),  # y0 = 300,    C0 = 200 (gap size),   x0 = 400
-            (800,  250, 200, 50),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 200
-            (1300, 100, 200, 50),  # y2 = 100,    C2 = 100,              x2 = 800 + 200 + 300
-            (1600, 100, 200, 50),  # y3 = 100,    C3 = 500,              x3 = 1300 + 200 + 100
-            (2300, 300, 200, 50),  # y4 = 300,    C4 = 200,              x4 = 1600 + 200 + 500
-            (2700, 150, 200, 50) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2300 + 200 + 200
+blocks2 = [ (400,  300, 200, PH),  # y0 = 300,    C0 = 200 (gap size),   x0 = 400
+            (800,  250, 200, PH),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 200
+            (1300, 100, 200, PH),  # y2 = 100,    C2 = 100,              x2 = 800 + 200 + 300
+            (1600, 100, 200, PH),  # y3 = 100,    C3 = 500,              x3 = 1300 + 200 + 100
+            (2300, 300, 200, PH),  # y4 = 300,    C4 = 200,              x4 = 1600 + 200 + 500
+            (2700, 150, 200, PH) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2300 + 200 + 200
                                    #                                     xN = xN-1 + wN-1 + CN-1, same equation
 platforms = pygame.sprite.Group()
 for block in blocks2:
     platform = Rectangle(block[2], block[3])
     platform.rect.x = block[0] # reverted to x
     platform.rect.y = block[1] # low enough for mario to jump over
-    platform.image.fill(YELLOW)
+    # platform.image.fill(YELLOW)
+    # fill each rectangle from left to right
+    for j in range(0, block[2], round(70*PH/105)):
+        platform.image.blit(platform_middle, (j, 0))
     platforms.add(platform)
 
 sprites = pygame.sprite.Group() # all sprites
