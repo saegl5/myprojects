@@ -41,9 +41,11 @@ jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
 ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
-ground_middle = pygame.transform.scale(ground_middle, (round(70*GH/105), GH))
+W_scaled_ground = round(70*GH/105)
+ground_middle = pygame.transform.scale(ground_middle, (W_scaled_ground, GH))
 platform_middle = pygame.image.load('images/grass_middle.png').convert_alpha()
-platform_middle = pygame.transform.scale(platform_middle, (round(70*PH/105), PH))
+W_scaled_platform = round(70*PH/105)
+platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH))
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -60,8 +62,7 @@ for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
     ground.rect.x = block[0]
     ground.rect.y = block[1]
-    # fill each rectangle from left to right
-    for i in range(0, block[2], round(70*GH/105)): # again block[2] is rectangle width, round(70*GH/105) pixels is step size based on width of each image
+    for i in range(0, block[2], W_scaled_ground): # again block[2] is rectangle width, W_scaled_ground pixels is step size based on width of each image
         ground.image.blit(ground_middle, (i, 0))
     grounds.add(ground)
 
@@ -112,8 +113,7 @@ for block in blocks2:
     platform = Rectangle(block[2], block[3])
     platform.rect.x = block[0] # reverted to x
     platform.rect.y = block[1] # low enough for mario to jump over
-    # fill each rectangle from left to right
-    for j in range(0, block[2], round(70*PH/105)):
+    for j in range(0, block[2], W_scaled_platform):
         platform.image.blit(platform_middle, (j, 0))
     platforms.add(platform)
 
