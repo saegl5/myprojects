@@ -112,7 +112,6 @@ for block in blocks2:
     platform = Rectangle(block[2], block[3])
     platform.rect.x = block[0] # reverted to x
     platform.rect.y = block[1] # low enough for mario to jump over
-    # platform.image.fill(YELLOW)
     # fill each rectangle from left to right
     for j in range(0, block[2], round(70*PH/105)):
         platform.image.blit(platform_middle, (j, 0))
