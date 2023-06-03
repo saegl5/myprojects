@@ -14,7 +14,6 @@ pygame.key.set_repeat(10) # 10 millisecond delay between repeated key presses, s
 # Other settings
 
 BLACK = pygame.Color("black") # transparent background
-YELLOW = pygame.Color("yellow3") # optional color, platforms
 W_mario = 75 # default, used ratio 3:4
 W_goomba = 64
 H_mario = 100 # default
