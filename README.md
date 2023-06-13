@@ -3,9 +3,9 @@
 ## Suburb Drawing
 <img src="screenshots/suburb.png" alt="screenshot of suburb drawing" width="700">
 
-## Billiards Animation
+## Billiards Animation <sup>Improved!</sup>
 <img src="screenshots/billiards.gif" alt="screenshot of billiards animation" width="700"><br>
-(bump sound muted)
+(bump sound muted, new: added friction)
 
 ## Snowfall Animation
 <img src="screenshots/snowfall.gif" alt="screenshot of snowfall animation" width="700"><br>
