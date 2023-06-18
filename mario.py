@@ -186,6 +186,13 @@ while True:
 
         time_stamp(event)
 
+    if move_third <= l_third_platform:
+        platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
+        move_third += abs(x_inc_platform)
+    else:
+        x_inc_platform *= -1 # recall pac-man ghosts
+        move_third = 0 # reset
+
     mario.rect.x += x_inc_mario
     hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
     hit_platform_x = pygame.sprite.spritecollide(mario, platforms, False)
@@ -197,11 +204,10 @@ while True:
                 mario.rect.left = ground.rect.right
     elif hit_platform_x != []:
         for platform in hit_platform_x:
-            if platform != platforms.sprites()[5]:
-                if x_inc_mario > 0:
-                    mario.rect.right = platform.rect.left
-                elif x_inc_mario < 0:
-                    mario.rect.left = platform.rect.right
+            if x_inc_mario > 0:
+                mario.rect.right = platform.rect.left
+            elif x_inc_mario < 0:
+                mario.rect.left = platform.rect.right
         if halt == True:
             x_inc_mario = 0
     diff = abs(mario.rect.x - l_mario) # not interested in sign
@@ -247,6 +253,13 @@ while True:
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
 
+    if move_sixth <= l_sixth_platform: # foot where should be if do earlier
+        platforms.sprites()[5].rect.y += y_inc_platform # recall space invaders return fire
+        move_sixth += abs(y_inc_platform)
+    else:
+        y_inc_platform *= -1
+        move_sixth = 0 # reset
+
     # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal part, but okay, simply causes delay
     mario.rect.y = round(mario.rect.y + y_inc_mario) # removes delay, example: round(213 + 0.5) = round(213.5) = 214
     mario_hit_ground_y = pygame.sprite.spritecollide(mario, grounds, False)
@@ -271,10 +284,10 @@ while True:
                 mario.rect.bottom = platform.rect.top
                 on = True
             if platform == platforms.sprites()[2]:
-                mario.rect.x -= x_inc_platform # takes into account sign
+                mario.rect.x -= x_inc_platform # takes into account sign, keep inertia affect
+            y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
             if platform == platforms.sprites()[5] and y_inc_platform > 0:
-                mario.rect.y += y_inc_platform*2 # takes into account sign, keep up with platform
-        y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
+                y_inc_mario += 3*V/10 # keep up with platform 
         if halt == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
@@ -328,19 +341,6 @@ while True:
             else:
                 y_inc_goomba += V/10 # gravity
 
-    if move_third <= l_third_platform:
-        platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
-        move_third += abs(x_inc_platform)
-    else:
-        x_inc_platform *= -1 # recall pac-man ghosts
-        move_third = 0 # reset
-
-    if move_sixth <= l_sixth_platform: # foot where should be if do earlier
-        platforms.sprites()[5].rect.y += y_inc_platform # recall space invaders return fire
-        move_sixth += abs(y_inc_platform)
-    else:
-        y_inc_platform *= -1
-        move_sixth = 0 # reset
     # Other game logic
 
     canvas.clean()
