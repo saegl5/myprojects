@@ -22,11 +22,11 @@ GH = 50 # ground height
 PH = GH # platform height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
+y_inc_mario = V/10
 x_inc_goomba = V/5
 y_inc_goomba = V/10
 x_inc_platform = V/5
 y_inc_platform = V/5
-y_inc_mario = V/10
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
@@ -287,7 +287,7 @@ while True:
                 mario.rect.x -= x_inc_platform # takes into account sign, keep inertia affect
             y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
             if platform == platforms.sprites()[5] and y_inc_platform > 0:
-                y_inc_mario += 3*V/10 # keep up with platform 
+                y_inc_mario += 3*V/10 # inertia affect 
         if halt == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
