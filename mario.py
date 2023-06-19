@@ -288,10 +288,10 @@ while True:
             y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
             if platform == platforms.sprites()[5] and y_inc_platform > 0:
                 y_inc_mario += 3*V/10 # inertia affect 
-        if halt == True:
+        if halt == True and on == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
-        else:
+        if halt == False and on == True: 
             count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
