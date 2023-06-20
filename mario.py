@@ -31,8 +31,8 @@ first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
 l_mario = canvas.SIZE[0]/2 # where world starts moving, measured from left
-l_third_platform = 400 # let third platform move only 400 pixels, in either direction
-l_sixth_platform = 150
+l_third = 400 # let third platform move only 400 pixels, in either direction
+l_sixth = 150
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
@@ -186,7 +186,7 @@ while True:
 
         time_stamp(event)
 
-    if move_third <= l_third_platform:
+    if move_third <= l_third:
         platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
         move_third += abs(x_inc_platform)
     else:
@@ -253,7 +253,7 @@ while True:
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
 
-    if move_sixth <= l_sixth_platform: # foot where should be if do earlier
+    if move_sixth <= l_sixth: # foot where should be if do earlier
         platforms.sprites()[5].rect.y += y_inc_platform # recall space invaders return fire
         move_sixth += abs(y_inc_platform)
     else:
