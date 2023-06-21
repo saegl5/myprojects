@@ -4,7 +4,7 @@
 
 import pygame
 import src.canvas as canvas # still processes pygame.init()
-from custom.classes import Rectangle
+from custom.classes import Rectangle # includes update() and move()
 from custom.energy import time_stamp, save_energy
 from custom.functions import left_wall, walk, stand
 # Other modules to import
@@ -38,8 +38,6 @@ mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sp
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
 count1 = 0 # mario walk
 count2 = 0 # goomba walk
-move_third = 0 # third platform movement
-move_sixth = 0 # sixth platform movement
 facing_left = False
 jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
@@ -186,12 +184,7 @@ while True:
 
         time_stamp(event)
 
-    if move_third <= l_third:
-        platforms.sprites()[2].rect.x -= x_inc_platform # recall space invaders return fire
-        move_third += abs(x_inc_platform)
-    else:
-        x_inc_platform *= -1 # recall pac-man ghosts
-        move_third = 0 # reset
+    x_inc_platform = platforms.sprites()[2].move(x_inc_platform, 0, l_third) # y_inc_platform = 0
 
     mario.rect.x += x_inc_mario
     hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
@@ -253,12 +246,7 @@ while True:
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
 
-    if move_sixth <= l_sixth: # foot where should be if do earlier
-        platforms.sprites()[5].rect.y += y_inc_platform # recall space invaders return fire
-        move_sixth += abs(y_inc_platform)
-    else:
-        y_inc_platform *= -1
-        move_sixth = 0 # reset
+    y_inc_platform = platforms.sprites()[5].move(0, y_inc_platform, l_sixth) # x_inc_platform = 0
 
     # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal part, but okay, simply causes delay
     mario.rect.y = round(mario.rect.y + y_inc_mario) # removes delay, example: round(213 + 0.5) = round(213.5) = 214

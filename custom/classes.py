@@ -4,6 +4,8 @@ Constructs Sprites and Moves Aliens
 
 import pygame
 import src.canvas as canvas
+move_x = 0 # third platform movement
+move_y = 0 # sixth platform movement
 
 class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprites
     def __init__(self, w, h): # constructor, "self" is like an access key, class accepts width and height parameters
@@ -17,7 +19,26 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
 
     def update(self, px): # cannot simply name another function/method for group
         self.rect.y += px
-    
+
+    def move(self, x_inc, y_inc, limit):
+        global move_x, move_y
+        if x_inc != 0:
+            if move_x <= limit:
+                self.rect.x -= x_inc # recall space invaders return fire
+                move_x += abs(x_inc)
+            else:
+                x_inc *= -1 # recall pac-man ghosts
+                move_x = 0 # reset
+            return x_inc
+        else:
+            if move_y <= limit: # foot where should be if do earlier
+                self.rect.y += y_inc
+                move_y += abs(y_inc)
+            else:
+                y_inc *= -1
+                move_y = 0
+            return y_inc
+
         # if self.y_inc == 0:
         #     self.y_inc = 1
         # else:
