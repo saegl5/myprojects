@@ -57,6 +57,7 @@ platform_left = pygame.transform.scale(platform_left, (W_scaled_platform, PH))
 platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH))
 platform_right = pygame.transform.scale(platform_right, (W_scaled_platform, PH))
 plant_picture = pygame.image.load('images/plant.png').convert_alpha()
+background = pygame.image.load('images/grasslands.png').convert_alpha()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -333,6 +334,7 @@ while True:
 
     canvas.clean()
 
+    canvas.screen.blit(background, (0, 0))
     sprites.draw(canvas.screen)
     # Other copying, drawing or font codes
 
