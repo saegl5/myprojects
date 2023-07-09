@@ -21,6 +21,7 @@ H_goomba = 56
 GH = 50 # ground height
 PH = GH # platform height
 V = 5 # example
+x_bg = 0
 x_inc_mario = 0 # short for "increment"
 y_inc_mario = V/10
 x_inc_goomba = V/5
@@ -216,6 +217,7 @@ while True:
             goomba.rect.x -= diff
         for plant in plants:
             plant.rect.x -= diff
+        x_bg -= diff/V
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
@@ -231,6 +233,7 @@ while True:
                     goomba.rect.x += diff - gap
                 for plant in plants:
                     plant.rect.x += diff - gap
+                x_bg += diff/V - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
@@ -242,6 +245,7 @@ while True:
                     goomba.rect.x += diff
                 for plant in plants:
                     plant.rect.x += diff
+                x_bg += diff/V
             mario.rect.x = l_mario
         hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
         for wall in hit_wall:
@@ -334,7 +338,8 @@ while True:
 
     canvas.clean()
 
-    canvas.screen.blit(background, (0, 0))
+    canvas.screen.blit(background, (x_bg, 0))
+    
     sprites.draw(canvas.screen)
     # Other copying, drawing or font codes
 
