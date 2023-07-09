@@ -338,8 +338,8 @@ while True:
 
     canvas.clean()
 
-    canvas.screen.blit(background, (x_bg, 0))
-    
+    for j in range(2): # expand, if necessary
+        canvas.screen.blit(background, (x_bg + background.get_width()*j, 0))
     sprites.draw(canvas.screen)
     # Other copying, drawing or font codes
 
