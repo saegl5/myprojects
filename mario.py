@@ -26,6 +26,7 @@ x_inc_goomba = V/5
 y_inc_goomba = V/10
 x_inc_platform = V/5
 y_inc_mario = V/10
+x_bg = 0
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
@@ -46,6 +47,7 @@ ground_middle = pygame.transform.scale(ground_middle, (W_scaled_ground, GH))
 platform_middle = pygame.image.load('images/grass_middle.png').convert_alpha()
 W_scaled_platform = round(70*PH/105)
 platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH))
+background = pygame.image.load('images/grasslands.png').convert_alpha() # you: .convert()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -178,6 +180,7 @@ while True:
             goomba.rect.x -= diff
         for goomba in stomped:
             goomba.rect.x -= diff
+        x_bg -= diff/V # you: /speed
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x < 0: # retains initial positions, ground sprites were not randomly positioned
@@ -191,6 +194,7 @@ while True:
                     goomba.rect.x += diff - gap
                 for goomba in stomped:
                     goomba.rect.x += diff - gap
+                x_bg += diff/V - gap # me only
             else:
                 for ground in grounds:
                     ground.rect.x += diff
@@ -200,6 +204,7 @@ while True:
                     goomba.rect.x += diff
                 for goomba in stomped:
                     goomba.rect.x += diff
+                x_bg += diff/V # you: /speed
             mario.rect.x = l_mario
         if mario.rect.x < 0: # left boundary
             mario.rect.x = 0
@@ -293,6 +298,11 @@ while True:
 
     canvas.clean()
 
+    # canvas.screen.blit(background, (x_bg, 0)) # wallpaper isn't a sprite
+    for j in range(2): # use larger range, if necessary
+        canvas.screen.blit(background, (x_bg + 1024*j, 0)) # wallpaper isn't a sprite
+        # j = 0, canvas.screen.blit(background, (x_bg, 0))
+        # j = 1, canvas.screen.blit(background, (x_bg + 1024, 0))
     sprites.draw(canvas.screen)
     # Other copying, drawing or font codes
 
