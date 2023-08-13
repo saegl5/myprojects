@@ -21,13 +21,13 @@ H_goomba = 56
 GH = 50 # ground height
 PH = GH # platform height
 V = 5 # example
-x_bg = 0
 x_inc_mario = 0 # short for "increment"
 y_inc_mario = V/10
 x_inc_goomba = V/5
 y_inc_goomba = V/10
 x_inc_platform = V/5
 y_inc_platform = V/5
+x_bg = 0
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
@@ -57,8 +57,8 @@ W_scaled_platform = round(platform_middle.get_width()*PH/platform_middle.get_hei
 platform_left = pygame.transform.scale(platform_left, (W_scaled_platform, PH))
 platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH))
 platform_right = pygame.transform.scale(platform_right, (W_scaled_platform, PH))
-plant_picture = pygame.image.load('images/plant.png').convert_alpha()
 background = pygame.image.load('images/grasslands.png').convert_alpha()
+plant_picture = pygame.image.load('images/plant.png').convert_alpha()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -76,7 +76,7 @@ for block in blocks1: # each block
     ground.rect.x = block[0]
     ground.rect.y = block[1]
     ground.image.blit(ground_left, (0, 0))
-    for i in range(W_scaled_ground, block[2]-W_scaled_ground, W_scaled_ground):
+    for i in range(W_scaled_ground, block[2]-W_scaled_ground, W_scaled_ground): # again block[2] is ground width, W_scaled_ground pixels is step size which is width of each ground image
         ground.image.blit(ground_middle, (i, 0))
     ground.image.blit(ground_right, (block[2]-W_scaled_ground, 0))
     grounds.add(ground)
@@ -153,7 +153,7 @@ walls = pygame.sprite.Group()
 walls.add(left_wall()) # outer wall
 
 sprites = pygame.sprite.Group() # all sprites
-sprites.add(walls, plants, grounds, platforms, goombas, mario) # displays mario in front of grounds, platforms, and goomba (order matters)
+sprites.add(walls, plants, grounds, platforms, goombas, mario) # displays mario in front of grounds, platforms, goomba, and plants (order matters)
 # Other sprites
 
 while True:
@@ -215,9 +215,9 @@ while True:
             goomba.rect.x -= diff
         for goomba in stomped:
             goomba.rect.x -= diff
+        x_bg -= diff/V
         for plant in plants:
             plant.rect.x -= diff
-        x_bg -= diff/V
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
@@ -231,9 +231,9 @@ while True:
                     goomba.rect.x += diff - gap
                 for goomba in stomped:
                     goomba.rect.x += diff - gap
+                x_bg += diff/V - gap
                 for plant in plants:
                     plant.rect.x += diff - gap
-                x_bg += diff/V - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
@@ -243,9 +243,9 @@ while True:
                     goomba.rect.x += diff
                 for goomba in stomped:
                     goomba.rect.x += diff
+                x_bg += diff/V
                 for plant in plants:
                     plant.rect.x += diff
-                x_bg += diff/V
             mario.rect.x = l_mario
         hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
         for wall in hit_wall:
@@ -277,14 +277,14 @@ while True:
                 mario.rect.bottom = platform.rect.top
                 on = True
             if platform == platforms.sprites()[2]:
-                mario.rect.x -= x_inc_platform # takes into account sign, keep inertia affect
+                mario.rect.x -= x_inc_platform # takes into account sign, keep inertia effect
             y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
             if platform == platforms.sprites()[5] and y_inc_platform > 0:
                 y_inc_mario += 3*V/10 # inertia affect 
         if halt == True and on == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
-        if halt == False and on == True: 
+        if halt == False and on == True:
             count1 += 1 # don't just display first step
             walk(count1, mario, mario_frames, frame1, W_mario, H_mario, facing_left)
     elif hit_goomba_y != []:
@@ -338,8 +338,10 @@ while True:
 
     canvas.clean()
 
-    for j in range(2): # expand, if necessary
-        canvas.screen.blit(background, (x_bg + background.get_width()*j, 0))
+    for j in range(2): # use larger range, if necessary
+        canvas.screen.blit(background, (x_bg + background.get_width()*j, 0)) # background isn't a sprite
+        # j = 0, canvas.screen.blit(background, (x_bg + 1024*0, 0))
+        # j = 1, canvas.screen.blit(background, (x_bg + 1024*1, 0))
     sprites.draw(canvas.screen)
     # Other copying, drawing or font codes
 
