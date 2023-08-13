@@ -4,7 +4,7 @@
 
 import pygame
 import src.canvas as canvas # still processes pygame.init()
-from custom.classes import Rectangle
+from custom.classes import Rectangle # includes update()
 from custom.energy import time_stamp, save_energy
 from custom.functions import walk, stand
 # Other modules to import
@@ -22,10 +22,10 @@ GH = 50 # ground height
 PH = GH # platform height
 V = 5 # example
 x_inc_mario = 0 # short for "increment"
+y_inc_mario = V/10
 x_inc_goomba = V/5
 y_inc_goomba = V/10
 x_inc_platform = V/5
-y_inc_mario = V/10
 x_bg = 0
 first = True # hopping
 halt = True # walking
@@ -42,12 +42,12 @@ jump_sound = pygame.mixer.Sound('sounds/jump.wav')
 jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
 ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
-W_scaled_ground = round(70*GH/105)
+W_scaled_ground = round(ground_middle.get_width()*GH/ground_middle.get_height())
 ground_middle = pygame.transform.scale(ground_middle, (W_scaled_ground, GH))
 platform_middle = pygame.image.load('images/grass_middle.png').convert_alpha()
-W_scaled_platform = round(70*PH/105)
+W_scaled_platform = round(platform_middle.get_width()*PH/platform_middle.get_height())
 platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH))
-background = pygame.image.load('images/grasslands.png').convert_alpha() # you: .convert()
+background = pygame.image.load('images/grasslands.png').convert_alpha()
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -64,7 +64,7 @@ for block in blocks1: # each block
     ground = Rectangle(block[2], block[3]) # see classes.py
     ground.rect.x = block[0]
     ground.rect.y = block[1]
-    for i in range(0, block[2], W_scaled_ground): # again block[2] is rectangle width, W_scaled_ground pixels is step size based on width of each image
+    for i in range(0, block[2], W_scaled_ground): # again block[2] is ground width, W_scaled_ground pixels is step size which is width of each ground image
         ground.image.blit(ground_middle, (i, 0))
     grounds.add(ground)
 
@@ -180,7 +180,7 @@ while True:
             goomba.rect.x -= diff
         for goomba in stomped:
             goomba.rect.x -= diff
-        x_bg -= diff/V # you: /speed
+        x_bg -= diff/V
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x < 0: # retains initial positions, ground sprites were not randomly positioned
@@ -194,7 +194,7 @@ while True:
                     goomba.rect.x += diff - gap
                 for goomba in stomped:
                     goomba.rect.x += diff - gap
-                x_bg += diff/V - gap # me only
+                x_bg += diff/V - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
@@ -204,7 +204,7 @@ while True:
                     goomba.rect.x += diff
                 for goomba in stomped:
                     goomba.rect.x += diff
-                x_bg += diff/V # you: /speed
+                x_bg += diff/V
             mario.rect.x = l_mario
         if mario.rect.x < 0: # left boundary
             mario.rect.x = 0
@@ -233,7 +233,7 @@ while True:
                 mario.rect.bottom = platform.rect.top
                 on = True
             if platform == platforms.sprites()[2]:
-                mario.rect.x -= x_inc_platform # takes into account sign
+                mario.rect.x -= x_inc_platform # takes into account sign, keep inertia effect
         y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
         if halt == True and on == True:
             x_inc_mario = 0
@@ -299,7 +299,7 @@ while True:
     canvas.clean()
 
     for j in range(2): # use larger range, if necessary
-        canvas.screen.blit(background, (x_bg + background.get_width()*j, 0)) # wallpaper isn't a sprite
+        canvas.screen.blit(background, (x_bg + background.get_width()*j, 0)) # background isn't a sprite
         # j = 0, canvas.screen.blit(background, (x_bg + 1024*0, 0))
         # j = 1, canvas.screen.blit(background, (x_bg + 1024*1, 0))
     sprites.draw(canvas.screen)
