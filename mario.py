@@ -298,11 +298,10 @@ while True:
 
     canvas.clean()
 
-    # canvas.screen.blit(background, (x_bg, 0)) # wallpaper isn't a sprite
     for j in range(2): # use larger range, if necessary
-        canvas.screen.blit(background, (x_bg + 1024*j, 0)) # wallpaper isn't a sprite
-        # j = 0, canvas.screen.blit(background, (x_bg, 0))
-        # j = 1, canvas.screen.blit(background, (x_bg + 1024, 0))
+        canvas.screen.blit(background, (x_bg + background.get_width()*j, 0)) # wallpaper isn't a sprite
+        # j = 0, canvas.screen.blit(background, (x_bg + 1024*0, 0))
+        # j = 1, canvas.screen.blit(background, (x_bg + 1024*1, 0))
     sprites.draw(canvas.screen)
     # Other copying, drawing or font codes
 
