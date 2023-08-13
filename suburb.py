@@ -19,8 +19,8 @@ BLACK = pygame.Color("black")
 RED = pygame.Color("red")
 y_offset = 0 # road center lines
 font = pygame.font.Font('/System/Library/Fonts/Supplemental/Courier New.ttf', 16)
-font.bold = True
-font.italic = False
+font.set_bold(True)
+font.set_italic(False)
 text = font.render("There is hope!", True, BLACK)
 angle_offset = 0*pi/180 # sun rays
 
