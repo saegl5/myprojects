@@ -222,18 +222,18 @@ while True:
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
             if grounds.sprites()[0].rect.x + diff > 0: # check gap
-                gap = grounds.sprites()[0].rect.x + diff
+                gap = grounds.sprites()[0].rect.x + diff # if any gap, compute its width
                 for ground in grounds:
-                    ground.rect.x += diff - gap
+                    ground.rect.x += diff - gap # remove the gap
                 for platform in platforms:
-                    platform.rect.x += diff - gap
+                    platform.rect.x += diff - gap # remove the gap
                 for goomba in goombas:
-                    goomba.rect.x += diff - gap
+                    goomba.rect.x += diff - gap # remove the gap
                 for goomba in stomped:
-                    goomba.rect.x += diff - gap
-                x_bg += diff/V - gap
+                    goomba.rect.x += diff - gap # remove the gap
+                x_bg += diff/V - gap # remove the gap
                 for plant in plants:
-                    plant.rect.x += diff - gap
+                    plant.rect.x += diff - gap # remove the gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
