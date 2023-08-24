@@ -4,7 +4,7 @@
 
 import pygame
 import src.canvas as canvas # still processes pygame.init()
-from custom.classes import Rectangle # includes update() and move()
+from custom.classes import Rectangle # includes update()
 from custom.energy import time_stamp, save_energy
 from custom.functions import left_wall, walk, stand
 # Other modules to import
@@ -32,8 +32,8 @@ first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
 l_mario = canvas.SIZE[0]/2 # where world starts moving, measured from left
-l_third = 400 # let third platform move only 400 pixels, in either direction
-l_sixth = 150
+l_third_platform = 400 # let third platform move only 400 pixels, in either direction
+l_sixth_platform = 150
 mario_frames = pygame.image.load('images/mario_spritesheet.png').convert_alpha()
 mario_frames = pygame.transform.scale(mario_frames, (W_mario*9, H_mario*3)) # sprite sheet has 9 columns, 3 rows
 goomba_frames = pygame.image.load('images/goomba_spritesheet.png').convert_alpha()
@@ -186,7 +186,7 @@ while True:
 
         time_stamp(event)
 
-    x_inc_platform = platforms.sprites()[2].move(x_inc_platform, 0, l_third) # y_inc_platform = 0
+    x_inc_platform, l_third_platform = platforms.sprites()[2].update(x_inc_platform, 0, l_third_platform) # y_inc_platform = 0
 
     mario.rect.x += x_inc_mario
     hit_ground_x = pygame.sprite.spritecollide(mario, grounds, False)
@@ -251,7 +251,7 @@ while True:
         for wall in hit_wall:
             mario.rect.left = wall.rect.right # currently only one wall
 
-    y_inc_platform = platforms.sprites()[5].move(0, y_inc_platform, l_sixth) # x_inc_platform = 0
+    y_inc_platform, l_sixth_platform = platforms.sprites()[5].update(0, y_inc_platform, l_sixth_platform) # x_inc_platform = 0
 
     # mario.rect.y += y_inc_mario # mario.rect.y truncates decimal part, but okay, simply causes delay
     mario.rect.y = round(mario.rect.y + y_inc_mario) # removes delay, example: round(213 + 0.5) = round(213.5) = 214
@@ -276,11 +276,13 @@ while True:
             else: # falling or plateaued
                 mario.rect.bottom = platform.rect.top
                 on = True
+            y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
             if platform == platforms.sprites()[2]:
                 mario.rect.x -= x_inc_platform # takes into account sign, keep inertia effect
-            y_inc_mario = V/10 # unsticks mario from below, and in case mario walks off platform
-            if platform == platforms.sprites()[5] and y_inc_platform > 0:
-                y_inc_mario += 3*V/10 # inertia affect 
+            elif platform == platforms.sprites()[5] and mario.rect.bottom == platform.rect.top:
+                y_inc_mario += 3*V/10 # add inertia (like drafting)
+            elif platform == platforms.sprites()[5] and mario.rect.top == platform.rect.bottom:
+                y_inc_mario += V/10 # nudge mario downward
         if halt == True and on == True:
             x_inc_mario = 0
             stand(mario, mario_frames, frame1, W_mario, H_mario, facing_left)
