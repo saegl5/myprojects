@@ -1,7 +1,7 @@
 # source: https://edabit.com/challenge/pZ3HxBfvejsvkEDo4
 
 def less_than_100(a, b):
-    if a + b < 100: # alternative: sum([a, b])
+    if a + b < 100: # alternative: sum([a, b]) < 100
         return True
     else:
         return False
