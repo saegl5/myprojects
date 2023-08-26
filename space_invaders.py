@@ -239,7 +239,7 @@ while True: # keeps screen open
             lunge(invader) # all "invader" sprites lunge
         repeated += 1
         if repeated % (canvas.fps*5) == 0: # every 5 seconds
-            invaders.update(32) # move "invader" sprites downward
+            invaders.update(0, 32, None) # move "invader" sprites downward
         if repeated % (canvas.fps*4) == 0 and len(invaders) > 0: # some number not multiple of 5
             laser = Rectangle(6, 40)
             return_fire(laser, 0)
@@ -251,11 +251,11 @@ while True: # keeps screen open
             return_fire(laser, 2)
 
     if len(spaceships) != 0 and len(invaders) != 0:
-        lasers.update(-px)
-        lasers_alt.update(2)
+        lasers.update(0, -px, None)
+        lasers_alt.update(0, 2, None)
     else: # stops lasers from moving when game over or win game
-        lasers.update(0)
-        lasers_alt.update(0)
+        lasers.update(0, 0, None)
+        lasers_alt.update(0, 0, None)
     score = len(collisions)
 
     # --------------

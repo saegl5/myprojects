@@ -10,8 +10,10 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
         size = (w, h) # size of sprite's image, local variable
         self.image = pygame.Surface(size, pygame.SRCALPHA) # blank transparent image
         self.rect = self.image.get_rect() # pair image with rectangle object
-    def update(self, px): # cannot simply name another function/method for group
-        self.rect.y += px
+    def update(self, x_inc, y_inc, limit): # cannot simply name another function/method for group
+        if limit == None:
+            self.rect.y += y_inc
+        # else:
 
 """
 Draws Mark
