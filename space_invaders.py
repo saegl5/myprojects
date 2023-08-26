@@ -18,7 +18,8 @@ RED = pygame.Color("red")
 GREEN = pygame.Color("green")
 W = 64 # "spaceship" sprite width reference
 H = 64 # "spaceship" sprite height reference
-x_inc = 0 # speed
+x_inc_spaceship = 0 # speed
+y_inc_invader = 32
 
 invaders = pygame.sprite.Group() # not invaders = []
 collisions = pygame.sprite.Group()
@@ -49,7 +50,8 @@ invader_picture_alt = pygame.image.load('images/alien_lunging.png').convert_alph
 repeated = 0 # times
 score = 0
 first = True # for spaceship laser
-px = 10 # for spaceship laser too
+y_inc_laser = 10 # for spaceship laser too
+y_inc_laser_alt = 2 # for return fire
 count = 0 # for lunging picture
 retries = 2
 retry_boxes = []
@@ -133,24 +135,24 @@ while True: # keeps screen open
         elif event.type == pygame.KEYDOWN:
             if len(invaders) != 0 and len(spaceships) != 0: # game still in play
                 if event.key == pygame.K_RIGHT:
-                    x_inc = 5
+                    x_inc_spaceship = 5
                 if event.key == pygame.K_LEFT:
-                    x_inc = -5
+                    x_inc_spaceship = -5
                 if event.key == pygame.K_SPACE: # fire laser
                     laser = Rectangle(10, 20)
                     laser.rect.centerx = spaceship.rect.centerx
-                    laser.rect.bottom = spaceship.rect.top + px # update() is called before "laser" sprites are drawn
+                    laser.rect.bottom = spaceship.rect.top + y_inc_laser # update() is called before "laser" sprites are drawn
                     laser.image.fill(YELLOW)
                     if first == True:
                         lasers.add(laser)
                         spaceship_laser_sound.play()
                         first = False
             else:
-                x_inc = 0
+                x_inc_spaceship = 0
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
-                x_inc = 0
+                x_inc_spaceship = 0
             if event.key == pygame.K_SPACE:
                 first = True
 
@@ -158,10 +160,10 @@ while True: # keeps screen open
         # -------------------
         
     # --- Game logic
-    spaceship.rect.x += x_inc
+    spaceship.rect.x += x_inc_spaceship
     hit = pygame.sprite.spritecollide(spaceship, walls, False) # don't remove wall, returns a list
     for wall in hit: # wall that spaceship hit
-        if x_inc > 0:
+        if x_inc_spaceship > 0:
             spaceship.rect.right = wall.rect.left
         else: # x_inc = 0 not hitting a wall
             spaceship.rect.left = wall.rect.right
@@ -239,7 +241,7 @@ while True: # keeps screen open
             lunge(invader) # all "invader" sprites lunge
         repeated += 1
         if repeated % (canvas.fps*5) == 0: # every 5 seconds
-            invaders.update(0, 32, None) # move "invader" sprites downward
+            invaders.update(0, y_inc_invader, None) # move "invader" sprites downward
         if repeated % (canvas.fps*4) == 0 and len(invaders) > 0: # some number not multiple of 5
             laser = Rectangle(6, 40)
             return_fire(laser, 0)
@@ -251,8 +253,8 @@ while True: # keeps screen open
             return_fire(laser, 2)
 
     if len(spaceships) != 0 and len(invaders) != 0:
-        lasers.update(0, -px, None)
-        lasers_alt.update(0, 2, None)
+        lasers.update(0, -y_inc_laser, None)
+        lasers_alt.update(0, y_inc_laser_alt, None)
     else: # stops lasers from moving when game over or win game
         lasers.update(0, 0, None)
         lasers_alt.update(0, 0, None)
