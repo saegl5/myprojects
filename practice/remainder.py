@@ -1,7 +1,7 @@
 # source: https://edabit.com/challenge/KWoj7kWiHRqJtG6S2
 
 def remainder(x, y):
-    return x % y # quotient: a / b
+    return x % y # quotient: x / y
 
 print(remainder(1, 3)) # 1
 print(remainder(3, 4)) # 3
