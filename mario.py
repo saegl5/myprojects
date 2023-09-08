@@ -353,7 +353,7 @@ while True:
         # j = 0, canvas.screen.blit(background, (x_bg + 1024*0, 0))
         # j = 1, canvas.screen.blit(background, (x_bg + 1024*1, 0))
 
-    canvas.screen.blit(cloud_picture, (x_cd + 500, 100))
+    canvas.screen.blit(cloud_picture, (x_cd + 500, 100)) # clouds also aren't sprites
     canvas.screen.blit(cloud_picture, (x_cd + 1000, 200))
     canvas.screen.blit(cloud_picture, (x_cd + 1200, 150))
     canvas.screen.blit(cloud_picture, (x_cd + 1800, 225))
