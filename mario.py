@@ -27,7 +27,9 @@ x_inc_goomba = V/5
 y_inc_goomba = V/10
 x_inc_platform = V/5
 y_inc_platform = V/5
+x_inc_cloud = V/15
 x_bg = 0
+x_cd = 0
 first = True # hopping
 halt = True # walking
 on = True # ground, platform or goomba
@@ -59,6 +61,8 @@ platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH
 platform_right = pygame.transform.scale(platform_right, (W_scaled_platform, PH))
 background = pygame.image.load('images/grasslands.png').convert_alpha()
 plant_picture = pygame.image.load('images/plant.png').convert_alpha()
+cloud_picture = pygame.image.load('images/cloud.png').convert_alpha()
+cloud_picture = pygame.transform.scale(cloud_picture, (cloud_picture.get_width()*3, cloud_picture.get_height()*3))
 # Other constants and variables
 
 # six blocks, (x, y, w, h) each, additional blocks to right of screen
@@ -218,6 +222,7 @@ while True:
         x_bg -= diff/V
         for plant in plants:
             plant.rect.x -= diff
+        x_cd -= 2*diff/V
         mario.rect.x = l_mario # keep mario still
     elif mario.rect.x < l_mario: # move world back
         if grounds.sprites()[0].rect.x <= left_wall().rect.x: # retains initial positions, ground sprites were not randomly positioned
@@ -234,6 +239,7 @@ while True:
                 x_bg += diff/V - gap # remove the gap
                 for plant in plants:
                     plant.rect.x += diff - gap # remove the gap
+                x_cd += 2*diff/V - gap
             else:
                 for ground in grounds:
                     ground.rect.x += diff
@@ -246,6 +252,7 @@ while True:
                 x_bg += diff/V
                 for plant in plants:
                     plant.rect.x += diff
+                x_cd += 2*diff/V
             mario.rect.x = l_mario
         hit_wall = pygame.sprite.spritecollide(mario, walls, False) # acts as left boundary
         for wall in hit_wall:
@@ -336,6 +343,7 @@ while True:
             else:
                 y_inc_goomba += V/10 # gravity
 
+    x_cd -= x_inc_cloud
     # Other game logic
 
     canvas.clean()
@@ -344,6 +352,12 @@ while True:
         canvas.screen.blit(background, (x_bg + background.get_width()*j, 0)) # background isn't a sprite
         # j = 0, canvas.screen.blit(background, (x_bg + 1024*0, 0))
         # j = 1, canvas.screen.blit(background, (x_bg + 1024*1, 0))
+
+    canvas.screen.blit(cloud_picture, (x_cd + 500, 100))
+    canvas.screen.blit(cloud_picture, (x_cd + 1000, 200))
+    canvas.screen.blit(cloud_picture, (x_cd + 1200, 150))
+    canvas.screen.blit(cloud_picture, (x_cd + 1800, 225))
+
     sprites.draw(canvas.screen)
     # Other copying, drawing or font codes
 
