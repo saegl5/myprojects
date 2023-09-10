@@ -47,18 +47,18 @@ jump_sound.set_volume(0.125) # optional
 stomped = pygame.sprite.Group()
 ground_left = pygame.image.load('images/dirt_left.png').convert_alpha()
 ground_middle = pygame.image.load('images/dirt_middle.png').convert_alpha()
-ground_right = pygame.image.load('images/dirt_right.png').convert_alpha()
+# ground_right using ground_left, flip() is quirky
 W_scaled_ground = round(ground_middle.get_width()*GH/ground_middle.get_height())
 ground_left = pygame.transform.scale(ground_left, (W_scaled_ground, GH))
 ground_middle = pygame.transform.scale(ground_middle, (W_scaled_ground, GH))
-ground_right = pygame.transform.scale(ground_right, (W_scaled_ground, GH))
+ground_right = pygame.transform.flip(ground_left, flip_x=True, flip_y=False)
 platform_left = pygame.image.load('images/grass_left.png').convert_alpha()
 platform_middle = pygame.image.load('images/grass_middle.png').convert_alpha()
-platform_right = pygame.image.load('images/grass_right.png').convert_alpha()
+# platform_right using platform_left, flip() is quirky
 W_scaled_platform = round(platform_middle.get_width()*PH/platform_middle.get_height())
 platform_left = pygame.transform.scale(platform_left, (W_scaled_platform, PH))
 platform_middle = pygame.transform.scale(platform_middle, (W_scaled_platform, PH))
-platform_right = pygame.transform.scale(platform_right, (W_scaled_platform, PH))
+platform_right = pygame.transform.flip(platform_left, flip_x=True, flip_y=False)
 background = pygame.image.load('images/grasslands.png').convert_alpha()
 plant_picture = pygame.image.load('images/plant.png').convert_alpha()
 cloud_picture = pygame.image.load('images/cloud.png').convert_alpha()
@@ -120,12 +120,12 @@ for clone in clones: # each clone
 
 # six blocks, (x, y, w, h) each
 # not changing w and h, changing x and y, adding horizontal gaps
-blocks2 = [ (400,  300, 200, PH),  # y0 = 300,    C0 = 193 (gap size),   x0 = 400
-            (793,  250, 200, PH),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 193
-            (1293, 100, 200, PH),  # y2 = 100,    C2 = 100,              x2 = 793 + 200 + 300
-            (1593, 100, 200, PH),  # y3 = 100,    C3 = 500,              x3 = 1293 + 200 + 100
-            (2293, 300, 200, PH),  # y4 = 300,    C4 = 187,              x4 = 1593 + 200 + 500
-            (2680, 150, 200, PH) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2293 + 200 + 187
+blocks2 = [ (400,  300, 198, PH),  # y0 = 300,    C0 = 193 (gap size),   x0 = 400
+            (793,  250, 198, PH),  # y1 = 250,    C1 = 300,              x1 = 400 + 200 + 193, kept 200
+            (1293, 100, 198, PH),  # y2 = 100,    C2 = 100,              x2 = 793 + 200 + 300, kept 200
+            (1593, 100, 198, PH),  # y3 = 100,    C3 = 500,              x3 = 1293 + 200 + 100, kept 200
+            (2293, 300, 198, PH),  # y4 = 300,    C4 = 187,              x4 = 1593 + 200 + 500, kept 200
+            (2680, 150, 198, PH) ] # y5 = 150,    C5 = 0 (no gap),       x5 = 2293 + 200 + 187, kept 200
                                    #                                     xN = xN-1 + wN-1 + CN-1, same equation
 platforms = pygame.sprite.Group()
 for block in blocks2:
