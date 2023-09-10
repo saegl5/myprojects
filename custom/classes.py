@@ -12,10 +12,6 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
         size = (w, h) # size of sprite's image, local variable
         self.image = pygame.Surface(size, pygame.SRCALPHA) # blank transparent image
         self.rect = self.image.get_rect() # pair image with rectangle object
-
-        # List of sprites we can bump against
-        # self.level = None
-
     def update(self, x_inc, y_inc, limit): # cannot simply name another function/method for group
         if limit == None:
             self.rect.y += y_inc
@@ -38,23 +34,6 @@ class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprite
                 move_y = 0
             return y_inc, limit
 
-        # if self.y_inc == 0:
-        #     self.y_inc = 1
-        # else:
-        #     self.y_inc += .35
-
-        # and self.y_inc >= 0:????
-     
-        # move down a bit and see if there is a platform below us.
-        # Move down 2 pixels because it doesn't work well if we only move down
-        # 1 when working with a platform moving down.
-        # self.rect.y += 2 /* probably there is simpler way */
-        # platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
-        # self.rect.y -= 2 /* this all could be used to show spring effect */
- 
-        # If it is ok to jump, set our speed upwards
-        # if len(platform_hit_list) > 0 or self.rect.bottom >= canvas.SIZE[1]:
-
 """
 Draws Mark
 """
@@ -66,17 +45,3 @@ class Draw(pygame.sprite.Sprite):
         self.image = pygame.Surface(size, pygame.SRCALPHA)
         self.image.fill(color)
         self.rect = self.image.get_rect()
-
-# """
-# Grabs Frames from Spritesheet
-# """
-
-# BLACK = pygame.Color("black")
-
-# class Grab(object): # not sprites
-#     def __init__(self, frames, w, h, x, y):
-#         size = (w, h) # size of frame's image, local variable
-#         self.image = pygame.Surface(size)
-#         self.image.blit(frames, (0, 0), (x, y, w, h))
-#         self.image.set_colorkey(BLACK)
-#         # return self.image
