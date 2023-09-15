@@ -85,10 +85,10 @@ for block in blocks1: # each block
     ground.image.blit(ground_right, (block[2]-W_scaled_ground, 0))
     grounds.add(ground)
 
-frame1 = [  (10,         13,         W_mario-17, H_mario-13), 
-            (3,          H_mario+12, W_mario-7,  H_mario-12),
-            (W_mario+12, H_mario+10, W_mario-23, H_mario-10),
-            (W_mario+4,  9,          W_mario-8,  H_mario-9)  ]
+frame1 = [  (9,         7,         W_mario-17, H_mario-13), 
+            (1,          H_mario+9, W_mario-7,  H_mario-12),
+            (W_mario+6, H_mario+8, W_mario-16, H_mario-10),
+            (W_mario+3,  3,          W_mario-8,  H_mario-9)  ]
 # first mario frame is for standing still, second and third for walking, and fourth for jumping
 # will not loop frame list, so to call any parameter use two indices
 mario = Rectangle(frame1[0][2], frame1[0][3])
