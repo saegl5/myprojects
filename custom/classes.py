@@ -7,7 +7,7 @@ move_x = 0
 move_y = 0
 
 class Rectangle(pygame.sprite.Sprite): # Rectangle class of same class as sprites
-    def __init__(self, w, h): # constructor, "self" is like an access key, class accepts width and height parameters
+    def __init__(self, w, h): # constructor, "self" is like an access key, class accepts width and height parameters, __ is pronounced "dunder"
         super().__init__() # initialize your sprites
         size = (w, h) # size of sprite's image, local variable
         self.image = pygame.Surface(size, pygame.SRCALPHA) # blank transparent image
