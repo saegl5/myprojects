@@ -5,7 +5,7 @@ Draws Heart
 import pygame#, sys
 import src.canvas as canvas # works, if run from main module
 
-pygame.init()
+# pygame.init() # redundant
 
 BLUE = pygame.Color("blue")
 RED = pygame.Color("red")
